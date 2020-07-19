@@ -14,12 +14,12 @@ jobs:
       npm install
       npm run build
     displayName: 'npm install and build'
-  - task: CopyFiles@2
+  - task: PublishBuildArtifacts@1
     inputs:
-      Contents: '**\*.dmg'
-      TargetFolder: '$(build.artifactstagingdirectory)'
-      OverWrite: true
-      flattenFolders: true
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop-osx'
+      publishLocation: 'Container'
+
         
 - job: Windows
   pool:
@@ -33,9 +33,9 @@ jobs:
       npm install
       npm run build
     displayName: 'npm install and build'
-  - task: CopyFiles@2
+  - task: PublishBuildArtifacts@1
     inputs:
-      Contents: '**\*.exe'
-      TargetFolder: '$(build.artifactstagingdirectory)'
-      OverWrite: true
-      flattenFolders: true
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop-win'
+      publishLocation: 'Container'
+
