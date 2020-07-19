@@ -16,7 +16,7 @@ jobs:
     displayName: 'npm install and build'
   - task: CopyFiles@2
     inputs:
-      contents: '**.*.dmg'
+      contents: '**'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
@@ -39,7 +39,7 @@ jobs:
     displayName: 'npm install and build'
   - task: CopyFiles@2
     inputs:
-      contents: '**.*.exe'
+      contents: '**'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
