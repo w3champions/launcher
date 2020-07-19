@@ -14,13 +14,6 @@ jobs:
       npm install
       npm run build
     displayName: 'npm install and build'
-  - task: CopyFilesOverSSH@0
-    inputs:
-      sshEndpoint: 'HostEuropeServer'
-      sourceFolder: 'dist_electron/w3c-launcher**.dmg'
-      contents: '**'
-      targetFolder: '/usr/local/install'
-      readyTimeout: '20000'
         
 - job: Windows
   pool:
@@ -34,10 +27,3 @@ jobs:
       npm install
       npm run build
     displayName: 'npm install and build'
-  - task: CopyFilesOverSSH@0
-    inputs:
-      sshEndpoint: 'HostEuropeServer'
-      sourceFolder: 'dist_electron/w3c-launcher**.exe'
-      contents: '**'
-      targetFolder: '/usr/local/install'
-      readyTimeout: '20000'
