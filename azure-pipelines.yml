@@ -17,7 +17,7 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\dist_electron\**.*dmg'
-      ArtifactName: 'drop-osx'
+      ArtifactName: 'drop'
       publishLocation: 'Container'
 
         
@@ -36,6 +36,6 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\dist_electron\**.*exe'
-      ArtifactName: 'drop-win'
+      ArtifactName: 'drop'
       publishLocation: 'Container'
 
