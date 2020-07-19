@@ -14,9 +14,13 @@ jobs:
       npm install
       npm run build
     displayName: 'npm install and build'
+  - task: CopyFiles@2
+    inputs:
+      contents: '**.*.dmg'
+      targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
       ArtifactName: 'drop'
       publishLocation: 'Container'
 
@@ -33,9 +37,13 @@ jobs:
       npm install
       npm run build
     displayName: 'npm install and build'
+  - task: CopyFiles@2
+    inputs:
+      contents: '**.*.exe'
+      targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
       ArtifactName: 'drop'
       publishLocation: 'Container'
 
