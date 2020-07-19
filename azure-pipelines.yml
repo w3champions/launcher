@@ -14,6 +14,12 @@ jobs:
       npm install
       npm run build
     displayName: 'npm install and build'
+  - task: CopyFiles@2
+    inputs:
+      Contents: 'dist_electron/**.dmg'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+      OverWrite: true
+      flattenFolders: true
         
 - job: Windows
   pool:
@@ -27,3 +33,9 @@ jobs:
       npm install
       npm run build
     displayName: 'npm install and build'
+  - task: CopyFiles@2
+    inputs:
+      Contents: 'dist_electron/**.exe'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+      OverWrite: true
+      flattenFolders: true
