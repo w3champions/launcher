@@ -16,7 +16,7 @@ jobs:
     displayName: 'npm install and build'
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\dist_electron\**.*dmg'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)\**.*dmg'
       ArtifactName: 'drop'
       publishLocation: 'Container'
 
@@ -35,7 +35,7 @@ jobs:
     displayName: 'npm install and build'
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\dist_electron\**.*exe'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)\**.*exe'
       ArtifactName: 'drop'
       publishLocation: 'Container'
 
