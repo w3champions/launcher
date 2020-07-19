@@ -16,7 +16,7 @@ jobs:
     displayName: 'npm install and build'
   - task: CopyFiles@2
     inputs:
-      contents: '**'
+      contents: 'dist_electron/w3c-launcher-0.1.0.dmg'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
@@ -39,7 +39,7 @@ jobs:
     displayName: 'npm install and build'
   - task: CopyFiles@2
     inputs:
-      contents: '**'
+      contents: 'dist_electron/w3c-launcher Setup 0.1.0.exe'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
