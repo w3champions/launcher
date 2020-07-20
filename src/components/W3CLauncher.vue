@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-const storage = require('electron-storage');
-const { remote } = require('electron')
+const storage = window.require('electron-storage');
+const { remote } = window.require('electron')
 
 @Component
 export default class W3CLauncher extends Vue {
