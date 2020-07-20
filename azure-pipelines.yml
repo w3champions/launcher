@@ -43,7 +43,7 @@ jobs:
 
   - task: CopyFiles@2
     inputs:
-      contents: '**/*.exe'
+      contents: 'dist_electron/w3c-launcher Setup *.exe'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
