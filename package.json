@@ -1,6 +1,6 @@
 {
   "name": "w3c-launcher",
-  "version": "3",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "lint": "vue-cli-service lint",
