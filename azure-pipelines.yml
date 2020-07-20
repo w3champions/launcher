@@ -39,7 +39,7 @@ jobs:
     displayName: 'npm install and build'
   - task: CopyFiles@2
     inputs:
-      contents: 'dist_electron/w3c-launcher*.exe'
+      contents: '**/*.exe'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
