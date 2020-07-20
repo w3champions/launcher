@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="startWc3">Start w3c! In V3! 3333</button>
+    <button @click="startWc3">Start w3c!</button>
   </div>
 </template>
 
@@ -21,14 +21,7 @@ export default class W3CLauncher extends Vue {
     this.updateIfNeeded();
   }
 
-  mounted() {
-
-  }
-
   private async updateIfNeeded() {
-    const lastSavedwc3Path = storage.get(this.wc3PathKey);
-    const lastSavedMapPath = storage.get(this.wc3MapKey);
-
     if (!this.lastSavedwc3Path) {
       const folder = await this.GetFolderFromUser('Warcraft III not found', 'Warcraft III folder not found, please locate it manually');
       storage.set(this.wc3PathKey, folder);
@@ -56,7 +49,11 @@ export default class W3CLauncher extends Vue {
   }
 
   get lastSavedwc3Path() {
+    return storage.get(this.wc3PathKey);
+  }
 
+  get lastSavedMapPath() {
+    return storage.get(this.wc3MapKey);
   }
 }
 </script>
