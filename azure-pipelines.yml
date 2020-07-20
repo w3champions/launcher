@@ -4,7 +4,7 @@ trigger:
 jobs:
 - job: macOS
   pool:
-    vmImage: 'macOS-latest'
+    vmImage: 'macOS-10.15'
   steps:
   - task: NodeTool@0
     inputs:
@@ -27,7 +27,7 @@ jobs:
         
 - job: Windows
   pool:
-    vmImage: 'windows-vm'
+    vmImage: 'vs2017-win2016'
   steps:
   - task: NodeTool@0
     inputs:
