@@ -4,11 +4,11 @@ trigger:
 jobs:
 - job: macOS
   pool:
-    vmImage: 'macOS-10.15'
+    vmImage: 'macOS-latest'
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '12.x'
+      versionSpec: '10.x'
     displayName: 'Install Node.js'
   - script: |
       npm install
@@ -27,11 +27,11 @@ jobs:
         
 - job: Windows
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'windows-latest'
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '12.x'
+      versionSpec: '10.x'
     displayName: 'Install Node.js'
   - script: |
       npm install
