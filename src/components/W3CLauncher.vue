@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button>Start w3c! In V2!</button>
+    <button>Start w3c! In V3! 3333</button>
   </div>
 </template>
 
