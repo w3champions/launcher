@@ -44,17 +44,20 @@ export default class W3CLauncher extends Vue {
 
     // TODO ask for root elevation
 
-    const w3path = await this.getFolderFromUserIfNeverStarted(
+    let w3path = await this.getFolderFromUserIfNeverStarted(
             this.wc3PathKey,
-            this.getdefaultPathWc3(),
+            this.getDefaultPathWc3(),
             'Warcraft III not found',
             'Warcraft III folder not found, please locate it manually')
+    if (fs.existsSync(`${w3path}/_retail_`)) {
+      w3path = `${w3path}/_retail_`
+    }
 
     if (!w3path) return false;
 
     const w3mapPath = await this.getFolderFromUserIfNeverStarted(
             this.wc3MapKey,
-            await this.getdefaultPathMap(),
+            await this.getDefaultPathMap(),
             'Mapfolder not found',
             'The mapfolder of Warcraft III was not found, please locate it manually')
 
@@ -130,15 +133,12 @@ export default class W3CLauncher extends Vue {
     return path;
   }
 
-  private async getdefaultPathMap() {
-    if (this.isWindows()) {
-      return ""
-    }
-
-    return "";
+  private async getDefaultPathMap() {
+    const documentPath = remote.app.getPath('documents')
+    return `${documentPath}/Warcraft III/Maps`
   }
 
-  private getdefaultPathWc3() {
+  private getDefaultPathWc3() {
     if (this.isWindows()) {
       if (fs.existsSync("C:\\Program Files (x86)\\Warcraft III\\_retail_")) {
         return "C:\\Program Files (x86)\\Warcraft III\\_retail_"
@@ -150,7 +150,7 @@ export default class W3CLauncher extends Vue {
   }
 
   private isWindows() {
-    return false;
+    return (process.platform === "win32")
   }
 }
 </script>
