@@ -1,7 +1,7 @@
 <template>
   <div>
     <button @click="tryStartWc3">Start w3c!</button>
-    <button @click="repairW3c">Repait w3 champions!</button>
+    <button @click="repairW3c">Repair w3 champions!</button>
   </div>
 </template>
 
@@ -110,10 +110,10 @@ export default class W3CLauncher extends Vue {
 
   private async getFolderFromUserIfNeverStarted(
           storageKey: string,
-          defaultMapLocation: string,
+          defaultLocation: string,
           header: string,
           message: string) {
-    if (fs.existsSync(defaultMapLocation)) return defaultMapLocation;
+    if (fs.existsSync(defaultLocation)) return defaultLocation;
 
     let path = store.get(storageKey);
     if (!path) {
