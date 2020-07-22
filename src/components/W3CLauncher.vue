@@ -1,12 +1,14 @@
 <template>
   <div>
     <button @click="tryStartWc3">Start w3c!</button>
+    <button @click="repairW3c">Repait w3 champions!</button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-const storage = window.require('electron-storage');
+const Store = window.require('electron-store');
+const store = new Store();
 const { remote } = window.require('electron')
 const https = window.require('https');
 const fs = window.require('fs');
@@ -18,13 +20,17 @@ export default class W3CLauncher extends Vue {
   private wc3MapKey = "wc3MapKey";
   private currentVersionKey = "currentVersionKey";
 
-  private defaultPathWc3Windows = "C:\\Program Files (x86)\\Warcraft III";
-  private defaultPathMapsWindows = "Warcraft III\\Maps";
-
-  public tryStartWc3() {
-    const success = this.updateIfNeeded();
+  public async tryStartWc3() {
+    const success = await this.updateIfNeeded();
     if (!success) return;
     this.startWc3();
+  }
+
+  public async repairW3c() {
+    store.set(this.wc3PathKey, "");
+    store.set(this.wc3MapKey, "");
+    store.set(this.currentVersionKey, "");
+    await this.updateIfNeeded();
   }
 
   private async updateIfNeeded() {
@@ -33,9 +39,11 @@ export default class W3CLauncher extends Vue {
       return true;
     }
 
+    // TODO ask for root elevation
+
     const w3path = await this.getFolderFromUserIfNeverStarted(
             this.wc3PathKey,
-            this.defaultPathWc3Windows,
+            this.getdefaultPathWc3(),
             'Warcraft III not found',
             'Warcraft III folder not found, please locate it manually')
 
@@ -43,7 +51,7 @@ export default class W3CLauncher extends Vue {
 
     const w3mapPath = await this.getFolderFromUserIfNeverStarted(
             this.wc3MapKey,
-            this.defaultPathMapsWindows,
+            await this.getdefaultPathMap(),
             'Mapfolder not found',
             'The mapfolder of Warcraft III was not found, please locate it manually')
 
@@ -53,7 +61,9 @@ export default class W3CLauncher extends Vue {
     await this.downloadAndWriteFile("maps", w3mapPath);
     await this.downloadAndWriteFile("webui", w3path);
 
-    await storage.set(this.currentVersionKey, newVersion);
+    // TODO give root elevation back
+
+    store.set(this.currentVersionKey, newVersion);
 
     return true;
   }
@@ -72,9 +82,7 @@ export default class W3CLauncher extends Vue {
   }
 
   private async needsUpdate() {
-    const currentVersion = await storage.isPathExists(this.currentVersionKey)
-            ? await storage.get(this.currentVersionKey)
-            : "";
+    const currentVersion = store.get(this.currentVersionKey);
     const version = await (await fetch("https://update-service.test.w3champions.com/api/client-version")).json();
     if (version.version === currentVersion) {
       return null;
@@ -107,17 +115,38 @@ export default class W3CLauncher extends Vue {
           message: string) {
     if (fs.existsSync(defaultMapLocation)) return defaultMapLocation;
 
-    let path = await storage.isPathExists(storageKey)
-            ? await storage.get(storageKey)
-            : "";
+    let path = store.get(storageKey);
     if (!path) {
       const path = await this.openDialogForUserFolderSelction(header, message);
       if (!path) return false;
-      await storage.set(storageKey, path);
+      store.set(storageKey, path);
       return path
     }
 
     return path;
+  }
+
+  private async getdefaultPathMap() {
+    if (this.isWindows()) {
+      return ""
+    }
+
+    return "";
+  }
+
+  private getdefaultPathWc3() {
+    if (this.isWindows()) {
+      if (fs.existsSync("C:\\Program Files (x86)\\Warcraft III\\_retail_")) {
+        return "C:\\Program Files (x86)\\Warcraft III\\_retail_"
+      }
+      return "C:\\Program Files (x86)\\Warcraft III"
+    }
+
+    return "";
+  }
+
+  private isWindows() {
+    return false;
   }
 }
 </script>

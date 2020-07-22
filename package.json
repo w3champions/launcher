@@ -13,7 +13,7 @@
   "dependencies": {
     "adm-zip": "^0.4.16",
     "core-js": "^3.6.5",
-    "electron-storage": "^1.0.7",
+    "electron-store": "^6.0.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.4",
     "vue-property-decorator": "^9.0.0"
