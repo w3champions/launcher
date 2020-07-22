@@ -1,7 +1,8 @@
 <template>
   <div>
-    <button @click="tryStartWc3">Start w3c!</button>
-    <button @click="repairW3c">Repair w3 champions!</button>
+    <button @click="tryStartWc3" :disabled="isLoading">Start w3c!</button>
+    <button @click="repairW3c" :disabled="isLoading">Repair w3 champions!</button>
+    <div v-if="isLoading">Updating W3C...</div>
   </div>
 </template>
 
@@ -19,6 +20,7 @@ export default class W3CLauncher extends Vue {
   private wc3PathKey = "wc3PathKey";
   private wc3MapKey = "wc3MapKey";
   private currentVersionKey = "currentVersionKey";
+  public isLoading = false;
 
   public async tryStartWc3() {
     const success = await this.updateIfNeeded();
@@ -34,6 +36,7 @@ export default class W3CLauncher extends Vue {
   }
 
   private async updateIfNeeded() {
+    this.isLoading = true;
     const newVersion = await this.needsUpdate();
     if (!newVersion) {
       return true;
@@ -65,6 +68,7 @@ export default class W3CLauncher extends Vue {
 
     store.set(this.currentVersionKey, newVersion);
 
+    this.isLoading = false;
     return true;
   }
 
