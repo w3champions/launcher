@@ -39,6 +39,7 @@ export default class W3CLauncher extends Vue {
     this.isLoading = true;
     const newVersion = await this.needsUpdate();
     if (!newVersion) {
+      this.isLoading = false;
       return true;
     }
 
