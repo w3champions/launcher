@@ -135,7 +135,9 @@ export default class W3CLauncher extends Vue {
 
   private async getDefaultPathMap() {
     const documentPath = remote.app.getPath('documents')
-    return `${documentPath}/Warcraft III/Maps`
+    return fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)
+            ? `${documentPath}\\Warcraft III\\_retail_\\Maps`
+            :`${documentPath}\\Warcraft III\\Maps`
   }
 
   private getDefaultPathWc3() {
