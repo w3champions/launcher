@@ -20,7 +20,12 @@ export default class W3CLauncher extends Vue {
   private wc3PathKey = "wc3PathKey";
   private wc3MapKey = "wc3MapKey";
   private currentVersionKey = "currentVersionKey";
-  public isLoading = false;
+  public isLoadingMap = false;
+  public isLoadingWebui = false;
+
+  get isLoading() {
+    return this.isLoadingMap && this.isLoadingWebui
+  }
 
   public async tryStartWc3() {
     const success = await this.updateIfNeeded();
@@ -36,10 +41,12 @@ export default class W3CLauncher extends Vue {
   }
 
   private async updateIfNeeded() {
-    this.isLoading = true;
+    this.isLoadingMap = true;
+    this.isLoadingWebui = true;
     const newVersion = await this.needsUpdate();
     if (!newVersion) {
-      this.isLoading = false;
+      this.isLoadingMap = false;
+      this.isLoadingWebui = false;
       return true;
     }
 
@@ -65,18 +72,17 @@ export default class W3CLauncher extends Vue {
 
     if (!w3mapPath) return false;
 
-    await this.downloadAndWriteFile("maps", w3mapPath);
-    await this.downloadAndWriteFile("webui", w3path);
+    await this.downloadAndWriteFile("maps", w3mapPath, () => this.isLoadingMap = true);
+    await this.downloadAndWriteFile("webui", w3path, () => this.isLoadingWebui = true);
 
     // TODO give root elevation back
 
     store.set(this.currentVersionKey, newVersion);
 
-    this.isLoading = false;
     return true;
   }
 
-  private async downloadAndWriteFile(fileName: string, to: string) {
+  private async downloadAndWriteFile(fileName: string, to: string, setLoadingStatus: () => void) {
     const tempFile = `temp_${fileName}.zip`;
     const file = fs.createWriteStream(tempFile);
     https.get(`https://update-service.test.w3champions.com/api/${fileName}`, function(response: any) {
@@ -85,6 +91,7 @@ export default class W3CLauncher extends Vue {
         const zip = new AdmZip(tempFile);
         zip.extractAllTo(to, true);
         fs.unlinkSync(tempFile)
+        setLoadingStatus();
       });
     });
   }
