@@ -19,6 +19,7 @@
     "vue-property-decorator": "^9.0.0"
   },
   "devDependencies": {
+    "@types/adm-zip": "^0.4.33",
     "@types/electron-devtools-installer": "^2.2.0",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
