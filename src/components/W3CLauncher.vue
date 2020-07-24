@@ -60,15 +60,6 @@ export default class W3CLauncher extends Vue {
       return true;
     }
 
-    const commandForOs = this.getCommandForOs();
-    await sudo.exec(commandForOs, {name: "Warcraft 3 Champions"},
-      function (error: Error) {
-        if (error) {
-          throw error;
-        }
-      }
-    );
-
     let w3path = await this.getFolderFromUserIfNeverStarted(
             this.wc3PathKey,
             this.getDefaultPathWc3(),
@@ -93,6 +84,15 @@ export default class W3CLauncher extends Vue {
     await this.downloadAndWriteFile("webui", w3path);
 
     store.set(this.currentVersionKey, newVersion);
+
+    const commandForOs = this.getCommandForOs();
+    sudo.exec(commandForOs, {name: "Warcraft 3 Champions"},
+      function (error: Error) {
+        if (error) {
+          throw error;
+        }
+      }
+    );
 
     this.isLoading = false;
 
