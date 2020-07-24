@@ -21,6 +21,7 @@ const https = window.require('https');
 const fs = window.require('fs');
 const AdmZip = window.require('adm-zip');
 const sudo = window.require('sudo-prompt');
+const { execFile } = window.require('child_process');
 
 @Component
 export default class W3CLauncher extends Vue {
@@ -144,7 +145,12 @@ export default class W3CLauncher extends Vue {
   }
 
   private startWc3() {
-    //tbd
+    const w3Path = this.getW3Executable();
+    execFile(w3Path, function(err: Error) {
+      if(err) {
+        throw err;
+      }
+    });
   }
 
   private async getFolderFromUserIfNeverStarted(
@@ -191,6 +197,17 @@ export default class W3CLauncher extends Vue {
     const version = await (await fetch(`${BASE_NEWS_URL}api/admin/news`)).json();
     this.messageContent = version[0].message;
     this.messageContentHeader = version[0].date;
+  }
+
+  private getW3Executable() {
+    let basePath = store.get(this.wc3PathKey);
+    // Todo find correct paths, not doable on my shitty mac rn
+    if (this.isWindows()) {
+      basePath += "w3.exe";
+    }
+
+    basePath += "w3.dmg";
+    return basePath;
   }
 }
 </script>
