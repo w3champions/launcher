@@ -1,14 +1,19 @@
 <template>
-  <div class="background">
+  <div class="background" :style="{ 'background-image': 'url(' + backgroundPicture + ')' }">
+    <div class="modt">
+      <h3>{{messageContentHeader}}</h3>
+      <div v-html="messageContent"></div>
+    </div>
+    <div :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">Updating W3C...</div>
     <button @click="tryStartWc3" :disabled="isLoading" class="start-button">Start Warcraft 3 Champions!</button>
     <button @click="repairW3c" :disabled="isLoading" class="repair-button">Repair Warcraft 3 Champions</button>
-    <div :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">Updating W3C...</div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-const BASE_URL = process.env.IS_TEST ? 'https://update-service.test.w3champions.com/' : 'https://update-service.prod.test.w3champions.com/'
+const BASE_UPDATE_URL = process.env.IS_TEST ? 'https://update-service.test.w3champions.com/' : 'https://update-service.prod.test.w3champions.com/'
+const BASE_NEWS_URL = process.env.IS_TEST ? 'https://statistic-service-test.w3champions.com/' : 'https://statistic-service.w3champions.com/'
 const Store = window.require('electron-store');
 const store = new Store();
 const { remote } = window.require('electron')
@@ -22,11 +27,21 @@ export default class W3CLauncher extends Vue {
   private wc3MapKey = "wc3MapKey";
   private currentVersionKey = "currentVersionKey";
   public isLoading = false;
+  public messageContent = "";
+  public messageContentHeader = "";
+
+  get backgroundPicture() {
+    return require("../assets/bg.jpg");
+  }
 
   public async tryStartWc3() {
     const success = await this.updateIfNeeded();
     if (!success) return;
     this.startWc3();
+  }
+
+  mounted() {
+    this.loadModt();
   }
 
   public async repairW3c() {
@@ -81,7 +96,7 @@ export default class W3CLauncher extends Vue {
   private async downloadAndWriteFile(fileName: string, to: string) {
     const tempFile = `temp_${fileName}.zip`;
     const file = fs.createWriteStream(tempFile);
-    https.get(`${BASE_URL}api/${fileName}`, function(response: any) {
+    https.get(`${BASE_UPDATE_URL}api/${fileName}`, function(response: any) {
       response.pipe(file).on('finish', async function() {
         file.close();
         const zip = new AdmZip(tempFile);
@@ -93,7 +108,7 @@ export default class W3CLauncher extends Vue {
 
   private async needsUpdate() {
     const currentVersion = store.get(this.currentVersionKey);
-    const version = await (await fetch(`${BASE_URL}api/client-version`)).json();
+    const version = await (await fetch(`${BASE_UPDATE_URL}api/client-version`)).json();
     if (version.version === currentVersion) {
       return null;
     }
@@ -157,18 +172,30 @@ export default class W3CLauncher extends Vue {
   private isWindows() {
     return (process.platform === "win32")
   }
+
+  private async loadModt() {
+    const version = await (await fetch(`${BASE_NEWS_URL}api/admin/news`)).json();
+    this.messageContent = version[0].message;
+    this.messageContentHeader = version[0].date;
+  }
 }
 </script>
 
 <style scoped>
   .background {
-    /*background: url('assets/bg.jpg');*/
     width: 960px;
     height: 529px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+  }
+
+  .modt{
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 50%;
+    text-decoration: none;
+    padding: 10px 30px 30px;
   }
 
   .start-button {
