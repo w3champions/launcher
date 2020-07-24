@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <button @click="tryStartWc3" :disabled="isLoading">Start w3c!</button>
-    <button @click="repairW3c" :disabled="isLoading">Repair w3 champions!</button>
-    <div v-if="isLoading">Updating W3C...</div>
+  <div class="background">
+    <button @click="tryStartWc3" :disabled="isLoading" class="start-button">Start Warcraft 3 Champions!</button>
+    <button @click="repairW3c" :disabled="isLoading" class="repair-button">Repair Warcraft 3 Champions</button>
+    <div :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">Updating W3C...</div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+const BASE_URL = process.env.IS_TEST ? 'https://update-service.test.w3champions.com/' : 'https://update-service.prod.test.w3champions.com/'
 const Store = window.require('electron-store');
 const store = new Store();
 const { remote } = window.require('electron')
@@ -80,7 +81,7 @@ export default class W3CLauncher extends Vue {
   private async downloadAndWriteFile(fileName: string, to: string) {
     const tempFile = `temp_${fileName}.zip`;
     const file = fs.createWriteStream(tempFile);
-    https.get(`https://update-service.test.w3champions.com/api/${fileName}`, function(response: any) {
+    https.get(`${BASE_URL}api/${fileName}`, function(response: any) {
       response.pipe(file).on('finish', async function() {
         file.close();
         const zip = new AdmZip(tempFile);
@@ -92,7 +93,7 @@ export default class W3CLauncher extends Vue {
 
   private async needsUpdate() {
     const currentVersion = store.get(this.currentVersionKey);
-    const version = await (await fetch("https://update-service.test.w3champions.com/api/client-version")).json();
+    const version = await (await fetch(`${BASE_URL}api/client-version`)).json();
     if (version.version === currentVersion) {
       return null;
     }
@@ -158,3 +159,61 @@ export default class W3CLauncher extends Vue {
   }
 }
 </script>
+
+<style scoped>
+  .background {
+    /*background: url('assets/bg.jpg');*/
+    width: 960px;
+    height: 529px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .start-button {
+    cursor: pointer;
+    line-height: 1;
+    background-color: transparent;
+    text-transform: uppercase;
+    color: rgb(51, 38, 28);
+    background-image: linear-gradient(rgba(255, 255, 0, 0.2) 50%, transparent 50%), linear-gradient(rgb(255, 209, 85), rgb(220, 166, 13));
+    box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 0px 2px, rgba(236, 174, 6, 0.3) 0px 0px 40px 15px, rgba(255, 255, 255, 0.4) 0px 0px 0px 2px inset, rgba(255, 125, 19, 0.3) 0px 0px 20px 10px inset;
+    text-shadow: rgb(51, 38, 28) 0px 0px;
+    height: 76px;
+    margin-bottom: 26px;
+    font-size: 20px;
+    border-width: 0px;
+    border-style: initial;
+    border-color: initial;
+    border-image: initial;
+    border-radius: 2px;
+    background-repeat: no-repeat;
+    outline: 0px;
+    text-decoration: none;
+    transition: filter 200ms ease 0s;
+    padding: 0 45px;
+  }
+
+  .repair-button {
+    cursor: pointer;
+    line-height: 1;
+    background-color: transparent;
+    text-transform: uppercase;
+    color: rgb(45, 45, 45);
+    background-image: linear-gradient(rgba(88, 88, 88, 0.2) 50%, transparent 50%), linear-gradient(rgb(165, 165, 165), rgb(111, 111, 111));
+    box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 0px 2px, rgba(226, 223, 221, 0.3) 0px 0px 40px 15px, rgba(255, 255, 255, 0.4) 0px 0px 0px 2px inset, rgba(241, 201, 171, 0.3) 0px 0px 20px 10px inset;
+    text-shadow: rgb(51, 38, 28) 0px 0px;
+    height: 36px;
+    margin-top: -76px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    border-width: 0px;
+    border-radius: 2px;
+    background-repeat: no-repeat;
+    outline: 0px;
+    text-decoration: none;
+    transition: filter 200ms ease 0s;
+    padding: 0 25px;
+  }
+</style>
