@@ -18,7 +18,7 @@
     "electron-store": "^6.0.0",
     "sudo-prompt": "^9.2.1",
     "vue": "^2.6.11",
-    "vue-class-component": "^7.2.4",
+    "vue-class-component": "^7.2.5",
     "vue-property-decorator": "^9.0.0"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
     "@vue/cli-service": "~4.4.6",
     "@vue/eslint-config-typescript": "^5.0.2",
     "babel-eslint": "^10.1.0",
-    "electron": "^9.1.0",
+    "electron": "^9.1.1",
     "electron-devtools-installer": "^3.1.1",
     "eslint": "^7.5.0",
     "eslint-plugin-vue": "^6.2.2",
