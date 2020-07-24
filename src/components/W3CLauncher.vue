@@ -20,6 +20,7 @@ const { remote } = window.require('electron')
 const https = window.require('https');
 const fs = window.require('fs');
 const AdmZip = window.require('adm-zip');
+const sudo = window.require('sudo-prompt');
 
 @Component
 export default class W3CLauncher extends Vue {
@@ -59,7 +60,14 @@ export default class W3CLauncher extends Vue {
       return true;
     }
 
-    // TODO ask for root elevation
+    const commandForOs = this.getCommandForOs();
+    await sudo.exec(commandForOs, {name: "Warcraft 3 Champions"},
+      function (error: Error) {
+        if (error) {
+          throw error;
+        }
+      }
+    );
 
     let w3path = await this.getFolderFromUserIfNeverStarted(
             this.wc3PathKey,
@@ -84,13 +92,19 @@ export default class W3CLauncher extends Vue {
     await this.downloadAndWriteFile("maps", w3mapPath);
     await this.downloadAndWriteFile("webui", w3path);
 
-    // TODO give root elevation back
-
     store.set(this.currentVersionKey, newVersion);
 
     this.isLoading = false;
 
     return true;
+  }
+
+  private getCommandForOs() {
+    if (this.isWindows()) {
+      return 'reg add Computer\\HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III /v \'Allow Local Files\' /t REG_DWORD /d 1'
+    }
+
+    return 'defaults write "com.blizzard.Warcraft III" "Allow Local Files" -int 1';
   }
 
   private async downloadAndWriteFile(fileName: string, to: string) {
