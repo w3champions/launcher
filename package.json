@@ -2,6 +2,8 @@
   "name": "w3c-launcher",
   "version": "0.2.0",
   "private": true,
+  "description": "Always stay up to date with this Launcher for the community Ladder Warcraft 3 Champions.",
+  "author": "simonheiss87@gmail.com",
   "scripts": {
     "lint": "vue-cli-service lint",
     "build": "vue-cli-service electron:build",
