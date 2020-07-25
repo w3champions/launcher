@@ -110,7 +110,6 @@ export default class W3CLauncher extends Vue {
 
   private async downloadAndWriteFile(fileName: string, to: string) {
     const tempFile = `temp_${fileName}.zip`;
-    console.log(to);
     const file = fs.createWriteStream(tempFile);
     https.get(`${BASE_UPDATE_URL}api/${fileName}`, function(response: any) {
       response.pipe(file).on('finish', async function() {
