@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SettingsScreen />
+    <W3CLauncher />
   </div>
 </template>
 

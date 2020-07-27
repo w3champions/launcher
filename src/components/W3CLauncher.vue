@@ -6,7 +6,6 @@
     <div class="modt">
       <h3>{{ messageContentHeader }}</h3>
       <div v-html="messageContent"></div>
-      <div>HELLO WORLD</div>
     </div>
     <div :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
       Updating W3C...
@@ -33,9 +32,8 @@ const store = new Store();
 const { remote } = window.require("electron");
 const https = window.require("https");
 const fs = window.require("fs");
-// const AdmZip = window.require('adm-zip');
-// const sudo = window.require('sudo-prompt');
-const { execFile } = window.require("child_process");
+const AdmZip = window.require('adm-zip');
+const { exec, execFile } = window.require("child_process");
 
 @Component
 export default class W3CLauncher extends Vue {
@@ -75,63 +73,47 @@ export default class W3CLauncher extends Vue {
       return true;
     }
 
-    let w3path = await this.getFolderFromUserIfNeverStarted(
-      this.wc3PathKey,
-      this.getDefaultPathWc3(),
-      "Warcraft III not found",
-      "Warcraft III folder not found, please locate it manually"
-    );
-    if (fs.existsSync(`${w3path}/_retail_`)) {
-      w3path = `${w3path}/_retail_`;
-    }
+    // let w3path = await this.getFolderFromUserIfNeverStarted(
+    //   this.wc3PathKey,
+    //   this.getDefaultPathWc3(),
+    //   "Warcraft III not found",
+    //   "Warcraft III folder not found, please locate it manually"
+    // );
+    // if (fs.existsSync(`${w3path}/_retail_`)) {
+    //   w3path = `${w3path}/_retail_`;
+    // }
+    //
+    // if (!w3path) return false;
+    //
+    // const w3mapPath = await this.getFolderFromUserIfNeverStarted(
+    //   this.wc3MapKey,
+    //   await this.getDefaultPathMap(),
+    //   "Mapfolder not found",
+    //   "The mapfolder of Warcraft III was not found, please locate it manually"
+    // );
+    //
+    // if (!w3mapPath) return false;
 
-    if (!w3path) return false;
-
-    const w3mapPath = await this.getFolderFromUserIfNeverStarted(
-      this.wc3MapKey,
-      await this.getDefaultPathMap(),
-      "Mapfolder not found",
-      "The mapfolder of Warcraft III was not found, please locate it manually"
-    );
-
-    if (!w3mapPath) return false;
-
-    await this.downloadAndWriteFile("maps", w3mapPath);
-    await this.downloadAndWriteFile("webui", w3path);
+    // await this.downloadAndWriteFile("maps", w3mapPath);
+    // await this.downloadAndWriteFile("webui", w3path);
 
     store.set(this.currentVersionKey, newVersion);
 
-    // const commandForOs = this.getCommandForOs();
-    // sudo.exec(commandForOs, {name: "Warcraft 3 Champions"},
-    //   function (error: Error) {
-    //     if (error) {
-    //       throw error;
-    //     }
-    //   }
-    // );
+    this.turnOnLocalFiles();
 
     this.isLoading = false;
 
     return true;
   }
 
-  // private getCommandForOs() {
-  //   if (this.isWindows()) {
-  //     return 'reg add Computer\\HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III /v \'Allow Local Files\' /t REG_DWORD /d 1'
-  //   }
-  //
-  //   return 'defaults write "com.blizzard.Warcraft III" "Allow Local Files" -int 1';
-  // }
-
   private async downloadAndWriteFile(fileName: string, to: string) {
     const tempFile = `temp_${fileName}.zip`;
-    console.log(to);
     const file = fs.createWriteStream(tempFile);
     https.get(`${BASE_UPDATE_URL}api/${fileName}`, function(response: any) {
       response.pipe(file).on("finish", async function() {
         file.close();
-        // const zip = new AdmZip(tempFile);
-        // zip.extractAllTo(to, true);
+        const zip = new AdmZip(tempFile);
+        zip.extractAllTo(to, true);
         fs.unlinkSync(tempFile);
       });
     });
@@ -234,6 +216,22 @@ export default class W3CLauncher extends Vue {
 
     basePath += "w3.dmg";
     return basePath;
+  }
+
+  private turnOnLocalFiles() {
+    if (this.isWindows()) {
+      exec("reg add Computer\\HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III /v \"Allow Local Files\" /t REG_DWORD /d 1", function(err: Error) {
+        if (err) {
+          throw err;
+        }
+      });
+    } else {
+      exec("defaults write \"com.blizzard.Warcraft III\" \"Allow Local Files\" -int 1", function(err: Error) {
+        if (err) {
+          throw err;
+        }
+      });
+    }
   }
 }
 </script>
