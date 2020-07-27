@@ -73,29 +73,29 @@ export default class W3CLauncher extends Vue {
       return true;
     }
 
-    // let w3path = await this.getFolderFromUserIfNeverStarted(
-    //   this.wc3PathKey,
-    //   this.getDefaultPathWc3(),
-    //   "Warcraft III not found",
-    //   "Warcraft III folder not found, please locate it manually"
-    // );
-    // if (fs.existsSync(`${w3path}/_retail_`)) {
-    //   w3path = `${w3path}/_retail_`;
-    // }
-    //
-    // if (!w3path) return false;
-    //
-    // const w3mapPath = await this.getFolderFromUserIfNeverStarted(
-    //   this.wc3MapKey,
-    //   await this.getDefaultPathMap(),
-    //   "Mapfolder not found",
-    //   "The mapfolder of Warcraft III was not found, please locate it manually"
-    // );
-    //
-    // if (!w3mapPath) return false;
+    let w3path = await this.getFolderFromUserIfNeverStarted(
+      this.wc3PathKey,
+      this.getDefaultPathWc3(),
+      "Warcraft III not found",
+      "Warcraft III folder not found, please locate it manually"
+    );
+    if (fs.existsSync(`${w3path}/_retail_`)) {
+      w3path = `${w3path}/_retail_`;
+    }
 
-    // await this.downloadAndWriteFile("maps", w3mapPath);
-    // await this.downloadAndWriteFile("webui", w3path);
+    if (!w3path) return false;
+
+    const w3mapPath = await this.getFolderFromUserIfNeverStarted(
+      this.wc3MapKey,
+      await this.getDefaultPathMap(),
+      "Mapfolder not found",
+      "The mapfolder of Warcraft III was not found, please locate it manually"
+    );
+
+    if (!w3mapPath) return false;
+
+    await this.downloadAndWriteFile("maps", w3mapPath);
+    await this.downloadAndWriteFile("webui", w3path);
 
     store.set(this.currentVersionKey, newVersion);
 
