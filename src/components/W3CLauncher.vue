@@ -85,16 +85,21 @@ export default class W3CLauncher extends Vue {
 
     if (!w3path) return false;
 
-    const w3mapPath = await this.getFolderFromUserIfNeverStarted(
-      this.wc3MapKey,
-      await this.getDefaultPathMap(),
-      "Mapfolder not found",
-      "The mapfolder of Warcraft III was not found, please locate it manually"
-    );
+    if (this.isWindows()) {
+      const w3mapPath = await this.getFolderFromUserIfNeverStarted(
+          this.wc3MapKey,
+          await this.getDefaultPathMap(),
+          "Mapfolder not found",
+          "The mapfolder of Warcraft III was not found, please locate it manually"
+      );
 
-    if (!w3mapPath) return false;
+      if (!w3mapPath) return false;
 
-    await this.downloadAndWriteFile("maps", w3mapPath);
+      await this.downloadAndWriteFile("maps", w3mapPath);
+    } else {
+      await this.downloadAndWriteFile("maps", `${w3path}/Maps` );
+    }
+
     await this.downloadAndWriteFile("webui", w3path);
 
     store.set(this.currentVersionKey, newVersion);
@@ -178,10 +183,14 @@ export default class W3CLauncher extends Vue {
   }
 
   private async getDefaultPathMap() {
-    const documentPath = remote.app.getPath("documents");
-    return fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)
-      ? `${documentPath}\\Warcraft III\\_retail_\\Maps`
-      : `${documentPath}\\Warcraft III\\Maps`;
+    if (this.isWindows()) {
+      const documentPath = remote.app.getPath("documents");
+      return fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)
+          ? `${documentPath}\\Warcraft III\\_retail_\\Maps`
+          : `${documentPath}\\Warcraft III\\Maps`;
+    }
+
+    return ""
   }
 
   private getDefaultPathWc3() {
@@ -220,7 +229,7 @@ export default class W3CLauncher extends Vue {
 
   private turnOnLocalFiles() {
     if (this.isWindows()) {
-      exec("reg add Computer\\HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III /v \"Allow Local Files\" /t REG_DWORD /d 1", function(err: Error) {
+      exec("reg add \"Computer\\HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III\" /v \"Allow Local Files\" /t REG_DWORD /d 1", function(err: Error) {
         if (err) {
           throw err;
         }
