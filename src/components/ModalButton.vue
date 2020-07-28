@@ -1,7 +1,7 @@
 <template>
   <div class="modal-button">
     <div class="frame">
-      <Button :buttonDisabled="buttonDisabled">
+      <Button v-bind="$props" @click="click">
         <slot />
       </Button>
     </div>
@@ -30,7 +30,11 @@ import Button from "./Button.vue";
   },
 })
 export default class ModalButton extends Vue {
-  @Prop(Boolean) readonly buttonDisabled: boolean | undefined;
+  @Prop(Boolean) readonly disabled: boolean | undefined;
+
+  click() {
+    this.$emit("click");
+  }
 }
 </script>
 

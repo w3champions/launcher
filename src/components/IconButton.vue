@@ -1,13 +1,11 @@
 <template>
-  <a href="#">
-    <div class="small-button">
-      <img
-        src="~@/assets/images/icons/folder-icon-resting.png"
-        width="32"
-        height="32"
-      />
-    </div>
-  </a>
+  <div class="small-button" @click="click">
+    <img
+      src="~@/assets/images/icons/folder-icon-resting.png"
+      width="32"
+      height="32"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -15,8 +13,8 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class IconButton extends Vue {
-  get backgroundPicture() {
-    return require("@/assets/images/backgrounds/arthas.png");
+  click() {
+    this.$emit("click");
   }
 }
 </script>
@@ -40,5 +38,6 @@ a:focus {
   align-items: center;
   outline: none;
   border: none;
+  cursor: pointer;
 }
 </style>

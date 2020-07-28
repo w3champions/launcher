@@ -3,11 +3,12 @@
     <label :for="id">{{ label }}</label>
     <input
       type="text"
-      :placeholder="'Please set ' + label + ' path'"
+      :placeholder="'Please set ' + label + ' Path'"
       :class="value == '' ? 'settings-input-field-error' : ''"
       :id="id"
       :name="id"
-      v-model="value"
+      :value="value"
+      @input="input"
     />
   </div>
 </template>
@@ -17,9 +18,13 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
 export default class TextField extends Vue {
-  @Prop({ default: "" }) readonly value!: string;
   @Prop(String) readonly id: string | undefined;
   @Prop(String) readonly label: string | undefined;
+  @Prop(String) readonly value: string | undefined;
+
+  input(event: any) {
+    this.$emit("input", event.target.value);
+  }
 
   get backgroundPicture() {
     return require("@/assets/images/backgrounds/arthas.png");

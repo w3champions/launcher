@@ -3,80 +3,68 @@
     class="background"
     :style="{ 'background-image': 'url(' + backgroundPicture + ')' }"
   >
-    <Modal :width="640" :buttonDisabled="buttonDisabled" buttonLabel="Launch">
+    <Modal
+      :width="640"
+      :buttonDisabled="isButtonDisabled"
+      buttonLabel="Save"
+      :onButtonClick="updateStore"
+    >
       <div class="content">
-        <div class="path-field">
-          <TextField
-            id="battlenet"
-            label="Battle.net Installation"
-            :value="battleNetPath"
-            @change="updateDisabledButton"
-          />
-          <div class="path-field-button">
-            <IconButton />
-          </div>
-        </div>
-        <div class="path-field">
-          <TextField
-            id="warcraft3"
-            label="Warcraft 3 Installation"
-            :value="warcraft3Path"
-            @change="updateDisabledButton"
-          />
-          <div class="path-field-button">
-            <IconButton />
-          </div>
-        </div>
-        <div class="path-field">
-          <TextField
-            id="warcraft3documents"
-            label="Warcraft 3 Documents"
-            :value="warcraft3DocumentsPath"
-            @change="updateDisabledButton"
-          />
-          <div class="path-field-button">
-            <IconButton />
-          </div>
-        </div>
+        <PathField
+          id="battlenet"
+          label="Battle.net Installation"
+          v-model="battleNetPath"
+        />
+        <PathField
+          id="warcraft3"
+          label="Warcraft 3 Installation"
+          v-model="warcraft3Path"
+        />
+        <PathField
+          id="warcraft3documents"
+          label="Warcraft 3 Documents"
+          v-model="warcraft3DocumentsPath"
+        />
       </div>
     </Modal>
   </div>
 </template>
 
 <script lang="ts">
+const Store = window.require("electron-store");
+const store = new Store();
 import { Component, Vue } from "vue-property-decorator";
 import Modal from "@/components/Modal.vue";
-import TextField from "@/components/TextField.vue";
-import IconButton from "@/components/IconButton.vue";
+import PathField from "@/components/PathField.vue";
 
 @Component
 @Component({
   components: {
     Modal,
-    TextField,
-    IconButton,
+    PathField,
   },
 })
 export default class SettingsScreen extends Vue {
+  private battleNetPath = store.get("battleNetPath");
+  private warcraft3Path = store.get("warcraft3Path");
+  private warcraft3DocumentsPath = store.get("warcraft3DocumentsPath");
   get backgroundPicture() {
     return require("@/assets/images/backgrounds/arthas.png");
   }
 
-  private battleNetPath = "";
-  private warcraft3Path = "";
-  private warcraft3DocumentsPath = "";
+  get isButtonDisabled() {
+    return (
+      this.battleNetPath === "" ||
+      this.warcraft3Path === "" ||
+      this.warcraft3DocumentsPath === ""
+    );
+  }
 
-  private buttonDisabled =
-    this.battleNetPath == "" ||
-    this.warcraft3Path == "" ||
-    this.warcraft3DocumentsPath == "";
-
-  updateDisabledButton() {
-    console.log("change");
-    this.buttonDisabled =
-      this.battleNetPath == "" ||
-      this.warcraft3Path == "" ||
-      this.warcraft3DocumentsPath == "";
+  updateStore() {
+    console.log("Update Store");
+    store.set("battleNetPath", this.battleNetPath);
+    store.set("warcraft3Path", this.warcraft3Path);
+    store.set("warcraft3DocumentsPath", this.warcraft3DocumentsPath);
   }
 }
 </script>
@@ -94,15 +82,5 @@ export default class SettingsScreen extends Vue {
 .content {
   padding: 40px;
   padding-top: 45px;
-}
-.path-field {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: space-between;
-
-  .path-field-button {
-    margin-bottom: 12px;
-  }
 }
 </style>

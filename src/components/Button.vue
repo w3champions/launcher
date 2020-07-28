@@ -1,19 +1,16 @@
 <template>
-  <button class="big-button" type="button" :disabled="buttonDisabled">
+  <button class="big-button" type="button" v-bind="$props" @click="click">
     <slot />
   </button>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Button extends Vue {
-  @Prop(Boolean) readonly buttonDisabled: boolean | undefined;
-
-  isDisabled() {
-    console.log(this.buttonDisabled);
-    return this.buttonDisabled;
+  click() {
+    this.$emit("click");
   }
 }
 </script>

@@ -12,7 +12,8 @@
       <div class="modal-button-container" :style="getButtonStyle()">
         <ModalButton
           v-if="buttonLabel !== undefined"
-          :buttonDisabled="buttonDisabled"
+          @click="onButtonClick"
+          :disabled="buttonDisabled"
           >{{ buttonLabel }}</ModalButton
         >
       </div>
@@ -37,6 +38,7 @@ export default class MainScreen extends Vue {
   @Prop({ default: 885 }) readonly width!: number;
   @Prop(String) readonly buttonLabel: string | undefined;
   @Prop(Boolean) readonly buttonDisabled: boolean | undefined;
+  @Prop(Function) readonly onButtonClick: Function | undefined;
 
   get framePicture() {
     return require("@/assets/images/backgrounds/arthas.png");
