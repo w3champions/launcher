@@ -38,31 +38,14 @@ export default class PathField extends Vue {
   }
 
   private async findFolder() {
-    const result = await this.openDialogForUserFolderSelction(
-      this.label,
-      "Please locate " + this.label + " Path"
-    );
-    if (result !== null) {
-      this.updatePath(result);
-    }
-  }
-
-  private async openDialogForUserFolderSelction(
-    title: string,
-    message: string
-  ) {
-    const folderResult = await remote.dialog.showMessageBox(null, {
-      title: title,
-      message: message,
-      buttons: ["Locate Folder", "Cancel"],
-    });
-    if (folderResult.response === 1) {
-      return null;
-    }
     const openDialogReturnValue = await remote.dialog.showOpenDialog({
-      properties: ["openDirectory", "multiSelections"],
+      defaultPath: this.value,
+      properties: ["openDirectory", "openFile", "showHiddenFiles"],
     });
-    return openDialogReturnValue.filePaths[0];
+    const path = openDialogReturnValue.filePaths[0];
+    if (path !== undefined && path !== null && path !== "") {
+      this.updatePath(path);
+    }
   }
 }
 </script>

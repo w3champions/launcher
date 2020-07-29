@@ -3,7 +3,7 @@
     class="background"
     :style="{ 'background-image': 'url(' + backgroundPicture + ')' }"
   >
-    <Modal :width="885" buttonLabel="Launch">
+    <Modal :width="885" v-bind:buttonLabel="buttonLabel">
       <div class="header">
         <div>
           <span>
@@ -39,6 +39,7 @@ import Modal from "@/components/Modal.vue";
   },
 })
 export default class MainScreen extends Vue {
+  private buttonLabel = "Launch";
   get backgroundPicture() {
     return require("@/assets/images/backgrounds/arthas.png");
   }

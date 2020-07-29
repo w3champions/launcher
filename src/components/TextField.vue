@@ -58,6 +58,7 @@ export default class TextField extends Vue {
     color: white;
     font-family: "BlizQuadrata Web";
     padding-left: 25px;
+    padding-right: 25px;
     padding-bottom: 10px;
     margin-top: 10px;
   }
