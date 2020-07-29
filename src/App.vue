@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <LoadingScreen />
-    <SettingsScreen />
+<!--    <LoadingScreen />-->
+<!--    <SettingsScreen />-->
+    <W3CLauncher />
   </div>
 </template>
 
