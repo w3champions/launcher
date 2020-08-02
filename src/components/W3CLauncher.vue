@@ -10,6 +10,17 @@
     <div :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
       Updating W3C...
     </div>
+    <div class="paths">
+      <div>
+        Warcraft III Location: {{w3Path}}
+      </div>
+      <div>
+        Map Location: {{mapPath}}
+      </div>
+      <div>
+        Version: {{currentVersion}}
+      </div>
+    </div>
     <button @click="tryStartWc3" :disabled="isLoading" class="start-button">
       Start Warcraft 3 Champions!
     </button>
@@ -20,7 +31,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import {Component, Vue} from "vue-property-decorator";
+
 const BASE_UPDATE_URL = process.env.IS_TEST
   ? "https://update-service.test.w3champions.com/"
   : "https://update-service.prod.test.w3champions.com/";
@@ -37,15 +49,36 @@ const { exec, execFile } = window.require("child_process");
 
 @Component
 export default class W3CLauncher extends Vue {
-  private wc3PathKey = "wc3PathKey";
-  private wc3MapKey = "wc3MapKey";
-  private currentVersionKey = "currentVersionKey";
   public isLoading = false;
   public messageContent = "";
   public messageContentHeader = "";
 
   get backgroundPicture() {
     return require("../assets/bg.jpg");
+  }
+
+  get mapPath(): string {
+    return store.get("wc3MapKey")
+  }
+
+  set mapPath(value: string) {
+    store.set("wc3MapKey", value);
+  }
+
+  get currentVersion(): string {
+    return store.get("currentVersionKey")
+  }
+
+  set currentVersion(value: string) {
+    store.set("currentVersionKey", value);
+  }
+
+  get w3Path(): string {
+    return store.get("wc3PathKey");
+  }
+
+  set w3Path(value: string) {
+    store.set("wc3PathKey", value);
   }
 
   public async tryStartWc3() {
@@ -59,9 +92,9 @@ export default class W3CLauncher extends Vue {
   }
 
   public async repairW3c() {
-    store.set(this.wc3PathKey, "");
-    store.set(this.wc3MapKey, "");
-    store.set(this.currentVersionKey, "");
+    this.w3Path = "";
+    this.mapPath = "";
+    this.currentVersion = "";
     await this.updateIfNeeded();
   }
 
@@ -74,7 +107,7 @@ export default class W3CLauncher extends Vue {
     }
 
     let w3path = await this.getFolderFromUserIfNeverStarted(
-      this.wc3PathKey,
+      "wc3PathKey",
       this.getDefaultPathWc3(),
       "Warcraft III not found",
       "Warcraft III folder not found, please locate it manually"
@@ -87,7 +120,7 @@ export default class W3CLauncher extends Vue {
 
     if (this.isWindows()) {
       const w3mapPath = await this.getFolderFromUserIfNeverStarted(
-          this.wc3MapKey,
+          "wc3MapKey",
           await this.getDefaultPathMap(),
           "Mapfolder not found",
           "The mapfolder of Warcraft III was not found, please locate it manually"
@@ -102,7 +135,7 @@ export default class W3CLauncher extends Vue {
 
     await this.downloadAndWriteFile("webui", w3path);
 
-    store.set(this.currentVersionKey, newVersion);
+    this.currentVersion = newVersion;
 
     this.turnOnLocalFiles();
 
@@ -125,7 +158,7 @@ export default class W3CLauncher extends Vue {
   }
 
   private async needsUpdate() {
-    const currentVersion = store.get(this.currentVersionKey);
+    const currentVersion = store.get("currentVersionKey");
     const version = await (
       await fetch(`${BASE_UPDATE_URL}api/client-version`)
     ).json();
@@ -217,7 +250,7 @@ export default class W3CLauncher extends Vue {
   }
 
   private getW3Executable() {
-    let basePath = store.get(this.wc3PathKey);
+    let basePath = store.get("wc3PathKey");
     // Todo find correct paths, not doable on my shitty mac rn
     if (this.isWindows()) {
       basePath += "w3.exe";
@@ -262,6 +295,11 @@ export default class W3CLauncher extends Vue {
   padding: 10px 30px 30px;
 }
 
+.paths {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px 10px;
+}
+
 .start-button {
   cursor: pointer;
   line-height: 1;
@@ -276,7 +314,6 @@ export default class W3CLauncher extends Vue {
     rgba(255, 125, 19, 0.3) 0px 0px 20px 10px inset;
   text-shadow: rgb(51, 38, 28) 0px 0px;
   height: 76px;
-  margin-bottom: 26px;
   font-size: 20px;
   border-width: 0px;
   border-style: initial;
@@ -304,8 +341,6 @@ export default class W3CLauncher extends Vue {
     rgba(241, 201, 171, 0.3) 0px 0px 20px 10px inset;
   text-shadow: rgb(51, 38, 28) 0px 0px;
   height: 36px;
-  margin-top: -76px;
-  margin-bottom: 12px;
   font-size: 14px;
   border-width: 0px;
   border-radius: 2px;
