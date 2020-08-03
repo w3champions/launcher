@@ -78,6 +78,7 @@ export default class W3CLauncher extends Vue {
     this.isLoading = true;
 
     this.updateStrategy.once("LoadingFinished", () => {
+      console.log("loading done, starting wc3 now")
       this.isLoading = false;
       this.updateStrategy.startWc3();
     })

@@ -23,7 +23,7 @@ export abstract class LauncherStrategy extends EventEmitter{
     abstract getDefaultPathWc3(): string;
     abstract getDefaultBnetPath(): string;
     abstract turnOnLocalFiles(): void;
-    abstract startWc3Process(w3Path: string): void;
+    abstract startWc3Process(bnetPath: string): void;
 
     constructor() {
         super();
@@ -89,6 +89,7 @@ export abstract class LauncherStrategy extends EventEmitter{
     }
 
     public startWc3() {
+        this.makeSureJoinBugFilesAreGone();
         this.startWc3Process(this.bnetPath);
     }
 
@@ -168,19 +169,22 @@ export abstract class LauncherStrategy extends EventEmitter{
         this.setLoading();
         const newVersion = await this.needsUpdate();
         if (!newVersion) {
-            console.log("no need for update, start wc3")
+            console.log("no need for update")
             this.unsetLoading();
             return;
         }
 
         const defaultPathWc3 = this.getDefaultPathWc3();
         console.log("default wc3 path: " + defaultPathWc3);
-        const w3path = await this.getFolderFromUserIfNeverStarted(
+        let w3path = await this.getFolderFromUserIfNeverStarted(
             this.w3Path,
             defaultPathWc3,
             "Warcraft III not found",
             "Warcraft III folder not found, please locate it manually"
         );
+        if (fs.existsSync(`${w3path}/_retail_`)) {
+            w3path = `${w3path}/_retail_`;
+        }
 
         if (!w3path) return;
         this.w3Path = w3path;
@@ -215,5 +219,20 @@ export abstract class LauncherStrategy extends EventEmitter{
         this.currentVersion = newVersion;
 
         this.turnOnLocalFiles();
+    }
+
+    private makeSureJoinBugFilesAreGone() {
+        if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`))
+        {
+            console.log(`delete maps in ${this.w3Path}/Maps/W3Champions`)
+            fs.rmdirSync(`${this.w3Path}/Maps/W3Champions`, { recursive: true }, (e: Error) => { throw e })
+        }
+
+        const w3PathWithoutRetail = this.w3Path.replace("/_retail_", "");
+        if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`))
+        {
+            console.log(`delete maps in ${w3PathWithoutRetail}/Maps/W3Champions`)
+            fs.rmdirSync(`${w3PathWithoutRetail}/Maps/W3Champions`, { recursive: true }, (e: Error) => { throw e })
+        }
     }
 }
