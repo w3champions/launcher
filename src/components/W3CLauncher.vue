@@ -2,6 +2,9 @@
   <div
     class="launcher-background"
   >
+    <div class="new-launcher-version" v-if="hasNewVersion">
+      There is a new version of the launcher, please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
+    </div>
     <div class="modt">
       <h3>{{ messageContentHeader }}</h3>
       <div v-html="messageContent"></div>
@@ -20,10 +23,10 @@
         Battle.Net Location: {{battleNet}}
       </div>
       <div>
-        Warcraft 3 Champions Version: {{currentVersion}}
+        Warcraft 3 Champions Version: {{w3cVersion}}
       </div>
       <div>
-        Launcher Version: {{appVersion}}
+        Launcher Version: {{launcherVersion}}
       </div>
     </div>
     <button @click="tryStartWc3" :disabled="isLoading" class="start-button">
@@ -39,18 +42,16 @@
 import {Component, Vue} from "vue-property-decorator";
 import {MacLauncher} from "@/services/MacLauncher";
 import {WindowsLauncher} from "@/services/WindowsLauncher";
+import {BASE_NEWS_URL, BASE_UPDATE_URL} from "@/main";
 
 const { remote } = window.require("electron");
-
-const BASE_NEWS_URL = process.env.IS_TEST
-  ? "https://statistic-service-test.w3champions.com/"
-  : "https://statistic-service.w3champions.com/";
 
 @Component
 export default class W3CLauncher extends Vue {
   public messageContent = "";
   public messageContentHeader = "";
   public isLoading = false;
+  public updatedLauncherVersion = this.launcherVersion;
   private updateStrategy = this.isMac() ? new MacLauncher() : new WindowsLauncher();
 
   get battleNet(): string {
@@ -61,11 +62,11 @@ export default class W3CLauncher extends Vue {
     return this.updateStrategy.mapPath
   }
 
-  get currentVersion(): string {
+  get w3cVersion(): string {
     return this.updateStrategy.currentVersion;
   }
 
-  get appVersion(): string {
+  get launcherVersion(): string {
     return remote.app.getVersion();
   }
 
@@ -86,8 +87,13 @@ export default class W3CLauncher extends Vue {
     await this.updateStrategy.updateIfNeeded();
   }
 
-  mounted() {
-    this.loadModt();
+  get hasNewVersion() {
+    return this.updatedLauncherVersion !== this.launcherVersion
+  }
+
+  async mounted() {
+    await this.loadModt();
+    await this.loadLauncherVersion();
   }
 
   public async repairW3c() {
@@ -111,6 +117,14 @@ export default class W3CLauncher extends Vue {
     ).json();
     this.messageContent = version[0].message;
     this.messageContentHeader = version[0].date;
+  }
+
+  private async loadLauncherVersion() {
+    const version = await (
+            await fetch(`${BASE_UPDATE_URL}api/launcher-version`)
+    ).json();
+
+    this.updatedLauncherVersion = version.version;
   }
 }
 </script>
@@ -136,6 +150,21 @@ export default class W3CLauncher extends Vue {
   width: 50%;
   text-decoration: none;
   padding: 10px 30px 30px;
+}
+
+.new-launcher-version {
+  position: absolute;
+  z-index: 1222222223;
+  width: 100%;
+  line-height: 50.5vh;
+  text-align: center;
+  color: aliceblue;
+  font-size: 2em;
+  background: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+}
+a {
+  color: inherit;
 }
 
 .paths {

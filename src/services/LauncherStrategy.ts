@@ -1,10 +1,7 @@
 import {EventEmitter} from "events";
+import {BASE_UPDATE_URL} from "@/main";
 
 const Store = window.require("electron-store");
-const BASE_UPDATE_URL = process.env.IS_TEST
-    ? "https://update-service.test.w3champions.com/"
-    : "https://update-service.prod.test.w3champions.com/";
-
 const { remote } = window.require("electron");
 const https = window.require("https");
 const fs = window.require("fs");
