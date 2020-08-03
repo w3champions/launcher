@@ -40,9 +40,10 @@ export class WindowsLauncher extends LauncherStrategy {
     }
 
     startWc3Process(bnetPath: string): void {
-        const bnetPathWithExe = `${this.w3Path}/Battle.net.exe`;
+        const bnetPathWithExe = `${bnetPath}/Battle.net.exe`;
         const ls = spawn(bnetPathWithExe, ['--exec="launch W3"'], {
-            detached: true
+            detached: true,
+            windowsVerbatimArguments: true
         });
         ls.unref();
     }
