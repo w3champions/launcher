@@ -150,6 +150,10 @@ export abstract class LauncherStrategy extends EventEmitter{
 
     private async downloadAndWriteFile(fileName: string, to: string, onFinish: () => void) {
         const tempFile = `${remote.app.getPath("downloads")}/temp_${fileName}.zip`;
+        if (fs.existsSync(tempFile)) {
+            fs.unlinkSync(tempFile);
+        }
+
         const file = fs.createWriteStream(tempFile);
         https.get(`${BASE_UPDATE_URL}api/${fileName}`, function(response: any) {
             response.pipe(file).on("finish", async function() {
