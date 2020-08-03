@@ -3,7 +3,7 @@
     class="launcher-background"
   >
     <div class="new-launcher-version" v-if="hasNewVersion">
-      There is a new version of the launcher, please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
+      There is a new version of the launcher ({{updatedLauncherVersion}}), please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
     </div>
     <div class="modt">
       <h3>{{ messageContentHeader }}</h3>
