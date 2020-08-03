@@ -19,7 +19,8 @@ jobs:
   - script: npm run build
     displayName: 'npm build'
     env:
-      CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD)
+      CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_MAC)
+      CSC_LINK: w3c-certs-mac.p12
 
   - task: CopyFiles@2
     inputs:
@@ -47,7 +48,7 @@ jobs:
     displayName: 'npm build'
     env:
       CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_WIN)
-      CSC_LINK: file://$(Build.SourcesDirectory)/$(CSC_LINK_WIN)
+      CSC_LINK: w3c-certs-win.p12
 
   - task: CopyFiles@2
     inputs:
