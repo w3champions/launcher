@@ -110,7 +110,7 @@ export abstract class LauncherStrategy extends EventEmitter{
     }
 
     public startWc3() {
-        const bnetPath = `${this.bnetPath}\\${this.getBnetExecutable()}`;
+        const bnetPath = `${this.bnetPath}/${this.getBnetExecutable()}`;
         const ls = spawn(bnetPath, ['--exec="launch W3"'], {
             detached: true,
             windowsVerbatimArguments: true,
@@ -157,7 +157,7 @@ export abstract class LauncherStrategy extends EventEmitter{
 
 
     private async downloadAndWriteFile(fileName: string, to: string, onFinish: () => void) {
-        const tempFile = `${remote.app.getPath("downloads")}\\temp_${fileName}.zip`;
+        const tempFile = `${remote.app.getPath("downloads")}/temp_${fileName}.zip`;
         const file = fs.createWriteStream(tempFile);
         https.get(`${BASE_UPDATE_URL}api/${fileName}`, function(response: any) {
             response.pipe(file).on("finish", async function() {
@@ -179,22 +179,23 @@ export abstract class LauncherStrategy extends EventEmitter{
             return;
         }
 
-        let w3path = await this.getFolderFromUserIfNeverStarted(
+        const defaultPathWc3 = this.getDefaultPathWc3();
+        console.log("default wc3 path: " + defaultPathWc3);
+        const w3path = await this.getFolderFromUserIfNeverStarted(
             this.w3Path,
-            this.getDefaultPathWc3(),
+            defaultPathWc3,
             "Warcraft III not found",
             "Warcraft III folder not found, please locate it manually"
         );
-        if (fs.existsSync(`${w3path}\\_retail_`)) {
-            w3path = `${w3path}\\_retail_`;
-        }
 
         if (!w3path) return;
         this.w3Path = w3path;
 
+        const defaultMapPath = this.getDefaultPathMap();
+        console.log("default map path: " + defaultMapPath);
         const w3mapPath = await this.getFolderFromUserIfNeverStarted(
             this.mapPath,
-            await this.getDefaultPathMap(),
+            defaultMapPath,
             "Mapfolder not found",
             "The mapfolder of Warcraft III was not found, please locate it manually"
         );
@@ -202,9 +203,11 @@ export abstract class LauncherStrategy extends EventEmitter{
         if (!w3mapPath) return;
         this.mapPath = w3mapPath;
 
+        const defaultBnetPath = this.getDefaultBnetPath();
+        console.log("default bnet: " + defaultBnetPath);
         const bnetPath = await this.getFolderFromUserIfNeverStarted(
             this.bnetPath,
-            this.getDefaultBnetPath(),
+            defaultBnetPath,
             "Battle.Net not found",
             "Battle.Net folder not found, please locate it manually"
         );

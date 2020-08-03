@@ -13,21 +13,29 @@ export class WindowsLauncher extends LauncherStrategy {
     }
 
     getDefaultPathWc3(): string {
-        if (fs.existsSync("C:\\Program Files (x86)\\Warcraft III\\_retail_")) {
-            return "C:\\Program Files (x86)\\Warcraft III\\_retail_";
+        if (fs.existsSync("C:/Program Files (x86)/Warcraft III/_retail_")) {
+            return "C:/Program Files (x86)/Warcraft III/_retail_";
         }
-        return "C:\\Program Files (x86)\\Warcraft III";
+        return "C:/Program Files (x86)/Warcraft III";
     }
 
     getDefaultPathMap(): string {
         const documentPath = remote.app.getPath("documents");
-        return fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)
-            ? `${documentPath}\\Warcraft III\\_retail_\\Maps`
-            : `${documentPath}\\Warcraft III\\Maps`;
+        if (fs.existsSync(`${documentPath}/Warcraft III/_retail_`)
+            && !fs.existsSync(`${documentPath}/Warcraft III/_retail_/Maps`)) {
+            fs.mkdirSync(`${documentPath}/Warcraft III/_retail_/Maps`);
+        } else if (fs.existsSync(`${documentPath}/Warcraft III`)
+            && !fs.existsSync(`${documentPath}/Warcraft III/Maps`)) {
+            fs.mkdirSync(`${documentPath}/Warcraft III/Maps`);
+        }
+
+        return fs.existsSync(`${documentPath}/Warcraft III/_retail_/Maps`)
+            ? `${documentPath}/Warcraft III/_retail_/Maps`
+            : `${documentPath}/Warcraft III/Maps`;
     }
 
     getDefaultBnetPath(): string {
-        return "C:\\Program Files (x86)\\Battle.net";
+        return "C:/Program Files (x86)/Battle.net";
     }
 
     getBnetExecutable(): string {

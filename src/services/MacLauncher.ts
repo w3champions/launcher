@@ -1,5 +1,7 @@
 import {LauncherStrategy} from "@/services/LauncherStrategy";
 const { exec } = window.require("child_process");
+const { remote } = window.require("electron");
+const fs = window.require("fs");
 
 export class MacLauncher extends LauncherStrategy {
     turnOnLocalFiles(): void {
@@ -11,18 +13,24 @@ export class MacLauncher extends LauncherStrategy {
     }
 
     getDefaultPathWc3(): string {
-        return "";
+        return "Applications/Warcraft III.app";
     }
 
     getDefaultPathMap(): string {
-        return ""
+        const libPath = remote.app.getPath("appData");
+        if (fs.existsSync(`${libPath}/Blizzard/Warcraft III`)
+            && !fs.existsSync(`${libPath}/Blizzard/Warcraft III/Maps`)) {
+            fs.mkdirSync(`${libPath}/Blizzard/Warcraft III/Maps`);
+        }
+
+        return `${libPath}/Blizzard/Warcraft III/Maps`
     }
 
     getDefaultBnetPath(): string {
-        return "";
+        return "/Applications/Battle.net.app";
     }
 
     getBnetExecutable(): string {
-        return "Battle.app";
+        return "Contents/MacOS/Battle.net";
     }
 }
