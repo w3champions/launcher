@@ -13,12 +13,12 @@ jobs:
 
   - script: npm install
     displayName: 'npm install'
-  - script: npm run electron:build
-    displayName: 'npm electron:build'
+  - script: npm run build
+    displayName: 'npm build'
 
   - task: CopyFiles@2
     inputs:
-      contents: 'dist_electron/w3c-launcher*.dmg'
+      contents: 'dist_electron/w3champions-launcher*.dmg'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
@@ -38,12 +38,12 @@ jobs:
 
   - script: npm install
     displayName: 'npm install'
-  - script: npm run electron:build
-    displayName: 'npm electron:build'
+  - script: npm run build
+    displayName: 'npm build'
 
   - task: CopyFiles@2
     inputs:
-      contents: 'dist_electron/w3c-launcher Setup *.exe'
+      contents: 'dist_electron/w3champions-launcher Setup *.exe'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
     inputs:
