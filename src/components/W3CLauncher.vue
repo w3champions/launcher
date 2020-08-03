@@ -2,7 +2,7 @@
   <div
     class="launcher-background"
   >
-    <div class="new-launcher-version" v-if="hasNewVersion">
+    <div class="new-launcher-version" v-if="hasNewLauncherVersion">
       There is a new version of the launcher ({{updatedLauncherVersion}}), please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
     </div>
     <div class="modt">
@@ -87,8 +87,8 @@ export default class W3CLauncher extends Vue {
     await this.updateStrategy.updateIfNeeded();
   }
 
-  get hasNewVersion() {
-    return this.updatedLauncherVersion !== this.launcherVersion
+  get hasNewLauncherVersion() {
+    return this.updatedLauncherVersion.localeCompare(this.launcherVersion) > 0;
   }
 
   async mounted() {
