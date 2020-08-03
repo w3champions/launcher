@@ -1,3 +1,5 @@
+import {EventEmitter} from "events";
+
 const Store = window.require("electron-store");
 const BASE_UPDATE_URL = process.env.IS_TEST
     ? "https://update-service.test.w3champions.com/"
@@ -9,12 +11,14 @@ const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 const { spawn } = window.require("child_process");
 
-export abstract class LauncherStrategy {
-    private store: any;
-    private _isLoading = false;
-    constructor() {
-        this.store = new Store();
-    }
+export abstract class LauncherStrategy extends EventEmitter{
+    private store = new Store();
+    private _isLoadingMaps = false;
+    private _isLoadingUi = false;
+
+    private mapFinished = "MapFinished";
+    private webUiFinished = "WebUiFinished";
+    private loadingFinished = "LoadingFinished";
 
     abstract getDefaultPathMap(): string;
     abstract getDefaultPathWc3(): string;
@@ -22,8 +26,35 @@ export abstract class LauncherStrategy {
     abstract getBnetExecutable(): string;
     abstract turnOnLocalFiles(): void;
 
-    get isLoading(): boolean {
-        return this._isLoading
+    constructor() {
+        super();
+        this.on(this.webUiFinished, () => {
+            console.log("webui finished")
+            this._isLoadingUi = false;
+            if (!this._isLoadingMaps) {
+                console.log("files updated after webui")
+                this.emit(this.loadingFinished)
+            }
+        })
+        this.on(this.mapFinished, () => {
+            console.log("maps finished")
+            this._isLoadingMaps = false;
+            if (!this._isLoadingUi) {
+                console.log("files updated after map")
+                this.emit(this.loadingFinished)
+            }
+        })
+    }
+
+    setLoading() {
+        this._isLoadingUi = true;
+        this._isLoadingMaps = true;
+    }
+
+    unsetLoading() {
+        this._isLoadingUi = false;
+        this._isLoadingMaps = false;
+        this.emit(this.loadingFinished);
     }
 
     get mapPath(): string {
@@ -125,7 +156,7 @@ export abstract class LauncherStrategy {
     }
 
 
-    private async downloadAndWriteFile(fileName: string, to: string) {
+    private async downloadAndWriteFile(fileName: string, to: string, onFinish: () => void) {
         const tempFile = `${remote.app.getPath("downloads")}\\temp_${fileName}.zip`;
         const file = fs.createWriteStream(tempFile);
         https.get(`${BASE_UPDATE_URL}api/${fileName}`, function(response: any) {
@@ -134,16 +165,18 @@ export abstract class LauncherStrategy {
                 const zip = new AdmZip(tempFile);
                 zip.extractAllTo(to, true);
                 fs.unlinkSync(tempFile);
+                onFinish();
             });
         });
     }
 
-    public async updateIfNeeded(): Promise<boolean> {
-        this._isLoading = true;
+    public async updateIfNeeded() {
+        this.setLoading();
         const newVersion = await this.needsUpdate();
         if (!newVersion) {
-            this._isLoading = false;
-            return true;
+            console.log("no need for update, start wc3")
+            this.unsetLoading();
+            return;
         }
 
         let w3path = await this.getFolderFromUserIfNeverStarted(
@@ -156,7 +189,7 @@ export abstract class LauncherStrategy {
             w3path = `${w3path}\\_retail_`;
         }
 
-        if (!w3path) return false;
+        if (!w3path) return;
         this.w3Path = w3path;
 
         const w3mapPath = await this.getFolderFromUserIfNeverStarted(
@@ -166,7 +199,7 @@ export abstract class LauncherStrategy {
             "The mapfolder of Warcraft III was not found, please locate it manually"
         );
 
-        if (!w3mapPath) return false;
+        if (!w3mapPath) return;
         this.mapPath = w3mapPath;
 
         const bnetPath = await this.getFolderFromUserIfNeverStarted(
@@ -176,18 +209,14 @@ export abstract class LauncherStrategy {
             "Battle.Net folder not found, please locate it manually"
         );
 
-        if (!bnetPath) return false;
+        if (!bnetPath) return;
         this.bnetPath = bnetPath;
 
-        await this.downloadAndWriteFile("maps", w3mapPath);
-        await this.downloadAndWriteFile("webui", w3path);
+        await this.downloadAndWriteFile("maps", w3mapPath, (() => this.emit(this.mapFinished)));
+        await this.downloadAndWriteFile("webui", w3path, (() => this.emit(this.webUiFinished)));
 
         this.currentVersion = newVersion;
 
         this.turnOnLocalFiles();
-
-        this._isLoading = false;
-
-        return true;
     }
 }

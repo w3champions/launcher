@@ -1,13 +1,12 @@
 <template>
   <div
-    class="background"
-    :style="{ 'background-image': 'url(' + backgroundPicture + ')' }"
+    class="launcher-background"
   >
     <div class="modt">
       <h3>{{ messageContentHeader }}</h3>
       <div v-html="messageContent"></div>
     </div>
-    <div :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
+    <div class="isLoading" :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
       Updating W3C...
     </div>
     <div class="paths">
@@ -21,7 +20,7 @@
         Battle.Net Location: {{battleNet}}
       </div>
       <div>
-        W3C Version: {{currentVersion}}
+        Warcraft 3 Champions Version: {{currentVersion}}
       </div>
       <div>
         Launcher Version: {{appVersion}}
@@ -51,15 +50,8 @@ const BASE_NEWS_URL = process.env.IS_TEST
 export default class W3CLauncher extends Vue {
   public messageContent = "";
   public messageContentHeader = "";
+  public isLoading = false;
   private updateStrategy = this.isMac() ? new MacLauncher() : new WindowsLauncher();
-
-  get backgroundPicture() {
-    return require("../assets/bg.jpg");
-  }
-
-  get isLoading(): boolean {
-    return this.updateStrategy.isLoading;
-  }
 
   get battleNet(): string {
     return this.updateStrategy.bnetPath;
@@ -82,9 +74,15 @@ export default class W3CLauncher extends Vue {
   }
 
   public async tryStartWc3() {
-    const success = await this.updateStrategy.updateIfNeeded();
-    if (!success) return;
-    this.updateStrategy.startWc3();
+    if (this.isLoading) return;
+    this.isLoading = true;
+
+    this.updateStrategy.once("LoadingFinished", () => {
+      this.isLoading = false;
+      this.updateStrategy.startWc3();
+    })
+
+    await this.updateStrategy.updateIfNeeded();
   }
 
   mounted() {
@@ -92,6 +90,13 @@ export default class W3CLauncher extends Vue {
   }
 
   public async repairW3c() {
+    if (this.isLoading) return;
+    this.isLoading = true;
+
+    this.updateStrategy.once("LoadingFinished", () => {
+      this.isLoading = false;
+    });
+
     await this.updateStrategy.repairWc3();
   }
 
@@ -110,13 +115,19 @@ export default class W3CLauncher extends Vue {
 </script>
 
 <style scoped>
-.background {
-  width: 960px;
-  height: 529px;
+.launcher-background {
+  width: 100%;
+  height: 96vh;
+  background: url("~@/assets/bg.jpg") center no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+}
+
+.isLoading {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 50%;
 }
 
 .modt {
