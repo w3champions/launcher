@@ -18,7 +18,13 @@
         Map Location: {{mapPath}}
       </div>
       <div>
-        Version: {{currentVersion}}
+        Battle.Net Location: {{battleNet}}
+      </div>
+      <div>
+        W3C Version: {{currentVersion}}
+      </div>
+      <div>
+        Launcher Version: {{appVersion}}
       </div>
     </div>
     <button @click="tryStartWc3" :disabled="isLoading" class="start-button">
@@ -32,59 +38,53 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
+import {MacLauncher} from "@/services/MacLauncher";
+import {WindowsLauncher} from "@/services/WindowsLauncher";
 
-const BASE_UPDATE_URL = process.env.IS_TEST
-  ? "https://update-service.test.w3champions.com/"
-  : "https://update-service.prod.test.w3champions.com/";
+const { remote } = window.require("electron");
+
 const BASE_NEWS_URL = process.env.IS_TEST
   ? "https://statistic-service-test.w3champions.com/"
   : "https://statistic-service.w3champions.com/";
-const Store = window.require("electron-store");
-const store = new Store();
-const { remote } = window.require("electron");
-const https = window.require("https");
-const fs = window.require("fs");
-const AdmZip = window.require('adm-zip');
-const { exec, execFile } = window.require("child_process");
 
 @Component
 export default class W3CLauncher extends Vue {
-  public isLoading = false;
   public messageContent = "";
   public messageContentHeader = "";
+  private updateStrategy = this.isMac() ? new MacLauncher() : new WindowsLauncher();
 
   get backgroundPicture() {
     return require("../assets/bg.jpg");
   }
 
-  get mapPath(): string {
-    return store.get("wc3MapKey")
+  get isLoading(): boolean {
+    return this.updateStrategy.isLoading;
   }
 
-  set mapPath(value: string) {
-    store.set("wc3MapKey", value);
+  get battleNet(): string {
+    return this.updateStrategy.bnetPath;
+  }
+
+  get mapPath(): string {
+    return this.updateStrategy.mapPath
   }
 
   get currentVersion(): string {
-    return store.get("currentVersionKey")
+    return this.updateStrategy.currentVersion;
   }
 
-  set currentVersion(value: string) {
-    store.set("currentVersionKey", value);
+  get appVersion(): string {
+    return remote.app.getVersion();
   }
 
   get w3Path(): string {
-    return store.get("wc3PathKey");
-  }
-
-  set w3Path(value: string) {
-    store.set("wc3PathKey", value);
+    return this.updateStrategy.w3Path;
   }
 
   public async tryStartWc3() {
-    const success = await this.updateIfNeeded();
+    const success = await this.updateStrategy.updateIfNeeded();
     if (!success) return;
-    this.startWc3();
+    this.updateStrategy.startWc3();
   }
 
   mounted() {
@@ -92,153 +92,11 @@ export default class W3CLauncher extends Vue {
   }
 
   public async repairW3c() {
-    this.w3Path = "";
-    this.mapPath = "";
-    this.currentVersion = "";
-    await this.updateIfNeeded();
+    await this.updateStrategy.repairWc3();
   }
 
-  private async updateIfNeeded() {
-    this.isLoading = true;
-    const newVersion = await this.needsUpdate();
-    if (!newVersion) {
-      this.isLoading = false;
-      return true;
-    }
-
-    let w3path = await this.getFolderFromUserIfNeverStarted(
-      "wc3PathKey",
-      this.getDefaultPathWc3(),
-      "Warcraft III not found",
-      "Warcraft III folder not found, please locate it manually"
-    );
-    if (fs.existsSync(`${w3path}/_retail_`)) {
-      w3path = `${w3path}/_retail_`;
-    }
-
-    if (!w3path) return false;
-
-    if (this.isWindows()) {
-      const w3mapPath = await this.getFolderFromUserIfNeverStarted(
-          "wc3MapKey",
-          await this.getDefaultPathMap(),
-          "Mapfolder not found",
-          "The mapfolder of Warcraft III was not found, please locate it manually"
-      );
-
-      if (!w3mapPath) return false;
-
-      await this.downloadAndWriteFile("maps", w3mapPath);
-    } else {
-      await this.downloadAndWriteFile("maps", `${w3path}/Maps` );
-    }
-
-    await this.downloadAndWriteFile("webui", w3path);
-
-    this.currentVersion = newVersion;
-
-    this.turnOnLocalFiles();
-
-    this.isLoading = false;
-
-    return true;
-  }
-
-  private async downloadAndWriteFile(fileName: string, to: string) {
-    const tempFile = `${remote.app.getPath("downloads")}/temp_${fileName}.zip`;
-    const file = fs.createWriteStream(tempFile);
-    https.get(`${BASE_UPDATE_URL}api/${fileName}`, function(response: any) {
-      response.pipe(file).on("finish", async function() {
-        file.close();
-        const zip = new AdmZip(tempFile);
-        zip.extractAllTo(to, true);
-        fs.unlinkSync(tempFile);
-      });
-    });
-  }
-
-  private async needsUpdate() {
-    const currentVersion = store.get("currentVersionKey");
-    const version = await (
-      await fetch(`${BASE_UPDATE_URL}api/client-version`)
-    ).json();
-    if (version.version === currentVersion) {
-      return null;
-    }
-
-    return version.version;
-  }
-
-  private async openDialogForUserFolderSelction(
-    title: string,
-    message: string
-  ) {
-    const folderResult = await remote.dialog.showMessageBox(null, {
-      title: title,
-      message: message,
-      buttons: ["Locate Folder", "Cancel Update"],
-    });
-    if (folderResult.response === 1) {
-      return "";
-    }
-    const openDialogReturnValue = await remote.dialog.showOpenDialog({
-      properties: ["openDirectory", "multiSelections"],
-    });
-    return openDialogReturnValue.filePaths[0];
-  }
-
-  private startWc3() {
-    const w3Path = this.getW3Executable();
-    execFile(w3Path, function(err: Error) {
-      if (err) {
-        throw err;
-      }
-    });
-  }
-
-  private async getFolderFromUserIfNeverStarted(
-    storageKey: string,
-    defaultLocation: string,
-    header: string,
-    message: string
-  ) {
-    if (fs.existsSync(defaultLocation)) return defaultLocation;
-
-    let path = store.get(storageKey);
-    if (!path) {
-      const path = await this.openDialogForUserFolderSelction(header, message);
-      if (!path) return false;
-      store.set(storageKey, path);
-      return path;
-    }
-
-    return path;
-  }
-
-  private async getDefaultPathMap() {
-    if (this.isWindows()) {
-      const documentPath = remote.app.getPath("documents");
-      return fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)
-          ? `${documentPath}\\Warcraft III\\_retail_\\Maps`
-          : `${documentPath}\\Warcraft III\\Maps`;
-    }
-
-    return ""
-  }
-
-  private getDefaultPathWc3() {
-    if (this.isWindows()) {
-      if (fs.existsSync("C:\\Program Files (x86)\\Warcraft III\\_retail_")) {
-        return "C:\\Program Files (x86)\\Warcraft III\\_retail_";
-      }
-      return "C:\\Program Files (x86)\\Warcraft III";
-    }
-
-    return "";
-  }
-
-  private isWindows() {
-    return process.platform === "win32";
+  private isMac() {
+    return process.platform === "darwin";
   }
 
   private async loadModt() {
@@ -247,33 +105,6 @@ export default class W3CLauncher extends Vue {
     ).json();
     this.messageContent = version[0].message;
     this.messageContentHeader = version[0].date;
-  }
-
-  private getW3Executable() {
-    let basePath = store.get("wc3PathKey");
-    // Todo find correct paths, not doable on my shitty mac rn
-    if (this.isWindows()) {
-      basePath += "w3.exe";
-    }
-
-    basePath += "w3.dmg";
-    return basePath;
-  }
-
-  private turnOnLocalFiles() {
-    if (this.isWindows()) {
-      exec("reg add \"Computer\\HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III\" /v \"Allow Local Files\" /t REG_DWORD /d 1", function(err: Error) {
-        if (err) {
-          throw err;
-        }
-      });
-    } else {
-      exec("defaults write \"com.blizzard.Warcraft III\" \"Allow Local Files\" -int 1", function(err: Error) {
-        if (err) {
-          throw err;
-        }
-      });
-    }
   }
 }
 </script>
