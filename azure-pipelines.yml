@@ -18,6 +18,9 @@ jobs:
     displayName: 'npm install'
   - script: npm run build
     displayName: 'npm build'
+    env:
+      CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD)
+      CSC_LINK: $(CSC_LINK)
 
   - task: CopyFiles@2
     inputs:
