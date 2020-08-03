@@ -9,7 +9,6 @@ const { remote } = window.require("electron");
 const https = window.require("https");
 const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
-const { spawn } = window.require("child_process");
 
 export abstract class LauncherStrategy extends EventEmitter{
     private store = new Store();
@@ -23,8 +22,8 @@ export abstract class LauncherStrategy extends EventEmitter{
     abstract getDefaultPathMap(): string;
     abstract getDefaultPathWc3(): string;
     abstract getDefaultBnetPath(): string;
-    abstract getBnetExecutable(): string;
     abstract turnOnLocalFiles(): void;
+    abstract startWc3Process(w3Path: string): void;
 
     constructor() {
         super();
@@ -89,6 +88,10 @@ export abstract class LauncherStrategy extends EventEmitter{
         this.store.set("wc3PathKey", value);
     }
 
+    public startWc3() {
+        this.startWc3Process(this.bnetPath);
+    }
+
     private async needsUpdate() {
         const currentVersion = this.currentVersion;
         const version = await (
@@ -107,15 +110,6 @@ export abstract class LauncherStrategy extends EventEmitter{
         this.bnetPath = "";
         this.currentVersion = "";
         await this.updateIfNeeded();
-    }
-
-    public startWc3() {
-        const bnetPath = `${this.bnetPath}/${this.getBnetExecutable()}`;
-        const ls = spawn(bnetPath, ['--exec="launch W3"'], {
-            detached: true,
-            windowsVerbatimArguments: true,
-        });
-        ls.unref();
     }
 
     private async getFolderFromUserIfNeverStarted(

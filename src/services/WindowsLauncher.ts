@@ -1,5 +1,6 @@
 import {LauncherStrategy} from "@/services/LauncherStrategy";
-const { exec } = window.require("child_process");
+
+const { exec, spawn } = window.require("child_process");
 const fs = window.require("fs");
 const { remote } = window.require("electron");
 
@@ -38,7 +39,11 @@ export class WindowsLauncher extends LauncherStrategy {
         return "C:/Program Files (x86)/Battle.net";
     }
 
-    getBnetExecutable(): string {
-        return "Battle.net.exe";
+    startWc3Process(bnetPath: string): void {
+        const bnetPathWithExe = `${this.w3Path}/Battle.net.exe`;
+        const ls = spawn(bnetPathWithExe, ['--exec="launch W3"'], {
+            detached: true
+        });
+        ls.unref();
     }
 }

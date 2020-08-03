@@ -30,7 +30,7 @@ export class MacLauncher extends LauncherStrategy {
         return "/Applications/Battle.net.app";
     }
 
-    getBnetExecutable(): string {
-        return "Contents/MacOS/Battle.net";
+    startWc3Process(bnetPath: string): void {
+        exec(bnetPath + "/Contents/MacOS/Battle.net --exec=\"launch W3\"");
     }
 }
