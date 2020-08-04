@@ -46,6 +46,8 @@ jobs:
 
   - script: npm run build
     displayName: 'npm build'
+    env:
+      - CSC_IDENTITY_AUTO_DISCOVERY: false
 
   - task: CopyFiles@2
     inputs:
