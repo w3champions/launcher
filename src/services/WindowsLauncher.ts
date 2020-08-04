@@ -1,6 +1,6 @@
 import {LauncherStrategy} from "@/services/LauncherStrategy";
 
-const { exec, spawn } = window.require("child_process");
+const { exec, execSync, spawn } = window.require("child_process");
 const fs = window.require("fs");
 const { remote } = window.require("electron");
 
@@ -40,6 +40,18 @@ export class WindowsLauncher extends LauncherStrategy {
     }
 
     startWc3Process(bnetPath: string): void {
+        const runningProcesses = execSync("tasklist /FI \"STATUS eq RUNNING").toString();
+        const indexOf = runningProcesses.indexOf("Battle.net.exe");
+        if (indexOf === -1) {
+            console.log("starting bnet before w3c")
+            exec(`"${bnetPath}/Battle.net.exe"`)
+            setTimeout(() => this.spawnW3Process(bnetPath), 10000);
+        } else {
+            this.spawnW3Process(bnetPath);
+        }
+    }
+
+    private spawnW3Process(bnetPath: string) {
         const bnetPathWithExe = `${bnetPath}/Battle.net.exe`;
         const ls = spawn(bnetPathWithExe, ['--exec="launch W3"'], {
             detached: true,
