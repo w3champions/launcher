@@ -13,7 +13,8 @@ module.exports = {
           sign: false
         },
         win: {
-          sign: false
+          sign: false,
+          verifyUpdateCodeSignature: false,
         }
       }
     }
