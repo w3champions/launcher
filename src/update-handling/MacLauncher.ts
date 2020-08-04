@@ -1,4 +1,4 @@
-import {LauncherStrategy} from "@/services/LauncherStrategy";
+import {LauncherStrategy} from "@/update-handling/LauncherStrategy";
 const { exec } = window.require("child_process");
 const { remote } = window.require("electron");
 const fs = window.require("fs");

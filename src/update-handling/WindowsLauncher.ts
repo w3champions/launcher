@@ -1,4 +1,4 @@
-import {LauncherStrategy} from "@/services/LauncherStrategy";
+import {LauncherStrategy} from "@/update-handling/LauncherStrategy";
 
 const { exec, execSync, spawn } = window.require("child_process");
 const fs = window.require("fs");

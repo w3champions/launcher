@@ -42,12 +42,12 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from "vue-property-decorator";
-  import {MacLauncher} from "@/services/MacLauncher";
-  import {WindowsLauncher} from "@/services/WindowsLauncher";
-  import {BASE_NEWS_URL, BASE_UPDATE_URL} from "@/main";
+import {Component, Vue} from "vue-property-decorator";
+import {MacLauncher} from "@/update-handling/MacLauncher";
+import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
+import {BASE_NEWS_URL, BASE_UPDATE_URL} from "@/main";
 
-  const { remote } = window.require("electron");
+const { remote } = window.require("electron");
 const os = window.require('os');
 
 @Component
