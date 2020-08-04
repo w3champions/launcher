@@ -52,7 +52,7 @@ export default class W3CLauncher extends Vue {
   public messageContentHeader = "";
   public isLoading = false;
   public updatedLauncherVersion = this.launcherVersion;
-  private updateStrategy = this.isMac() ? new MacLauncher() : new WindowsLauncher();
+  private updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
 
   get battleNet(): string {
     return this.updateStrategy.bnetPath;
@@ -107,8 +107,8 @@ export default class W3CLauncher extends Vue {
     await this.updateStrategy.repairWc3();
   }
 
-  private isMac() {
-    return process.platform === "darwin";
+  private isWindows() {
+    return process.platform === "win32";
   }
 
   private async loadModt() {
