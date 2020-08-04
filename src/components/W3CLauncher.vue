@@ -42,12 +42,13 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
-import {MacLauncher} from "@/services/MacLauncher";
-import {WindowsLauncher} from "@/services/WindowsLauncher";
-import {BASE_NEWS_URL, BASE_UPDATE_URL} from "@/main";
+  import {Component, Vue} from "vue-property-decorator";
+  import {MacLauncher} from "@/services/MacLauncher";
+  import {WindowsLauncher} from "@/services/WindowsLauncher";
+  import {BASE_NEWS_URL, BASE_UPDATE_URL} from "@/main";
 
-const { remote } = window.require("electron");
+  const { remote } = window.require("electron");
+const os = window.require('os');
 
 @Component
 export default class W3CLauncher extends Vue {
@@ -55,7 +56,12 @@ export default class W3CLauncher extends Vue {
   public messageContentHeader = "";
   public isLoading = false;
   public updatedLauncherVersion = this.launcherVersion;
-  private updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
+  private updateStrategy!: any;
+
+  constructor() {
+    super();
+    this.updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
+  }
 
   public async resetBnetPath() {
     await this.updateStrategy.hardSetBnetPath();
@@ -123,7 +129,7 @@ export default class W3CLauncher extends Vue {
   }
 
   private isWindows() {
-    return process.platform === "win32";
+    return os.platform() === "win32";
   }
 
   private async loadModt() {
