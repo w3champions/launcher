@@ -11,6 +11,9 @@ module.exports = {
         },
         dmg: {
           sign: false
+        },
+        win: {
+          sign: false
         }
       }
     }
