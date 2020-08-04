@@ -13,14 +13,17 @@
       Updating W3C...
     </div>
     <div class="paths">
-      <div>
-        Warcraft III Location: {{w3Path}}
+      <div class="reset-button-line">
+        <div>Warcraft III Location: {{w3Path}}</div>
+        <button class="reset-button" @click="resetW3Path">Set Manually</button>
       </div>
-      <div>
-        Map Location: {{mapPath}}
+      <div class="reset-button-line">
+        <div>Map Location: {{mapPath}}</div>
+        <button class="reset-button" @click="resetMapPath">Set Manually</button>
       </div>
-      <div>
-        Battle.Net Location: {{battleNet}}
+      <div class="reset-button-line">
+        <div>Battle.Net Location: {{battleNet}}</div>
+        <button class="reset-button" @click="resetBnetPath">Set Manually</button>
       </div>
       <div>
         Warcraft 3 Champions Version: {{w3cVersion}}
@@ -53,6 +56,18 @@ export default class W3CLauncher extends Vue {
   public isLoading = false;
   public updatedLauncherVersion = this.launcherVersion;
   private updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
+
+  public async resetBnetPath() {
+    await this.updateStrategy.hardSetBnetPath();
+  }
+
+  public async resetMapPath() {
+    await this.updateStrategy.hardSetMapPath();
+  }
+
+  public async resetW3Path() {
+    await this.updateStrategy.hardSetW3cPath();
+  }
 
   get battleNet(): string {
     return this.updateStrategy.bnetPath;
@@ -138,6 +153,15 @@ export default class W3CLauncher extends Vue {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+}
+
+.reset-button-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.reset-button {
+  margin-left: 20px;
 }
 
 .isLoading {

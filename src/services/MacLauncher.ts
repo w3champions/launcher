@@ -13,7 +13,7 @@ export class MacLauncher extends LauncherStrategy {
     }
 
     getDefaultPathWc3(): string {
-        return "Applications/Warcraft III.app";
+        return "Applications/Warcraft III";
     }
 
     getDefaultPathMap(): string {

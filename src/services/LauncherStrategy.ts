@@ -136,14 +136,20 @@ export abstract class LauncherStrategy extends EventEmitter{
         const folderResult = await remote.dialog.showMessageBox(null, {
             title: title,
             message: message,
-            buttons: ["Locate Folder", "Cancel Update"],
+            buttons: ["Locate Folder", "Cancel"],
         });
+
         if (folderResult.response === 1) {
             return "";
         }
+
         const openDialogReturnValue = await remote.dialog.showOpenDialog({
-            properties: ["openDirectory"],
+            properties: ["openDirectory", "openFile"],
+            filters: [
+                { name: 'Applications', extensions: ['app'] },
+            ]
         });
+
         return openDialogReturnValue.filePaths[0];
     }
 
@@ -175,6 +181,76 @@ export abstract class LauncherStrategy extends EventEmitter{
             return;
         }
 
+        const w3path = await this.updateW3cPath();
+        if (!w3path) return;
+        const w3mapPath = await this.updateMapPath();
+        if (!w3mapPath) return;
+        const bnetPath = this.updateBnetPath();
+        if (!bnetPath) return;
+
+        await this.downloadAndWriteFile("maps", w3mapPath, (() => this.emit(this.mapFinished)));
+        await this.downloadAndWriteFile("webui", w3path, (() => this.emit(this.webUiFinished)));
+
+        this.currentVersion = newVersion;
+
+        this.turnOnLocalFiles();
+    }
+
+    public async updateBnetPath() {
+        const defaultBnetPath = this.getDefaultBnetPath();
+        console.log("default bnet: " + defaultBnetPath);
+        const bnetPath = await this.getFolderFromUserIfNeverStarted(
+            this.bnetPath,
+            defaultBnetPath,
+            "Battle.Net not found",
+            "Battle.Net folder not found, please locate it manually"
+        );
+
+        if (!bnetPath) {
+            return;
+        }
+
+        this.bnetPath = bnetPath;
+        return bnetPath;
+    }
+
+    public async hardSetBnetPath() {
+        await this.hardSetPath("Battle-Net", (s) => this.bnetPath = s);
+    }
+
+    public async hardSetW3cPath() {
+        await this.hardSetPath("Warcraft III", (s) => this.w3Path = s);
+    }
+
+    public async hardSetMapPath() {
+        await this.hardSetPath("Map", (s) => this.mapPath = s);
+    }
+
+    private async hardSetPath(locationName: string, set: (s: string) => void) {
+        const path = await this.openDialogForUserFolderSelction(`Select ${locationName} Folder`, `Please locate the ${locationName} Folder manually`);
+        if (!path) return;
+        set(path);
+    }
+
+    public async updateMapPath() {
+        const defaultMapPath = this.getDefaultPathMap();
+        console.log("default map path: " + defaultMapPath);
+        const w3mapPath = await this.getFolderFromUserIfNeverStarted(
+            this.mapPath,
+            defaultMapPath,
+            "Mapfolder not found",
+            "The mapfolder of Warcraft III was not found, please locate it manually"
+        );
+
+        if (!w3mapPath) {
+            return;
+        }
+
+        this.mapPath = w3mapPath;
+        return w3mapPath;
+    }
+
+    public async updateW3cPath() {
         const defaultPathWc3 = this.getDefaultPathWc3();
         console.log("default wc3 path: " + defaultPathWc3);
         let w3path = await this.getFolderFromUserIfNeverStarted(
@@ -187,39 +263,12 @@ export abstract class LauncherStrategy extends EventEmitter{
             w3path = `${w3path}/_retail_`;
         }
 
-        if (!w3path) return;
+        if (!w3path) {
+            return;
+        }
+
         this.w3Path = w3path;
-
-        const defaultMapPath = this.getDefaultPathMap();
-        console.log("default map path: " + defaultMapPath);
-        const w3mapPath = await this.getFolderFromUserIfNeverStarted(
-            this.mapPath,
-            defaultMapPath,
-            "Mapfolder not found",
-            "The mapfolder of Warcraft III was not found, please locate it manually"
-        );
-
-        if (!w3mapPath) return;
-        this.mapPath = w3mapPath;
-
-        const defaultBnetPath = this.getDefaultBnetPath();
-        console.log("default bnet: " + defaultBnetPath);
-        const bnetPath = await this.getFolderFromUserIfNeverStarted(
-            this.bnetPath,
-            defaultBnetPath,
-            "Battle.Net not found",
-            "Battle.Net folder not found, please locate it manually"
-        );
-
-        if (!bnetPath) return;
-        this.bnetPath = bnetPath;
-
-        await this.downloadAndWriteFile("maps", w3mapPath, (() => this.emit(this.mapFinished)));
-        await this.downloadAndWriteFile("webui", w3path, (() => this.emit(this.webUiFinished)));
-
-        this.currentVersion = newVersion;
-
-        this.turnOnLocalFiles();
+        return w3path;
     }
 
     private makeSureJoinBugFilesAreGone() {
