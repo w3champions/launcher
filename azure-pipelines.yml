@@ -10,12 +10,10 @@ jobs:
     inputs:
       versionSpec: '12.x'
     displayName: 'Install Node.js'
-  - task: DownloadSecureFile@1
-    inputs:
-      secureFile: 'w3c-certs-mac.p12'
 
   - script: npm install
     displayName: 'npm install'
+
   - script: npm run build
     displayName: 'npm build'
     env:
@@ -45,6 +43,7 @@ jobs:
 
   - script: npm install
     displayName: 'npm install'
+
   - script: npm run build
     displayName: 'npm build'
     env:
