@@ -31,6 +31,10 @@
       <div>
         Launcher Version: {{launcherVersion}}
       </div>
+      <div>
+        <button @click="switchToPtr">Switch to PTR</button>
+        <button @click="switchToProd">Switch to PROD</button>
+      </div>
     </div>
     <button @click="tryStartWc3" :disabled="isLoading" class="start-button">
       Start Warcraft 3 Champions!
@@ -45,12 +49,14 @@
 import {Component, Vue} from "vue-property-decorator";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
-import {BASE_NEWS_URL, BASE_UPDATE_URL} from "@/main";
+import {versionSwitcher} from "@/VersionSwitcher";
+import Button from "@/components/Button.vue";
 
 const { remote } = window.require("electron");
 const os = window.require('os');
-
-@Component
+@Component({
+  components: {Button}
+})
 export default class W3CLauncher extends Vue {
   public messageContent = "";
   public messageContentHeader = "";
@@ -61,6 +67,28 @@ export default class W3CLauncher extends Vue {
   constructor() {
     super();
     this.updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
+  }
+
+  public async switchToPtr() {
+    this.isLoading = true;
+
+    this.updateStrategy.once("LoadingFinished", () => {
+      console.log("ptr webui loaded")
+      this.isLoading = false;
+    })
+
+    await this.updateStrategy.switchToPtr();
+  }
+
+  public async switchToProd() {
+    this.isLoading = true;
+
+    this.updateStrategy.once("LoadingFinished", () => {
+      console.log("prod webui loaded")
+      this.isLoading = false;
+    })
+
+    await this.updateStrategy.switchToProd();
   }
 
   public async resetBnetPath() {
@@ -134,7 +162,7 @@ export default class W3CLauncher extends Vue {
 
   private async loadModt() {
     const version = await (
-      await fetch(`${BASE_NEWS_URL}api/admin/news`)
+      await fetch(`${versionSwitcher.NewsUrl}api/admin/news`)
     ).json();
     this.messageContent = version[0].message;
     this.messageContentHeader = version[0].date;
@@ -142,7 +170,7 @@ export default class W3CLauncher extends Vue {
 
   private async loadLauncherVersion() {
     const version = await (
-            await fetch(`${BASE_UPDATE_URL}api/launcher-version`)
+            await fetch(`${versionSwitcher.UpdateUrl}api/launcher-version`)
     ).json();
 
     this.updatedLauncherVersion = version.version;

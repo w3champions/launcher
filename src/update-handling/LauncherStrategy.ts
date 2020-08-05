@@ -1,5 +1,5 @@
 import {EventEmitter} from "events";
-import {BASE_UPDATE_URL} from "@/main";
+import {versionSwitcher} from "@/VersionSwitcher";
 
 const Store = window.require("electron-store");
 const { remote } = window.require("electron");
@@ -93,7 +93,7 @@ export abstract class LauncherStrategy extends EventEmitter{
     private async needsUpdate() {
         const currentVersion = this.currentVersion;
         const version = await (
-            await fetch(`${BASE_UPDATE_URL}api/client-version`)
+            await fetch(`${versionSwitcher.UpdateUrl}api/client-version`)
         ).json();
         if (version.version === currentVersion) {
             return null;
@@ -153,15 +153,24 @@ export abstract class LauncherStrategy extends EventEmitter{
         return openDialogReturnValue.filePaths[0];
     }
 
+    public async switchToPtr() {
+        versionSwitcher.switchToTest();
+        await this.downloadAndWriteFile("webui", this.w3Path, (() => this.emit(this.webUiFinished)), true);
+    }
 
-    private async downloadAndWriteFile(fileName: string, to: string, onFinish: () => void) {
+    public async switchToProd() {
+        versionSwitcher.switchToProd();
+        await this.downloadAndWriteFile("webui", this.w3Path, (() => this.emit(this.webUiFinished)));
+    }
+
+    private async downloadAndWriteFile(fileName: string, to: string, onFinish: () => void, isTest: boolean = false) {
         const tempFile = `${remote.app.getPath("downloads")}/temp_${fileName}.zip`;
         if (fs.existsSync(tempFile)) {
             fs.unlinkSync(tempFile);
         }
 
         const file = fs.createWriteStream(tempFile);
-        https.get(`${BASE_UPDATE_URL}api/${fileName}`, function(response: any) {
+        https.get(`${versionSwitcher.UpdateUrl}api/${fileName}?ptr=${isTest}`, function(response: any) {
             response.pipe(file).on("finish", async function() {
                 file.close();
                 const zip = new AdmZip(tempFile);
