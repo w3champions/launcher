@@ -6,8 +6,8 @@
       There is a new version of the launcher ({{ onlineLauncherVersion }}), please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
     </div>
     <div class="modt">
-      <h3>{{ messages[0] ? messages[0].date : "" }}</h3>
-      <div v-html='messages[0] ? messages[0].message : ""'></div>
+      <h3>{{ news[0] ? news[0].date : "" }}</h3>
+      <div v-html='news[0] ? news[0].message : ""'></div>
     </div>
     <div class="isLoading" :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
       Updating W3C...
@@ -43,7 +43,10 @@
       Start Warcraft 3 Champions!
     </button>
     <button @click="repairW3c" :disabled="isLoading" class="repair-button">
-      Repair Warcraft 3 Champions
+      Reset
+    </button>
+    <button @click="redownloadW3c" :disabled="isLoading" class="repair-button">
+      Redownload
     </button>
 
   </div>
@@ -87,6 +90,10 @@ export default class W3CLauncher extends Vue {
     await this.updateStrategy.hardSetW3cPath();
   }
 
+  public async redownloadW3c() {
+    await this.updateStrategy.redownloadW3c();
+  }
+
   get isTest() {
     return this.$store.direct.state.isTest;
   }
@@ -111,7 +118,7 @@ export default class W3CLauncher extends Vue {
     return this.$store.direct.state.updateHandling.w3Path;
   }
 
-  get messages() {
+  get news() {
     return this.$store.direct.state.news;
   }
 
@@ -125,6 +132,7 @@ export default class W3CLauncher extends Vue {
   }
 
   async mounted() {
+    this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.updateHandling.loadAllPaths();
     await this.$store.direct.dispatch.loadNews();
     await this.$store.direct.dispatch.updateHandling.loadOnlineLauncherVersion();

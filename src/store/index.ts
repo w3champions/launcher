@@ -40,14 +40,16 @@ const mod = {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       rootGetters.versionService.switchToMode(mode);
+
       commit.SET_IS_TEST(mode);
       commit.SET_UPDATE_URL(mode ? UPDATE_URL_TEST : UPDATE_URL_PROD);
       commit.SET_NEWS_URL(mode ? NEWS_URL_TEST : NEWS_URL_PROD);
     },
-    loadTestMode(context: ActionContext<UpdateHandlingState, RootState>) {
+    loadIsTestMode(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       const mode = rootGetters.versionService.loadMode();
+
       commit.SET_IS_TEST(mode);
       commit.SET_UPDATE_URL(mode ? UPDATE_URL_TEST : UPDATE_URL_PROD);
       commit.SET_NEWS_URL(mode ? NEWS_URL_TEST : NEWS_URL_PROD);

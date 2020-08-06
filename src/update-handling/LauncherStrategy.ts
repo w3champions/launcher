@@ -45,7 +45,7 @@ export abstract class LauncherStrategy{
     }
 
     get needsW3cUpdate() {
-        return this.localW3cVersion === this.onlineW3cVersion;
+        return this.localW3cVersion !== this.onlineW3cVersion;
     }
 
     public async repairWc3() {
@@ -179,6 +179,12 @@ export abstract class LauncherStrategy{
 
     public async hardSetW3cPath() {
         await this.hardSetPath("Warcraft III", this.store.commit.updateHandling.SET_W3_PATH);
+    }
+
+    public async redownloadW3c() {
+        this.store.commit.updateHandling.START_DLS();
+        await this.downloadAndWriteFile("maps", this.mapsPath, this.store.commit.updateHandling.FINISH_MAPS_DL);
+        await this.downloadAndWriteFile("webui", this.w3Path, this.store.commit.updateHandling.FINISH_WEBUI_DL);
     }
 
     public async hardSetMapPath() {
