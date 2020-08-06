@@ -10,6 +10,7 @@ const mod = {
   state: {
     bnetPath: "",
     w3Path: "",
+    mapsPath: "",
     localW3cVersion: "",
     onlineW3cVersion: "",
     onlineLauncherVersion: "",
