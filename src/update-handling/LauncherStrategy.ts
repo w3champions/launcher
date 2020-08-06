@@ -59,7 +59,8 @@ export abstract class LauncherStrategy{
     }
 
     public async repairWc3() {
-        this.store.commit.updateHandling.SET_LOADING();
+        this.store.commit.updateHandling.START_MAPS_DL();
+        this.store.commit.updateHandling.START_WEBUI_DL();
         this.store.commit.updateHandling.RESET_PATHS();
         await this.updateIfNeeded();
     }
@@ -153,8 +154,8 @@ export abstract class LauncherStrategy{
         const bnetPath = this.updateBnetPath();
         if (!bnetPath) return;
 
-        await this.downloadAndWriteFile("maps", w3mapPath, this.store.commit.updateHandling.FINISH_MAP_DL());
-        await this.downloadAndWriteFile("webui", w3path, this.store.commit.updateHandling.FINISH_WEBUI_DL());
+        await this.downloadAndWriteFile("maps", w3mapPath, this.store.commit.updateHandling.FINISH_MAPS_DL);
+        await this.downloadAndWriteFile("webui", w3path, this.store.commit.updateHandling.FINISH_WEBUI_DL);
 
         this.store.commit.updateHandling.SET_W3C_VERSION(newVersion);
 
@@ -211,7 +212,6 @@ export abstract class LauncherStrategy{
         if (!w3mapPath) {
             return;
         }
-
 
         this.store.commit.updateHandling.SET_MAPS_PATH(w3mapPath)
 

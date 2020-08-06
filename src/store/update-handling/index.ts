@@ -98,10 +98,10 @@ const mod = {
     FINISH_WEBUI_DL(state: UpdateHandlingState) {
       state.isUpdatingWebUI = false;
     },
-    START_MAP_DL(state: UpdateHandlingState) {
+    START_MAPS_DL(state: UpdateHandlingState) {
       state.isUpdatingMaps = true;
     },
-    FINISH_MAP_DL(state: UpdateHandlingState) {
+    FINISH_MAPS_DL(state: UpdateHandlingState) {
       state.isUpdatingMaps = false;
     }
   },
