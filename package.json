@@ -1,6 +1,6 @@
 {
   "name": "w3champions-launcher",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "description": "Always stay up to date with this Launcher for the community Ladder Warcraft 3 Champions.",
   "author": "simonheiss87@gmail.com",
@@ -14,6 +14,7 @@
   "main": "background.js",
   "dependencies": {
     "adm-zip": "^0.4.16",
+    "arraybuffer-to-buffer": "0.0.7",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "direct-vuex": "^0.12.0",

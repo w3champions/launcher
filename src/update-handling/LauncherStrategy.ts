@@ -123,12 +123,14 @@ export abstract class LauncherStrategy{
     }
 
     private async downloadAndWriteFile(fileName: string, to: string) {
+        const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
         const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
         const body = await axios.get(url, {
             responseType: 'arraybuffer'
         });
 
-        const zip = new AdmZip(body.data);
+        const buffer = arrayBufferToBuffer(body.data);
+        const zip = new AdmZip(buffer);
         zip.extractAllTo(to, true);
     }
 
