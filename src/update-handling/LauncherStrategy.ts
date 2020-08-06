@@ -1,20 +1,12 @@
-import {EventEmitter} from "events";
-import {versionSwitcher} from "@/VersionSwitcher";
+import store from '../store/index'
 
-const Store = window.require("electron-store");
 const { remote } = window.require("electron");
-const https = window.require("https");
+const axios = window.require("axios");
 const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 
-export abstract class LauncherStrategy extends EventEmitter{
-    private store = new Store();
-    private _isLoadingMaps = false;
-    private _isLoadingUi = false;
-
-    private mapFinished = "MapFinished";
-    private webUiFinished = "WebUiFinished";
-    private loadingFinished = "LoadingFinished";
+export abstract class LauncherStrategy{
+    private store = store;
 
     abstract getDefaultPathMap(): string;
     abstract getDefaultPathWc3(): string;
@@ -22,67 +14,9 @@ export abstract class LauncherStrategy extends EventEmitter{
     abstract turnOnLocalFiles(): void;
     abstract startWc3Process(bnetPath: string): void;
 
-    constructor() {
-        super();
-        this.on(this.webUiFinished, () => {
-            console.log("webui finished")
-            this._isLoadingUi = false;
-            if (!this._isLoadingMaps) {
-                console.log("files updated after webui")
-                this.emit(this.loadingFinished)
-            }
-        })
-        this.on(this.mapFinished, () => {
-            console.log("maps finished")
-            this._isLoadingMaps = false;
-            if (!this._isLoadingUi) {
-                console.log("files updated after map")
-                this.emit(this.loadingFinished)
-            }
-        })
-    }
-
-    setLoading() {
-        this._isLoadingUi = true;
-        this._isLoadingMaps = true;
-    }
-
     unsetLoading() {
-        this._isLoadingUi = false;
-        this._isLoadingMaps = false;
-        this.emit(this.loadingFinished);
-    }
-
-    get mapPath(): string {
-        return this.store.get("wc3MapKey")
-    }
-
-    set mapPath(value: string) {
-        this.store.set("wc3MapKey", value);
-    }
-
-    get bnetPath(): string {
-        return this.store.get("bnetKey")
-    }
-
-    set bnetPath(value: string) {
-        this.store.set("bnetKey", value);
-    }
-
-    get currentVersion(): string {
-        return this.store.get("currentVersionKey")
-    }
-
-    set currentVersion(value: string) {
-        this.store.set("currentVersionKey", value);
-    }
-
-    get w3Path(): string {
-        return this.store.get("wc3PathKey");
-    }
-
-    set w3Path(value: string) {
-        this.store.set("wc3PathKey", value);
+        this.store.commit.updateHandling.FINISH_WEBUI_DL();
+        this.store.commit.updateHandling.FINISH_MAPS_DL();
     }
 
     public startWc3() {
@@ -90,23 +24,33 @@ export abstract class LauncherStrategy extends EventEmitter{
         this.startWc3Process(this.bnetPath);
     }
 
-    private async needsUpdate() {
-        const currentVersion = this.currentVersion;
-        const version = await (
-            await fetch(`${versionSwitcher.UpdateUrl}api/client-version`)
-        ).json();
-        if (version.version === currentVersion) {
-            return null;
-        }
+    get bnetPath() {
+        return this.store.state.updateHandling.bnetPath;
+    }
 
-        return version.version;
+    get w3Path() {
+        return this.store.state.updateHandling.w3Path;
+    }
+
+    get localW3cVersion() {
+        return this.store.state.updateHandling.localW3cVersion;
+    }
+
+    get mapsPath() {
+        return this.store.state.updateHandling.mapsPath;
+    }
+
+    get onlineW3cVersion() {
+        return this.store.state.updateHandling.onlineW3cVersion;
+    }
+
+    get needsW3cUpdate() {
+        return this.localW3cVersion !== this.onlineW3cVersion;
     }
 
     public async repairWc3() {
-        this.w3Path = "";
-        this.mapPath = "";
-        this.bnetPath = "";
-        this.currentVersion = "";
+        this.store.commit.updateHandling.START_DLS();
+        this.store.dispatch.updateHandling.resetPaths();
         await this.updateIfNeeded();
     }
 
@@ -154,37 +98,43 @@ export abstract class LauncherStrategy extends EventEmitter{
     }
 
     public async switchToPtr() {
-        versionSwitcher.switchToTest();
-        await this.downloadAndWriteFile("webui", this.w3Path, (() => this.emit(this.webUiFinished)), true);
+        await this.store.dispatch.setTestMode(true);
+        await this.downloadMapsAndUi();
     }
 
     public async switchToProd() {
-        versionSwitcher.switchToProd();
-        await this.downloadAndWriteFile("webui", this.w3Path, (() => this.emit(this.webUiFinished)));
+        await this.store.dispatch.setTestMode(false);
+        await this.downloadMapsAndUi();
     }
 
-    private async downloadAndWriteFile(fileName: string, to: string, onFinish: () => void, isTest: boolean = false) {
-        const tempFile = `${remote.app.getPath("downloads")}/temp_${fileName}.zip`;
-        if (fs.existsSync(tempFile)) {
-            fs.unlinkSync(tempFile);
-        }
+    private async downloadMapsAndUi() {
+        this.store.commit.updateHandling.START_DLS();
+        await this.downloadAndWriteFile("webui", this.w3Path);
+        await this.downloadAndWriteFile("maps", this.mapsPath);
+        this.store.commit.updateHandling.FINISH_DLS();
+    }
 
-        const file = fs.createWriteStream(tempFile);
-        https.get(`${versionSwitcher.UpdateUrl}api/${fileName}?ptr=${isTest}`, function(response: any) {
-            response.pipe(file).on("finish", async function() {
-                file.close();
-                const zip = new AdmZip(tempFile);
-                zip.extractAllTo(to, true);
-                fs.unlinkSync(tempFile);
-                onFinish();
-            });
+    get updateUrl() {
+        return this.store.state.updateUrl;
+    }
+
+    get isTest() {
+        return this.store.state.isTest;
+    }
+
+    private async downloadAndWriteFile(fileName: string, to: string) {
+        const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
+        const body = await axios.get(url, {
+            responseType: 'arraybuffer'
         });
+
+        const zip = new AdmZip(body);
+        zip.extractAllTo(to, true);
     }
 
     public async updateIfNeeded() {
-        this.setLoading();
-        const newVersion = await this.needsUpdate();
-        if (!newVersion) {
+        this.store.commit.updateHandling.START_DLS();
+        if (!this.needsW3cUpdate) {
             console.log("no need for update")
             this.unsetLoading();
             return;
@@ -197,10 +147,12 @@ export abstract class LauncherStrategy extends EventEmitter{
         const bnetPath = this.updateBnetPath();
         if (!bnetPath) return;
 
-        await this.downloadAndWriteFile("maps", w3mapPath, (() => this.emit(this.mapFinished)));
-        await this.downloadAndWriteFile("webui", w3path, (() => this.emit(this.webUiFinished)));
+        await this.downloadAndWriteFile("maps", w3mapPath);
+        this.store.commit.updateHandling.FINISH_MAPS_DL();
+        await this.downloadAndWriteFile("webui", w3path);
+        this.store.commit.updateHandling.FINISH_WEBUI_DL();
 
-        this.currentVersion = newVersion;
+        this.store.dispatch.updateHandling.saveLocalW3CVersion(this.onlineW3cVersion);
 
         this.turnOnLocalFiles();
     }
@@ -219,20 +171,29 @@ export abstract class LauncherStrategy extends EventEmitter{
             return;
         }
 
-        this.bnetPath = bnetPath;
+        this.store.dispatch.updateHandling.saveBnetPath(bnetPath)
+
         return bnetPath;
     }
 
     public async hardSetBnetPath() {
-        await this.hardSetPath("Battle-Net", (s) => this.bnetPath = s);
+        await this.hardSetPath("Battle-Net", this.store.commit.updateHandling.SET_BNET_PATH);
     }
 
     public async hardSetW3cPath() {
-        await this.hardSetPath("Warcraft III", (s) => this.w3Path = s);
+        await this.hardSetPath("Warcraft III", this.store.commit.updateHandling.SET_W3_PATH);
+    }
+
+    public async redownloadW3c() {
+        this.store.commit.updateHandling.START_DLS();
+        await this.downloadAndWriteFile("maps", this.mapsPath);
+        await this.downloadAndWriteFile("webui", this.w3Path);
+        this.store.commit.updateHandling.FINISH_WEBUI_DL();
+        this.store.commit.updateHandling.FINISH_MAPS_DL();
     }
 
     public async hardSetMapPath() {
-        await this.hardSetPath("Map", (s) => this.mapPath = s);
+        await this.hardSetPath("Map", this.store.commit.updateHandling.SET_MAPS_PATH);
     }
 
     private async hardSetPath(locationName: string, set: (s: string) => void) {
@@ -245,7 +206,7 @@ export abstract class LauncherStrategy extends EventEmitter{
         const defaultMapPath = this.getDefaultPathMap();
         console.log("default map path: " + defaultMapPath);
         const w3mapPath = await this.getFolderFromUserIfNeverStarted(
-            this.mapPath,
+            this.mapsPath,
             defaultMapPath,
             "Mapfolder not found",
             "The mapfolder of Warcraft III was not found, please locate it manually"
@@ -255,7 +216,8 @@ export abstract class LauncherStrategy extends EventEmitter{
             return;
         }
 
-        this.mapPath = w3mapPath;
+        this.store.dispatch.updateHandling.saveMapPath(w3mapPath)
+
         return w3mapPath;
     }
 
@@ -276,7 +238,8 @@ export abstract class LauncherStrategy extends EventEmitter{
             return;
         }
 
-        this.w3Path = w3path;
+        this.store.dispatch.updateHandling.saveW3Path(w3path)
+
         return w3path;
     }
 
