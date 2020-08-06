@@ -1,5 +1,4 @@
-import {versionSwitcher} from "@/VersionSwitcher";
-import st from '../store/index'
+import store from '../store/index'
 
 const { remote } = window.require("electron");
 const https = window.require("https");
@@ -7,7 +6,7 @@ const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 
 export abstract class LauncherStrategy{
-    private store = st;
+    private store = store;
 
     abstract getDefaultPathMap(): string;
     abstract getDefaultPathWc3(): string;
@@ -100,7 +99,6 @@ export abstract class LauncherStrategy{
 
     public async switchToPtr() {
         this.store.commit.updateHandling.START_WEBUI_DL();
-        versionSwitcher.switchToTest();
         await this.downloadAndWriteFile("webui", this.w3Path, (() => {
             this.store.commit.updateHandling.FINISH_WEBUI_DL();
             this.store.dispatch.setTestMode(true);
@@ -109,7 +107,6 @@ export abstract class LauncherStrategy{
 
     public async switchToProd() {
         this.store.commit.updateHandling.START_WEBUI_DL();
-        versionSwitcher.switchToProd();
         await this.downloadAndWriteFile("webui", this.w3Path, (() => {
             this.store.commit.updateHandling.FINISH_WEBUI_DL();
             this.store.dispatch.setTestMode(false);
@@ -123,7 +120,7 @@ export abstract class LauncherStrategy{
         }
 
         const file = fs.createWriteStream(tempFile);
-        https.get(`${versionSwitcher.UpdateUrl}api/${fileName}?ptr=${isTest}`, function(response: any) {
+        https.get(`${this.store.state.updateUrl}api/${fileName}?ptr=${isTest}`, function(response: any) {
             response.pipe(file).on("finish", async function() {
                 file.close();
                 const zip = new AdmZip(tempFile);

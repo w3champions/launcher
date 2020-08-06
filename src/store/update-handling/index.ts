@@ -2,7 +2,6 @@ import {moduleActionContext} from "..";
 import {ActionContext} from "vuex";
 import {RootState} from "@/store/typings";
 import {UpdateHandlingState} from "@/store/update-handling/types";
-import {versionSwitcher} from "@/VersionSwitcher";
 
 const { remote } = window.require("electron");
 
@@ -20,10 +19,10 @@ const mod = {
   } as UpdateHandlingState,
   actions: {
     async loadOnlineLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit } = moduleActionContext(context, mod);
+      const { commit, rootState } = moduleActionContext(context, mod);
 
       const version = await (
-          await fetch(`${versionSwitcher.UpdateUrl}api/launcher-version`)
+          await fetch(`${rootState.updateUrl}api/launcher-version`)
       ).json();
 
       commit.SET_ONLINE_LAUNCHER_VERSION(version.version);
@@ -67,10 +66,10 @@ const mod = {
       commit.SET_CURRENT_LAUNCHER_VERSION(remote.app.getVersion());
     },
     async loadOnlineW3CVersion(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit } = moduleActionContext(context, mod);
+      const { commit, rootState } = moduleActionContext(context, mod);
 
       const version = await (
-          await fetch(`${versionSwitcher.UpdateUrl}api/client-version`)
+          await fetch(`${rootState.updateUrl}api/client-version`)
       ).json();
 
       commit.SET_ONLINE_W3C_VERSION(version.version);

@@ -1,5 +1,7 @@
 export interface RootState {
     isTest: boolean,
+    newsUrl: string,
+    updateUrl: string,
     news: News[]
 }
 
