@@ -15,11 +15,6 @@ export abstract class LauncherStrategy{
     abstract turnOnLocalFiles(): void;
     abstract startWc3Process(bnetPath: string): void;
 
-    setLoading() {
-        this.store.commit.updateHandling.START_WEBUI_DL();
-        this.store.commit.updateHandling.START_MAPS_DL();
-    }
-
     unsetLoading() {
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
         this.store.commit.updateHandling.FINISH_MAPS_DL();
@@ -50,13 +45,12 @@ export abstract class LauncherStrategy{
         return this.store.state.updateHandling.onlineW3cVersion;
     }
 
-    private async needsUpdate() {
+    get needsW3cUpdate() {
         return this.localW3cVersion === this.onlineW3cVersion;
     }
 
     public async repairWc3() {
-        this.store.commit.updateHandling.START_MAPS_DL();
-        this.store.commit.updateHandling.START_WEBUI_DL();
+        this.store.commit.updateHandling.START_DLS();
         this.store.commit.updateHandling.RESET_PATHS();
         await this.updateIfNeeded();
     }
@@ -135,9 +129,8 @@ export abstract class LauncherStrategy{
     }
 
     public async updateIfNeeded() {
-        this.setLoading();
-        const newVersion = await this.needsUpdate();
-        if (!newVersion) {
+        this.store.commit.updateHandling.START_DLS();
+        if (!this.needsW3cUpdate) {
             console.log("no need for update")
             this.unsetLoading();
             return;
@@ -153,7 +146,7 @@ export abstract class LauncherStrategy{
         await this.downloadAndWriteFile("maps", w3mapPath, this.store.commit.updateHandling.FINISH_MAPS_DL);
         await this.downloadAndWriteFile("webui", w3path, this.store.commit.updateHandling.FINISH_WEBUI_DL);
 
-        this.store.commit.updateHandling.SET_W3C_VERSION(newVersion);
+        this.store.commit.updateHandling.SET_W3C_VERSION(this.onlineW3cVersion);
 
         this.turnOnLocalFiles();
     }
