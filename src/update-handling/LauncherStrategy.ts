@@ -128,7 +128,7 @@ export abstract class LauncherStrategy{
             responseType: 'arraybuffer'
         });
 
-        const zip = new AdmZip(body);
+        const zip = new AdmZip(body.data);
         zip.extractAllTo(to, true);
     }
 
