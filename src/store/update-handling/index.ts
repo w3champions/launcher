@@ -1,7 +1,7 @@
 import {moduleActionContext} from "..";
 import {ActionContext} from "vuex";
 import {RootState} from "@/store/typings";
-import {News, UpdateHandlingState} from "@/store/update-handling/types";
+import {UpdateHandlingState} from "@/store/update-handling/types";
 import {versionSwitcher} from "@/VersionSwitcher";
 
 const { remote } = window.require("electron");
@@ -15,20 +15,10 @@ const mod = {
     onlineW3cVersion: "",
     onlineLauncherVersion: "",
     localLauncherVersion: "",
-    news: [] as News[],
     isUpdatingMaps: false,
     isUpdatingWebUI: false,
   } as UpdateHandlingState,
   actions: {
-    async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit } = moduleActionContext(context, mod);
-
-      const news = await (
-          await fetch(`${versionSwitcher.NewsUrl}api/admin/news`)
-      ).json();
-
-      commit.SET_NEWS(news);
-    },
     async loadOnlineLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit } = moduleActionContext(context, mod);
 
@@ -92,9 +82,6 @@ const mod = {
     },
     SET_ONLINE_W3C_VERSION(state: UpdateHandlingState, version: string) {
       state.onlineW3cVersion = version;
-    },
-    SET_NEWS(state: UpdateHandlingState, news: News[]) {
-      state.news = news;
     },
     START_WEBUI_DL(state: UpdateHandlingState) {
       state.isUpdatingWebUI = true;

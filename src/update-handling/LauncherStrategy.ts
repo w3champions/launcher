@@ -101,13 +101,19 @@ export abstract class LauncherStrategy{
     public async switchToPtr() {
         this.store.commit.updateHandling.START_WEBUI_DL();
         versionSwitcher.switchToTest();
-        await this.downloadAndWriteFile("webui", this.w3Path, (() => this.store.commit.updateHandling.FINISH_WEBUI_DL()), true);
+        await this.downloadAndWriteFile("webui", this.w3Path, (() => {
+            this.store.commit.updateHandling.FINISH_WEBUI_DL();
+            this.store.commit.SET_IS_TEST(true);
+        }), true);
     }
 
     public async switchToProd() {
         this.store.commit.updateHandling.START_WEBUI_DL();
         versionSwitcher.switchToProd();
-        await this.downloadAndWriteFile("webui", this.w3Path, (() => this.store.commit.updateHandling.FINISH_WEBUI_DL()));
+        await this.downloadAndWriteFile("webui", this.w3Path, (() => {
+            this.store.commit.updateHandling.FINISH_WEBUI_DL();
+            this.store.commit.SET_IS_TEST(false);
+        }));
     }
 
     private async downloadAndWriteFile(fileName: string, to: string, onFinish: () => void, isTest: boolean = false) {

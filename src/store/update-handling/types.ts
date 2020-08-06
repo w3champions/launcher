@@ -7,12 +7,6 @@ export interface UpdateHandlingState {
   onlineLauncherVersion: string,
   onlineW3cVersion: string,
   localLauncherVersion: string,
-  news: News[],
   isUpdatingWebUI: boolean,
   isUpdatingMaps: boolean,
-}
-
-export interface News {
-  date: string,
-  message: string,
 }

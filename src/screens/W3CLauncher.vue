@@ -34,6 +34,9 @@
       <div>
         <button @click="switchToPtr">Switch to PTR</button>
         <button @click="switchToProd">Switch to PROD</button>
+        <div style="display: inline">
+          {{ isTest ? "PTR loaded" : "PROD" }}
+        </div>
       </div>
     </div>
     <button @click="tryStartWc3" :disabled="isLoading" class="start-button">
@@ -42,6 +45,7 @@
     <button @click="repairW3c" :disabled="isLoading" class="repair-button">
       Repair Warcraft 3 Champions
     </button>
+
   </div>
 </template>
 
@@ -83,6 +87,10 @@ export default class W3CLauncher extends Vue {
     await this.updateStrategy.hardSetW3cPath();
   }
 
+  get isTest() {
+    return this.$store.direct.state.isTest;
+  }
+
   get battleNet(): string {
     return this.$store.direct.state.updateHandling.bnetPath;
   }
@@ -104,7 +112,7 @@ export default class W3CLauncher extends Vue {
   }
 
   get messages() {
-    return this.$store.direct.state.updateHandling.news;
+    return this.$store.direct.state.news;
   }
 
   public async tryStartWc3() {
@@ -118,7 +126,7 @@ export default class W3CLauncher extends Vue {
 
   async mounted() {
     this.$store.direct.dispatch.updateHandling.loadAllPaths();
-    await this.$store.direct.dispatch.updateHandling.loadNews();
+    await this.$store.direct.dispatch.loadNews();
     await this.$store.direct.dispatch.updateHandling.loadOnlineLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
