@@ -98,25 +98,32 @@ export abstract class LauncherStrategy{
     }
 
     public async switchToPtr() {
-        this.store.commit.updateHandling.START_WEBUI_DL();
-        await this.downloadAndWriteFile("webui", this.w3Path, true);
-        this.store.dispatch.setTestMode(true);
-        this.store.commit.updateHandling.FINISH_WEBUI_DL();
+        await this.store.dispatch.setTestMode(true);
+        await this.downloadMapsAndUi();
     }
 
     public async switchToProd() {
-        this.store.commit.updateHandling.START_WEBUI_DL();
+        await this.store.dispatch.setTestMode(false);
+        await this.downloadMapsAndUi();
+    }
+
+    private async downloadMapsAndUi() {
+        this.store.commit.updateHandling.START_DLS();
         await this.downloadAndWriteFile("webui", this.w3Path);
-        this.store.dispatch.setTestMode(false);
-        this.store.commit.updateHandling.FINISH_WEBUI_DL();
+        await this.downloadAndWriteFile("maps", this.mapsPath);
+        this.store.commit.updateHandling.FINISH_DLS();
     }
 
     get updateUrl() {
         return this.store.state.updateUrl;
     }
 
-    private async downloadAndWriteFile(fileName: string, to: string, isTest: boolean = false) {
-        const url = `${this.updateUrl}api/${fileName}?ptr=${isTest}`;
+    get isTest() {
+        return this.store.state.isTest;
+    }
+
+    private async downloadAndWriteFile(fileName: string, to: string) {
+        const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
         const body = await axios.get(url, {
             responseType: 'arraybuffer'
         });

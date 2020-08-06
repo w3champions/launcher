@@ -128,6 +128,10 @@ const mod = {
       state.isUpdatingMaps = true;
       state.isUpdatingWebUI = true;
     },
+    FINISH_DLS(state: UpdateHandlingState) {
+      state.isUpdatingMaps = false;
+      state.isUpdatingWebUI = false;
+    },
     FINISH_MAPS_DL(state: UpdateHandlingState) {
       state.isUpdatingMaps = false;
     }
