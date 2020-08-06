@@ -1,4 +1,3 @@
-import {EventEmitter} from "events";
 import {versionSwitcher} from "@/VersionSwitcher";
 import st from '../store/index'
 
@@ -7,14 +6,8 @@ const https = window.require("https");
 const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 
-export abstract class LauncherStrategy extends EventEmitter{
-    private _isLoadingMaps = false;
-    private _isLoadingUi = false;
+export abstract class LauncherStrategy{
     private store = st;
-
-    private mapFinished = "MapFinished";
-    private webUiFinished = "WebUiFinished";
-    private loadingFinished = "LoadingFinished";
 
     abstract getDefaultPathMap(): string;
     abstract getDefaultPathWc3(): string;
@@ -22,35 +15,14 @@ export abstract class LauncherStrategy extends EventEmitter{
     abstract turnOnLocalFiles(): void;
     abstract startWc3Process(bnetPath: string): void;
 
-    constructor() {
-        super();
-        this.on(this.webUiFinished, () => {
-            console.log("webui finished")
-            this._isLoadingUi = false;
-            if (!this._isLoadingMaps) {
-                console.log("files updated after webui")
-                this.emit(this.loadingFinished)
-            }
-        })
-        this.on(this.mapFinished, () => {
-            console.log("maps finished")
-            this._isLoadingMaps = false;
-            if (!this._isLoadingUi) {
-                console.log("files updated after map")
-                this.emit(this.loadingFinished)
-            }
-        })
-    }
-
     setLoading() {
-        this._isLoadingUi = true;
-        this._isLoadingMaps = true;
+        this.store.commit.updateHandling.START_WEBUI_DL();
+        this.store.commit.updateHandling.START_MAPS_DL();
     }
 
     unsetLoading() {
-        this._isLoadingUi = false;
-        this._isLoadingMaps = false;
-        this.emit(this.loadingFinished);
+        this.store.commit.updateHandling.FINISH_WEBUI_DL();
+        this.store.commit.updateHandling.FINISH_MAPS_DL();
     }
 
     public startWc3() {
@@ -87,6 +59,7 @@ export abstract class LauncherStrategy extends EventEmitter{
     }
 
     public async repairWc3() {
+        this.store.commit.updateHandling.SET_LOADING();
         this.store.commit.updateHandling.RESET_PATHS();
         await this.updateIfNeeded();
     }
@@ -135,13 +108,15 @@ export abstract class LauncherStrategy extends EventEmitter{
     }
 
     public async switchToPtr() {
+        this.store.commit.updateHandling.START_WEBUI_DL();
         versionSwitcher.switchToTest();
-        await this.downloadAndWriteFile("webui", this.w3Path, (() => this.emit(this.webUiFinished)), true);
+        await this.downloadAndWriteFile("webui", this.w3Path, (() => this.store.commit.updateHandling.FINISH_WEBUI_DL()), true);
     }
 
     public async switchToProd() {
+        this.store.commit.updateHandling.START_WEBUI_DL();
         versionSwitcher.switchToProd();
-        await this.downloadAndWriteFile("webui", this.w3Path, (() => this.emit(this.webUiFinished)));
+        await this.downloadAndWriteFile("webui", this.w3Path, (() => this.store.commit.updateHandling.FINISH_WEBUI_DL()));
     }
 
     private async downloadAndWriteFile(fileName: string, to: string, onFinish: () => void, isTest: boolean = false) {
@@ -178,8 +153,8 @@ export abstract class LauncherStrategy extends EventEmitter{
         const bnetPath = this.updateBnetPath();
         if (!bnetPath) return;
 
-        await this.downloadAndWriteFile("maps", w3mapPath, (() => this.emit(this.mapFinished)));
-        await this.downloadAndWriteFile("webui", w3path, (() => this.emit(this.webUiFinished)));
+        await this.downloadAndWriteFile("maps", w3mapPath, this.store.commit.updateHandling.FINISH_MAP_DL());
+        await this.downloadAndWriteFile("webui", w3path, this.store.commit.updateHandling.FINISH_WEBUI_DL());
 
         this.store.commit.updateHandling.SET_W3C_VERSION(newVersion);
 

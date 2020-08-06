@@ -1,4 +1,4 @@
-export type UpdateHandlingState = {
+export interface UpdateHandlingState {
   isUpdating: boolean,
   bnetPath: string,
   w3Path: string,
@@ -8,4 +8,12 @@ export type UpdateHandlingState = {
   onlineW3cVersion: string,
   currentW3cVersion: string,
   currentLauncherVersion: string,
+  news: News[],
+  isUpdatingWebUI: boolean,
+  isUpdatingMaps: boolean,
+}
+
+export interface News {
+  date: string,
+  message: string,
 }

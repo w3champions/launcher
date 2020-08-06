@@ -6,8 +6,8 @@
       There is a new version of the launcher ({{ onlineLauncherVersion }}), please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
     </div>
     <div class="modt">
-      <h3>{{ messageContentHeader }}</h3>
-      <div v-html="messageContent"></div>
+      <h3>{{ messages[0].date }}</h3>
+      <div v-html="messages[0].message"></div>
     </div>
     <div class="isLoading" :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
       Updating W3C...
@@ -29,7 +29,7 @@
         Warcraft 3 Champions Version: {{w3cVersion}}
       </div>
       <div>
-        Launcher Version: {{launcherVersion}}
+        Launcher Version: {{ currentLauncherVersion }}
       </div>
       <div>
         <button @click="switchToPtr">Switch to PTR</button>
@@ -49,7 +49,6 @@
 import {Component, Vue} from "vue-property-decorator";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
-import {versionSwitcher} from "@/VersionSwitcher";
 import Button from "@/components/Button.vue";
 
 const os = window.require('os');
@@ -57,8 +56,6 @@ const os = window.require('os');
   components: {Button}
 })
 export default class W3CLauncher extends Vue {
-  public messageContent = "";
-  public messageContentHeader = "";
   private updateStrategy!: any;
 
   constructor() {
@@ -67,24 +64,10 @@ export default class W3CLauncher extends Vue {
   }
 
   public async switchToPtr() {
-    this.isLoading = true;
-
-    this.updateStrategy.once("LoadingFinished", () => {
-      console.log("ptr webui loaded")
-      this.isLoading = false;
-    })
-
     await this.updateStrategy.switchToPtr();
   }
 
   public async switchToProd() {
-    this.isLoading = true;
-
-    this.updateStrategy.once("LoadingFinished", () => {
-      console.log("prod webui loaded")
-      this.isLoading = false;
-    })
-
     await this.updateStrategy.switchToProd();
   }
 
@@ -112,67 +95,50 @@ export default class W3CLauncher extends Vue {
     return this.$store.direct.state.updateHandling.w3cVersion;
   }
 
-  get launcherVersion(): string {
-    return remote.app.getVersion();
+  get currentLauncherVersion(): string {
+    return this.$store.direct.state.updateHandling.currentLauncherVersion;
   }
 
   get w3Path(): string {
     return this.$store.direct.state.updateHandling.w3Path;
   }
 
+  get messages() {
+    return this.$store.direct.state.updateHandling.news;
+  }
+
   public async tryStartWc3() {
     if (this.isLoading) return;
-    this.isLoading = true;
-
-    this.updateStrategy.once("LoadingFinished", () => {
-      console.log("loading done, starting wc3 now")
-      this.isLoading = false;
-      this.updateStrategy.startWc3();
-    })
-
     await this.updateStrategy.updateIfNeeded();
   }
 
   get hasNewLauncherVersion() {
-    return this.onlineLauncherVersion.localeCompare(this.launcherVersion) > 0;
+    return this.onlineLauncherVersion.localeCompare(this.currentLauncherVersion) > 0;
   }
 
   async mounted() {
-    await this.loadModt();
+    this.$store.direct.dispatch.updateHandling.loadNews();
     this.$store.direct.dispatch.updateHandling.loadAllPaths();
     await this.$store.direct.dispatch.updateHandling.loadOnlineLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
   }
 
   get onlineLauncherVersion() {
-    return this.$store.direct.state.updateHandling.onlineLauncherVersion;
+    return this.$store.state.updateHandling.onlineLauncherVersion;
   }
 
   get isLoading() {
-    return this.$store.direct.state.updateHandling.isUpdating;
+    return this.$store.state.updateHandling.isUpdatingMaps || this.$store.state.updateHandling.isUpdatingWebUI;
   }
 
   public async repairW3c() {
     if (this.isLoading) return;
-    this.isLoading = true;
-
-    this.updateStrategy.once("LoadingFinished", () => {
-      this.isLoading = false;
-    });
 
     await this.updateStrategy.repairWc3();
   }
 
   private isWindows() {
     return os.platform() === "win32";
-  }
-
-  private async loadModt() {
-    const version = await (
-      await fetch(`${versionSwitcher.NewsUrl}api/admin/news`)
-    ).json();
-    this.messageContent = version[0].message;
-    this.messageContentHeader = version[0].date;
   }
 }
 </script>
