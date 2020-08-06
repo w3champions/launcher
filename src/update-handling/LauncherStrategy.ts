@@ -99,30 +99,26 @@ export abstract class LauncherStrategy{
 
     public async switchToPtr() {
         this.store.commit.updateHandling.START_WEBUI_DL();
-        await this.downloadAndWriteFile("webui", this.w3Path, (() => {
-            this.store.commit.updateHandling.FINISH_WEBUI_DL();
-            this.store.dispatch.setTestMode(true);
-        }), true);
+        await this.downloadAndWriteFile("webui", this.w3Path, true);
+        this.store.dispatch.setTestMode(true);
+        this.store.commit.updateHandling.FINISH_WEBUI_DL();
     }
 
     public async switchToProd() {
         this.store.commit.updateHandling.START_WEBUI_DL();
-        await this.downloadAndWriteFile("webui", this.w3Path, (() => {
-            this.store.commit.updateHandling.FINISH_WEBUI_DL();
-            this.store.dispatch.setTestMode(false);
-        }));
+        await this.downloadAndWriteFile("webui", this.w3Path);
+        this.store.dispatch.setTestMode(false);
+        this.store.commit.updateHandling.FINISH_WEBUI_DL();
     }
 
-    private async downloadAndWriteFile(fileName: string, to: string, onFinish: () => void, isTest: boolean = false) {
-        axios.get({url: `${this.store.state.updateUrl}api/${fileName}?ptr=${isTest}`, responseType: 'arraybuffer'})
-            .then((body: any) => {
-                const zip = new AdmZip(body);
-                zip.extractAllTo(to, true);
-                onFinish();
-            })
-            .catch((e: Error) =>  {
-                console.log(e);
-            })
+    get updateUrl() {
+        return this.store.state.updateUrl;
+    }
+
+    private async downloadAndWriteFile(fileName: string, to: string, isTest: boolean = false) {
+        const body = await axios.get({url: `${this.updateUrl}api/${fileName}?ptr=${isTest}`, responseType: 'arraybuffer'});
+        const zip = new AdmZip(body);
+        zip.extractAllTo(to, true);
     }
 
     public async updateIfNeeded() {
@@ -140,8 +136,10 @@ export abstract class LauncherStrategy{
         const bnetPath = this.updateBnetPath();
         if (!bnetPath) return;
 
-        await this.downloadAndWriteFile("maps", w3mapPath, this.store.commit.updateHandling.FINISH_MAPS_DL);
-        await this.downloadAndWriteFile("webui", w3path, this.store.commit.updateHandling.FINISH_WEBUI_DL);
+        await this.downloadAndWriteFile("maps", w3mapPath);
+        this.store.commit.updateHandling.FINISH_MAPS_DL();
+        await this.downloadAndWriteFile("webui", w3path);
+        this.store.commit.updateHandling.FINISH_WEBUI_DL();
 
         this.store.dispatch.updateHandling.saveLocalW3CVersion(this.onlineW3cVersion);
 
@@ -177,8 +175,10 @@ export abstract class LauncherStrategy{
 
     public async redownloadW3c() {
         this.store.commit.updateHandling.START_DLS();
-        await this.downloadAndWriteFile("maps", this.mapsPath, this.store.commit.updateHandling.FINISH_MAPS_DL);
-        await this.downloadAndWriteFile("webui", this.w3Path, this.store.commit.updateHandling.FINISH_WEBUI_DL);
+        await this.downloadAndWriteFile("maps", this.mapsPath);
+        await this.downloadAndWriteFile("webui", this.w3Path);
+        this.store.commit.updateHandling.FINISH_WEBUI_DL();
+        this.store.commit.updateHandling.FINISH_MAPS_DL();
     }
 
     public async hardSetMapPath() {
