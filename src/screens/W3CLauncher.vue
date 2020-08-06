@@ -3,7 +3,7 @@
     class="launcher-background"
   >
     <div class="new-launcher-version" v-if="hasNewLauncherVersion">
-      There is a new version of the launcher ({{updatedLauncherVersion}}), please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
+      There is a new version of the launcher ({{ onlineLauncherVersion }}), please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
     </div>
     <div class="modt">
       <h3>{{ messageContentHeader }}</h3>
@@ -52,7 +52,6 @@ import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import {versionSwitcher} from "@/VersionSwitcher";
 import Button from "@/components/Button.vue";
 
-const { remote } = window.require("electron");
 const os = window.require('os');
 @Component({
   components: {Button}
@@ -60,7 +59,6 @@ const os = window.require('os');
 export default class W3CLauncher extends Vue {
   public messageContent = "";
   public messageContentHeader = "";
-  public updatedLauncherVersion = this.launcherVersion;
   private updateStrategy!: any;
 
   constructor() {
@@ -69,7 +67,6 @@ export default class W3CLauncher extends Vue {
   }
 
   public async switchToPtr() {
-    this.$store.direct.state.
     this.isLoading = true;
 
     this.updateStrategy.once("LoadingFinished", () => {
@@ -137,13 +134,18 @@ export default class W3CLauncher extends Vue {
   }
 
   get hasNewLauncherVersion() {
-    return this.updatedLauncherVersion.localeCompare(this.launcherVersion) > 0;
+    return this.onlineLauncherVersion.localeCompare(this.launcherVersion) > 0;
   }
 
   async mounted() {
     await this.loadModt();
-    await this.loadLauncherVersion();
     this.$store.direct.dispatch.updateHandling.loadAllPaths();
+    await this.$store.direct.dispatch.updateHandling.loadOnlineLauncherVersion();
+    await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
+  }
+
+  get onlineLauncherVersion() {
+    return this.$store.direct.state.updateHandling.onlineLauncherVersion;
   }
 
   get isLoading() {
@@ -171,14 +173,6 @@ export default class W3CLauncher extends Vue {
     ).json();
     this.messageContent = version[0].message;
     this.messageContentHeader = version[0].date;
-  }
-
-  private async loadLauncherVersion() {
-    const version = await (
-            await fetch(`${versionSwitcher.UpdateUrl}api/launcher-version`)
-    ).json();
-
-    this.updatedLauncherVersion = version.version;
   }
 }
 </script>
