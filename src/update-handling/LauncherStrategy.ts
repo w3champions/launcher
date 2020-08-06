@@ -4,6 +4,7 @@ const { remote } = window.require("electron");
 const axios = window.require("axios");
 const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
+const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
 
 export abstract class LauncherStrategy{
     private store = store;
@@ -123,7 +124,6 @@ export abstract class LauncherStrategy{
     }
 
     private async downloadAndWriteFile(fileName: string, to: string) {
-        const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
         const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
         const body = await axios.get(url, {
             responseType: 'arraybuffer'
