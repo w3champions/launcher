@@ -6,8 +6,8 @@
       There is a new version of the launcher ({{ onlineLauncherVersion }}), please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
     </div>
     <div class="modt">
-      <h3>{{ messages[0].date }}</h3>
-      <div v-html="messages[0].message"></div>
+      <h3>{{ messages[0] ? messages[0].date : "" }}</h3>
+      <div :v-html='messages[0] ? messages[0].message : ""'></div>
     </div>
     <div class="isLoading" :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
       Updating W3C...
