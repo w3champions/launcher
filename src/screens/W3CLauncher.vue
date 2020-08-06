@@ -70,6 +70,7 @@ export default class W3CLauncher extends Vue {
   }
 
   public async switchToPtr() {
+    this.$store.direct.state.
     this.isLoading = true;
 
     this.updateStrategy.once("LoadingFinished", () => {
@@ -104,15 +105,15 @@ export default class W3CLauncher extends Vue {
   }
 
   get battleNet(): string {
-    return this.updateStrategy.bnetPath;
+    return this.$store.direct.state.updateHandling.bnetPath;
   }
 
   get mapPath(): string {
-    return this.updateStrategy.mapPath
+    return this.$store.direct.state.updateHandling.mapsPath;
   }
 
   get w3cVersion(): string {
-    return this.updateStrategy.currentVersion;
+    return this.$store.direct.state.updateHandling.w3cVersion;
   }
 
   get launcherVersion(): string {
@@ -120,7 +121,7 @@ export default class W3CLauncher extends Vue {
   }
 
   get w3Path(): string {
-    return this.updateStrategy.w3Path;
+    return this.$store.direct.state.updateHandling.w3Path;
   }
 
   public async tryStartWc3() {

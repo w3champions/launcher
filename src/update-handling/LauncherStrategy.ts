@@ -1,16 +1,16 @@
 import {EventEmitter} from "events";
 import {versionSwitcher} from "@/VersionSwitcher";
+import st from '../store/index'
 
-const Store = window.require("electron-store");
 const { remote } = window.require("electron");
 const https = window.require("https");
 const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 
 export abstract class LauncherStrategy extends EventEmitter{
-    private store = new Store();
     private _isLoadingMaps = false;
     private _isLoadingUi = false;
+    private store = st;
 
     private mapFinished = "MapFinished";
     private webUiFinished = "WebUiFinished";
@@ -53,45 +53,29 @@ export abstract class LauncherStrategy extends EventEmitter{
         this.emit(this.loadingFinished);
     }
 
-    get mapPath(): string {
-        return this.store.get("wc3MapKey")
-    }
-
-    set mapPath(value: string) {
-        this.store.set("wc3MapKey", value);
-    }
-
-    get bnetPath(): string {
-        return this.store.get("bnetKey")
-    }
-
-    set bnetPath(value: string) {
-        this.store.set("bnetKey", value);
-    }
-
-    get currentVersion(): string {
-        return this.store.get("currentVersionKey")
-    }
-
-    set currentVersion(value: string) {
-        this.store.set("currentVersionKey", value);
-    }
-
-    get w3Path(): string {
-        return this.store.get("wc3PathKey");
-    }
-
-    set w3Path(value: string) {
-        this.store.set("wc3PathKey", value);
-    }
-
     public startWc3() {
         this.makeSureJoinBugFilesAreGone();
         this.startWc3Process(this.bnetPath);
     }
 
+    get bnetPath() {
+        return this.store.state.updateHandling.bnetPath;
+    }
+
+    get w3Path() {
+        return this.store.state.updateHandling.w3Path;
+    }
+
+    get w3cVersion() {
+        return this.store.state.updateHandling.w3cVersion;
+    }
+
+    get mapsPath() {
+        return this.store.state.updateHandling.mapsPath;
+    }
+
     private async needsUpdate() {
-        const currentVersion = this.currentVersion;
+        const currentVersion = this.w3cVersion;
         const version = await (
             await fetch(`${versionSwitcher.UpdateUrl}api/client-version`)
         ).json();
@@ -103,10 +87,7 @@ export abstract class LauncherStrategy extends EventEmitter{
     }
 
     public async repairWc3() {
-        this.w3Path = "";
-        this.mapPath = "";
-        this.bnetPath = "";
-        this.currentVersion = "";
+        this.store.commit.updateHandling.RESET_PATHS();
         await this.updateIfNeeded();
     }
 
@@ -200,7 +181,7 @@ export abstract class LauncherStrategy extends EventEmitter{
         await this.downloadAndWriteFile("maps", w3mapPath, (() => this.emit(this.mapFinished)));
         await this.downloadAndWriteFile("webui", w3path, (() => this.emit(this.webUiFinished)));
 
-        this.currentVersion = newVersion;
+        this.store.commit.updateHandling.SET_W3C_VERSION(newVersion);
 
         this.turnOnLocalFiles();
     }
@@ -219,20 +200,21 @@ export abstract class LauncherStrategy extends EventEmitter{
             return;
         }
 
-        this.bnetPath = bnetPath;
+        this.store.commit.updateHandling.SET_BNET_PATH(bnetPath);
+
         return bnetPath;
     }
 
     public async hardSetBnetPath() {
-        await this.hardSetPath("Battle-Net", (s) => this.bnetPath = s);
+        await this.hardSetPath("Battle-Net", this.store.commit.updateHandling.SET_BNET_PATH);
     }
 
     public async hardSetW3cPath() {
-        await this.hardSetPath("Warcraft III", (s) => this.w3Path = s);
+        await this.hardSetPath("Warcraft III", this.store.commit.updateHandling.SET_W3_PATH);
     }
 
     public async hardSetMapPath() {
-        await this.hardSetPath("Map", (s) => this.mapPath = s);
+        await this.hardSetPath("Map", this.store.commit.updateHandling.SET_MAPS_PATH);
     }
 
     private async hardSetPath(locationName: string, set: (s: string) => void) {
@@ -245,7 +227,7 @@ export abstract class LauncherStrategy extends EventEmitter{
         const defaultMapPath = this.getDefaultPathMap();
         console.log("default map path: " + defaultMapPath);
         const w3mapPath = await this.getFolderFromUserIfNeverStarted(
-            this.mapPath,
+            this.mapsPath,
             defaultMapPath,
             "Mapfolder not found",
             "The mapfolder of Warcraft III was not found, please locate it manually"
@@ -255,7 +237,9 @@ export abstract class LauncherStrategy extends EventEmitter{
             return;
         }
 
-        this.mapPath = w3mapPath;
+
+        this.store.commit.updateHandling.SET_MAPS_PATH(w3mapPath)
+
         return w3mapPath;
     }
 
@@ -276,7 +260,8 @@ export abstract class LauncherStrategy extends EventEmitter{
             return;
         }
 
-        this.w3Path = w3path;
+        this.store.commit.updateHandling.SET_W3_PATH(w3path)
+
         return w3path;
     }
 
