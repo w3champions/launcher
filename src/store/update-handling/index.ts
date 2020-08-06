@@ -1,23 +1,24 @@
-import { moduleActionContext } from "..";
-import { ActionContext } from "vuex";
+import {moduleActionContext} from "..";
+import {ActionContext} from "vuex";
 import {RootState} from "@/store/typings";
 import {UpdateHandlingState} from "@/store/update-handling/types";
 
 const mod = {
   namespaced: true,
   state: {
-    isTest: false,
     bnetPath: "",
     w3Path: "",
     w3cVersion: "",
   } as UpdateHandlingState,
   actions: {
-    async loadBnetPath(context: ActionContext<UpdateHandlingState, RootState>) {
+    loadAllPaths(context: ActionContext<UpdateHandlingState, RootState>) {
       const { rootGetters, commit } = moduleActionContext(context, mod);
-        const loadBnetPath = rootGetters.updateService.loadBnetPath();
-        commit.SET_BNET_PATH(loadBnetPath);
-      }
-    },
+      commit.SET_BNET_PATH(rootGetters.updateService.loadBnetPath());
+      commit.SET_MAPS_PATH(rootGetters.updateService.loadMapsPath());
+      commit.SET_W3_PATH(rootGetters.updateService.loadW3Path());
+      commit.SET_W3C_VERSION(rootGetters.updateService.loadW3CVersion());
+    }
+  },
   mutations: {
     SET_BNET_PATH(state: UpdateHandlingState, path: string) {
       state.bnetPath = path;
@@ -30,9 +31,6 @@ const mod = {
     },
     SET_W3C_VERSION(state: UpdateHandlingState, version: string) {
       state.w3cVersion = version;
-    },
-    SET_IS_TEST(state: UpdateHandlingState, test: boolean) {
-      state.isTest = test;
     },
     RESET_PATHS(state: UpdateHandlingState) {
       state.bnetPath = ""

@@ -1,5 +1,5 @@
 export type UpdateHandlingState = {
-  isTest: boolean,
+  isUpdating: boolean,
   bnetPath: string,
   w3Path: string,
   mapsPath: string,

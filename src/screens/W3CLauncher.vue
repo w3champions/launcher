@@ -60,7 +60,6 @@ const os = window.require('os');
 export default class W3CLauncher extends Vue {
   public messageContent = "";
   public messageContentHeader = "";
-  public isLoading = false;
   public updatedLauncherVersion = this.launcherVersion;
   private updateStrategy!: any;
 
@@ -144,6 +143,11 @@ export default class W3CLauncher extends Vue {
   async mounted() {
     await this.loadModt();
     await this.loadLauncherVersion();
+    this.$store.direct.dispatch.updateHandling.loadAllPaths();
+  }
+
+  get isLoading() {
+    return this.$store.direct.state.updateHandling.isUpdating;
   }
 
   public async repairW3c() {

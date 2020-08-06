@@ -5,6 +5,7 @@ import {RootState} from "@/store/typings";
 
 import updateHandling from "./update-handling/index";
 import {UpdateService} from "@/update-handling/updateService";
+import {UpdateHandlingState} from "@/store/update-handling/types";
 
 Vue.use(Vuex);
 
@@ -17,9 +18,13 @@ const mod = {
     updateHandling,
   },
   state: {
+    isTest: false,
   } as RootState,
   actions: {},
   mutations: {
+      SET_IS_TEST(state: RootState, test: boolean) {
+        state.isTest = test;
+      }
   },
   getters: {
     updateService() {

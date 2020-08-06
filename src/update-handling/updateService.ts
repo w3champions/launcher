@@ -3,7 +3,7 @@ const Store = window.require("electron-store");
 export class UpdateService {
     private store = new Store();
 
-    loadMapPath(): string {
+    loadMapsPath(): string {
         return this.store.get("wc3MapKey")
     }
 
@@ -19,7 +19,7 @@ export class UpdateService {
         this.store.set("bnetKey", value);
     }
 
-    loadCurrentVersion(): string {
+    loadW3CVersion(): string {
         return this.store.get("currentVersionKey")
     }
 
