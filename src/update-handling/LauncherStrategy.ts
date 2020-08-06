@@ -1,7 +1,7 @@
 import store from '../store/index'
 
 const { remote } = window.require("electron");
-const https = window.require("https");
+const axios = window.require("axios");
 const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 
@@ -114,21 +114,15 @@ export abstract class LauncherStrategy{
     }
 
     private async downloadAndWriteFile(fileName: string, to: string, onFinish: () => void, isTest: boolean = false) {
-        const tempFile = `${remote.app.getPath("downloads")}/temp_${fileName}.zip`;
-        if (fs.existsSync(tempFile)) {
-            fs.unlinkSync(tempFile);
-        }
-
-        const file = fs.createWriteStream(tempFile);
-        https.get(`${this.store.state.updateUrl}api/${fileName}?ptr=${isTest}`, function(response: any) {
-            response.pipe(file).on("finish", async function() {
-                file.close();
-                const zip = new AdmZip(tempFile);
+        axios.get({url: `${this.store.state.updateUrl}api/${fileName}?ptr=${isTest}`, responseType: 'arraybuffer'})
+            .then((body: any) => {
+                const zip = new AdmZip(body);
                 zip.extractAllTo(to, true);
-                fs.unlinkSync(tempFile);
                 onFinish();
-            });
-        });
+            })
+            .catch((e: Error) =>  {
+                console.log(e);
+            })
     }
 
     public async updateIfNeeded() {
