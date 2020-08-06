@@ -33,6 +33,34 @@ const mod = {
 
       commit.SET_CURRENT_LAUNCHER_VERSION(rootGetters.updateService.loadW3CVersion());
     },
+    saveLocalW3CVersion(context: ActionContext<UpdateHandlingState, RootState>, version: string) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      rootGetters.updateService.saveLocalW3CVersion(version);
+
+      commit.SET_LOCAL_W3C_VERSION(version);
+    },
+    saveW3Path(context: ActionContext<UpdateHandlingState, RootState>, version: string) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      rootGetters.updateService.saveW3Path(version);
+
+      commit.SET_W3_PATH(version);
+    },
+    saveMapPath(context: ActionContext<UpdateHandlingState, RootState>, version: string) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      rootGetters.updateService.saveMapPath(version);
+
+      commit.SET_MAPS_PATH(version);
+    },
+    saveBnetPath(context: ActionContext<UpdateHandlingState, RootState>, version: string) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      rootGetters.updateService.saveBnetPath(version);
+
+      commit.SET_BNET_PATH(version);
+    },
     loadCurrentW3CVersion(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit } = moduleActionContext(context, mod);
 
@@ -52,7 +80,20 @@ const mod = {
       commit.SET_BNET_PATH(rootGetters.updateService.loadBnetPath());
       commit.SET_MAPS_PATH(rootGetters.updateService.loadMapsPath());
       commit.SET_W3_PATH(rootGetters.updateService.loadW3Path());
-      commit.SET_W3C_VERSION(rootGetters.updateService.loadW3CVersion());
+      commit.SET_LOCAL_W3C_VERSION(rootGetters.updateService.loadW3CVersion());
+    },
+    resetPaths(context: ActionContext<UpdateHandlingState, RootState>) {
+      const { rootGetters, commit } = moduleActionContext(context, mod);
+
+      rootGetters.updateService.saveBnetPath("");
+      rootGetters.updateService.saveMapPath("");
+      rootGetters.updateService.saveW3Path("");
+      rootGetters.updateService.saveLocalW3CVersion("");
+
+      commit.SET_BNET_PATH("");
+      commit.SET_MAPS_PATH("");
+      commit.SET_W3_PATH("");
+      commit.SET_LOCAL_W3C_VERSION("");
     }
   },
   mutations: {
@@ -65,14 +106,8 @@ const mod = {
     SET_W3_PATH(state: UpdateHandlingState, path: string) {
       state.w3Path = path;
     },
-    SET_W3C_VERSION(state: UpdateHandlingState, version: string) {
+    SET_LOCAL_W3C_VERSION(state: UpdateHandlingState, version: string) {
       state.localW3cVersion = version;
-    },
-    RESET_PATHS(state: UpdateHandlingState) {
-      state.bnetPath = ""
-      state.mapsPath = ""
-      state.w3Path = ""
-      state.localW3cVersion = ""
     },
     SET_ONLINE_LAUNCHER_VERSION(state: UpdateHandlingState, version: string) {
       state.onlineLauncherVersion = version;

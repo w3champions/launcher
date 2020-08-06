@@ -51,7 +51,7 @@ export abstract class LauncherStrategy{
 
     public async repairWc3() {
         this.store.commit.updateHandling.START_DLS();
-        this.store.commit.updateHandling.RESET_PATHS();
+        this.store.dispatch.updateHandling.resetPaths();
         await this.updateIfNeeded();
     }
 
@@ -103,7 +103,7 @@ export abstract class LauncherStrategy{
         versionSwitcher.switchToTest();
         await this.downloadAndWriteFile("webui", this.w3Path, (() => {
             this.store.commit.updateHandling.FINISH_WEBUI_DL();
-            this.store.commit.SET_IS_TEST(true);
+            this.store.dispatch.setTestMode(true);
         }), true);
     }
 
@@ -112,7 +112,7 @@ export abstract class LauncherStrategy{
         versionSwitcher.switchToProd();
         await this.downloadAndWriteFile("webui", this.w3Path, (() => {
             this.store.commit.updateHandling.FINISH_WEBUI_DL();
-            this.store.commit.SET_IS_TEST(false);
+            this.store.dispatch.setTestMode(false);
         }));
     }
 
@@ -152,7 +152,7 @@ export abstract class LauncherStrategy{
         await this.downloadAndWriteFile("maps", w3mapPath, this.store.commit.updateHandling.FINISH_MAPS_DL);
         await this.downloadAndWriteFile("webui", w3path, this.store.commit.updateHandling.FINISH_WEBUI_DL);
 
-        this.store.commit.updateHandling.SET_W3C_VERSION(this.onlineW3cVersion);
+        this.store.dispatch.updateHandling.saveLocalW3CVersion(this.onlineW3cVersion);
 
         this.turnOnLocalFiles();
     }
@@ -171,7 +171,7 @@ export abstract class LauncherStrategy{
             return;
         }
 
-        this.store.commit.updateHandling.SET_BNET_PATH(bnetPath);
+        this.store.dispatch.updateHandling.saveBnetPath(bnetPath)
 
         return bnetPath;
     }
@@ -208,7 +208,7 @@ export abstract class LauncherStrategy{
             return;
         }
 
-        this.store.commit.updateHandling.SET_MAPS_PATH(w3mapPath)
+        this.store.dispatch.updateHandling.saveMapPath(w3mapPath)
 
         return w3mapPath;
     }
@@ -230,7 +230,7 @@ export abstract class LauncherStrategy{
             return;
         }
 
-        this.store.commit.updateHandling.SET_W3_PATH(w3path)
+        this.store.dispatch.updateHandling.saveW3Path(w3path)
 
         return w3path;
     }

@@ -6,12 +6,13 @@ import {News, RootState} from "@/store/typings";
 import updateHandling from "./update-handling/index";
 import {UpdateService} from "@/update-handling/updateService";
 import {UpdateHandlingState} from "@/store/update-handling/types";
-import {versionSwitcher} from "@/VersionSwitcher";
+import {VersionSwitcher, versionSwitcher} from "@/VersionSwitcher";
 
 Vue.use(Vuex);
 
 const services = {
   updateService: new UpdateService(),
+  versionService: new VersionSwitcher(),
 };
 
 const mod = {
@@ -32,6 +33,12 @@ const mod = {
 
       commit.SET_NEWS(news);
     },
+    setTestMode(context: ActionContext<UpdateHandlingState, RootState>, mode: boolean) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      rootGetters.versionService.switchToMode(mode);
+      commit.SET_IS_TEST(mode);
+    },
   },
   mutations: {
     SET_IS_TEST(state: RootState, test: boolean) {
@@ -44,6 +51,9 @@ const mod = {
   getters: {
     updateService() {
       return services.updateService;
+    },
+    versionService() {
+      return services.versionService;
     },
   },
 } as const;

@@ -23,7 +23,7 @@ export class UpdateService {
         return this.store.get("currentVersionKey")
     }
 
-    saveCurrentVersion(value: string) {
+    saveLocalW3CVersion(value: string) {
         this.store.set("currentVersionKey", value);
     }
 
@@ -34,5 +34,4 @@ export class UpdateService {
     saveW3Path(value: string) {
         this.store.set("wc3PathKey", value);
     }
-
 }

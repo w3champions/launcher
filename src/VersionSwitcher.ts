@@ -1,6 +1,6 @@
 const Store = window.require("electron-store");
 
-class VersionSwitcher {
+export class VersionSwitcher {
     private isTest: boolean = true;
     private store = new Store();
 
@@ -8,6 +8,10 @@ class VersionSwitcher {
 
     constructor() {
         this.isTest = this.store.get(this.testKey);
+    }
+
+    public switchToMode(mode: boolean) {
+        this.store.set(this.testKey, mode);
     }
 
     public switchToTest() {
