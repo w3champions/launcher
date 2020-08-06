@@ -117,8 +117,8 @@ export default class W3CLauncher extends Vue {
   }
 
   async mounted() {
-    this.$store.direct.dispatch.updateHandling.loadNews();
     this.$store.direct.dispatch.updateHandling.loadAllPaths();
+    await this.$store.direct.dispatch.updateHandling.loadNews();
     await this.$store.direct.dispatch.updateHandling.loadOnlineLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
