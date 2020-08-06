@@ -116,7 +116,11 @@ export abstract class LauncherStrategy{
     }
 
     private async downloadAndWriteFile(fileName: string, to: string, isTest: boolean = false) {
-        const body = await axios.get({url: `${this.updateUrl}api/${fileName}?ptr=${isTest}`, responseType: 'arraybuffer'});
+        const url = `${this.updateUrl}api/${fileName}?ptr=${isTest}`;
+        const body = await axios.get(url, {
+            responseType: 'arraybuffer'
+        });
+
         const zip = new AdmZip(body);
         zip.extractAllTo(to, true);
     }
