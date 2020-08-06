@@ -1,4 +1,4 @@
-import store from '../store/index'
+import store from '../globalState/vuex-store'
 
 const { remote } = window.require("electron");
 const axios = window.require("axios");
