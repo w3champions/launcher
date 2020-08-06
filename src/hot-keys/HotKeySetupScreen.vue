@@ -14,18 +14,18 @@ export default class HotKeySetupScreen extends Vue {
   public hotkeys: ItemHotkeyRegistrationService;
 
   public registerKeys() {
-    this.hotkeys.itemTopLeft({ modifier: ModifierKey.None, hotKey: "q" })
-    this.hotkeys.itemMiddleLeft({ modifier: ModifierKey.None, hotKey: "a" })
-    this.hotkeys.itemBottomLeft({ modifier: ModifierKey.None, hotKey: "z" })
-    this.hotkeys.itemTopRight({ modifier: ModifierKey.None, hotKey: "w" })
-    this.hotkeys.itemMiddleRight({ modifier: ModifierKey.None, hotKey: "s" })
-    this.hotkeys.itemBottomRight({ modifier: ModifierKey.None, hotKey: "x" })
+    this.hotkeys.itemTopLeft({ modifier: ModifierKey.CommandOrControl, hotKey: "q" })
+    this.hotkeys.itemMiddleLeft({ modifier: ModifierKey.CommandOrControl, hotKey: "a" })
+    this.hotkeys.itemBottomLeft({ modifier: ModifierKey.CommandOrControl, hotKey: "z" })
+    this.hotkeys.itemTopRight({ modifier: ModifierKey.CommandOrControl, hotKey: "w" })
+    this.hotkeys.itemMiddleRight({ modifier: ModifierKey.CommandOrControl, hotKey: "s" })
+    this.hotkeys.itemBottomRight({ modifier: ModifierKey.CommandOrControl, hotKey: "x" })
 
-    this.hotkeys.f1({ modifier: ModifierKey.None, hotKey: "h" })
-    this.hotkeys.f2({ modifier: ModifierKey.None, hotKey: "j" })
-    this.hotkeys.f3({ modifier: ModifierKey.None, hotKey: "k" })
+    this.hotkeys.f1({ modifier: ModifierKey.CommandOrControl, hotKey: "h" })
+    this.hotkeys.f2({ modifier: ModifierKey.CommandOrControl, hotKey: "j" })
+    this.hotkeys.f3({ modifier: ModifierKey.CommandOrControl, hotKey: "k" })
 
-    this.hotkeys.space({ modifier: ModifierKey.None, hotKey: "u" })
+    this.hotkeys.space({ modifier: ModifierKey.CommandOrControl, hotKey: "u" })
   }
 
   constructor() {
