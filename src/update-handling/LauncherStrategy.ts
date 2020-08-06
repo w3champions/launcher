@@ -38,24 +38,20 @@ export abstract class LauncherStrategy{
         return this.store.state.updateHandling.w3Path;
     }
 
-    get w3cVersion() {
-        return this.store.state.updateHandling.w3cVersion;
+    get localW3cVersion() {
+        return this.store.state.updateHandling.localW3cVersion;
     }
 
     get mapsPath() {
         return this.store.state.updateHandling.mapsPath;
     }
 
-    private async needsUpdate() {
-        const currentVersion = this.w3cVersion;
-        const version = await (
-            await fetch(`${versionSwitcher.UpdateUrl}api/client-version`)
-        ).json();
-        if (version.version === currentVersion) {
-            return null;
-        }
+    get onlineW3cVersion() {
+        return this.store.state.updateHandling.onlineW3cVersion;
+    }
 
-        return version.version;
+    private async needsUpdate() {
+        return this.localW3cVersion === this.onlineW3cVersion;
     }
 
     public async repairWc3() {

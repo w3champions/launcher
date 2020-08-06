@@ -11,11 +11,10 @@ const mod = {
   state: {
     bnetPath: "",
     w3Path: "",
-    w3cVersion: "",
+    localW3cVersion: "",
     onlineW3cVersion: "",
-    currentW3cVersion: "",
     onlineLauncherVersion: "",
-    currentLauncherVersion: "",
+    localLauncherVersion: "",
     news: [] as News[],
     isUpdatingMaps: false,
     isUpdatingWebUI: false,
@@ -40,6 +39,11 @@ const mod = {
       commit.SET_ONLINE_LAUNCHER_VERSION(version.version);
     },
     loadCurrentLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      commit.SET_CURRENT_LAUNCHER_VERSION(rootGetters.updateService.loadW3CVersion());
+    },
+    loadCurrentW3CVersion(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit } = moduleActionContext(context, mod);
 
       commit.SET_CURRENT_LAUNCHER_VERSION(remote.app.getVersion());
@@ -48,10 +52,10 @@ const mod = {
       const { commit } = moduleActionContext(context, mod);
 
       const version = await (
-          await fetch(`${versionSwitcher.UpdateUrl}api/launcher-version`)
+          await fetch(`${versionSwitcher.UpdateUrl}api/client-version`)
       ).json();
 
-      commit.SET_ONLINE_LAUNCHER_VERSION(version.version);
+      commit.SET_ONLINE_W3C_VERSION(version.version);
     },
     loadAllPaths(context: ActionContext<UpdateHandlingState, RootState>) {
       const { rootGetters, commit } = moduleActionContext(context, mod);
@@ -72,19 +76,19 @@ const mod = {
       state.w3Path = path;
     },
     SET_W3C_VERSION(state: UpdateHandlingState, version: string) {
-      state.w3cVersion = version;
+      state.localW3cVersion = version;
     },
     RESET_PATHS(state: UpdateHandlingState) {
       state.bnetPath = ""
       state.mapsPath = ""
       state.w3Path = ""
-      state.w3cVersion = ""
+      state.localW3cVersion = ""
     },
     SET_ONLINE_LAUNCHER_VERSION(state: UpdateHandlingState, version: string) {
       state.onlineLauncherVersion = version;
     },
     SET_CURRENT_LAUNCHER_VERSION(state: UpdateHandlingState, version: string) {
-      state.currentLauncherVersion = version;
+      state.localLauncherVersion = version;
     },
     SET_ONLINE_W3C_VERSION(state: UpdateHandlingState, version: string) {
       state.onlineW3cVersion = version;

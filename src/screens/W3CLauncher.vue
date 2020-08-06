@@ -7,7 +7,7 @@
     </div>
     <div class="modt">
       <h3>{{ messages[0] ? messages[0].date : "" }}</h3>
-      <div :v-html='messages[0] ? messages[0].message : ""'></div>
+      <div v-html='messages[0] ? messages[0].message : ""'></div>
     </div>
     <div class="isLoading" :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
       Updating W3C...
@@ -92,11 +92,11 @@ export default class W3CLauncher extends Vue {
   }
 
   get w3cVersion(): string {
-    return this.$store.direct.state.updateHandling.w3cVersion;
+    return this.$store.direct.state.updateHandling.localW3cVersion;
   }
 
   get currentLauncherVersion(): string {
-    return this.$store.direct.state.updateHandling.currentLauncherVersion;
+    return this.$store.direct.state.updateHandling.localLauncherVersion
   }
 
   get w3Path(): string {
@@ -121,6 +121,8 @@ export default class W3CLauncher extends Vue {
     this.$store.direct.dispatch.updateHandling.loadAllPaths();
     await this.$store.direct.dispatch.updateHandling.loadOnlineLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
+    await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
+    await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
   }
 
   get onlineLauncherVersion() {
