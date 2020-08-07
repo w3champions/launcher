@@ -6,8 +6,9 @@
   "author": "simonheiss87@gmail.com",
   "scripts": {
     "serve": "vue-cli-service electron:serve",
-    "build": "npm run rebuild && vue-cli-service electron:build",
+    "build": "npm run installAndRebuild && npm run rebuild && vue-cli-service electron:build",
     "rebuild": "npm rebuild --runtime=electron --target=12.14.1 --disturl=https://atom.io/download/atom-shell",
+    "installAndRebuild": "npm install && ./node_modules/.bin/electron-rebuild",
     "lint": "vue-cli-service lint",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
@@ -41,6 +42,7 @@
     "electron": "^9.1.2",
     "electron-devtools-installer": "^3.1.1",
     "electron-notarize": "^1.0.0",
+    "electron-rebuild": "^1.11.0",
     "eslint": "^7.6.0",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.26.10",
