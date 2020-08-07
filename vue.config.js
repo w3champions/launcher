@@ -5,7 +5,7 @@ module.exports = {
       builderOptions: {
         afterSign: "notarize.js",
         mac: {
-          hardenedRuntime : true,
+          hardenedRuntime : false,
           gatekeeperAssess: false,
           entitlements: "build/entitlements.mac.inherit.plist"
         },
