@@ -1,6 +1,7 @@
 # w3c-launcher
 
 ## Project setup
+Install Visual Studio 2017 and the C++ Desktop Tools, as we need them for robotjs
 ```
 npm install
 ```
@@ -14,11 +15,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
