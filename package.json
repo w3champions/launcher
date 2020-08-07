@@ -1,13 +1,12 @@
 {
   "name": "w3champions-launcher",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "private": true,
   "description": "Always stay up to date with this Launcher for the community Ladder Warcraft 3 Champions.",
   "author": "simonheiss87@gmail.com",
   "scripts": {
     "serve": "vue-cli-service electron:serve",
     "build": "vue-cli-service electron:build",
-    "rebuild": "npm rebuild --runtime=electron --target=9.1.2 --disturl=https://atom.io/download/atom-shell --abi=48",
     "lint": "vue-cli-service lint",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
@@ -20,7 +19,6 @@
     "core-js": "^3.6.5",
     "direct-vuex": "^0.12.0",
     "electron-store": "^6.0.0",
-    "robotjs": "^0.6.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.5",
     "vue-property-decorator": "^9.0.0",

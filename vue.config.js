@@ -1,11 +1,11 @@
 module.exports = {
   pluginOptions: {
     electronBuilder: {
-      externals: ['adm-zip', 'axios', 'robotjs', 'arraybuffer-to-buffer'],
+      externals: ['adm-zip', 'axios', 'arraybuffer-to-buffer'],
       builderOptions: {
         afterSign: "notarize.js",
         mac: {
-          hardenedRuntime : false,
+          hardenedRuntime : true,
           gatekeeperAssess: false,
           entitlements: "build/entitlements.mac.inherit.plist"
         },

@@ -1,28 +1,24 @@
 import Vue from "vue";
 import Vuex, {ActionContext} from "vuex";
 import {createDirectStore} from "direct-vuex";
-import {News, RootState} from "@/globalState/rootTypings";
+import {News, RootState} from "@/store/typings";
 
-import updateHandling from "../update-handling/updateStore";
-import hotKeys from "../hot-keys/hotkeyStore";
+import updateHandling from "./update-handling/index";
 import {UpdateService} from "@/update-handling/UpdateService";
-import {UpdateHandlingState} from "@/update-handling/updateTypes";
-import {VersionService} from "@/globalState/VersionService";
+import {UpdateHandlingState} from "@/store/update-handling/types";
+import {VersionService} from "@/VersionService";
 import {NEWS_URL_PROD, NEWS_URL_TEST, UPDATE_URL_PROD, UPDATE_URL_TEST} from "@/constants";
-import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
 
 Vue.use(Vuex);
 
 const services = {
   updateService: new UpdateService(),
   versionService: new VersionService(),
-  itemHotkeyService: new ItemHotkeyRegistrationService(),
 };
 
 const mod = {
   modules: {
     updateHandling,
-    hotKeys
   },
   state: {
     isTest: false,
@@ -79,9 +75,6 @@ const mod = {
     },
     versionService() {
       return services.versionService;
-    },
-    itemHotkeyService() {
-      return services.itemHotkeyService;
     },
   },
 } as const;

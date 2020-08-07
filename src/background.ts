@@ -14,8 +14,6 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-app.allowRendererProcessReuse = false;
-
 app.on('will-quit', () => {
   globalShortcut.unregisterAll()
 })

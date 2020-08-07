@@ -56,13 +56,13 @@
 import {Component, Vue} from "vue-property-decorator";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
-import Button from "../components/Button.vue";
+import Button from "@/components/Button.vue";
 
 const os = window.require('os');
 @Component({
   components: {Button}
 })
-export default class UpdateScreen extends Vue {
+export default class W3CLauncher extends Vue {
   private updateStrategy!: any;
 
   constructor() {

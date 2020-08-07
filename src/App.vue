@@ -2,23 +2,23 @@
   <div id="app">
 <!--    <LoadingScreen />-->
 <!--    <SettingsScreen />-->
-    <UpdateScreen />
-    <HotKeySetupScreen />
+    <W3CLauncher />
+    <HotKeySetup />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import UpdateScreen from "./update-handling/UpdateScreen.vue";
+import W3CLauncher from "./screens/W3CLauncher.vue";
 import LoadingScreen from "./screens/LoadingScreen.vue";
 import MainScreen from "./screens/MainScreen/index.vue";
 import SettingsScreen from "./screens/SettingsScreen/index.vue";
-import HotKeySetupScreen from "./hot-keys/HotKeySetupScreen.vue";
+import HotKeySetup from "./screens/HotKeySetup.vue";
 
 @Component({
   components: {
-    HotKeySetupScreen,
-    UpdateScreen,
+    HotKeySetup,
+    W3CLauncher,
     MainScreen,
     SettingsScreen,
     LoadingScreen,

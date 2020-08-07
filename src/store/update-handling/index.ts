@@ -1,7 +1,7 @@
-import {moduleActionContext} from "../globalState/vuex-store";
+import {moduleActionContext} from "..";
 import {ActionContext} from "vuex";
-import {RootState} from "@/globalState/rootTypings";
-import {UpdateHandlingState} from "@/update-handling/updateTypes";
+import {RootState} from "@/store/typings";
+import {UpdateHandlingState} from "@/store/update-handling/types";
 
 const { remote } = window.require("electron");
 
