@@ -7,7 +7,9 @@ module.exports = {
         mac: {
           hardenedRuntime : true,
           gatekeeperAssess: false,
-          entitlements: "build/entitlements.mac.inherit.plist"
+          entitlements: "build/entitlements.mac.inherit.plist",
+          type: "distribution" ,
+          entitlementsInherit: "build/entitlements.mac.inherit.plist"
         },
         dmg: {
           sign: false
