@@ -7,7 +7,7 @@
   "scripts": {
     "serve": "vue-cli-service electron:serve",
     "build": "npm run installAndRebuild && npm run rebuild && vue-cli-service electron:build",
-    "rebuild": "npm rebuild --runtime=electron --target=12.14.1 --disturl=https://atom.io/download/atom-shell",
+    "rebuild": "npm rebuild --runtime=electron --target=12.14.1 --disturl=https://atom.io/download/atom-shell --abi=54",
     "installAndRebuild": "npm install && ./node_modules/.bin/electron-rebuild",
     "lint": "vue-cli-service lint",
     "postinstall": "electron-builder install-app-deps",
