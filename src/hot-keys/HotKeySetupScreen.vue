@@ -1,7 +1,12 @@
 <template>
-  <button @click="registerKeys">
-    register-test keys
-  </button>
+  <div>
+    <button @click="registerKeys">
+      register-test keys
+    </button>
+    <div>
+      {{hotkeyState}}
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,11 +38,13 @@ export default class HotKeySetupScreen extends Vue {
     this.hotkeys = new ItemHotkeyRegistrationService()
   }
 
-  async mounted() {
-    await this.$store.direct.dispatch.hotKeys.loadHotKeys();
-
+  get hotkeyState() {
+    return this.$store.direct.state.hotKeys.hotKeyStateMachine.constructor.name
   }
 
+  async mounted() {
+    await this.$store.direct.dispatch.hotKeys.loadHotKeys();
+  }
 }
 
 </script>

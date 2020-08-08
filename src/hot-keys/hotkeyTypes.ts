@@ -1,5 +1,8 @@
+import {HotKeyState} from "@/hot-keys/HotKeyStateMachine";
+
 export interface HotKeyModifierState {
-  hotKeys: HotKey[]
+  hotKeys: HotKey[],
+  hotKeyStateMachine: HotKeyState,
 }
 
 export enum ModifierKey {

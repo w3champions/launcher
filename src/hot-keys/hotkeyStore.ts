@@ -1,12 +1,14 @@
 import {moduleActionContext} from "../globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
-import {HotKey, HotKeyModifierState} from "@/hot-keys/hotkeyTypes";
+import { HotKey, HotKeyModifierState } from "@/hot-keys/hotkeyTypes";
+import {NotInGameState} from "@/hot-keys/HotKeyStateMachine";
 
 const mod = {
   namespaced: true,
   state: {
-    hotKeys: [] as HotKey[]
+    hotKeys: [] as HotKey[],
+    hotKeyStateMachine: new NotInGameState()
   } as HotKeyModifierState,
   actions: {
     async addHotkey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
@@ -28,6 +30,9 @@ const mod = {
     },
     SET_HOTKEYS(state: HotKeyModifierState, hotKeys: HotKey[]) {
       state.hotKeys = hotKeys;
+    },
+    RESET_HOTKEY_STATE(state: HotKeyModifierState) {
+      state.hotKeyStateMachine = state.hotKeyStateMachine.reset();
     }
   },
 } as const;

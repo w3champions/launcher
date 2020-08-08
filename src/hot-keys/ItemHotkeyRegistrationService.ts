@@ -1,4 +1,5 @@
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/hotkeyTypes";
+import {InGameState} from "@/hot-keys/HotKeyStateMachine";
 
 const { globalShortcut } = window.require("electron").remote;
 const robot = window.require("robotjs");
@@ -7,6 +8,14 @@ const Store = window.require("electron-store");
 export class ItemHotkeyRegistrationService {
     private store = new Store();
     private hotKeyStoreKey = "hotKeyStoreKey"
+
+    get isInGame() {
+        return this.store.direct.hotKeys.state.hotKeyStateMachine instanceof InGameState;
+    }
+
+    get hotKeys() {
+        return this.store.direct.hotKeys.state.hotKeys;
+    }
 
     public saveHotKeys(hotKeys: HotKey[]) {
         this.store.set(this.hotKeyStoreKey, hotKeys);
@@ -56,15 +65,27 @@ export class ItemHotkeyRegistrationService {
         this.registerKey("numpad_2", combo)
     }
 
+    public resetKey(combo: ClickCombination) {
+        this.register(combo, () => this.store.direct.hotKeys.commit.RESET_HOTKEY_STATE())
+    }
+
     private registerKey(key: string, combo: ClickCombination) {
-        const keyCode = `${combo.modifier !== ModifierKey.None ? ModifierKey[combo.modifier] : ""}+${combo.hotKey}`;
+        this.register(combo, () => {
+            if (this.isInGame) {
+                robot.keyTap(key);
+            }
+        });
+        this.saveHotKeys(this.hotKeys);
+    }
+
+    private register(combo: ClickCombination, fkt: () => void) {
+        const keys = [ModifierKey[combo.modifier], combo.hotKey];
+        const keyCode = keys.join("+");
         if (globalShortcut.isRegistered(keyCode)) {
             globalShortcut.unregister(keyCode)
         }
 
-        globalShortcut.register(keyCode, () => {
-            robot.keyTap(key);
-        })
+        globalShortcut.register(keyCode, fkt)
     }
 }
 
