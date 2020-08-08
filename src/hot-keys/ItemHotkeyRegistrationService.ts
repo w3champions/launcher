@@ -4,10 +4,31 @@ import {InGameState} from "@/hot-keys/HotKeyStateMachine";
 const { globalShortcut } = window.require("electron").remote;
 const robot = window.require("robotjs");
 const Store = window.require("electron-store");
+const http = window.require("http");
+const WebSocket = window.require("ws");
 
 export class ItemHotkeyRegistrationService {
     private store = new Store();
+
+    private server = http.createServer();
+    private wss = new WebSocket.Server({ server: this.server });
+
     private hotKeyStoreKey = "hotKeyStoreKey"
+
+    constructor() {
+
+        this.wss.on("connection", (ws: WebSocket) => {
+            // @ts-ignore
+            ws.onmessage = (message: any) => {
+                const data = message.data;
+                if (data.startsWith("SET-WC3-SOCKET_")) {
+                    console.log(data.split("_")[1]);
+                }
+            };
+        });
+
+        this.server.listen(38123);
+    }
 
     get isInGame() {
         return this.store.direct.hotKeys.state.hotKeyStateMachine instanceof InGameState;
