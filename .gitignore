@@ -2,6 +2,7 @@
 node_modules
 /dist
 .idea
+/coverage
 
 # local env files
 .env.local
