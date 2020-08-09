@@ -3,9 +3,7 @@
     <button @click="goToHome">Home</button>
     <button @click="goToSettings">Settings</button>
     <button @click="goToHotkeys">Hotkeys</button>
-    <div>
-      <router-view :key="$route.fullPath" />
-    </div>
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
@@ -13,7 +11,9 @@
 import {Component, Vue} from "vue-property-decorator";
 import {ModifierKey} from "@/hot-keys/hotkeyTypes";
 
-@Component({})
+@Component({
+  components: {}
+})
 export default class App extends Vue {
   async mounted() {
     this.$store.direct.dispatch.hotKeys.toggle({ hotKey: "f4", modifier: ModifierKey.CommandOrControl });
@@ -49,7 +49,27 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-@import "~@/assets/sass/styles.scss";
+@font-face {
+  font-family: "BlizQuadrata Web";
+  src: url("~@/assets/fonts/blq55web.ttf") format("tff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlizQuadrata Web";
+  src: url("~@/assets/fonts/blq85web.ttf") format("tff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.primary {
+  color: #ffcf00;
+}
+
+body {
+  margin: 0;
+}
 
 .app-container {
   background: url("~@/assets/images/backgrounds/arthas.png") center no-repeat;
