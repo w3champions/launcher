@@ -54,6 +54,7 @@ export default class App extends Vue {
 .app-container {
   background: url("~@/assets/images/backgrounds/arthas.png") center no-repeat;
   height: 100vh;
+  background-size: cover;
 }
 
 </style>
