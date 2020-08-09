@@ -1,63 +1,59 @@
 <template>
-  <div id="app">
-<!--    <LoadingScreen />-->
-<!--    <SettingsScreen />-->
-    <router-view :key="$route.fullPath" />
+  <div id="app" class="app-container">
+    <button @click="goToHome">Home</button>
+    <button @click="goToSettings">Settings</button>
+    <button @click="goToHotkeys">Hotkeys</button>
+    <div>
+      <router-view :key="$route.fullPath" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import UpdateScreen from "./update-handling/UpdateScreen.vue";
-import LoadingScreen from "./screens/LoadingScreen.vue";
-import MainScreen from "./screens/MainScreen/index.vue";
-import SettingsScreen from "./screens/SettingsScreen/index.vue";
-import HotKeySetupScreen from "./hot-keys/HotKeySetupScreen.vue";
 import {ModifierKey} from "@/hot-keys/hotkeyTypes";
-// import {ModifierKey} from "@/hot-keys/hotkeyTypes";
-// import {
-//   F1, F2, F3,
-//   ITEM_BOTTOM_LEFT, ITEM_BOTTOM_RIGHT,
-//   ITEM_MIDDLE_LEFT,
-//   ITEM_MIDDLE_RIGHT,
-//   ITEM_TOP_LEFT,
-//   ITEM_TOP_RIGHT, SPACE
-// } from "@/hot-keys/keyValuesRobotJs";
 
-@Component({
-  components: {
-    HotKeySetupScreen,
-    UpdateScreen,
-    MainScreen,
-    SettingsScreen,
-    LoadingScreen,
-  },
-})
+@Component({})
 export default class App extends Vue {
   async mounted() {
-    // const hotKeys = [
-    //   {key: ITEM_TOP_LEFT, combo: { modifier: ModifierKey.None, hotKey: "q" }},
-    //   {key: ITEM_MIDDLE_LEFT, combo: { modifier: ModifierKey.None, hotKey: "a" }},
-    //   {key: ITEM_BOTTOM_LEFT, combo: { modifier: ModifierKey.None, hotKey: "z" }},
-    //   {key: ITEM_TOP_RIGHT, combo: { modifier: ModifierKey.None, hotKey: "w" }},
-    //   {key: ITEM_MIDDLE_RIGHT, combo: { modifier: ModifierKey.None, hotKey: "s" }},
-    //   {key: ITEM_BOTTOM_RIGHT, combo: { modifier: ModifierKey.None, hotKey: "x" }},
-    //
-    //   {key: F1, combo: { modifier: ModifierKey.None, hotKey: "h" }},
-    //   {key: F2, combo: { modifier: ModifierKey.None, hotKey: "j" }},
-    //   {key: F3, combo: { modifier: ModifierKey.None, hotKey: "k" }},
-    //
-    //   {key: SPACE, combo: { modifier: ModifierKey.None, hotKey: "u" }}
-    // ];
-    //
-    // hotKeys.forEach(h => this.$store.direct.dispatch.hotKeys.addHotKey(h));
-
     this.$store.direct.dispatch.hotKeys.toggle({ hotKey: "f4", modifier: ModifierKey.CommandOrControl });
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
+
+    this.$store.direct.dispatch.loadIsTestMode();
+    this.$store.direct.dispatch.updateHandling.loadAllPaths();
+    await this.$store.direct.dispatch.loadNews();
+    await this.$store.direct.dispatch.updateHandling.loadOnlineLauncherVersion();
+    await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
+    await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
+    await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
+  }
+
+  public goToHotkeys() {
+    this.$router.push({
+      path: "/HotKeys"
+    })
+  }
+
+  public goToSettings() {
+    this.$router.push({
+      path: "/Settings"
+    })
+  }
+
+  public goToHome() {
+    this.$router.push({
+      path: "/"
+    })
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "~@/assets/sass/styles.scss";
+
+.app-container {
+  background: url("~@/assets/images/backgrounds/arthas.png") center no-repeat;
+  height: 100vh;
+}
+
 </style>
