@@ -74,7 +74,7 @@ export class ItemHotkeyRegistrationService {
 
     private enableChatCommands() {
         this.register({modifier: ModifierKey.None, hotKey: "enter"}, this.enterFunction)
-        this.register({modifier: ModifierKey.None, hotKey: "escape"}, this.escapeFunction)
+        // this.register({modifier: ModifierKey.None, hotKey: "escape"}, this.escapeFunction)
     }
 
     private enterFunction() {
@@ -84,11 +84,11 @@ export class ItemHotkeyRegistrationService {
         globalShortcut.register("enter", this.enterFunction);
     }
 
-    private escapeFunction() {
-        globalShortcut.unregister("escape");
-        robot.keyTap("escape");
-        store.commit.hotKeys.HOTKEY_STATE_PRESS_ESCAPE();
-        globalShortcut.register("escape", this.escapeFunction);
-    }
+    // private escapeFunction() {
+    //     globalShortcut.unregister("escape");
+    //     robot.keyTap("escape");
+    //     store.commit.hotKeys.HOTKEY_STATE_PRESS_ESCAPE();
+    //     globalShortcut.register("escape", this.escapeFunction);
+    // }
 }
 
