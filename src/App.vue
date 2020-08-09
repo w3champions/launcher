@@ -2,8 +2,7 @@
   <div id="app">
 <!--    <LoadingScreen />-->
 <!--    <SettingsScreen />-->
-    <UpdateScreen />
-    <HotKeySetupScreen />
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
