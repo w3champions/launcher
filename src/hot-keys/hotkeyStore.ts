@@ -1,7 +1,7 @@
 import {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
-import {HotKey, HotKeyModifierState, ModifierKey} from "@/hot-keys/hotkeyTypes";
+import {HotKey, HotKeyModifierState} from "@/hot-keys/hotkeyTypes";
 import {NotInGameState} from "@/hot-keys/HotKeyStateMachine";
 
 const mod = {
@@ -12,12 +12,23 @@ const mod = {
     lastW3cPort: ""
   } as HotKeyModifierState,
   actions: {
-    async addHotkey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
+    addHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
-      commit.ADD_HOTKEY(hotKey);
-      rootGetters.itemHotkeyService.saveHotKeys(state.hotKeys);
+      const allKeys = state.hotKeys.filter(h => h.key !== hotKey.key);
+      const newHotKeys = [...allKeys, hotKey];
+      rootGetters.itemHotkeyService.registerKey(hotKey);
+      rootGetters.itemHotkeyService.saveHotKeys(newHotKeys);
+      commit.SET_HOTKEYS(newHotKeys);
     },
-    async loadHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
+    activateHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { rootGetters, state } = moduleActionContext(context, mod);
+      state.hotKeys.forEach(h => rootGetters.itemHotkeyService.registerKey(h));
+    },
+    disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { rootGetters } = moduleActionContext(context, mod);
+      rootGetters.itemHotkeyService.disableHotKeys();
+    },
+    loadHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       const hotKeys = rootGetters.itemHotkeyService.loadHotKeys()
@@ -35,38 +46,20 @@ const mod = {
       const port = rootGetters.itemHotkeyService.loadLastW3cPort()
       commit.SET_LAST_W3C_PORT(port);
     },
-    async exitGame(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { commit } = moduleActionContext(context, mod);
+    exitGame(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit, dispatch } = moduleActionContext(context, mod);
 
       commit.HOTKEY_STATE_EXITED_GAME();
+      dispatch.disbleHotKeys();
     },
-    async enterGame(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { commit } = moduleActionContext(context, mod);
+    enterGame(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit, dispatch } = moduleActionContext(context, mod);
 
       commit.HOTKEY_STATE_INGAME();
-    },
-    async setHotkeys(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { rootGetters } = moduleActionContext(context, mod);
-
-      rootGetters.itemHotkeyService.itemTopLeft({ modifier: ModifierKey.None, hotKey: "q" })
-      rootGetters.itemHotkeyService.itemMiddleLeft({ modifier: ModifierKey.None, hotKey: "a" })
-      rootGetters.itemHotkeyService.itemBottomLeft({ modifier: ModifierKey.None, hotKey: "z" })
-      rootGetters.itemHotkeyService.itemTopRight({ modifier: ModifierKey.None, hotKey: "w" })
-      rootGetters.itemHotkeyService.itemMiddleRight({ modifier: ModifierKey.None, hotKey: "s" })
-      rootGetters.itemHotkeyService.itemBottomRight({ modifier: ModifierKey.None, hotKey: "x" })
-
-      rootGetters.itemHotkeyService.f1({ modifier: ModifierKey.None, hotKey: "h" })
-      rootGetters.itemHotkeyService.f2({ modifier: ModifierKey.None, hotKey: "j" })
-      rootGetters.itemHotkeyService.f3({ modifier: ModifierKey.None, hotKey: "k" })
-
-      rootGetters.itemHotkeyService.space({ modifier: ModifierKey.None, hotKey: "u" })
+      dispatch.activateHotKeys();
     }
   },
   mutations: {
-    ADD_HOTKEY(state: HotKeyModifierState, hotKey: HotKey) {
-      const allKeys = state.hotKeys.filter(h => h.key !== hotKey.key);
-      state.hotKeys = [...allKeys, hotKey];
-    },
     SET_HOTKEYS(state: HotKeyModifierState, hotKeys: HotKey[]) {
       state.hotKeys = hotKeys;
     },
