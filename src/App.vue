@@ -8,7 +8,7 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {ModifierKey} from "@/hot-keys/hotkeyTypes";
-import HeadLine from "@/globalState/HeadLine.vue";
+import HeadLine from "@/home/HeadLine.vue";
 
 @Component({
   components: {HeadLine}

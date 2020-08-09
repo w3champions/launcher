@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import HeadItem from "@/globalState/HeadItem.vue";
+import HeadItem from "@/home/HeadItem.vue";
 
 @Component({
   components: {HeadItem}
