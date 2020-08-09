@@ -1,3 +1,5 @@
+import store from '../globalState/vuex-store'
+
 export abstract class HotKeyState {
     abstract enterGame(): HotKeyState;
     abstract exitGame(): HotKeyState;
@@ -6,6 +8,20 @@ export abstract class HotKeyState {
         return this.constructor.name === "InGameState";
     }
 }
+
+// export class InChatState extends HotKeyState {
+//     enterGame(): HotKeyState {
+//         return new InGameState();
+//     }
+//
+//     exitGame(): HotKeyState {
+//         return new NotInGameState();
+//     }
+//
+//     toggle(): HotKeyState {
+//         return this;
+//     }
+// }
 
 export class InGameState extends HotKeyState {
     enterGame(): HotKeyState {
@@ -17,6 +33,8 @@ export class InGameState extends HotKeyState {
     }
 
     toggle(): HotKeyState {
+        console.log("turn Off HotKeys manually")
+        store.dispatch.hotKeys.disbleHotKeys();
         return new NotInGameState();
     }
 }
@@ -31,6 +49,8 @@ export class NotInGameState extends HotKeyState {
     }
 
     toggle(): HotKeyState {
+        console.log("turn On HotKeys manually")
+        store.dispatch.hotKeys.activateHotKeys();
         return new InGameState();
     }
 }

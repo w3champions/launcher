@@ -26,14 +26,6 @@ export class ItemHotkeyRegistrationService {
     public toggleOnOff(combo: ClickCombination) {
         this.register(combo, () => {
             store.commit.hotKeys.TOGGLE_HOTKEYS()
-            if (store.state.hotKeys.hotKeyStateMachine.keysActivated()) {
-                console.log("turn Off HotKeys manually")
-                store.dispatch.hotKeys.disbleHotKeys();
-            } else {
-                console.log("turn On HotKeys manually")
-                store.dispatch.hotKeys.activateHotKeys();
-            }
-
         })
     }
 
