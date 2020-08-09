@@ -8,12 +8,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import {Component, Vue} from "vue-property-decorator";
 import UpdateScreen from "./update-handling/UpdateScreen.vue";
 import LoadingScreen from "./screens/LoadingScreen.vue";
 import MainScreen from "./screens/MainScreen/index.vue";
 import SettingsScreen from "./screens/SettingsScreen/index.vue";
 import HotKeySetupScreen from "./hot-keys/HotKeySetupScreen.vue";
+import {ModifierKey} from "@/hot-keys/hotkeyTypes";
 // import {ModifierKey} from "@/hot-keys/hotkeyTypes";
 // import {
 //   F1, F2, F3,
@@ -52,6 +53,7 @@ export default class App extends Vue {
     //
     // hotKeys.forEach(h => this.$store.direct.dispatch.hotKeys.addHotKey(h));
 
+    this.$store.direct.dispatch.hotKeys.toggle({ hotKey: "f4", modifier: ModifierKey.CommandOrControl });
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
   }
 }

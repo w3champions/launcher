@@ -23,8 +23,18 @@ export class ItemHotkeyRegistrationService {
         return this.keyValueStore.get(this.hotKeyStoreKey);
     }
 
-    public resetKey(combo: ClickCombination) {
-        this.register(combo, () => store.commit.hotKeys.RESET_HOTKEY_STATE())
+    public toggleOnOff(combo: ClickCombination) {
+        this.register(combo, () => {
+            store.commit.hotKeys.TOGGLE_HOTKEYS()
+            if (store.state.hotKeys.hotKeyStateMachine.keysActivated()) {
+                console.log("turn Off HotKeys manually")
+                store.dispatch.hotKeys.disbleHotKeys();
+            } else {
+                console.log("turn On HotKeys manually")
+                store.dispatch.hotKeys.activateHotKeys();
+            }
+
+        })
     }
 
     public registerKey(hotKey: HotKey) {
@@ -57,6 +67,10 @@ export class ItemHotkeyRegistrationService {
 
     public disableHotKeys() {
         this.hotKeys.forEach(h => globalShortcut.unregister(this.keyCode(h.combo)));
+    }
+
+    public activateHotKeys() {
+        this.hotKeys.forEach(h => this.registerKey(h));
     }
 }
 

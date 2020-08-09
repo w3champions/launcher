@@ -1,7 +1,7 @@
 import {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
-import {HotKey, HotKeyModifierState} from "@/hot-keys/hotkeyTypes";
+import {ClickCombination, HotKey, HotKeyModifierState} from "@/hot-keys/hotkeyTypes";
 import {NotInGameState} from "@/hot-keys/HotKeyStateMachine";
 
 const mod = {
@@ -20,9 +20,14 @@ const mod = {
       rootGetters.itemHotkeyService.saveHotKeys(newHotKeys);
       commit.SET_HOTKEYS(newHotKeys);
     },
+    toggle(context: ActionContext<HotKeyModifierState, RootState>, combo: ClickCombination) {
+      const { rootGetters } = moduleActionContext(context, mod);
+
+      rootGetters.itemHotkeyService.toggleOnOff(combo)
+    },
     activateHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { rootGetters, state } = moduleActionContext(context, mod);
-      state.hotKeys.forEach(h => rootGetters.itemHotkeyService.registerKey(h));
+      const { rootGetters } = moduleActionContext(context, mod);
+      rootGetters.itemHotkeyService.activateHotKeys();
     },
     disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { rootGetters } = moduleActionContext(context, mod);
@@ -63,8 +68,8 @@ const mod = {
     SET_HOTKEYS(state: HotKeyModifierState, hotKeys: HotKey[]) {
       state.hotKeys = hotKeys;
     },
-    RESET_HOTKEY_STATE(state: HotKeyModifierState) {
-      state.hotKeyStateMachine = state.hotKeyStateMachine.reset();
+    TOGGLE_HOTKEYS(state: HotKeyModifierState) {
+      state.hotKeyStateMachine = state.hotKeyStateMachine.toggle();
     },
     HOTKEY_STATE_INGAME(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.enterGame();
