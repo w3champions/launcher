@@ -5,75 +5,12 @@ import {InGameState} from "@/hot-keys/HotKeyStateMachine";
 const { globalShortcut } = window.require("electron").remote;
 const robot = window.require("robotjs");
 const Store = window.require("electron-store");
-const http = window.require("http");
-const WebSocket = window.require("ws");
 
 export class ItemHotkeyRegistrationService {
     private keyValueStore = new Store();
     private lastPortKey = "lastPortKey";
 
-    private server = http.createServer();
-    private wss = new WebSocket.Server({ server: this.server });
-    private wc3webSocket!: WebSocket;
-
     private hotKeyStoreKey = "hotKeyStoreKey"
-
-    constructor() {
-        const lastPortToWC3 = this.keyValueStore.get(this.lastPortKey);
-
-        if (lastPortToWC3) {
-            try {
-                this.SetupWebsocketToWC3(lastPortToWC3);
-            } catch (e) {
-                this.keyValueStore.set(this.lastPortKey, "")
-            }
-        }
-
-        this.wss.on("connection", (ws: WebSocket) => {
-            ws.onmessage = (message: MessageEvent) => {
-                const data = message.data;
-                if (data.startsWith("SET-WC3-SOCKET_")) {
-                    const wc3Socket = data.split("_")[1];
-                    this.SetupWebsocketToWC3(wc3Socket);
-                }
-            };
-        });
-
-        this.server.listen(38123);
-    }
-
-    private SetupWebsocketToWC3(wc3Socket: string) {
-        if (this.wc3webSocket) {
-            this.wc3webSocket.close();
-        }
-
-        this.wc3webSocket = new WebSocket(wc3Socket);
-        this.wc3webSocket.onopen = () => {
-            console.log("Opened port to wc3")
-            this.keyValueStore.set(this.lastPortKey, wc3Socket)
-            this.server.close()
-            this.wss.close()
-            console.log("closed websocketserver for w3c push again")
-        }
-
-        this.wc3webSocket.onmessage = (message: MessageEvent) => {
-            try {
-                if (this.isMessage(message, "ExitedGame")) {
-                    console.log("User exited game, turn off hotkeys")
-                    store.dispatch.hotKeys.exitGame();
-                }
-
-                if (this.isMessage(message, "UpdateLoadingScreenInfo")) {
-                    console.log("User ENTERED game, turn on hotkeys")
-                    store.dispatch.hotKeys.enterGame();
-                }
-            }
-
-            catch (e) {
-                console.log(e)
-            }
-        }
-    }
 
     get isInGame() {
         return store.state.hotKeys.hotKeyStateMachine instanceof InGameState;
@@ -144,6 +81,14 @@ export class ItemHotkeyRegistrationService {
         this.saveHotKeys(this.hotKeys);
     }
 
+    public saveLastW3cPort(port: string) {
+        this.keyValueStore.set(this.lastPortKey, port);
+    }
+
+    public loadLastW3cPort() {
+        return this.keyValueStore.get(this.lastPortKey);
+    }
+
     private register(combo: ClickCombination, fkt: () => void) {
         const keys = [ModifierKey[combo.modifier], combo.hotKey];
         const keyCode = keys.join("+");
@@ -152,10 +97,6 @@ export class ItemHotkeyRegistrationService {
         }
 
         globalShortcut.register(keyCode, fkt)
-    }
-
-    private isMessage(message: MessageEvent, messageType: string) {
-        return message.data.indexOf(messageType) > 1;
     }
 }
 

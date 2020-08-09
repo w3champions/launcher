@@ -8,7 +8,8 @@ const mod = {
   namespaced: true,
   state: {
     hotKeys: [] as HotKey[],
-    hotKeyStateMachine: new NotInGameState()
+    hotKeyStateMachine: new NotInGameState(),
+    lastW3cPort: ""
   } as HotKeyModifierState,
   actions: {
     async addHotkey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
@@ -21,6 +22,18 @@ const mod = {
 
       const hotKeys = rootGetters.itemHotkeyService.loadHotKeys()
       commit.SET_HOTKEYS(hotKeys);
+    },
+    saveLastW3cPort(context: ActionContext<HotKeyModifierState, RootState>, port: string) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      rootGetters.itemHotkeyService.saveLastW3cPort(port)
+      commit.SET_LAST_W3C_PORT(port);
+    },
+    loadLastW3cPort(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      const port = rootGetters.itemHotkeyService.loadLastW3cPort()
+      commit.SET_LAST_W3C_PORT(port);
     },
     async exitGame(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit } = moduleActionContext(context, mod);
@@ -65,6 +78,9 @@ const mod = {
     },
     HOTKEY_STATE_EXITED_GAME(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.exitGame();
+    },
+    SET_LAST_W3C_PORT(state: HotKeyModifierState, port: string) {
+      state.lastW3cPort = port;
     }
   },
 } as const;

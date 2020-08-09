@@ -3,6 +3,7 @@ import {HotKeyState} from "@/hot-keys/HotKeyStateMachine";
 export interface HotKeyModifierState {
   hotKeys: HotKey[],
   hotKeyStateMachine: HotKeyState,
+  lastW3cPort: string,
 }
 
 export enum ModifierKey {
