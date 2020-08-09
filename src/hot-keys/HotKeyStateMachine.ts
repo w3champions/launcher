@@ -1,5 +1,6 @@
 export abstract class HotKeyState {
     abstract enterGame(): HotKeyState;
+    abstract exitGame(): HotKeyState;
     abstract enter(): HotKeyState;
     abstract escape(): HotKeyState;
     abstract reset(): HotKeyState;
@@ -21,6 +22,10 @@ export class InChatState extends HotKeyState {
     reset(): HotKeyState {
         return new InGameState();
     }
+
+    exitGame(): HotKeyState {
+        return new NotInGameState();
+    }
 }
 
 export class InGameState extends HotKeyState {
@@ -39,6 +44,10 @@ export class InGameState extends HotKeyState {
     reset(): HotKeyState {
         return this;
     }
+
+    exitGame(): HotKeyState {
+        return new NotInGameState();
+    }
 }
 
 export class NotInGameState extends HotKeyState {
@@ -55,6 +64,10 @@ export class NotInGameState extends HotKeyState {
     }
 
     reset(): HotKeyState {
+        return this;
+    }
+
+    exitGame(): HotKeyState {
         return this;
     }
 }

@@ -1,5 +1,6 @@
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/hotkeyTypes";
 import {InGameState} from "@/hot-keys/HotKeyStateMachine";
+import store from '../globalState/vuex-store'
 
 const { globalShortcut } = window.require("electron").remote;
 const robot = window.require("robotjs");
@@ -8,21 +9,32 @@ const http = window.require("http");
 const WebSocket = window.require("ws");
 
 export class ItemHotkeyRegistrationService {
-    private store = new Store();
+    private vuexStore = store;
+    private keyValueStore = new Store();
+    private lastPortKey = "lastPortKey";
 
     private server = http.createServer();
     private wss = new WebSocket.Server({ server: this.server });
+    private wc3webSocket!: WebSocket;
 
     private hotKeyStoreKey = "hotKeyStoreKey"
 
     constructor() {
+        const lastPortToWC3 = this.keyValueStore.get(this.lastPortKey);
+        if (lastPortToWC3) {
+            try {
+                this.SetupWebsocketToWC3(lastPortToWC3);
+            } catch (e) {
+                this.keyValueStore.set(this.lastPortKey, "")
+            }
+        }
 
         this.wss.on("connection", (ws: WebSocket) => {
-            // @ts-ignore
-            ws.onmessage = (message: any) => {
+            ws.onmessage = (message: MessageEvent) => {
                 const data = message.data;
                 if (data.startsWith("SET-WC3-SOCKET_")) {
-                    console.log(data.split("_")[1]);
+                    const wc3Socket = data.split("_")[1];
+                    this.SetupWebsocketToWC3(wc3Socket);
                 }
             };
         });
@@ -30,20 +42,44 @@ export class ItemHotkeyRegistrationService {
         this.server.listen(38123);
     }
 
+    private SetupWebsocketToWC3(wc3Socket: string) {
+        if (this.wc3webSocket) {
+            this.wc3webSocket.close();
+        }
+
+        this.wc3webSocket = new WebSocket(wc3Socket);
+        this.wc3webSocket.onopen = () => {
+            console.log("Opened port to wc3")
+            this.keyValueStore.set(this.lastPortKey, wc3Socket)
+        }
+
+        this.wc3webSocket.onmessage = (message: MessageEvent) => {
+            if (this.isMessage(message, "ExitedGame")) {
+                console.log("User exited game, turn off hotkeys")
+                this.vuexStore.commit.hotKeys.HOTKEY_STATE_EXITED_GAME()
+            }
+
+            if (this.isMessage(message, "UpdateLoadingScreenInfo")) {
+                console.log("User ENTERED game, turn on hotkeys")
+                this.vuexStore.commit.hotKeys.HOTKEY_STATE_INGAME()
+            }
+        }
+    }
+
     get isInGame() {
-        return this.store.direct.hotKeys.state.hotKeyStateMachine instanceof InGameState;
+        return this.vuexStore.state.hotKeys.hotKeyStateMachine instanceof InGameState;
     }
 
     get hotKeys() {
-        return this.store.direct.hotKeys.state.hotKeys;
+        return this.vuexStore.state.hotKeys.hotKeys;
     }
 
     public saveHotKeys(hotKeys: HotKey[]) {
-        this.store.set(this.hotKeyStoreKey, hotKeys);
+        this.keyValueStore.set(this.hotKeyStoreKey, hotKeys);
     }
 
     public loadHotKeys() {
-        return this.store.get(this.hotKeyStoreKey);
+        return this.keyValueStore.get(this.hotKeyStoreKey);
     }
 
     public f1(combo: ClickCombination) {
@@ -87,7 +123,7 @@ export class ItemHotkeyRegistrationService {
     }
 
     public resetKey(combo: ClickCombination) {
-        this.register(combo, () => this.store.direct.hotKeys.commit.RESET_HOTKEY_STATE())
+        this.register(combo, () => this.vuexStore.commit.hotKeys.RESET_HOTKEY_STATE())
     }
 
     private registerKey(key: string, combo: ClickCombination) {
@@ -107,6 +143,10 @@ export class ItemHotkeyRegistrationService {
         }
 
         globalShortcut.register(keyCode, fkt)
+    }
+
+    private isMessage(message: MessageEvent, messageType: string) {
+        return message.data.indexOf(messageType) > 1;
     }
 }
 

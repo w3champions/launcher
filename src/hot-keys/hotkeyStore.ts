@@ -1,7 +1,7 @@
 import {moduleActionContext} from "../globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
-import { HotKey, HotKeyModifierState } from "@/hot-keys/hotkeyTypes";
+import {HotKey, HotKeyModifierState, ModifierKey} from "@/hot-keys/hotkeyTypes";
 import {NotInGameState} from "@/hot-keys/HotKeyStateMachine";
 
 const mod = {
@@ -21,6 +21,22 @@ const mod = {
 
       const hotKeys = rootGetters.itemHotkeyService.loadHotKeys()
       commit.SET_HOTKEYS(hotKeys);
+    },
+    async setHotkeys(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { rootGetters } = moduleActionContext(context, mod);
+
+      rootGetters.itemHotkeyService.itemTopLeft({ modifier: ModifierKey.None, hotKey: "q" })
+      rootGetters.itemHotkeyService.itemMiddleLeft({ modifier: ModifierKey.None, hotKey: "a" })
+      rootGetters.itemHotkeyService.itemBottomLeft({ modifier: ModifierKey.None, hotKey: "z" })
+      rootGetters.itemHotkeyService.itemTopRight({ modifier: ModifierKey.None, hotKey: "w" })
+      rootGetters.itemHotkeyService.itemMiddleRight({ modifier: ModifierKey.None, hotKey: "s" })
+      rootGetters.itemHotkeyService.itemBottomRight({ modifier: ModifierKey.None, hotKey: "x" })
+
+      rootGetters.itemHotkeyService.f1({ modifier: ModifierKey.None, hotKey: "h" })
+      rootGetters.itemHotkeyService.f2({ modifier: ModifierKey.None, hotKey: "j" })
+      rootGetters.itemHotkeyService.f3({ modifier: ModifierKey.None, hotKey: "k" })
+
+      rootGetters.itemHotkeyService.space({ modifier: ModifierKey.None, hotKey: "u" })
     }
   },
   mutations: {
@@ -33,6 +49,12 @@ const mod = {
     },
     RESET_HOTKEY_STATE(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.reset();
+    },
+    HOTKEY_STATE_INGAME(state: HotKeyModifierState) {
+      state.hotKeyStateMachine = state.hotKeyStateMachine.enterGame();
+    },
+    HOTKEY_STATE_EXITED_GAME(state: HotKeyModifierState) {
+      state.hotKeyStateMachine = state.hotKeyStateMachine.exitGame();
     }
   },
 } as const;
