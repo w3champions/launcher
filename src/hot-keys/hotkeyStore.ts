@@ -77,6 +77,12 @@ const mod = {
     HOTKEY_STATE_EXITED_GAME(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.exitGame();
     },
+    HOTKEY_STATE_PRESS_ENTER(state: HotKeyModifierState) {
+      state.hotKeyStateMachine = state.hotKeyStateMachine.pressEnter();
+    },
+    HOTKEY_STATE_PRESS_ESCAPE(state: HotKeyModifierState) {
+      state.hotKeyStateMachine = state.hotKeyStateMachine.pressEscape();
+    },
     SET_LAST_W3C_PORT(state: HotKeyModifierState, port: string) {
       state.lastW3cPort = port;
     }

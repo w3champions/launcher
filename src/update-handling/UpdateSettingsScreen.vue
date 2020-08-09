@@ -101,6 +101,10 @@ export default class UpdateSettingsScreen extends Vue {
     return this.$store.direct.state.updateHandling.localLauncherVersion
   }
 
+  get onlineLauncherVersion() {
+    return this.$store.direct.state.updateHandling.onlineLauncherVersion;
+  }
+
   get w3Path(): string {
     return this.$store.direct.state.updateHandling.w3Path;
   }

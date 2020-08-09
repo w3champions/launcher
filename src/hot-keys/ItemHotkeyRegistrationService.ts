@@ -19,6 +19,10 @@ export class ItemHotkeyRegistrationService {
         return store.state.hotKeys.hotKeys;
     }
 
+    get stateMachine() {
+        return store.state.hotKeys.hotKeyStateMachine;
+    }
+
     public loadHotKeys() {
         return this.keyValueStore.get(this.hotKeyStoreKey);
     }
@@ -58,11 +62,33 @@ export class ItemHotkeyRegistrationService {
     }
 
     public disableHotKeys() {
+        globalShortcut.unregister("enter");
+        globalShortcut.unregister("escape");
         this.hotKeys.forEach(h => globalShortcut.unregister(this.keyCode(h.combo)));
     }
 
     public activateHotKeys() {
+        this.enableChatCommands();
         this.hotKeys.forEach(h => this.registerKey(h));
+    }
+
+    private enableChatCommands() {
+        this.register({modifier: ModifierKey.None, hotKey: "enter"}, this.enterFunction)
+        this.register({modifier: ModifierKey.None, hotKey: "escape"}, this.escapeFunction)
+    }
+
+    private enterFunction() {
+        globalShortcut.unregister("enter");
+        robot.keyTap("enter");
+        store.commit.hotKeys.HOTKEY_STATE_PRESS_ENTER();
+        globalShortcut.register("enter", this.enterFunction);
+    }
+
+    private escapeFunction() {
+        globalShortcut.unregister("escape");
+        robot.keyTap("escape");
+        store.commit.hotKeys.HOTKEY_STATE_PRESS_ESCAPE();
+        globalShortcut.register("escape", this.escapeFunction);
     }
 }
 
