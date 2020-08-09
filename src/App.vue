@@ -30,24 +30,6 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-@font-face {
-  font-family: "BlizQuadrata Web";
-  src: url("~@/assets/fonts/blq55web.ttf") format("tff");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "BlizQuadrata Web";
-  src: url("~@/assets/fonts/blq85web.ttf") format("tff");
-  font-weight: 700;
-  font-style: normal;
-}
-
-.primary {
-  color: #ffcf00;
-}
-
 body {
   margin: 0;
 }

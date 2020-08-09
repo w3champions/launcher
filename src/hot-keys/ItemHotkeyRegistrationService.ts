@@ -5,6 +5,35 @@ const { globalShortcut } = window.require("electron").remote;
 const robot = window.require("robotjs");
 const Store = window.require("electron-store");
 
+// this functions somehow could not be made private, on register/unregister the this. operator somehow gets fucked
+const enterFunction = () => {
+    globalShortcut.unregister("enter");
+    robot.keyTap("enter");
+    store.commit.hotKeys.HOTKEY_STATE_PRESS_ENTER();
+    globalShortcut.register("enter", enterFunction);
+}
+
+const escapeFunction = () => {
+    globalShortcut.unregister("escape");
+    robot.keyTap("escape");
+    store.commit.hotKeys.HOTKEY_STATE_PRESS_ESCAPE();
+    globalShortcut.register("escape", escapeFunction);
+}
+
+const f10function = () => {
+    globalShortcut.unregister("f10");
+    robot.keyTap("f10");
+    store.commit.hotKeys.HOTKEY_STATE_PRESS_F10();
+    globalShortcut.register("f10", f10function);
+}
+
+const f12function = () => {
+    globalShortcut.unregister("f12");
+    robot.keyTap("f12");
+    store.commit.hotKeys.HOTKEY_STATE_PRESS_F12();
+    globalShortcut.register("f12", f12function);
+}
+
 export class ItemHotkeyRegistrationService {
     private keyValueStore = new Store();
     private lastPortKey = "lastPortKey";
@@ -64,31 +93,21 @@ export class ItemHotkeyRegistrationService {
     public disableHotKeys() {
         globalShortcut.unregister("enter");
         globalShortcut.unregister("escape");
+        globalShortcut.unregister("f10");
+        globalShortcut.unregister("f12");
         this.hotKeys.forEach(h => globalShortcut.unregister(this.keyCode(h.combo)));
     }
 
-    public activateHotKeys() {
+    public enableHotKeys() {
         this.enableChatCommands();
         this.hotKeys.forEach(h => this.registerKey(h));
     }
 
     private enableChatCommands() {
-        this.register({modifier: ModifierKey.None, hotKey: "enter"}, this.enterFunction)
-        // this.register({modifier: ModifierKey.None, hotKey: "escape"}, this.escapeFunction)
+        this.register({modifier: ModifierKey.None, hotKey: "enter"}, enterFunction)
+        this.register({modifier: ModifierKey.None, hotKey: "escape"}, escapeFunction)
+        this.register({modifier: ModifierKey.None, hotKey: "f10"}, f10function)
+        this.register({modifier: ModifierKey.None, hotKey: "f12"}, f12function)
     }
-
-    private enterFunction() {
-        globalShortcut.unregister("enter");
-        robot.keyTap("enter");
-        store.commit.hotKeys.HOTKEY_STATE_PRESS_ENTER();
-        globalShortcut.register("enter", this.enterFunction);
-    }
-
-    // private escapeFunction() {
-    //     globalShortcut.unregister("escape");
-    //     robot.keyTap("escape");
-    //     store.commit.hotKeys.HOTKEY_STATE_PRESS_ESCAPE();
-    //     globalShortcut.register("escape", this.escapeFunction);
-    // }
 }
 

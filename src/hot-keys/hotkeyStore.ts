@@ -25,9 +25,9 @@ const mod = {
 
       rootGetters.itemHotkeyService.toggleOnOff(combo)
     },
-    activateHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
+    enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { rootGetters } = moduleActionContext(context, mod);
-      rootGetters.itemHotkeyService.activateHotKeys();
+      rootGetters.itemHotkeyService.enableHotKeys();
     },
     disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { rootGetters } = moduleActionContext(context, mod);
@@ -61,7 +61,7 @@ const mod = {
       const { commit, dispatch } = moduleActionContext(context, mod);
 
       commit.HOTKEY_STATE_INGAME();
-      dispatch.activateHotKeys();
+      dispatch.enableHotKeys();
     }
   },
   mutations: {
@@ -82,6 +82,12 @@ const mod = {
     },
     HOTKEY_STATE_PRESS_ESCAPE(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.pressEscape();
+    },
+    HOTKEY_STATE_PRESS_F10(state: HotKeyModifierState) {
+      state.hotKeyStateMachine = state.hotKeyStateMachine.pressF10();
+    },
+    HOTKEY_STATE_PRESS_F12(state: HotKeyModifierState) {
+      state.hotKeyStateMachine = state.hotKeyStateMachine.pressF12();
     },
     SET_LAST_W3C_PORT(state: HotKeyModifierState, port: string) {
       state.lastW3cPort = port;
