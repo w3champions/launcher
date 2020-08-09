@@ -9,7 +9,6 @@ const http = window.require("http");
 const WebSocket = window.require("ws");
 
 export class ItemHotkeyRegistrationService {
-    private vuexStore = store;
     private keyValueStore = new Store();
     private lastPortKey = "lastPortKey";
 
@@ -21,7 +20,6 @@ export class ItemHotkeyRegistrationService {
 
     constructor() {
         const lastPortToWC3 = this.keyValueStore.get(this.lastPortKey);
-        console.log(this.vuexStore);
 
         if (lastPortToWC3) {
             try {
@@ -50,10 +48,9 @@ export class ItemHotkeyRegistrationService {
         }
 
         this.wc3webSocket = new WebSocket(wc3Socket);
-        const saveStore = this.keyValueStore;
         this.wc3webSocket.onopen = () => {
             console.log("Opened port to wc3")
-            saveStore.set(this.lastPortKey, wc3Socket)
+            this.keyValueStore.set(this.lastPortKey, wc3Socket)
             this.server.close()
             this.wss.close()
             console.log("closed websocketserver for w3c push again")
@@ -63,12 +60,12 @@ export class ItemHotkeyRegistrationService {
             try {
                 if (this.isMessage(message, "ExitedGame")) {
                     console.log("User exited game, turn off hotkeys")
-                    this.vuexStore.dispatch.hotKeys.exitGame();
+                    store.dispatch.hotKeys.exitGame();
                 }
 
                 if (this.isMessage(message, "UpdateLoadingScreenInfo")) {
                     console.log("User ENTERED game, turn on hotkeys")
-                    this.vuexStore.dispatch.hotKeys.enterGame();
+                    store.dispatch.hotKeys.enterGame();
                 }
             }
 
@@ -79,11 +76,11 @@ export class ItemHotkeyRegistrationService {
     }
 
     get isInGame() {
-        return this.vuexStore.state.hotKeys.hotKeyStateMachine instanceof InGameState;
+        return store.state.hotKeys.hotKeyStateMachine instanceof InGameState;
     }
 
     get hotKeys() {
-        return this.vuexStore.state.hotKeys.hotKeys;
+        return store.state.hotKeys.hotKeys;
     }
 
     public saveHotKeys(hotKeys: HotKey[]) {
@@ -135,7 +132,7 @@ export class ItemHotkeyRegistrationService {
     }
 
     public resetKey(combo: ClickCombination) {
-        this.register(combo, () => this.vuexStore.commit.hotKeys.RESET_HOTKEY_STATE())
+        this.register(combo, () => store.commit.hotKeys.RESET_HOTKEY_STATE())
     }
 
     private registerKey(key: string, combo: ClickCombination) {
