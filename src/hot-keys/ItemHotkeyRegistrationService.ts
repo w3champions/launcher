@@ -1,6 +1,6 @@
+import store from '../globalState/vuex-store'
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/hotkeyTypes";
 import {InGameState} from "@/hot-keys/HotKeyStateMachine";
-import store from '../globalState/vuex-store'
 
 const { globalShortcut } = window.require("electron").remote;
 const robot = window.require("robotjs");
@@ -21,6 +21,8 @@ export class ItemHotkeyRegistrationService {
 
     constructor() {
         const lastPortToWC3 = this.keyValueStore.get(this.lastPortKey);
+        console.log(this.vuexStore);
+
         if (lastPortToWC3) {
             try {
                 this.SetupWebsocketToWC3(lastPortToWC3);
@@ -48,20 +50,30 @@ export class ItemHotkeyRegistrationService {
         }
 
         this.wc3webSocket = new WebSocket(wc3Socket);
+        const saveStore = this.keyValueStore;
         this.wc3webSocket.onopen = () => {
             console.log("Opened port to wc3")
-            this.keyValueStore.set(this.lastPortKey, wc3Socket)
+            saveStore.set(this.lastPortKey, wc3Socket)
+            this.server.close()
+            this.wss.close()
+            console.log("closed websocketserver for w3c push again")
         }
 
         this.wc3webSocket.onmessage = (message: MessageEvent) => {
-            if (this.isMessage(message, "ExitedGame")) {
-                console.log("User exited game, turn off hotkeys")
-                this.vuexStore.commit.hotKeys.HOTKEY_STATE_EXITED_GAME()
+            try {
+                if (this.isMessage(message, "ExitedGame")) {
+                    console.log("User exited game, turn off hotkeys")
+                    this.vuexStore.dispatch.hotKeys.exitGame();
+                }
+
+                if (this.isMessage(message, "UpdateLoadingScreenInfo")) {
+                    console.log("User ENTERED game, turn on hotkeys")
+                    this.vuexStore.dispatch.hotKeys.enterGame();
+                }
             }
 
-            if (this.isMessage(message, "UpdateLoadingScreenInfo")) {
-                console.log("User ENTERED game, turn on hotkeys")
-                this.vuexStore.commit.hotKeys.HOTKEY_STATE_INGAME()
+            catch (e) {
+                console.log(e)
             }
         }
     }

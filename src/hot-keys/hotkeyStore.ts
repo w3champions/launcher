@@ -1,4 +1,4 @@
-import {moduleActionContext} from "../globalState/vuex-store";
+import {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
 import {HotKey, HotKeyModifierState, ModifierKey} from "@/hot-keys/hotkeyTypes";
@@ -21,6 +21,16 @@ const mod = {
 
       const hotKeys = rootGetters.itemHotkeyService.loadHotKeys()
       commit.SET_HOTKEYS(hotKeys);
+    },
+    async exitGame(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit } = moduleActionContext(context, mod);
+
+      commit.HOTKEY_STATE_EXITED_GAME();
+    },
+    async enterGame(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit } = moduleActionContext(context, mod);
+
+      commit.HOTKEY_STATE_INGAME();
     },
     async setHotkeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { rootGetters } = moduleActionContext(context, mod);

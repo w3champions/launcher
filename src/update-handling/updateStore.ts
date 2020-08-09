@@ -1,4 +1,4 @@
-import {moduleActionContext} from "../globalState/vuex-store";
+import {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
