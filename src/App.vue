@@ -1,8 +1,6 @@
 <template>
   <div id="app" class="app-container">
-    <button @click="goToHome">Home</button>
-    <button @click="goToSettings">Settings</button>
-    <button @click="goToHotkeys">Hotkeys</button>
+    <HeadLine />
     <router-view :key="$route.fullPath" />
   </div>
 </template>
@@ -10,13 +8,14 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {ModifierKey} from "@/hot-keys/hotkeyTypes";
+import HeadLine from "@/globalState/HeadLine.vue";
 
 @Component({
-  components: {}
+  components: {HeadLine}
 })
 export default class App extends Vue {
   async mounted() {
-    this.$store.direct.dispatch.hotKeys.toggle({ hotKey: "f4", modifier: ModifierKey.CommandOrControl });
+    this.$store.direct.dispatch.hotKeys.toggle({hotKey: "f4", modifier: ModifierKey.CommandOrControl});
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
 
     this.$store.direct.dispatch.loadIsTestMode();
@@ -26,24 +25,6 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
-  }
-
-  public goToHotkeys() {
-    this.$router.push({
-      path: "/HotKeys"
-    })
-  }
-
-  public goToSettings() {
-    this.$router.push({
-      path: "/Settings"
-    })
-  }
-
-  public goToHome() {
-    this.$router.push({
-      path: "/"
-    })
   }
 }
 </script>
