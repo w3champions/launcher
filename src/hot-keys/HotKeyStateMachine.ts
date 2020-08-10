@@ -29,7 +29,7 @@ export abstract class HotKeyState {
     }
 }
 
-export class InChatState extends HotKeyState {
+export class ChatState extends HotKeyState {
 
     enterGame(): HotKeyState {
         return new InGameState();
@@ -56,7 +56,7 @@ export class InChatState extends HotKeyState {
     }
 }
 
-class InGameMenuState extends HotKeyState {
+class MenuState extends HotKeyState {
 
     enterGame(): HotKeyState {
         return new InGameState();
@@ -125,7 +125,7 @@ export class InGameState extends HotKeyState {
     }
 
     pressEnter(): HotKeyState {
-        return new InChatState();
+        return new ChatState();
     }
 
     pressEscape(): HotKeyState {
@@ -133,7 +133,7 @@ export class InGameState extends HotKeyState {
     }
 
     pressF10(): HotKeyState {
-        return new InGameMenuState();
+        return new MenuState();
     }
 
     pressF12(): HotKeyState {
