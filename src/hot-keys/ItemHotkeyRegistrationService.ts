@@ -103,6 +103,8 @@ export class ItemHotkeyRegistrationService {
         if (!this.isNumpadEnabled()) {
             robot.keyTap(NUM_LOCK);
         }
+
+        this.makeSureNumpadIsEnabled()
         this.enableChatCommands();
         this.hotKeys.forEach(h => this.registerKey(h));
     }
@@ -122,11 +124,26 @@ export class ItemHotkeyRegistrationService {
         el.style.left = '-9999px';
         document.body.appendChild(el);
         el.select();
+
         robot.keyTap(ITEM_BOTTOM_LEFT);
         const textContent = el.textContent;
         document.body.removeChild(el);
 
         return textContent === "1"
+    }
+
+    private makeSureNumpadIsEnabled() {
+        const el = window.document.createElement('button');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        window.document.body.appendChild(el);
+        el.onclick = (e) => {
+            if (!e.getModifierState("NumLock")) {
+                robot.keyTap(ITEM_BOTTOM_LEFT);
+            }
+        }
+
+        el.click();
     }
 }
 
