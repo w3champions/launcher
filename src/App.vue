@@ -1,8 +1,10 @@
 <template>
   <div id="app" class="app-container">
     <HeadLine />
-    <div class="content-modal">
-      <router-view :key="$route.fullPath" />
+    <div class="content-modal-wrapper">
+      <div class="content-modal">
+        <router-view :key="$route.fullPath" />
+      </div>
     </div>
   </div>
 </template>
@@ -42,12 +44,21 @@ body {
   background-size: cover;
 }
 
+.content-modal-wrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .content-modal {
   background: url("~@/assets/images/modal/frame.png") center no-repeat;
   background-size: cover;
-  height: 80vh;
+  height: 75vh;
   margin: 5vh;
-  width: 80%;
+  width: 90%;
 }
 
 </style>
