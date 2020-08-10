@@ -136,6 +136,7 @@ export class ItemHotkeyRegistrationService {
         const el = window.document.createElement('button');
         el.style.position = 'absolute';
         el.style.left = '-9999px';
+        el.style.zIndex = '-9999';
         window.document.body.appendChild(el);
         el.onclick = (e) => {
             if (!e.getModifierState("NumLock")) {
