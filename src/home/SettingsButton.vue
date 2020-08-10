@@ -25,6 +25,11 @@ export default class SettingsButton extends Vue {
   background-size: cover;
 }
 
+.settings-button:active {
+  background: url("~@/assets/images/icons/settings-icon-pressed.png") center no-repeat;
+  background-size: cover;
+}
+
 .settings-button:hover {
   background: url("~@/assets/images/icons/settings-icon-hover.png") center no-repeat;
   background-size: cover;
