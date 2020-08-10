@@ -34,8 +34,11 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+@import url("https://rsms.me/inter/inter.css");
+
 body {
   margin: 0;
+  font-family: "Inter" !important;
 }
 
 .app-container {
