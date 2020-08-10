@@ -58,7 +58,7 @@ body {
   background: url("~@/assets/images/modal/frame.png") center no-repeat;
   background-size: cover;
   margin-top: 5vh;
-  height: 72vh;
+  height: 76vh;
   width: 90%;
 }
 

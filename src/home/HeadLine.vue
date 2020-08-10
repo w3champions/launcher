@@ -1,5 +1,5 @@
 <template>
-  <div class="header-stuff">
+  <div class="headline-container">
     <HeadItem target="/" text="Home"/>
     <HeadItem target="/HotKeys" text="Hot Keys"/>
     <SettingsButton/>
@@ -19,7 +19,7 @@ export default class HeadLine extends Vue {
 </script>
 
 <style scoped type="text/css">
-.header-stuff {
+.headline-container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
