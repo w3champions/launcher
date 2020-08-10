@@ -100,9 +100,9 @@ export class ItemHotkeyRegistrationService {
     }
 
     public enableHotKeys() {
-        if (!this.isNumpadEnabled()) {
-            robot.keyTap(NUM_LOCK);
-        }
+        // if (!this.isNumpadEnabled()) {
+        //     robot.keyTap(NUM_LOCK);
+        // }
 
         this.makeSureNumpadIsEnabled()
         this.enableChatCommands();

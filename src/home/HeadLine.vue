@@ -23,8 +23,7 @@ export default class HeadLine extends Vue {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  vertical-align: baseline;
-  width: 100%;
+  align-items: center;
   height: 12vh;
 
   background: url("~@/assets/images/modal/header.png") center no-repeat;
