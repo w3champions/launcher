@@ -26,6 +26,9 @@ export default class HeadLine extends Vue {
   align-items: center;
   height: 12vh;
 
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+
   background: url("~@/assets/images/modal/header.png") center no-repeat;
   background-size: cover;
 }

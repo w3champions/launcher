@@ -40,8 +40,9 @@ body {
 
 .app-container {
   background: url("~@/assets/images/backgrounds/arthas.png") center no-repeat;
-  height: 100vh;
+  height: 99.5vh;
   background-size: cover;
+  border: 0.25vh solid black;
 }
 
 .content-modal-wrapper {
@@ -56,9 +57,9 @@ body {
 .content-modal {
   background: url("~@/assets/images/modal/frame.png") center no-repeat;
   background-size: cover;
-  height: 78vh;
-  margin: 5vh;
-  width: 91%;
+  margin-top: 5vh;
+  height: 72vh;
+  width: 90%;
 }
 
 </style>

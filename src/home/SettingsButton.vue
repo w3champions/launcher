@@ -18,6 +18,8 @@ export default class SettingsButton extends Vue {
 
 <style scoped type="text/css">
 .settings-button {
+  -webkit-app-region: no-drag;
+
   width: 50px;
   height: 50px;
 

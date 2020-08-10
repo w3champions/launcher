@@ -22,6 +22,7 @@ export default class HeadItem extends Vue {
 
 <style scoped type="text/css">
 .header-item {
+  -webkit-app-region: no-drag;
   color: antiquewhite;
   font-size: 2em;
 }
