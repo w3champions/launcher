@@ -158,7 +158,6 @@ export default class UpdateSettingsScreen extends Vue {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: antiquewhite;
   width: 650px;
   height: 50px;
   margin-bottom: 12px;
@@ -213,7 +212,6 @@ export default class UpdateSettingsScreen extends Vue {
 }
 
 .version-wrapper {
-  color: antiquewhite;
   padding-right: 20px;
   padding-top: 30px;
   text-align: right

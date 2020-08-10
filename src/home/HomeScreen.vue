@@ -77,7 +77,6 @@ export default class HomeScreen extends Vue {
 }
 
 .modt {
-  color: aliceblue;
   text-decoration: none;
   font-size: 14px;
   width: 850px;

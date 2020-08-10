@@ -39,6 +39,7 @@ export default class App extends Vue {
 body {
   margin: 0;
   font-family: "Inter" !important;
+  color: antiquewhite;
 }
 
 .app-container {
