@@ -1,7 +1,9 @@
 <template>
   <div id="app" class="app-container">
     <HeadLine />
-    <router-view :key="$route.fullPath" />
+    <div class="content-modal">
+      <router-view :key="$route.fullPath" />
+    </div>
   </div>
 </template>
 
@@ -38,6 +40,14 @@ body {
   background: url("~@/assets/images/backgrounds/arthas.png") center no-repeat;
   height: 100vh;
   background-size: cover;
+}
+
+.content-modal {
+  background: url("~@/assets/images/modal/frame.png") center no-repeat;
+  background-size: cover;
+  height: 80vh;
+  margin: 5vh;
+  width: 80%;
 }
 
 </style>
