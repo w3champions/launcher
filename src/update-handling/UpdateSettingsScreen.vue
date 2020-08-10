@@ -5,40 +5,42 @@
     <div class="isLoading" :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
       Updating W3C...
     </div>
-    <div class="paths">
+    <div style="padding-top: 60px">
       <div class="reset-button-line">
         <div>Warcraft III Location: {{w3Path}}</div>
-        <button class="reset-button" @click="resetW3Path">Set Manually</button>
+        <div class="reset-button" @click="resetW3Path" />
       </div>
       <div class="reset-button-line">
         <div>Map Location: {{mapPath}}</div>
-        <button class="reset-button" @click="resetMapPath">Set Manually</button>
+        <div class="reset-button" @click="resetMapPath" />
       </div>
       <div class="reset-button-line">
         <div>Battle.Net Location: {{battleNet}}</div>
-        <button class="reset-button" @click="resetBnetPath">Set Manually</button>
+        <div class="reset-button" @click="resetBnetPath" />
       </div>
-      <div>
-        Warcraft 3 Champions Version: {{w3cVersion}}
+      <div class="button-bar">
+        <div @click="repairW3c" :disabled="isLoading" class="repair-button">
+          Reset W3C
+        </div>
+        <div @click="redownloadW3c" :disabled="isLoading" class="repair-button">
+          Redownload
+        </div>
+        <div @click="toggleVersion" class="repair-button">
+          Switch to {{ !isTest ? "PTR" : "LIVE" }}
+        </div>
       </div>
-      <div>
-        Launcher Version: {{ currentLauncherVersion }}
-      </div>
-      <div>
-        <button @click="switchToPtr">Switch to PTR</button>
-        <button @click="switchToProd">Switch to PROD</button>
-        <div style="display: inline">
-          {{ isTest ? "PTR loaded" : "PROD" }}
+      <div class="version-wrapper">
+        <div>
+          {{ !isTest ? "PTR" : "LIVE" }}
+        </div>
+        <div>
+          Warcraft 3 Champions Version: {{w3cVersion}}
+        </div>
+        <div>
+          Launcher Version: {{ currentLauncherVersion }}
         </div>
       </div>
     </div>
-    <button @click="repairW3c" :disabled="isLoading" class="repair-button">
-      Reset
-    </button>
-    <button @click="redownloadW3c" :disabled="isLoading" class="repair-button">
-      Redownload
-    </button>
-
   </div>
 </template>
 
@@ -57,12 +59,8 @@ export default class UpdateSettingsScreen extends Vue {
     this.updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
   }
 
-  public async switchToPtr() {
-    await this.updateStrategy.switchToPtr();
-  }
-
-  public async switchToProd() {
-    await this.updateStrategy.switchToProd();
+  public async toggleVersion() {
+    this.isTest ? await this.updateStrategy.switchToProd() : await this.updateStrategy.switchToPtr();
   }
 
   public async resetBnetPath() {
@@ -146,9 +144,29 @@ export default class UpdateSettingsScreen extends Vue {
   align-items: center;
 }
 
+.button-bar{
+  padding-top: 35px;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .reset-button-line {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  color: antiquewhite;
+  width: 650px;
+  height: 50px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  padding-left: 32px;
+  padding-right: 32px;
+  background: url("~@/assets/images/fields/war3_text_hover_4k.png") no-repeat center;
+  background-size: cover;
 }
 
 .isLoading {
@@ -156,12 +174,7 @@ export default class UpdateSettingsScreen extends Vue {
   width: 50%;
 }
 
-.paths {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
 .repair-button {
-  cursor: pointer;
   line-height: 1;
   background-color: transparent;
   text-transform: uppercase;
@@ -182,5 +195,27 @@ export default class UpdateSettingsScreen extends Vue {
   text-decoration: none;
   transition: filter 200ms ease 0s;
   padding: 0 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reset-button {
+  width: 48px;
+  height: 48px;
+  background: url("~@/assets/images/icons/folder-icon-resting.png") no-repeat center;
+  background-size: cover;
+}
+
+.reset-button:hover {
+  background: url("~@/assets/images/icons/folder-icon-hover.png") no-repeat center;
+  background-size: cover;
+}
+
+.version-wrapper {
+  color: antiquewhite;
+  padding-right: 20px;
+  padding-top: 30px;
+  text-align: right
 }
 </style>
