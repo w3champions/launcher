@@ -56,9 +56,9 @@ body {
 .content-modal {
   background: url("~@/assets/images/modal/frame.png") center no-repeat;
   background-size: cover;
-  height: 77vh;
+  height: 78vh;
   margin: 5vh;
-  width: 92%;
+  width: 91%;
 }
 
 </style>
