@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-container">
     <div class="new-launcher-version" v-if="hasNewLauncherVersion">
       There is a new version of the launcher ({{ onlineLauncherVersion }}), please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
     </div>
@@ -11,7 +11,7 @@
       Updating W3C...
     </div>
     <button @click="tryStartWc3" :disabled="isLoading" class="start-button">
-      Start Warcraft 3 Champions!
+      Play
     </button>
   </div>
 </template>
@@ -64,6 +64,12 @@ export default class HomeScreen extends Vue {
 </script>
 
 <style scoped>
+.home-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
 
 .isLoading {
   background-color: rgba(255, 255, 255, 0.8);
@@ -71,10 +77,11 @@ export default class HomeScreen extends Vue {
 }
 
 .modt {
-  background-color: rgba(255, 255, 255, 0.8);
-  width: 50%;
+  color: aliceblue;
   text-decoration: none;
-  padding: 10px 30px 30px;
+  width: 850px;
+  padding: 40px 30px 30px;
+  height: 320px;
 }
 
 .new-launcher-version {
@@ -93,7 +100,6 @@ a {
 }
 
 .start-button {
-  cursor: pointer;
   line-height: 1;
   background-color: transparent;
   text-transform: uppercase;
@@ -106,7 +112,7 @@ a {
     rgba(255, 125, 19, 0.3) 0px 0px 20px 10px inset;
   text-shadow: rgb(51, 38, 28) 0px 0px;
   height: 76px;
-  font-size: 20px;
+  font-size: 26px;
   border-width: 0px;
   border-style: initial;
   border-color: initial;
@@ -116,6 +122,6 @@ a {
   outline: 0px;
   text-decoration: none;
   transition: filter 200ms ease 0s;
-  padding: 0 45px;
+  padding: 0 95px;
 }
 </style>
