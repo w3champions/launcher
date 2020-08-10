@@ -1,6 +1,6 @@
 import store from '../globalState/vuex-store'
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/hotkeyTypes";
-import {NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
+import {ITEM_BOTTOM_LEFT, NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
 
 const { globalShortcut } = window.require("electron").remote;
 const robot = window.require("robotjs");
@@ -100,7 +100,7 @@ export class ItemHotkeyRegistrationService {
     }
 
     public enableHotKeys() {
-        if (this.isNumpadDisabled()) {
+        if (!this.isNumpadEnabled()) {
             robot.keyTap(NUM_LOCK);
         }
         this.enableChatCommands();
@@ -114,9 +114,19 @@ export class ItemHotkeyRegistrationService {
         this.register({modifier: ModifierKey.None, hotKey: "f12"}, f12function)
     }
 
-    private isNumpadDisabled() {
-        //TODO
-        return true;
+    private isNumpadEnabled() {
+        const el = window.document.createElement('textarea');
+
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        robot.keyTap(ITEM_BOTTOM_LEFT);
+        const textContent = el.textContent;
+        document.body.removeChild(el);
+
+        return textContent === "1"
     }
 }
 
