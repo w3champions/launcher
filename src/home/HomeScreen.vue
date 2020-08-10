@@ -18,18 +18,31 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
+import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
+import {MacLauncher} from "@/update-handling/MacLauncher";
+const os = window.require('os');
 
 @Component({})
 export default class HomeScreen extends Vue {
   private updateStrategy!: any;
 
+  constructor() {
+    super();
+    this.updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
+  }
+
   get news() {
     return this.$store.direct.state.news;
+  }
+
+  private isWindows() {
+    return os.platform() === "win32";
   }
 
   public async tryStartWc3() {
     if (this.isLoading) return;
     await this.updateStrategy.updateIfNeeded();
+    this.updateStrategy.startWc3();
   }
 
   get currentLauncherVersion(): string {
@@ -46,12 +59,6 @@ export default class HomeScreen extends Vue {
 
   get isLoading() {
     return this.$store.state.updateHandling.isUpdatingMaps || this.$store.state.updateHandling.isUpdatingWebUI;
-  }
-
-  public async repairW3c() {
-    if (this.isLoading) return;
-
-    await this.updateStrategy.repairWc3();
   }
 }
 </script>
