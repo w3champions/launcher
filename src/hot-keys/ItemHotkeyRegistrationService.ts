@@ -100,10 +100,6 @@ export class ItemHotkeyRegistrationService {
     }
 
     public enableHotKeys() {
-        // if (!this.isNumpadEnabled()) {
-        //     robot.keyTap(NUM_LOCK);
-        // }
-
         this.makeSureNumpadIsEnabled()
         this.enableChatCommands();
         this.hotKeys.forEach(h => this.registerKey(h));
@@ -116,22 +112,6 @@ export class ItemHotkeyRegistrationService {
         this.register({modifier: ModifierKey.None, hotKey: "f12"}, f12function)
     }
 
-    private isNumpadEnabled() {
-        const el = window.document.createElement('textarea');
-
-        el.setAttribute('readonly', '');
-        el.style.position = 'absolute';
-        el.style.left = '-9999px';
-        document.body.appendChild(el);
-        el.select();
-
-        robot.keyTap(ITEM_BOTTOM_LEFT);
-        const textContent = el.textContent;
-        document.body.removeChild(el);
-
-        return textContent === "1"
-    }
-
     private makeSureNumpadIsEnabled() {
         const el = window.document.createElement('button');
         el.style.position = 'absolute';
@@ -139,12 +119,14 @@ export class ItemHotkeyRegistrationService {
         el.style.zIndex = '-9999';
         window.document.body.appendChild(el);
         el.onclick = (e) => {
-            if (!e.getModifierState("NumLock")) {
-                robot.keyTap(ITEM_BOTTOM_LEFT);
+            const numlockState = e.getModifierState("NumLock");
+            if (!numlockState) {
+                robot.keyTap(NUM_LOCK);
             }
         }
 
         el.click();
+        window.document.body.removeChild(el);
     }
 }
 
