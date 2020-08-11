@@ -137,7 +137,7 @@ export default class UpdateSettingsScreen extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped type="text/css">
 .launcher-background {
   display: flex;
   flex-direction: column;

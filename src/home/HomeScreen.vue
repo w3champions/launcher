@@ -25,18 +25,13 @@ const os = window.require('os');
   components: {LoadingSpinner}
 })
 export default class HomeScreen extends Vue {
-  private updateStrategy!: any;
-
-  constructor() {
-    super();
-    this.updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
-  }
+  private updateStrategy = HomeScreen.isWindows() ? new WindowsLauncher() : new MacLauncher();
 
   get news() {
     return this.$store.direct.state.news;
   }
 
-  private isWindows() {
+  private static isWindows() {
     return os.platform() === "win32";
   }
 
@@ -64,7 +59,7 @@ export default class HomeScreen extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped type="text/css">
 .home-container{
   display: flex;
   flex-direction: column;
@@ -91,6 +86,7 @@ export default class HomeScreen extends Vue {
   background: rgba(0, 0, 0, 0.8);
   text-decoration: none;
 }
+
 a {
   color: inherit;
 }
