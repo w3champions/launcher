@@ -1,19 +1,26 @@
 <template>
   <div class="hotkey-wrapper">
 
+    <div class="hotkey-enter-modal" :style="`visibility: ${modal ? 'visible' : 'hidden'}`">
+      <div style="font-size: 30px">Enter Hotkey:</div>
+      <br/>
+      <input class="hotkey-input" type="text" v-model="hotkeyToEdit" placeholder="Enter Hotkey"/>
+      <div @click="addKey">Add</div>
+      <div @click="closeModal">Cancel</div>
+    </div>
     <div class="item-grid">
-      <div class="single-item">{{itemHotHotkeyTopLeft}}</div>
-      <div class="single-item">{{itemHotHotkeyTopRight}}</div>
-      <div class="single-item">{{itemHotHotkeyMidleLeft}}</div>
-      <div class="single-item">{{itemHotHotkeyMiddleRight}}</div>
-      <div class="single-item">{{itemHotHotkeyBottomLeft}}</div>
-      <div class="single-item">{{itemHotHotkeyBottomRight}}</div>
+      <div class="single-item" @click="() => openChangeHotkeyModal(itemTopLeft)">{{getKeyComboOf(itemTopLeft)}}</div>
+      <div class="single-item" @click="() => openChangeHotkeyModal(itemTopRight)">{{getKeyComboOf(itemTopRight)}}</div>
+      <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleLeft)">{{getKeyComboOf(itemMiddleLeft)}}</div>
+      <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleRight)">{{getKeyComboOf(itemMiddleRight)}}</div>
+      <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomLeft)">{{getKeyComboOf(itemBottomLeft)}}</div>
+      <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomRight)">{{getKeyComboOf(itemBottomRight)}}</div>
     </div>
     <div class="function-key-grid">
-      <div class="single-item function-item">{{f1Key}} <div class="foot-note">F1</div></div>
-      <div class="single-item function-item">{{f2Key}} <div class="foot-note">F2</div></div>
-      <div class="single-item function-item">{{f3Key}} <div class="foot-note">F3</div></div>
-      <div class="single-item function-item" style="margin-left: 50px">{{hotkeyToggle}} <div class="foot-note">toggle</div></div>
+      <div class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}}</div> <div class="foot-note">F1</div>
+      <div class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}}</div> <div class="foot-note">F2</div>
+      <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}}</div> <div class="foot-note">F3</div>
+      <div class="single-item function-item" style="margin-left: 50px">{{hotkeyToggle}}</div> <div class="foot-note">toggle</div>
     </div>
     <div class="hotkey-toggle" @click="toggleHotKeys" :style="`background-color: ${hotkeyState ? 'green' : 'red'}`" />
   </div>
@@ -30,51 +37,73 @@ import {
   ITEM_TOP_RIGHT
 } from "@/hot-keys/keyValuesRobotJs";
 import {combiAsString} from "@/hot-keys/utilsFunctions";
+import {ModifierKey} from "@/hot-keys/hotkeyTypes";
 
 @Component
 export default class HotKeySetupScreen extends Vue {
+  public modal = false;
+  public hotkeyToEdit = "";
+  public hotkeyModifierToEdit = ModifierKey.None;
+  public selectedHotKey = "";
+
+  public closeModal() {
+    this.modal = false;
+    this.hotkeyToEdit = "";
+    this.selectedHotKey = "";
+  }
+
+  public addKey() {
+    this.$store.direct.dispatch.hotKeys.addHotKey({key: this.selectedHotKey, combo: {hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}})
+    this.closeModal();
+  }
+
   public toggleHotKeys() {
     this.$store.direct.commit.hotKeys.TOGGLE_HOTKEYS();
+  }
+
+  public openChangeHotkeyModal(hotKey: string) {
+    this.modal = !this.modal;
+    this.selectedHotKey = hotKey;
   }
 
   get hotkeyState() {
     return this.$store.direct.state.hotKeys.hotKeyStateMachine.constructor.name === "InGameState"
   }
 
-  get itemHotHotkeyTopLeft() {
-    return this.getKeyComboOf(ITEM_TOP_LEFT);
+  get itemTopLeft() {
+    return ITEM_TOP_LEFT;
   }
 
-  get itemHotHotkeyMidleLeft() {
-    return this.getKeyComboOf(ITEM_MIDDLE_LEFT);
+  get itemMiddleLeft() {
+    return ITEM_MIDDLE_LEFT;
   }
 
-  get itemHotHotkeyBottomLeft() {
-    return this.getKeyComboOf(ITEM_BOTTOM_LEFT);
+  get itemBottomLeft() {
+    return ITEM_BOTTOM_LEFT;
   }
 
-  get itemHotHotkeyTopRight() {
-    return this.getKeyComboOf(ITEM_TOP_RIGHT);
+  get itemTopRight() {
+    return ITEM_TOP_RIGHT;
   }
 
-  get itemHotHotkeyMiddleRight() {
-    return this.getKeyComboOf(ITEM_MIDDLE_RIGHT);
+  get itemMiddleRight() {
+    return ITEM_MIDDLE_RIGHT;
   }
 
-  get itemHotHotkeyBottomRight() {
-    return this.getKeyComboOf(ITEM_BOTTOM_RIGHT);
+  get itemBottomRight() {
+    return ITEM_BOTTOM_RIGHT;
   }
 
   get f1Key() {
-    return this.getKeyComboOf(F1);
+    return F1;
   }
 
   get f2Key() {
-    return this.getKeyComboOf(F2);
+    return F2;
   }
 
   get f3Key() {
-    return this.getKeyComboOf(F3);
+    return F3;
   }
 
   get hotkeyToggle() {
@@ -176,5 +205,24 @@ export default class HotKeySetupScreen extends Vue {
 
   background: url("~@/assets/images/buttons/war3_btn_small_blue_hover_4k.png") no-repeat center;
   background-size: cover;
+}
+
+.hotkey-enter-modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0, 0.8);
+}
+
+.hotkey-input {
+  font-size: 30px;
+  text-align: center;
 }
 </style>
