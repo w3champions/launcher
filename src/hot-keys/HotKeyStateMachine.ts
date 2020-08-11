@@ -8,12 +8,6 @@ export abstract class HotKeyState {
     abstract pressF10(): HotKeyState;
     abstract pressF12(): HotKeyState;
 
-    constructor() {
-        if (store) {
-            store.dispatch.hotKeys.disbleHotKeys();
-        }
-    }
-
     public keysActivated() {
         return this.constructor.name === InGameState.name;
     }
@@ -30,6 +24,10 @@ export abstract class HotKeyState {
 }
 
 export class ChatState extends HotKeyState {
+    constructor() {
+        super();
+        store.dispatch.hotKeys.disbleHotKeys();
+    }
 
     enterGame(): HotKeyState {
         return new InGameState();
@@ -57,6 +55,10 @@ export class ChatState extends HotKeyState {
 }
 
 class MenuState extends HotKeyState {
+    constructor() {
+        super();
+        store.dispatch.hotKeys.disbleHotKeys();
+    }
 
     enterGame(): HotKeyState {
         return new InGameState();
@@ -71,10 +73,12 @@ class MenuState extends HotKeyState {
     }
 
     pressEscape(): HotKeyState {
+        console.log("escape from menu state")
         return new InGameState();
     }
 
     pressF10(): HotKeyState {
+        console.log("f10 from menu state")
         return new InGameState();
     }
 
@@ -84,6 +88,10 @@ class MenuState extends HotKeyState {
 }
 
 class InChatLogState extends HotKeyState {
+    constructor() {
+        super();
+        store.dispatch.hotKeys.disbleHotKeys();
+    }
 
     enterGame(): HotKeyState {
         return new InGameState();
@@ -142,6 +150,13 @@ export class InGameState extends HotKeyState {
 }
 
 export class NotInGameState extends HotKeyState {
+    constructor() {
+        super();
+        if (store) {
+            store.dispatch.hotKeys.disbleHotKeys();
+        }
+    }
+
     enterGame(): HotKeyState {
         return new InGameState();
     }
