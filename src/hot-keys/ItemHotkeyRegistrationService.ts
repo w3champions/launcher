@@ -1,6 +1,6 @@
 import store from '../globalState/vuex-store'
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/hotkeyTypes";
-import {ITEM_BOTTOM_LEFT, NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
+import {NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
 import {combiAsString} from "@/hot-keys/utilsFunctions";
 
 const { globalShortcut } = window.require("electron").remote;
