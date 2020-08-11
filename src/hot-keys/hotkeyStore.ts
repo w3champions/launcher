@@ -33,9 +33,11 @@ const mod = {
       }
     },
     setToggleKey(context: ActionContext<HotKeyModifierState, RootState>, combo: ClickCombination) {
-      const { rootGetters } = moduleActionContext(context, mod);
+      const { rootGetters, commit, state } = moduleActionContext(context, mod);
 
-      rootGetters.itemHotkeyService.toggleOnOff(combo)
+      rootGetters.itemHotkeyService.removeToggleOnOff(state.toggleButton);
+      rootGetters.itemHotkeyService.toggleOnOff(combo);
+      commit.SET_TOGGLE_KEY(combo);
     },
     enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { rootGetters } = moduleActionContext(context, mod);

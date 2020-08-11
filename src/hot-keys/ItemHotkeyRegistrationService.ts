@@ -63,6 +63,10 @@ export class ItemHotkeyRegistrationService {
         return this.keyValueStore.get(this.hotKeyToggleKey);
     }
 
+    public removeToggleOnOff(combo: ClickCombination) {
+        globalShortcut.unregister(combiAsString(combo));
+    }
+
     public toggleOnOff(combo: ClickCombination) {
         this.register(combo, () => {
             store.commit.hotKeys.TOGGLE_HOTKEYS()
