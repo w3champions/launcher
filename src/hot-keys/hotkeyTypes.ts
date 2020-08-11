@@ -1,9 +1,14 @@
+import {HotKeyState} from "@/hot-keys/HotKeyStateMachine";
+
 export interface HotKeyModifierState {
-  hotKeys: HotKey[]
+  hotKeys: HotKey[],
+  hotKeyStateMachine: HotKeyState,
+  toggleButton: ClickCombination,
+  lastW3cPort: string,
 }
 
 export enum ModifierKey {
-  None, CommandOrControl, Alt, Shift
+  None, CommandOrControl, Alt, Shift, Space
 }
 
 export interface ClickCombination {

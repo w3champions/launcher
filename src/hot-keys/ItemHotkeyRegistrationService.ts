@@ -1,70 +1,116 @@
+import store from '../globalState/vuex-store'
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/hotkeyTypes";
+import {combiAsString} from "@/hot-keys/utilsFunctions";
 
 const { globalShortcut } = window.require("electron").remote;
 const robot = window.require("robotjs");
 const Store = window.require("electron-store");
 
+// this functions somehow could not be made private, on register/unregister the this. operator somehow gets fucked
+const enterFunction = () => {
+    globalShortcut.unregister("enter");
+    robot.keyTap("enter");
+    store.commit.hotKeys.HOTKEY_STATE_PRESS_ENTER();
+    globalShortcut.register("enter", enterFunction);
+}
+
+const escapeFunction = () => {
+    globalShortcut.unregister("escape");
+    robot.keyTap("escape");
+    store.commit.hotKeys.HOTKEY_STATE_PRESS_ESCAPE();
+    globalShortcut.register("escape", escapeFunction);
+}
+
+const f10function = () => {
+    globalShortcut.unregister("f10");
+    robot.keyTap("f10");
+    store.commit.hotKeys.HOTKEY_STATE_PRESS_F10();
+    globalShortcut.register("f10", f10function);
+}
+
+const f12function = () => {
+    globalShortcut.unregister("f12");
+    robot.keyTap("f12");
+    store.commit.hotKeys.HOTKEY_STATE_PRESS_F12();
+    globalShortcut.register("f12", f12function);
+}
+
 export class ItemHotkeyRegistrationService {
-    private store = new Store();
+
+    private keyValueStore = new Store();
+    private lastPortKey = "lastPortKey";
+
     private hotKeyStoreKey = "hotKeyStoreKey"
+    private hotKeyToggleKey = "hotKeyToggleKey"
 
     public saveHotKeys(hotKeys: HotKey[]) {
-        this.store.set(this.hotKeyStoreKey, hotKeys);
+        this.keyValueStore.set(this.hotKeyStoreKey, hotKeys);
     }
 
     public loadHotKeys() {
-        return this.store.get(this.hotKeyStoreKey);
+        return this.keyValueStore.get(this.hotKeyStoreKey) ?? [];
     }
 
-    public f1(combo: ClickCombination) {
-        this.registerKey("f1", combo)
+    public loadToggleKey() {
+        return this.keyValueStore.get(this.hotKeyToggleKey);
     }
 
-    public f2(combo: ClickCombination) {
-        this.registerKey("f2", combo)
+    public removeToggleOnOff(combo: ClickCombination) {
+        globalShortcut.unregister(combiAsString(combo));
     }
 
-    public f3(combo: ClickCombination) {
-        this.registerKey("f2", combo)
+    public toggleOnOff(combo: ClickCombination, fkt: () => void) {
+        this.register(combo, fkt)
+
+        this.keyValueStore.set(this.hotKeyToggleKey, combo)
     }
 
-    public space(combo: ClickCombination) {
-        this.registerKey("space", combo)
+    public registerKey(hotKey: HotKey) {
+        this.register(hotKey.combo, () => {
+            robot.keyTap(hotKey.key);
+        });
     }
 
-    public itemTopLeft(combo: ClickCombination) {
-        this.registerKey("numpad_7", combo)
+    public unregister(combo: ClickCombination) {
+        const keyCode = combiAsString(combo);
+        globalShortcut.unregister(keyCode)
     }
 
-    public itemMiddleLeft(combo: ClickCombination) {
-        this.registerKey("numpad_4", combo)
+    public saveLastW3cPort(port: string) {
+        this.keyValueStore.set(this.lastPortKey, port);
     }
 
-    public itemBottomLeft(combo: ClickCombination) {
-        this.registerKey("numpad_1", combo)
+    public loadLastW3cPort() {
+        return this.keyValueStore.get(this.lastPortKey);
     }
 
-    public itemTopRight(combo: ClickCombination) {
-        this.registerKey("numpad_8", combo)
-    }
-
-    public itemMiddleRight(combo: ClickCombination) {
-        this.registerKey("numpad_5", combo)
-    }
-
-    public itemBottomRight(combo: ClickCombination) {
-        this.registerKey("numpad_2", combo)
-    }
-
-    private registerKey(key: string, combo: ClickCombination) {
-        const keyCode = `${combo.modifier !== ModifierKey.None ? ModifierKey[combo.modifier] : ""}+${combo.hotKey}`;
+    private register(combo: ClickCombination, fkt: () => void) {
+        const keyCode = combiAsString(combo);
         if (globalShortcut.isRegistered(keyCode)) {
             globalShortcut.unregister(keyCode)
         }
 
-        globalShortcut.register(keyCode, () => {
-            robot.keyTap(key);
-        })
+        globalShortcut.register(keyCode, fkt)
+    }
+
+    public disableHotKeys(hotKeys: HotKey[]) {
+        globalShortcut.unregister("enter");
+        globalShortcut.unregister("escape");
+        globalShortcut.unregister("f10");
+        globalShortcut.unregister("f12");
+        hotKeys.forEach(h => globalShortcut.unregister(combiAsString(h.combo)));
+    }
+
+    public enableHotKeys(hotKeys: HotKey[]) {
+        this.enableChatCommands();
+        hotKeys.forEach(h => this.registerKey(h));
+    }
+
+    private enableChatCommands() {
+        this.register({modifier: ModifierKey.None, hotKey: "enter"}, enterFunction)
+        this.register({modifier: ModifierKey.None, hotKey: "escape"}, escapeFunction)
+        this.register({modifier: ModifierKey.None, hotKey: "f10"}, f10function)
+        this.register({modifier: ModifierKey.None, hotKey: "f12"}, f12function)
     }
 }
 

@@ -1,7 +1,7 @@
 module.exports = {
   pluginOptions: {
     electronBuilder: {
-      externals: ['adm-zip', 'axios', 'robotjs', 'arraybuffer-to-buffer'],
+      externals: ['adm-zip', 'axios', 'robotjs', 'arraybuffer-to-buffer', 'vue-router', 'ws'],
       builderOptions: {
         afterSign: "notarize.js",
         mac: {
