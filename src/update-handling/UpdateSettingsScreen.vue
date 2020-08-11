@@ -29,7 +29,7 @@
       </div>
       <div class="version-wrapper">
         <div>
-          {{ !isTest ? "PTR" : "LIVE" }}
+          {{ isTest ? "PTR" : "LIVE" }}
         </div>
         <div>
           Warcraft 3 Champions Version: {{w3cVersion}}
