@@ -41,6 +41,7 @@ export class ItemHotkeyRegistrationService {
     private lastPortKey = "lastPortKey";
 
     private hotKeyStoreKey = "hotKeyStoreKey"
+    private hotKeyToggleKey = "hotKeyToggleKey"
 
     public saveHotKeys(hotKeys: HotKey[]) {
         this.keyValueStore.set(this.hotKeyStoreKey, hotKeys);
@@ -58,10 +59,16 @@ export class ItemHotkeyRegistrationService {
         return this.keyValueStore.get(this.hotKeyStoreKey) ?? [];
     }
 
+    public loadToggleKey() {
+        return this.keyValueStore.get(this.hotKeyToggleKey);
+    }
+
     public toggleOnOff(combo: ClickCombination) {
         this.register(combo, () => {
             store.commit.hotKeys.TOGGLE_HOTKEYS()
         })
+
+        this.keyValueStore.set(this.hotKeyToggleKey, combo)
     }
 
     public registerKey(hotKey: HotKey) {

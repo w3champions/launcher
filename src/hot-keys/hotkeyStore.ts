@@ -1,7 +1,7 @@
 import {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
-import {ClickCombination, HotKey, HotKeyModifierState} from "@/hot-keys/hotkeyTypes";
+import {ClickCombination, HotKey, HotKeyModifierState, ModifierKey} from "@/hot-keys/hotkeyTypes";
 import {NotInGameState} from "@/hot-keys/HotKeyStateMachine";
 
 const mod = {
@@ -9,7 +9,8 @@ const mod = {
   state: {
     hotKeys: [] as HotKey[],
     hotKeyStateMachine: new NotInGameState(),
-    lastW3cPort: ""
+    lastW3cPort: "",
+    toggleButton: { modifier: ModifierKey.CommandOrControl, hotKey: "f4" }
   } as HotKeyModifierState,
   actions: {
     addHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
@@ -38,6 +39,12 @@ const mod = {
 
       const hotKeys = rootGetters.itemHotkeyService.loadHotKeys()
       commit.SET_HOTKEYS(hotKeys);
+    },
+    loadToggleKey(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      const hotKey = rootGetters.itemHotkeyService.loadToggleKey()
+      commit.SET_TOGGLE_KEY(hotKey);
     },
     saveLastW3cPort(context: ActionContext<HotKeyModifierState, RootState>, port: string) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
@@ -88,6 +95,11 @@ const mod = {
     },
     HOTKEY_STATE_PRESS_F12(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.pressF12();
+    },
+    SET_TOGGLE_KEY(state: HotKeyModifierState, combo: ClickCombination) {
+      if (combo) {
+        state.toggleButton = combo;
+      }
     },
     SET_LAST_W3C_PORT(state: HotKeyModifierState, port: string) {
       state.lastW3cPort = port;

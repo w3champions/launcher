@@ -13,7 +13,7 @@
       <div class="single-item function-item">{{f1Key}} <div class="foot-note">F1</div></div>
       <div class="single-item function-item">{{f2Key}} <div class="foot-note">F2</div></div>
       <div class="single-item function-item">{{f3Key}} <div class="foot-note">F3</div></div>
-      <div class="single-item function-item">{{hotkeyToggle}} <div class="foot-note">toggle</div></div>
+      <div class="single-item function-item" style="margin-left: 50px">{{hotkeyToggle}} <div class="foot-note">toggle</div></div>
     </div>
     <div class="hotkey-toggle" @click="toggleHotKeys" :style="`background-color: ${hotkeyState ? 'green' : 'red'}`" />
   </div>
@@ -78,7 +78,7 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   get hotkeyToggle() {
-    return this.getKeyComboOf(F3);
+    return combiAsString(this.$store.direct.state.hotKeys.toggleButton).replace("CommandOrControl", "Ctrl");
   }
 
   private getKeyComboOf(itemKey: string) {
@@ -134,7 +134,7 @@ export default class HotKeySetupScreen extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .single-item:hover {
@@ -169,5 +169,12 @@ export default class HotKeySetupScreen extends Vue {
   width: 86px;
   height: 86px;
   margin: 0 0 0 10px;
+}
+
+.function-item:hover {
+  border: 3px solid transparent;
+
+  background: url("~@/assets/images/buttons/war3_btn_small_blue_hover_4k.png") no-repeat center;
+  background-size: cover;
 }
 </style>
