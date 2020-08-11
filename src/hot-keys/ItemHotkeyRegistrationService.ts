@@ -1,6 +1,7 @@
 import store from '../globalState/vuex-store'
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/hotkeyTypes";
 import {ITEM_BOTTOM_LEFT, NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
+import {combiAsString} from "@/hot-keys/utilsFunctions";
 
 const { globalShortcut } = window.require("electron").remote;
 const robot = window.require("robotjs");
@@ -78,7 +79,7 @@ export class ItemHotkeyRegistrationService {
     }
 
     private register(combo: ClickCombination, fkt: () => void) {
-        const keyCode = this.keyCode(combo);
+        const keyCode = combiAsString(combo);
         if (globalShortcut.isRegistered(keyCode)) {
             globalShortcut.unregister(keyCode)
         }
@@ -86,17 +87,12 @@ export class ItemHotkeyRegistrationService {
         globalShortcut.register(keyCode, fkt)
     }
 
-    private keyCode(combo: ClickCombination) {
-        const keys = [combo.modifier !== ModifierKey.None ? ModifierKey[combo.modifier] : null, combo.hotKey].filter(f => f);
-        return keys.join("+");
-    }
-
     public disableHotKeys() {
         globalShortcut.unregister("enter");
         globalShortcut.unregister("escape");
         globalShortcut.unregister("f10");
         globalShortcut.unregister("f12");
-        this.hotKeys.forEach(h => globalShortcut.unregister(this.keyCode(h.combo)));
+        this.hotKeys.forEach(h => globalShortcut.unregister(combiAsString(h.combo)));
     }
 
     public enableHotKeys() {

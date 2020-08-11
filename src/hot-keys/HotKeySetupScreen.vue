@@ -14,7 +14,6 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import {ModifierKey} from "@/hot-keys/hotkeyTypes";
 import {
   ITEM_BOTTOM_LEFT, ITEM_BOTTOM_RIGHT,
   ITEM_MIDDLE_LEFT,
@@ -22,6 +21,7 @@ import {
   ITEM_TOP_LEFT,
   ITEM_TOP_RIGHT
 } from "@/hot-keys/keyValuesRobotJs";
+import {combiAsString} from "@/hot-keys/utilsFunctions";
 
 @Component
 export default class HotKeySetupScreen extends Vue {
@@ -62,12 +62,7 @@ export default class HotKeySetupScreen extends Vue {
     if (!hotKeys) return "none"
     const combo = hotKeys?.filter(h => h.key === itemKey)[0];
     if (!combo) return "none"
-    return this.asString(combo?.combo);
-  }
-
-  private asString(key: any) {
-    const keys = [key.modifier !== ModifierKey.None ? ModifierKey[key.modifier] : null, key.hotKey].filter(f => f);
-    return keys.join("+");
+    return combiAsString(combo?.combo);
   }
 }
 
