@@ -67,7 +67,7 @@ body {
 }
 
 .app-container {
-  background: url("~@/assets/images/backgrounds/arthas.png") center no-repeat;
+  background: url("~@/assets/images/backgrounds/main_bg.png") center no-repeat;
   height: 99.5vh;
   background-size: cover;
   border: 0.25vh solid black;
@@ -83,7 +83,7 @@ body {
 }
 
 .content-modal {
-  background: url("~@/assets/images/modal/frame.png") center no-repeat;
+  background: url("~@/assets/images/backgrounds/frame.png") center no-repeat;
   background-size: cover;
   margin-top: 5vh;
   height: 76vh;

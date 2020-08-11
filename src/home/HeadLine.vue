@@ -29,7 +29,7 @@ export default class HeadLine extends Vue {
   -webkit-user-select: none;
   -webkit-app-region: drag;
 
-  background: url("~@/assets/images/modal/header.png") center no-repeat;
+  background: url("~@/assets/images/backgrounds/header.png") center no-repeat;
   background-size: cover;
 }
 
