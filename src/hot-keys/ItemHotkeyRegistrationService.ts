@@ -77,6 +77,11 @@ export class ItemHotkeyRegistrationService {
         });
     }
 
+    public unregister(combo: ClickCombination) {
+        const keyCode = combiAsString(combo);
+        globalShortcut.unregister(keyCode)
+    }
+
     public saveLastW3cPort(port: string) {
         this.keyValueStore.set(this.lastPortKey, port);
     }

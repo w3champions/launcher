@@ -4,10 +4,13 @@
     <div class="hotkey-enter-modal" :style="`visibility: ${modal ? 'visible' : 'hidden'}`">
       <div style="font-size: 30px">Enter Hotkey:</div>
       <br/>
-      <input class="hotkey-input" type="text" v-model="hotkeyToEdit" placeholder="Enter Hotkey"/>
+      <div class="hotkey-input">
+        {{ hotKeyCombo }}
+      </div>
       <div>
         <div style="float: left; margin: 15px" @click="addKey">Add</div>
         <div style="float: right; margin: 15px" @click="closeModal">Cancel</div>
+        <div style="float: right; margin: 15px" @click="removeHotKey">Remove</div>
       </div>
     </div>
     <div class="item-grid">
@@ -21,8 +24,8 @@
     <div class="function-key-grid">
       <div class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">F1</div></div>
       <div class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">F2</div></div>
-      <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}}> <div class="foot-note">F3</div></div>
-      <div class="single-item function-item" style="margin-left: 50px">{{hotkeyToggle}} <div class="foot-note">toggle</div></div>
+      <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">F3</div></div>
+      <div class="single-item function-item" style="margin-left: 50px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">toggle</div></div>
     </div>
     <div class="hotkey-toggle" @click="toggleHotKeys" :style="`background-color: ${hotkeyState ? 'green' : 'red'}`" />
   </div>
@@ -31,8 +34,11 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {
-  F1, F2, F3,
-  ITEM_BOTTOM_LEFT, ITEM_BOTTOM_RIGHT,
+  F1,
+  F2,
+  F3,
+  ITEM_BOTTOM_LEFT,
+  ITEM_BOTTOM_RIGHT,
   ITEM_MIDDLE_LEFT,
   ITEM_MIDDLE_RIGHT,
   ITEM_TOP_LEFT,
@@ -51,12 +57,28 @@ export default class HotKeySetupScreen extends Vue {
   public closeModal() {
     this.modal = false;
     this.hotkeyToEdit = "";
+    this.hotkeyModifierToEdit = ModifierKey.None;
     this.selectedHotKey = "";
+    window.document.onkeydown = null;
   }
 
   public addKey() {
-    this.$store.direct.dispatch.hotKeys.addHotKey({key: this.selectedHotKey, combo: {hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}})
+    if (this.selectedHotKey === "toggle") {
+      this.$store.direct.dispatch.hotKeys.setToggleKey({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit})
+    } else {
+      this.$store.direct.dispatch.hotKeys.addHotKey({key: this.selectedHotKey, combo: {hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}})
+    }
+
     this.closeModal();
+  }
+
+  public removeHotKey() {
+    this.$store.direct.dispatch.hotKeys.removeHotKey(this.selectedHotKey);
+    this.closeModal();
+  }
+
+  get hotKeyCombo() {
+    return combiAsString({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}).replace("CommandOrControl", "Ctrl")
   }
 
   public toggleHotKeys() {
@@ -66,6 +88,33 @@ export default class HotKeySetupScreen extends Vue {
   public openChangeHotkeyModal(hotKey: string) {
     this.modal = !this.modal;
     this.selectedHotKey = hotKey;
+
+    window.document.onkeydown = this.convertKeyPress;
+  }
+
+  private convertKeyPress(e: KeyboardEvent) {
+    if (e.altKey) {
+      this.hotkeyModifierToEdit = ModifierKey.Alt;
+    }
+
+    if (e.ctrlKey) {
+      this.hotkeyModifierToEdit = ModifierKey.CommandOrControl;
+    }
+
+    if (e.shiftKey) {
+      this.hotkeyModifierToEdit = ModifierKey.Shift;
+    }
+
+    if (e.key === " ") {
+      this.hotkeyToEdit = ""
+      this.hotkeyModifierToEdit = ModifierKey.Space;
+    }
+
+    if (e.key !== "Alt" && e.key !== "Control" && e.key !== " " && e.key !== "Shift") {
+      this.hotkeyToEdit = e.key.toLowerCase();
+    }
+
+    e.preventDefault();
   }
 
   get hotkeyState() {
@@ -117,7 +166,7 @@ export default class HotKeySetupScreen extends Vue {
     if (!hotKeys) return "none"
     const combo = hotKeys?.filter(h => h.key === itemKey)[0];
     if (!combo) return "none"
-    return combiAsString(combo?.combo);
+    return combiAsString(combo?.combo).replace("CommandOrControl", "Ctrl");
   }
 }
 

@@ -17,9 +17,20 @@ const mod = {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
       const allKeys = state.hotKeys.filter(h => h.key !== hotKey.key);
       const newHotKeys = [...allKeys, hotKey];
-      rootGetters.itemHotkeyService.registerKey(hotKey);
       rootGetters.itemHotkeyService.saveHotKeys(newHotKeys);
       commit.SET_HOTKEYS(newHotKeys);
+    },
+    removeHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: string) {
+      const { commit, rootGetters, state } = moduleActionContext(context, mod);
+
+      const keyToUnregister = state.hotKeys.filter(h => h.key === hotKey)[0];
+      if (keyToUnregister) {
+        rootGetters.itemHotkeyService.unregister(keyToUnregister.combo);
+        const allKeys = state.hotKeys.filter(h => h.key !== hotKey);
+        const newHotKeys = [...allKeys];
+        rootGetters.itemHotkeyService.saveHotKeys(newHotKeys);
+        commit.SET_HOTKEYS(newHotKeys);
+      }
     },
     setToggleKey(context: ActionContext<HotKeyModifierState, RootState>, combo: ClickCombination) {
       const { rootGetters } = moduleActionContext(context, mod);
