@@ -1,6 +1,6 @@
 <template>
   <div class="hotkey-wrapper">
-    <div class="hotkey-toggle" @click="toggleHotKeys" :style="`background-color: ${hotkeyState ? 'green' : 'red'}`" />
+
     <div class="item-grid">
       <div class="single-item">{{itemHotHotkeyTopLeft}}</div>
       <div class="single-item">{{itemHotHotkeyTopRight}}</div>
@@ -9,12 +9,20 @@
       <div class="single-item">{{itemHotHotkeyBottomLeft}}</div>
       <div class="single-item">{{itemHotHotkeyBottomRight}}</div>
     </div>
+    <div class="function-key-grid">
+      <div class="single-item function-item">{{f1Key}} <div class="foot-note">F1</div></div>
+      <div class="single-item function-item">{{f2Key}} <div class="foot-note">F2</div></div>
+      <div class="single-item function-item">{{f3Key}} <div class="foot-note">F3</div></div>
+      <div class="single-item function-item">{{hotkeyToggle}} <div class="foot-note">toggle</div></div>
+    </div>
+    <div class="hotkey-toggle" @click="toggleHotKeys" :style="`background-color: ${hotkeyState ? 'green' : 'red'}`" />
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {
+  F1, F2, F3,
   ITEM_BOTTOM_LEFT, ITEM_BOTTOM_RIGHT,
   ITEM_MIDDLE_LEFT,
   ITEM_MIDDLE_RIGHT,
@@ -57,6 +65,22 @@ export default class HotKeySetupScreen extends Vue {
     return this.getKeyComboOf(ITEM_BOTTOM_RIGHT);
   }
 
+  get f1Key() {
+    return this.getKeyComboOf(F1);
+  }
+
+  get f2Key() {
+    return this.getKeyComboOf(F2);
+  }
+
+  get f3Key() {
+    return this.getKeyComboOf(F3);
+  }
+
+  get hotkeyToggle() {
+    return this.getKeyComboOf(F3);
+  }
+
   private getKeyComboOf(itemKey: string) {
     const hotKeys = this.$store.direct.state.hotKeys.hotKeys;
     if (!hotKeys) return "none"
@@ -73,6 +97,11 @@ export default class HotKeySetupScreen extends Vue {
   padding-top: 60px;
   padding-left: 60px;
   padding-right: 60px;
+
+  min-width: 80%;
+
+  display: flex;
+  flex-direction: row;
 }
 
 .item-grid {
@@ -85,6 +114,14 @@ export default class HotKeySetupScreen extends Vue {
 
   display: flex;
   flex-flow: wrap;
+  justify-content: space-between;
+}
+
+.function-key-grid {
+  border-radius: 5px;
+  margin-left: 40px;
+
+  display: flex;
   justify-content: space-between;
 }
 
@@ -105,10 +142,32 @@ export default class HotKeySetupScreen extends Vue {
 }
 
 .hotkey-toggle {
-  float: right;
   width: 20px;
   height: 20px;
   border-radius: 12px;
   border: 2px solid #b0b0b0;
+  right: 120px;
+  top: 190px;
+  position: absolute;
+}
+
+.foot-note {
+  color: #7f7f7f;
+  font-size: 12px;
+
+  position: absolute;
+  align-self: flex-end;
+  bottom: 12px;
+}
+
+.function-item {
+  background: url("~@/assets/images/buttons/war3_btn_small_blue_normal_4k.png") no-repeat center;
+  background-size: cover;
+
+  position: relative;
+
+  width: 86px;
+  height: 86px;
+  margin: 0 0 0 10px;
 }
 </style>

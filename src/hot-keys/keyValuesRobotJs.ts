@@ -2,8 +2,6 @@ export const F1 = "f1"
 export const F2 = "f2"
 export const F3 = "f3"
 
-export const SPACE = "space"
-
 export const NUM_LOCK = "numpad_lock"
 export const ITEM_TOP_LEFT = "numpad_7"
 export const ITEM_MIDDLE_LEFT = "numpad_4"
