@@ -37,6 +37,7 @@ const f12function = () => {
 }
 
 export class ItemHotkeyRegistrationService {
+
     private keyValueStore = new Store();
     private lastPortKey = "lastPortKey";
 
@@ -45,14 +46,6 @@ export class ItemHotkeyRegistrationService {
 
     public saveHotKeys(hotKeys: HotKey[]) {
         this.keyValueStore.set(this.hotKeyStoreKey, hotKeys);
-    }
-
-    get hotKeys() {
-        return store.state.hotKeys.hotKeys;
-    }
-
-    get stateMachine() {
-        return store.state.hotKeys.hotKeyStateMachine;
     }
 
     public loadHotKeys() {
@@ -67,10 +60,8 @@ export class ItemHotkeyRegistrationService {
         globalShortcut.unregister(combiAsString(combo));
     }
 
-    public toggleOnOff(combo: ClickCombination) {
-        this.register(combo, () => {
-            store.commit.hotKeys.TOGGLE_HOTKEYS()
-        })
+    public toggleOnOff(combo: ClickCombination, fkt: () => void) {
+        this.register(combo, fkt)
 
         this.keyValueStore.set(this.hotKeyToggleKey, combo)
     }
@@ -103,18 +94,18 @@ export class ItemHotkeyRegistrationService {
         globalShortcut.register(keyCode, fkt)
     }
 
-    public disableHotKeys() {
+    public disableHotKeys(hotKeys: HotKey[]) {
         globalShortcut.unregister("enter");
         globalShortcut.unregister("escape");
         globalShortcut.unregister("f10");
         globalShortcut.unregister("f12");
-        this.hotKeys.forEach(h => globalShortcut.unregister(combiAsString(h.combo)));
+        hotKeys.forEach(h => globalShortcut.unregister(combiAsString(h.combo)));
     }
 
-    public enableHotKeys() {
+    public enableHotKeys(hotKeys: HotKey[]) {
         this.makeSureNumpadIsEnabled()
         this.enableChatCommands();
-        this.hotKeys.forEach(h => this.registerKey(h));
+        hotKeys.forEach(h => this.registerKey(h));
     }
 
     private enableChatCommands() {

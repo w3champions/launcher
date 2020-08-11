@@ -36,16 +36,18 @@ const mod = {
       const { rootGetters, commit, state } = moduleActionContext(context, mod);
 
       rootGetters.itemHotkeyService.removeToggleOnOff(state.toggleButton);
-      rootGetters.itemHotkeyService.toggleOnOff(combo);
+      rootGetters.itemHotkeyService.toggleOnOff(combo, () => {
+        commit.TOGGLE_HOTKEYS()
+      });
       commit.SET_TOGGLE_KEY(combo);
     },
     enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { rootGetters } = moduleActionContext(context, mod);
-      rootGetters.itemHotkeyService.enableHotKeys();
+      const { rootGetters, state } = moduleActionContext(context, mod);
+      rootGetters.itemHotkeyService.enableHotKeys(state.hotKeys);
     },
     disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { rootGetters } = moduleActionContext(context, mod);
-      rootGetters.itemHotkeyService.disableHotKeys();
+      const { rootGetters, state  } = moduleActionContext(context, mod);
+      rootGetters.itemHotkeyService.disableHotKeys(state.hotKeys);
     },
     loadHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
