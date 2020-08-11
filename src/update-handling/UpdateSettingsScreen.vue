@@ -2,9 +2,7 @@
   <div
     class="launcher-background"
   >
-    <div class="isLoading" :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
-      Updating W3C...
-    </div>
+    <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <div style="padding-top: 60px">
       <div class="reset-button-line">
         <div>Warcraft III Location: {{w3Path}}</div>
@@ -48,9 +46,12 @@
 import {Component, Vue} from "vue-property-decorator";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
+import LoadingSpinner from "@/home/LoadingSpinner.vue";
 const os = window.require('os');
 
-@Component({})
+@Component({
+  components: {LoadingSpinner}
+})
 export default class UpdateSettingsScreen extends Vue {
   private updateStrategy!: any;
 
@@ -166,11 +167,6 @@ export default class UpdateSettingsScreen extends Vue {
   padding-right: 32px;
   background: url("~@/assets/images/fields/war3_text_hover_4k.png") no-repeat center;
   background-size: cover;
-}
-
-.isLoading {
-  background-color: rgba(255, 255, 255, 0.8);
-  width: 50%;
 }
 
 .repair-button {

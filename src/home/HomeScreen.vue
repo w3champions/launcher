@@ -7,9 +7,7 @@
       <h3>{{ news[0] ? news[0].date : "" }}</h3>
       <div v-html='news[0] ? news[0].message : ""'></div>
     </div>
-    <div class="isLoading" :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`">
-      Updating W3C...
-    </div>
+    <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <button @click="tryStartWc3" :disabled="isLoading" class="start-button">
       Play
     </button>
@@ -20,9 +18,12 @@
 import {Component, Vue} from "vue-property-decorator";
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import {MacLauncher} from "@/update-handling/MacLauncher";
+import LoadingSpinner from "@/home/LoadingSpinner.vue";
 const os = window.require('os');
 
-@Component({})
+@Component({
+  components: {LoadingSpinner}
+})
 export default class HomeScreen extends Vue {
   private updateStrategy!: any;
 
@@ -69,11 +70,6 @@ export default class HomeScreen extends Vue {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-}
-
-.isLoading {
-  background-color: rgba(255, 255, 255, 0.8);
-  width: 50%;
 }
 
 .modt {
