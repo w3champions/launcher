@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import {ModifierKey} from "@/hot-keys/hotkeyTypes";
+import {ClickCombination, ModifierKey} from "@/hot-keys/hotkeyTypes";
 import HeadLine from "@/home/HeadLine.vue";
 
 @Component({
@@ -19,7 +19,7 @@ import HeadLine from "@/home/HeadLine.vue";
 })
 export default class App extends Vue {
   async mounted() {
-    this.$store.direct.dispatch.hotKeys.setToggleKey({hotKey: "f4", modifier: ModifierKey.CommandOrControl});
+    this.$store.direct.dispatch.hotKeys.setToggleKey(new ClickCombination(ModifierKey.CommandOrControl, "f4"));
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
 
     this.$store.direct.dispatch.loadIsTestMode();

@@ -59,8 +59,10 @@ export default class HotKeySetupScreen extends Vue {
 
   private getKeyComboOf(itemKey: string) {
     const hotKeys = this.$store.direct.state.hotKeys.hotKeys;
-    if (!hotKeys) return ""
-    return this.asString(hotKeys?.filter(h => h.key === itemKey)[0].combo);
+    if (!hotKeys) return "none"
+    const combo = hotKeys?.filter(h => h.key === itemKey)[0];
+    if (!combo) return "none"
+    return this.asString(combo?.combo);
   }
 
   private asString(key: any) {

@@ -10,9 +10,19 @@ export enum ModifierKey {
   None, CommandOrControl, Alt, Shift
 }
 
-export interface ClickCombination {
-  modifier: ModifierKey,
-  hotKey: string,
+export class ClickCombination {
+  modifier: ModifierKey;
+  hotKey: string;
+
+  constructor(modifier: ModifierKey, hotKey: string) {
+    this.hotKey = hotKey;
+    this.modifier = modifier;
+  }
+
+  get asString() {
+    const keys = [this.modifier !== ModifierKey.None ? ModifierKey[this.modifier] : null, this.hotKey].filter(f => f);
+    return keys.join("+");
+  }
 }
 
 export interface HotKey {
