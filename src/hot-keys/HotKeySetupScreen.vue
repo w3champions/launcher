@@ -5,8 +5,10 @@
       <div style="font-size: 30px">Enter Hotkey:</div>
       <br/>
       <input class="hotkey-input" type="text" v-model="hotkeyToEdit" placeholder="Enter Hotkey"/>
-      <div @click="addKey">Add</div>
-      <div @click="closeModal">Cancel</div>
+      <div>
+        <div style="float: left; margin: 15px" @click="addKey">Add</div>
+        <div style="float: right; margin: 15px" @click="closeModal">Cancel</div>
+      </div>
     </div>
     <div class="item-grid">
       <div class="single-item" @click="() => openChangeHotkeyModal(itemTopLeft)">{{getKeyComboOf(itemTopLeft)}}</div>
