@@ -27,6 +27,10 @@ const os = window.require('os');
 export default class HomeScreen extends Vue {
   private updateStrategy = HomeScreen.isWindows() ? new WindowsLauncher() : new MacLauncher();
 
+  async mounted() {
+    await this.$store.direct.dispatch.loadNews();
+  }
+
   get news() {
     return this.$store.direct.state.news;
   }
