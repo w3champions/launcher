@@ -1,6 +1,6 @@
 import store from '../globalState/vuex-store'
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/hotkeyTypes";
-import {NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
+import {ITEM_BOTTOM_LEFT, NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
 
 const { globalShortcut } = window.require("electron").remote;
 const robot = window.require("robotjs");
@@ -78,7 +78,7 @@ export class ItemHotkeyRegistrationService {
     }
 
     private register(combo: ClickCombination, fkt: () => void) {
-        const keyCode = combo.asString;
+        const keyCode = this.keyCode(combo);
         if (globalShortcut.isRegistered(keyCode)) {
             globalShortcut.unregister(keyCode)
         }
@@ -86,12 +86,17 @@ export class ItemHotkeyRegistrationService {
         globalShortcut.register(keyCode, fkt)
     }
 
+    private keyCode(combo: ClickCombination) {
+        const keys = [combo.modifier !== ModifierKey.None ? ModifierKey[combo.modifier] : null, combo.hotKey].filter(f => f);
+        return keys.join("+");
+    }
+
     public disableHotKeys() {
         globalShortcut.unregister("enter");
         globalShortcut.unregister("escape");
         globalShortcut.unregister("f10");
         globalShortcut.unregister("f12");
-        this.hotKeys.forEach(h => globalShortcut.unregister(h.combo.asString));
+        this.hotKeys.forEach(h => globalShortcut.unregister(this.keyCode(h.combo)));
     }
 
     public enableHotKeys() {
@@ -101,10 +106,10 @@ export class ItemHotkeyRegistrationService {
     }
 
     private enableChatCommands() {
-        this.register(new ClickCombination(ModifierKey.None, "enter"), enterFunction)
-        this.register(new ClickCombination(ModifierKey.None, "escape"), escapeFunction)
-        this.register(new ClickCombination(ModifierKey.None, "f10"), f10function)
-        this.register(new ClickCombination(ModifierKey.None, "f12"), f12function)
+        this.register({modifier: ModifierKey.None, hotKey: "enter"}, enterFunction)
+        this.register({modifier: ModifierKey.None, hotKey: "escape"}, escapeFunction)
+        this.register({modifier: ModifierKey.None, hotKey: "f10"}, f10function)
+        this.register({modifier: ModifierKey.None, hotKey: "f12"}, f12function)
     }
 
     private makeSureNumpadIsEnabled() {
