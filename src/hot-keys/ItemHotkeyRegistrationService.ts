@@ -54,7 +54,7 @@ export class ItemHotkeyRegistrationService {
     }
 
     public loadHotKeys() {
-        return this.keyValueStore.get(this.hotKeyStoreKey);
+        return this.keyValueStore.get(this.hotKeyStoreKey) ?? [];
     }
 
     public toggleOnOff(combo: ClickCombination) {
