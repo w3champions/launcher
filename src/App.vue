@@ -12,12 +12,16 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
+import {NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
+const robot = window.require("robotjs");
 
 @Component({
   components: {HeadLine}
 })
 export default class App extends Vue {
   async mounted() {
+    this.makeSureNumpadIsEnabled()
+
     this.$store.direct.dispatch.hotKeys.loadToggleKey();
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
     this.$store.direct.dispatch.hotKeys.setToggleKey(this.$store.direct.state.hotKeys.toggleButton);
@@ -29,6 +33,27 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
+  }
+
+  private makeSureNumpadIsEnabled() {
+    window.document.onkeydown = (e) => {
+      const numlockState = e.getModifierState("NumLock");
+      if (!numlockState) {
+        console.log("Numpad is NOT activated, do hack:" + numlockState);
+        robot.keyTap(NUM_LOCK);
+      } else {
+        console.log("Numpad is activated, remove hack:" + numlockState);
+      }
+
+      window.document.onkeydown = null;
+      window.document.onclick = null;
+    }
+
+    window.document.onclick = () => {
+      robot.keyTap("a");
+    }
+
+    robot.keyTap("a");
   }
 }
 </script>
