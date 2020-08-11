@@ -20,7 +20,7 @@ const mod = {
       rootGetters.itemHotkeyService.saveHotKeys(newHotKeys);
       commit.SET_HOTKEYS(newHotKeys);
     },
-    toggle(context: ActionContext<HotKeyModifierState, RootState>, combo: ClickCombination) {
+    setToggleKey(context: ActionContext<HotKeyModifierState, RootState>, combo: ClickCombination) {
       const { rootGetters } = moduleActionContext(context, mod);
 
       rootGetters.itemHotkeyService.toggleOnOff(combo)

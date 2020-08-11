@@ -19,7 +19,7 @@ import HeadLine from "@/home/HeadLine.vue";
 })
 export default class App extends Vue {
   async mounted() {
-    this.$store.direct.dispatch.hotKeys.toggle({hotKey: "f4", modifier: ModifierKey.CommandOrControl});
+    this.$store.direct.dispatch.hotKeys.setToggleKey({hotKey: "f4", modifier: ModifierKey.CommandOrControl});
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
 
     this.$store.direct.dispatch.loadIsTestMode();
