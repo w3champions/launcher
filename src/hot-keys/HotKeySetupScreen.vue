@@ -46,6 +46,7 @@ import {
 } from "@/hot-keys/keyValuesRobotJs";
 import {combiAsString} from "@/hot-keys/utilsFunctions";
 import {ModifierKey} from "@/hot-keys/hotkeyTypes";
+import {InGameState} from "@/hot-keys/HotKeyStateMachine";
 
 @Component
 export default class HotKeySetupScreen extends Vue {
@@ -118,7 +119,7 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   get hotkeyState() {
-    return this.$store.direct.state.hotKeys.hotKeyStateMachine.constructor.name === "InGameState"
+    return this.$store.direct.state.hotKeys.hotKeyStateMachine.constructor.name === InGameState.name
   }
 
   get itemTopLeft() {

@@ -15,7 +15,7 @@ export abstract class HotKeyState {
     }
 
     public keysActivated() {
-        return this.constructor.name === "InGameState";
+        return this.constructor.name === InGameState.name;
     }
 
     public toggle(): HotKeyState {
