@@ -52,15 +52,17 @@ export default class LoadingSpinner extends Vue {
 }
 
 .loading-wrapper {
-  width: 100%;
-  height: 100vh;
   position: absolute;
-
-  background: rgba(0,0,0, 0.9);
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+
+  background: rgba(0,0,0, 0.9);
 }
 </style>
