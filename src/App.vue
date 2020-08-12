@@ -22,12 +22,12 @@ const os = window.require("os");
 export default class App extends Vue {
   async mounted() {
     this.makeSureNumpadIsEnabled()
+    this.$store.direct.dispatch.loadIsTestMode();
 
     this.$store.direct.dispatch.hotKeys.loadToggleKey();
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
     this.$store.direct.dispatch.hotKeys.setToggleKey(this.$store.direct.state.hotKeys.toggleButton);
 
-    this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.updateHandling.loadAllPaths();
     await this.$store.direct.dispatch.updateHandling.loadOnlineLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
