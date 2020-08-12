@@ -14,6 +14,7 @@ import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
 import {NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
 const robot = window.require("robotjs");
+const os = window.require("os");
 
 @Component({
   components: {HeadLine}
@@ -35,6 +36,10 @@ export default class App extends Vue {
   }
 
   private makeSureNumpadIsEnabled() {
+    if (os.platform() === "darwin") {
+      return
+    }
+
     window.document.onkeydown = (e) => {
       const numlockState = e.getModifierState("NumLock");
       if (!numlockState) {

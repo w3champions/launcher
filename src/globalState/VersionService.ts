@@ -10,6 +10,6 @@ export class VersionService {
     }
 
     public loadMode() {
-        return this.store.get(this.testKey);
+        return this.store.get(this.testKey) ?? false;
     }
 }
