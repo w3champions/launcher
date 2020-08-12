@@ -1,8 +1,5 @@
 <template>
   <div class="home-container">
-    <div class="new-launcher-version" v-if="hasNewLauncherVersion">
-      There is a new version of the launcher ({{ onlineLauncherVersion }}), please update on <a href="https://www.w3champions.com/getting-started/" target="_blank">https://www.w3champions.com/getting-started/!</a>
-    </div>
     <div class="modt">
       <h3>{{ news[0] ? news[0].date : "" }}</h3>
       <div v-html='news[0] ? news[0].message : ""'></div>
@@ -45,18 +42,6 @@ export default class HomeScreen extends Vue {
     this.updateStrategy.startWc3();
   }
 
-  get currentLauncherVersion(): string {
-    return this.$store.direct.state.updateHandling.localLauncherVersion
-  }
-
-  get hasNewLauncherVersion() {
-    return this.onlineLauncherVersion.localeCompare(this.currentLauncherVersion) > 0;
-  }
-
-  get onlineLauncherVersion() {
-    return this.$store.state.updateHandling.onlineLauncherVersion;
-  }
-
   get isLoading() {
     return this.$store.state.updateHandling.isUpdatingMaps || this.$store.state.updateHandling.isUpdatingWebUI;
   }
@@ -77,22 +62,6 @@ export default class HomeScreen extends Vue {
   width: 850px;
   padding: 40px 30px 30px;
   height: 320px;
-}
-
-.new-launcher-version {
-  position: absolute;
-  z-index: 1222222223;
-  width: 100%;
-  line-height: 50.5vh;
-  text-align: center;
-  color: aliceblue;
-  font-size: 2em;
-  background: rgba(0, 0, 0, 0.8);
-  text-decoration: none;
-}
-
-a {
-  color: inherit;
 }
 
 .start-button {
