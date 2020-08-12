@@ -2,7 +2,7 @@
   <div id="app" class="app-container">
     <div class="loading-wrapper" v-if="hasNewLauncherVersion">
       <div style="font-size: 30px">There is a new version of the launcher ({{ onlineLauncherVersion }})</div>
-      <button class="download-button" :href="updateUrl">Download</button>
+      <a class="download-button" :href="updateUrl">Download</a>
     </div>
     <HeadLine />
     <div class="content-modal-wrapper">
@@ -41,7 +41,7 @@ export default class App extends Vue {
 
   get updateUrl() {
     const isOs = os.platform() === "darwin" ? "mac" : "win"
-    return `${this.$store.direct.state.updateUrl}api/launchers/${isOs}`
+    return `${this.$store.direct.state.updateUrl}api/launcher/${isOs}`
   }
 
   get currentLauncherVersion(): string {
@@ -53,7 +53,7 @@ export default class App extends Vue {
   }
 
   get hasNewLauncherVersion() {
-    return this.onlineLauncherVersion.localeCompare(this.currentLauncherVersion) === 0;
+    return this.onlineLauncherVersion.localeCompare(this.currentLauncherVersion) > 0;
   }
 
 
@@ -148,9 +148,8 @@ a {
   rgba(255, 255, 255, 0.4) 0px 0px 0px 2px inset,
   rgba(255, 125, 19, 0.3) 0px 0px 20px 10px inset;
   text-shadow: rgb(51, 38, 28) 0px 0px;
-  height: 76px;
+  height: 56px;
   font-size: 26px;
-  line-height: 1;
   border-width: 0;
   border-style: initial;
   border-color: initial;
@@ -160,7 +159,8 @@ a {
   outline: 0;
   text-decoration: none;
   transition: filter 200ms ease 0s;
-  padding: 0 95px;
+  padding: 24px 95px 0;
+
 }
 
 </style>
