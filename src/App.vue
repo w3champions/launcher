@@ -1,8 +1,8 @@
 <template>
   <div id="app" class="app-container">
-    <div class="new-launcher-version" v-if="hasNewLauncherVersion">
-      There is a new version of the launcher ({{ onlineLauncherVersion }})
-      <a class="download-button" :href="updateUrl">Download</a>
+    <div class="loading-wrapper" v-if="hasNewLauncherVersion">
+      <div style="font-size: 30px">There is a new version of the launcher ({{ onlineLauncherVersion }})</div>
+      <button class="download-button" :href="updateUrl">Download</button>
     </div>
     <HeadLine />
     <div class="content-modal-wrapper">
@@ -40,7 +40,6 @@ export default class App extends Vue {
   }
 
   get updateUrl() {
-
     const isOs = os.platform() === "darwin" ? "mac" : "win"
     return `${this.$store.direct.state.updateUrl}api/launchers/${isOs}`
   }
@@ -94,18 +93,19 @@ body {
   color: antiquewhite;
 }
 
-.new-launcher-version {
+.loading-wrapper {
   position: absolute;
-  z-index: 1;
-  width: 100%;
-  height: 100vh;
-  font-size: 2em;
-  background: rgba(0, 0, 0, 0.8);
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+
+  background: rgba(0,0,0, 0.9);
 }
 
 a {
@@ -136,9 +136,9 @@ a {
   width: 90%;
 }
 
-
 .download-button {
   background-color: transparent;
+  margin-top: 50px;
   text-transform: uppercase;
   color: rgb(51, 38, 28);
   background-image: linear-gradient(rgba(255, 255, 0, 0.2) 50%, transparent 50%),
@@ -150,14 +150,14 @@ a {
   text-shadow: rgb(51, 38, 28) 0px 0px;
   height: 76px;
   font-size: 26px;
-  line-height: 26px;
-  border-width: 0px;
+  line-height: 1;
+  border-width: 0;
   border-style: initial;
   border-color: initial;
   border-image: initial;
   border-radius: 2px;
   background-repeat: no-repeat;
-  outline: 0px;
+  outline: 0;
   text-decoration: none;
   transition: filter 200ms ease 0s;
   padding: 0 95px;
