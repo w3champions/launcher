@@ -96,16 +96,16 @@ const mod = {
       commit.SET_W3_PATH("");
       commit.SET_LOCAL_W3C_VERSION("");
     },
-    sudoCopyFromTo(context: ActionContext<UpdateHandlingState, RootState>, obj: {from: string, to: string}) {
-      const { rootGetters } = moduleActionContext(context, mod);
+    sudoCopyFromTo: function (context: ActionContext<UpdateHandlingState, RootState>, obj: { from: string, to: string }) {
+      const {rootGetters} = moduleActionContext(context, mod);
 
       const copyCommand = rootGetters.fileService.updateStrategy.getCopyCommand(obj.from, obj.to);
 
-      const options = {
-        name: 'Warcraft 3 Champions'
-      };
-
-      sudo.exec(copyCommand, options, () => {});
+      sudo.exec(copyCommand, {
+        name: 'Warcraft 3 Champions',
+      }, (err: Error) => {
+        console.error(err)
+      });
     }
   },
   mutations: {
