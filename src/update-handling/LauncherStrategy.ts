@@ -278,7 +278,7 @@ export abstract class LauncherStrategy{
         if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`))
         {
             console.log(`delete maps in ${w3PathWithoutRetail}/Maps/W3Champions`)
-            fs.rmdirSync(`${w3PathWithoutRetail}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })a
+            fs.rmdirSync(`${w3PathWithoutRetail}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })
         }
     }
 }
