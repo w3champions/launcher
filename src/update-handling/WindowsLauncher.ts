@@ -60,4 +60,8 @@ export class WindowsLauncher extends LauncherStrategy {
         });
         ls.unref();
     }
+
+    getCopyCommand(from: string, to: string) {
+        return `Xcopy "${from}" "${to}" /E /I`
+    }
 }

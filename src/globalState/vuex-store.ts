@@ -10,12 +10,14 @@ import {UpdateHandlingState} from "@/update-handling/updateTypes";
 import {VersionService} from "@/globalState/VersionService";
 import {NEWS_URL_PROD, NEWS_URL_TEST, UPDATE_URL_PROD, UPDATE_URL_TEST} from "@/constants";
 import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
+import {FileService} from "@/update-handling/FileService";
 
 Vue.use(Vuex);
 
 const services = {
   updateService: new UpdateService(),
   versionService: new VersionService(),
+  fileService: new FileService(),
   itemHotkeyService: new ItemHotkeyRegistrationService(),
 };
 
@@ -82,6 +84,9 @@ const mod = {
     },
     itemHotkeyService() {
       return services.itemHotkeyService;
+    },
+    fileService() {
+      return services.fileService;
     },
   },
 } as const;

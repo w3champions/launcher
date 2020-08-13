@@ -3,6 +3,7 @@ import store from '../globalState/vuex-store'
 const { remote } = window.require("electron");
 const axios = window.require("axios");
 const fs = window.require("fs");
+const sudo = window.require("sudo-prompt");
 const AdmZip = window.require('adm-zip');
 const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
 
@@ -14,6 +15,7 @@ export abstract class LauncherStrategy{
     abstract getDefaultBnetPath(): string;
     abstract turnOnLocalFiles(): void;
     abstract startWc3Process(bnetPath: string): void;
+    abstract getCopyCommand(from: string, to: string): string;
 
     unsetLoading() {
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
@@ -131,7 +133,15 @@ export abstract class LauncherStrategy{
 
         const buffer = arrayBufferToBuffer(body.data);
         const zip = new AdmZip(buffer);
-        zip.extractAllTo(to, true);
+
+        try {
+            zip.extractAllTo(to, true);
+        } catch (e) {
+            const tempFolder = `${remote.app.getPath("appData")}/w3champions-launcher/${fileName}_temp`;
+            zip.extractAllTo(tempFolder, true);
+            this.store.dispatch.updateHandling.sudoCopyFromTo({from: tempFolder, to})
+        }
+
     }
 
     public async updateIfNeeded() {

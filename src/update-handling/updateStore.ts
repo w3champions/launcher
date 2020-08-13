@@ -4,6 +4,7 @@ import {RootState} from "@/globalState/rootTypings";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
 
 const { remote } = window.require("electron");
+const sudo = window.require("sudo-prompt");
 
 const mod = {
   namespaced: true,
@@ -94,6 +95,17 @@ const mod = {
       commit.SET_MAPS_PATH("");
       commit.SET_W3_PATH("");
       commit.SET_LOCAL_W3C_VERSION("");
+    },
+    sudoCopyFromTo(context: ActionContext<UpdateHandlingState, RootState>, obj: {from: string, to: string}) {
+      const { rootGetters } = moduleActionContext(context, mod);
+
+      const copyCommand = rootGetters.fileService.updateStrategy.getCopyCommand(obj.from, obj.to);
+
+      const options = {
+        name: 'Warcraft 3 Champions'
+      };
+
+      sudo.exec(copyCommand, options, () => {});
     }
   },
   mutations: {
