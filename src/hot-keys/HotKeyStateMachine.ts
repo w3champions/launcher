@@ -15,7 +15,7 @@ export abstract class HotKeyState {
     public toggle(): HotKeyState {
         if (!this.keysActivated()) {
             const audio = new Audio('/sound/PeonReady1.mp3');
-            audio.currentTime = 0;
+            audio.currentTime = 0.3;
             audio.play();
 
             console.log("turn on HotKeys manually")
