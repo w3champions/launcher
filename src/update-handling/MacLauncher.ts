@@ -18,9 +18,13 @@ export class MacLauncher extends LauncherStrategy {
 
     getDefaultPathMap(): string {
         const libPath = remote.app.getPath("appData");
-        if (fs.existsSync(`${libPath}/Blizzard/Warcraft III`)
-            && !fs.existsSync(`${libPath}/Blizzard/Warcraft III/Maps`)) {
-            fs.mkdirSync(`${libPath}/Blizzard/Warcraft III/Maps`);
+        try {
+            if (fs.existsSync(`${libPath}/Blizzard/Warcraft III`)
+                && !fs.existsSync(`${libPath}/Blizzard/Warcraft III/Maps`)) {
+                fs.mkdirSync(`${libPath}/Blizzard/Warcraft III/Maps`);
+            }
+        } catch (e) {
+            console.error(e)
         }
 
         return `${libPath}/Blizzard/Warcraft III/Maps`

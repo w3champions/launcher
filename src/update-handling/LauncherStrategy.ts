@@ -268,17 +268,22 @@ export abstract class LauncherStrategy{
     }
 
     private makeSureJoinBugFilesAreGone() {
-        if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`))
-        {
-            console.log(`delete maps in ${this.w3Path}/Maps/W3Champions`)
-            fs.rmdirSync(`${this.w3Path}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })
-        }
+        try {
 
-        const w3PathWithoutRetail = this.w3Path.replace("/_retail_", "");
-        if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`))
-        {
-            console.log(`delete maps in ${w3PathWithoutRetail}/Maps/W3Champions`)
-            fs.rmdirSync(`${w3PathWithoutRetail}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })
+            if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`))
+            {
+                console.log(`delete maps in ${this.w3Path}/Maps/W3Champions`)
+                fs.rmdirSync(`${this.w3Path}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })
+            }
+
+            const w3PathWithoutRetail = this.w3Path.replace("/_retail_", "");
+            if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`))
+            {
+                console.log(`delete maps in ${w3PathWithoutRetail}/Maps/W3Champions`)
+                fs.rmdirSync(`${w3PathWithoutRetail}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })
+            }
+        } catch (e) {
+            console.error(e)
         }
     }
 }
