@@ -9,4 +9,6 @@ export interface UpdateHandlingState {
   localLauncherVersion: string,
   isUpdatingWebUI: boolean,
   isUpdatingMaps: boolean,
+  w3PathIsInvalid: boolean,
+  mapPathIsInvalid: boolean,
 }

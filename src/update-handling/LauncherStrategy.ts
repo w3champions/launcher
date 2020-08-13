@@ -3,7 +3,6 @@ import store from '../globalState/vuex-store'
 const { remote } = window.require("electron");
 const axios = window.require("axios");
 const fs = window.require("fs");
-const sudo = window.require("sudo-prompt");
 const AdmZip = window.require('adm-zip');
 const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
 
@@ -190,10 +189,33 @@ export abstract class LauncherStrategy{
 
     public async hardSetBnetPath() {
         await this.hardSetPath("Battle-Net", this.store.commit.updateHandling.SET_BNET_PATH);
+        this.store.dispatch.updateHandling.saveBnetPath(this.store.state.updateHandling.mapsPath)
     }
 
     public async hardSetW3cPath() {
         await this.hardSetPath("Warcraft III", this.store.commit.updateHandling.SET_W3_PATH);
+        if (!fs.existsSync(`${this.store.state.updateHandling.w3Path}/Data`)) {
+            this.store.commit.updateHandling.W3_PATH_IS_INVALID(true);
+        } else {
+            this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
+            this.store.dispatch.updateHandling.saveMapPath(this.store.state.updateHandling.w3Path)
+        }
+    }
+
+    public async hardSetMapPath() {
+        await this.hardSetPath("Map", this.store.commit.updateHandling.SET_MAPS_PATH);
+        if (!fs.existsSync(`${this.store.state.updateHandling.mapsPath}/Download`)) {
+            this.store.commit.updateHandling.MAP_PATH_IS_INVALID(true);
+        } else {
+            this.store.commit.updateHandling.MAP_PATH_IS_INVALID(false);
+            this.store.dispatch.updateHandling.saveMapPath(this.store.state.updateHandling.mapsPath)
+        }
+    }
+
+    private async hardSetPath(locationName: string, set: (s: string) => void) {
+        const path = await this.openDialogForUserFolderSelction(`Select ${locationName} Folder`, `Please locate the ${locationName} Folder manually`);
+        if (!path) return;
+        set(path);
     }
 
     public async redownloadW3c() {
@@ -202,16 +224,6 @@ export abstract class LauncherStrategy{
         await this.downloadAndWriteFile("webui", this.w3Path);
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
         this.store.commit.updateHandling.FINISH_MAPS_DL();
-    }
-
-    public async hardSetMapPath() {
-        await this.hardSetPath("Map", this.store.commit.updateHandling.SET_MAPS_PATH);
-    }
-
-    private async hardSetPath(locationName: string, set: (s: string) => void) {
-        const path = await this.openDialogForUserFolderSelction(`Select ${locationName} Folder`, `Please locate the ${locationName} Folder manually`);
-        if (!path) return;
-        set(path);
     }
 
     public async updateMapPath() {
