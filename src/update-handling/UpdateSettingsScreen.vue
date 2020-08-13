@@ -4,11 +4,11 @@
   >
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <div style="padding-top: 60px">
-      <div class="reset-button-line">
+      <div :class="isW3LocationWrong ? 'path-is-wrong' : 'reset-button-line'">
         <div>Warcraft III Location: {{w3Path}}</div>
         <div class="reset-button" @click="resetW3Path" />
       </div>
-      <div class="reset-button-line">
+      <div :class="isMapLocationWrong ? 'path-is-wrong' : 'reset-button-line'">
         <div>Map Location: {{mapPath}}</div>
         <div class="reset-button" @click="resetMapPath" />
       </div>
@@ -58,6 +58,14 @@ export default class UpdateSettingsScreen extends Vue {
   constructor() {
     super();
     this.updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
+  }
+
+  get isW3LocationWrong() {
+    return this.$store.direct.state.updateHandling.w3PathIsInvalid;
+  }
+
+  get isMapLocationWrong() {
+    return this.$store.direct.state.updateHandling.mapPathIsInvalid;
   }
 
   public async toggleVersion() {
@@ -166,6 +174,20 @@ export default class UpdateSettingsScreen extends Vue {
   padding-left: 32px;
   padding-right: 32px;
   background: url("~@/assets/images/fields/war3_text_hover_4k.png") no-repeat center;
+  background-size: cover;
+}
+
+.path-is-wrong {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 650px;
+  height: 50px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  padding-left: 32px;
+  padding-right: 32px;
+  background: url("~@/assets/images/fields/war3_text_error_hover_4k.png") no-repeat center;
   background-size: cover;
 }
 

@@ -4,6 +4,7 @@ import {RootState} from "@/globalState/rootTypings";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
 
 const { remote } = window.require("electron");
+const sudo = window.require("sudo-prompt");
 
 const mod = {
   namespaced: true,
@@ -17,6 +18,8 @@ const mod = {
     localLauncherVersion: "",
     isUpdatingMaps: false,
     isUpdatingWebUI: false,
+    mapPathIsInvalid: false,
+    w3PathIsInvalid: false,
   } as UpdateHandlingState,
   actions: {
     async loadOnlineLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -90,10 +93,24 @@ const mod = {
       rootGetters.updateService.saveW3Path("");
       rootGetters.updateService.saveLocalW3CVersion("");
 
+      commit.MAP_PATH_IS_INVALID(false);
+      commit.W3_PATH_IS_INVALID(false);
+      commit.SET_BNET_PATH("");
       commit.SET_BNET_PATH("");
       commit.SET_MAPS_PATH("");
       commit.SET_W3_PATH("");
       commit.SET_LOCAL_W3C_VERSION("");
+    },
+    sudoCopyFromTo: function (context: ActionContext<UpdateHandlingState, RootState>, obj: { from: string, to: string }) {
+      const {rootGetters} = moduleActionContext(context, mod);
+
+      const copyCommand = rootGetters.fileService.updateStrategy.getCopyCommand(obj.from, obj.to);
+
+      sudo.exec(copyCommand, {
+        name: 'Warcraft 3 Champions',
+      }, (err: Error) => {
+        console.error(err)
+      });
     }
   },
   mutations: {
@@ -134,6 +151,12 @@ const mod = {
     },
     FINISH_MAPS_DL(state: UpdateHandlingState) {
       state.isUpdatingMaps = false;
+    },
+    MAP_PATH_IS_INVALID(state: UpdateHandlingState, value: boolean) {
+      state.mapPathIsInvalid = value;
+    },
+    W3_PATH_IS_INVALID(state: UpdateHandlingState, value: boolean) {
+      state.w3PathIsInvalid = value;
     }
   },
 } as const;

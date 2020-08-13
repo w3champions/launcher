@@ -14,6 +14,7 @@ export abstract class LauncherStrategy{
     abstract getDefaultBnetPath(): string;
     abstract turnOnLocalFiles(): void;
     abstract startWc3Process(bnetPath: string): void;
+    abstract getCopyCommand(from: string, to: string): string;
 
     unsetLoading() {
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
@@ -131,7 +132,15 @@ export abstract class LauncherStrategy{
 
         const buffer = arrayBufferToBuffer(body.data);
         const zip = new AdmZip(buffer);
-        zip.extractAllTo(to, true);
+
+        try {
+            zip.extractAllTo(to, true);
+        } catch (e) {
+            const tempFolder = `${remote.app.getPath("appData")}/w3champions-launcher/${fileName}_temp`;
+            zip.extractAllTo(tempFolder, true);
+            this.store.dispatch.updateHandling.sudoCopyFromTo({from: tempFolder, to})
+        }
+
     }
 
     public async updateIfNeeded() {
@@ -180,10 +189,33 @@ export abstract class LauncherStrategy{
 
     public async hardSetBnetPath() {
         await this.hardSetPath("Battle-Net", this.store.commit.updateHandling.SET_BNET_PATH);
+        this.store.dispatch.updateHandling.saveBnetPath(this.store.state.updateHandling.mapsPath)
     }
 
     public async hardSetW3cPath() {
         await this.hardSetPath("Warcraft III", this.store.commit.updateHandling.SET_W3_PATH);
+        if (!fs.existsSync(`${this.store.state.updateHandling.w3Path}/Data`)) {
+            this.store.commit.updateHandling.W3_PATH_IS_INVALID(true);
+        } else {
+            this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
+            this.store.dispatch.updateHandling.saveMapPath(this.store.state.updateHandling.w3Path)
+        }
+    }
+
+    public async hardSetMapPath() {
+        await this.hardSetPath("Map", this.store.commit.updateHandling.SET_MAPS_PATH);
+        if (!fs.existsSync(`${this.store.state.updateHandling.mapsPath}/Download`)) {
+            this.store.commit.updateHandling.MAP_PATH_IS_INVALID(true);
+        } else {
+            this.store.commit.updateHandling.MAP_PATH_IS_INVALID(false);
+            this.store.dispatch.updateHandling.saveMapPath(this.store.state.updateHandling.mapsPath)
+        }
+    }
+
+    private async hardSetPath(locationName: string, set: (s: string) => void) {
+        const path = await this.openDialogForUserFolderSelction(`Select ${locationName} Folder`, `Please locate the ${locationName} Folder manually`);
+        if (!path) return;
+        set(path);
     }
 
     public async redownloadW3c() {
@@ -192,16 +224,6 @@ export abstract class LauncherStrategy{
         await this.downloadAndWriteFile("webui", this.w3Path);
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
         this.store.commit.updateHandling.FINISH_MAPS_DL();
-    }
-
-    public async hardSetMapPath() {
-        await this.hardSetPath("Map", this.store.commit.updateHandling.SET_MAPS_PATH);
-    }
-
-    private async hardSetPath(locationName: string, set: (s: string) => void) {
-        const path = await this.openDialogForUserFolderSelction(`Select ${locationName} Folder`, `Please locate the ${locationName} Folder manually`);
-        if (!path) return;
-        set(path);
     }
 
     public async updateMapPath() {
@@ -249,14 +271,14 @@ export abstract class LauncherStrategy{
         if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`))
         {
             console.log(`delete maps in ${this.w3Path}/Maps/W3Champions`)
-            fs.rmdirSync(`${this.w3Path}/Maps/W3Champions`, { recursive: true }, (e: Error) => { throw e })
+            fs.rmdirSync(`${this.w3Path}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })
         }
 
         const w3PathWithoutRetail = this.w3Path.replace("/_retail_", "");
         if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`))
         {
             console.log(`delete maps in ${w3PathWithoutRetail}/Maps/W3Champions`)
-            fs.rmdirSync(`${w3PathWithoutRetail}/Maps/W3Champions`, { recursive: true }, (e: Error) => { throw e })
+            fs.rmdirSync(`${w3PathWithoutRetail}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })
         }
     }
 }
