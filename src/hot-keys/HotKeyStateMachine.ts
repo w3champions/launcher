@@ -14,11 +14,18 @@ export abstract class HotKeyState {
 
     public toggle(): HotKeyState {
         if (!this.keysActivated()) {
+            const audio = new Audio('/sound/PeonReady1.mp3');
+            audio.currentTime = 0;
+            audio.play();
+
             console.log("turn on HotKeys manually")
             return new InGameState();
         }
 
         console.log("turn Off HotKeys manually")
+        const audio = new Audio('/sound/PeonDeath.mp3');
+        audio.currentTime = 0;
+        audio.play();
         return new NotInGameState();
     }
 }
