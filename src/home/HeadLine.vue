@@ -1,7 +1,7 @@
 <template>
   <div class="headline-container">
     <HeadItem target="/" text="Home"/>
-    <HeadItem target="/HotKeys" text="Hot Keys"/>
+    <HeadItem target="/HotKeys" text="Hot Keys (beta)"/>
     <SettingsButton/>
     <div v-if="isWindows" class="close-button" @click="closeApp">X</div>
   </div>
