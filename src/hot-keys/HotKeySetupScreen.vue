@@ -52,13 +52,13 @@ import {InGameState} from "@/hot-keys/HotKeyStateMachine";
 export default class HotKeySetupScreen extends Vue {
   public modal = false;
   public hotkeyToEdit = "";
-  public hotkeyModifierToEdit = ModifierKey.None;
   public selectedHotKey = "";
+  public hotkeyModifierToEdit = ModifierKey.None;
+
 
   public closeModal() {
     this.modal = false;
     this.hotkeyToEdit = "";
-    this.hotkeyModifierToEdit = ModifierKey.None;
     this.selectedHotKey = "";
     window.document.onkeydown = null;
   }
@@ -94,25 +94,29 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   private convertKeyPress(e: KeyboardEvent) {
-    if (e.altKey) {
-      this.hotkeyModifierToEdit = ModifierKey.Alt;
-    }
-
-    if (e.ctrlKey) {
-      this.hotkeyModifierToEdit = ModifierKey.CommandOrControl;
-    }
-
-    if (e.shiftKey) {
-      this.hotkeyModifierToEdit = ModifierKey.Shift;
-    }
-
-    if (e.key === " ") {
-      this.hotkeyToEdit = ""
-      this.hotkeyModifierToEdit = ModifierKey.Space;
-    }
+    // if (e.altKey) {
+    //   this.hotkeyModifierToEdit = ModifierKey.Alt;
+    // }
+    //
+    // if (e.ctrlKey) {
+    //   this.hotkeyModifierToEdit = ModifierKey.CommandOrControl;
+    // }
+    //
+    // if (e.shiftKey) {
+    //   this.hotkeyModifierToEdit = ModifierKey.Shift;
+    // }
+    //
+    // if (e.key === " ") {
+    //   this.hotkeyToEdit = ""
+    //   this.hotkeyModifierToEdit = ModifierKey.Space;
+    // }
 
     if (e.key !== "Alt" && e.key !== "Control" && e.key !== " " && e.key !== "Shift") {
       this.hotkeyToEdit = e.key.toLowerCase();
+    }
+
+    if (e.key === " ") {
+      this.hotkeyToEdit = "space"
     }
 
     e.preventDefault();
