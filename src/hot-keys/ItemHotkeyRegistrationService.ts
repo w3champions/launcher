@@ -74,7 +74,7 @@ export class ItemHotkeyRegistrationService {
             robot.keyTap(hotKey.key);
 
             if (hotKey.combo.modifier === ModifierKey.CommandOrControl) {
-                robot.keyToggle("control", "down", );
+                robot.keyToggle("control", "down");
             }
         });
     }
