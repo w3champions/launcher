@@ -24,9 +24,9 @@ const robot = window.require("robotjs");
 })
 export default class App extends Vue {
   async mounted() {
-    this.makeSureNumpadIsEnabled()
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
+    this.makeSureNumpadIsEnabled()
 
     this.$store.direct.dispatch.hotKeys.loadToggleKey();
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
