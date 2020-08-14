@@ -79,10 +79,10 @@ export default class App extends Vue {
     }
 
     window.document.onclick = () => {
-      robot.keyTap("a");
+      robot.keyTap(" ");
     }
 
-    robot.keyTap("a");
+    robot.keyTap(" ");
   }
 }
 </script>
