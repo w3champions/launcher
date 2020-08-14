@@ -109,7 +109,9 @@ const mod = {
       sudo.exec(copyCommand, {
         name: 'Warcraft 3 Champions',
       }, (err: Error) => {
-        console.error(err)
+        if (err) {
+          console.error(err)
+        }
       });
     }
   },
