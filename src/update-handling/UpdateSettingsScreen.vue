@@ -47,7 +47,6 @@ import {Component, Vue} from "vue-property-decorator";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
-const os = window.require('os');
 
 @Component({
   components: {LoadingSpinner}
@@ -113,7 +112,7 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   get w3Path(): string {
-    return this.$store.direct.state.updateHandling.w3Path;
+    return this.$store.direct.state.updateHandling.w3Path.replace("/_retail_", "");
   }
 
   get news() {
@@ -140,7 +139,7 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   private isWindows() {
-    return os.platform() === "win32";
+    return this.$store.state.isWindows;
   }
 }
 </script>

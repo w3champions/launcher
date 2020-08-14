@@ -31,6 +31,7 @@ const mod = {
     updateUrl: UPDATE_URL_PROD,
     newsUrl: NEWS_URL_PROD,
     news: [] as News[],
+    isWindows: false,
   } as RootState,
   actions: {
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -59,6 +60,11 @@ const mod = {
       commit.SET_IS_TEST(mode);
       commit.SET_UPDATE_URL(mode ? UPDATE_URL_TEST : UPDATE_URL_PROD);
       commit.SET_NEWS_URL(mode ? NEWS_URL_TEST : NEWS_URL_PROD);
+    },
+    loadOsMode(context: ActionContext<UpdateHandlingState, RootState>) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      commit.SET_OS(rootGetters.fileService.isWindows());
     }
   },
   mutations: {
@@ -73,6 +79,9 @@ const mod = {
     },
     SET_NEWS(state: RootState, news: News[]) {
       state.news = news;
+    },
+    SET_OS(state: RootState, isWindows: boolean) {
+      state.isWindows = isWindows;
     }
   },
   getters: {

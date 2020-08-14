@@ -18,7 +18,6 @@ import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
 import {NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
 const robot = window.require("robotjs");
-const os = window.require("os");
 
 @Component({
   components: {HeadLine}
@@ -27,6 +26,7 @@ export default class App extends Vue {
   async mounted() {
     this.makeSureNumpadIsEnabled()
     this.$store.direct.dispatch.loadIsTestMode();
+    this.$store.direct.dispatch.loadOsMode();
 
     this.$store.direct.dispatch.hotKeys.loadToggleKey();
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
@@ -40,7 +40,7 @@ export default class App extends Vue {
   }
 
   get updateUrl() {
-    const isOs = os.platform() === "darwin" ? "mac" : "win"
+    const isOs = this.isWindows ? "win" : "mac"
     return `${this.$store.direct.state.updateUrl}api/launcher/${isOs}`
   }
 
@@ -56,9 +56,12 @@ export default class App extends Vue {
     return this.onlineLauncherVersion.localeCompare(this.currentLauncherVersion) > 0;
   }
 
+  get isWindows() {
+    return this.$store.state.isWindows;
+  }
 
   private makeSureNumpadIsEnabled() {
-    if (os.platform() === "darwin") {
+    if (!this.isWindows) {
       return
     }
 

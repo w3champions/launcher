@@ -6,7 +6,7 @@ const os = window.require('os');
 export class FileService {
     public updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
 
-    private isWindows() {
+    public isWindows() {
         return os.platform() === "win32";
     }
 }

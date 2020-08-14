@@ -25,7 +25,7 @@
       <div class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">F1</div></div>
       <div class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">F2</div></div>
       <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">F3</div></div>
-      <div class="single-item function-item" style="margin-left: 50px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">toggle</div></div>
+      <div class="single-item function-item" style="margin-left: 50px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">hotkeys on/off</div></div>
     </div>
     <div class="hotkey-toggle" @click="toggleHotKeys" :style="`background-color: ${hotkeyState ? 'green' : 'red'}`" />
   </div>
@@ -233,6 +233,7 @@ export default class HotKeySetupScreen extends Vue {
 }
 
 .foot-note {
+  text-align: center;
   color: #7f7f7f;
   font-size: 12px;
 
