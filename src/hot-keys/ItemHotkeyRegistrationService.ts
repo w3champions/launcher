@@ -67,7 +67,15 @@ export class ItemHotkeyRegistrationService {
 
     public registerKey(hotKey: HotKey) {
         this.register(hotKey.combo, () => {
+            if (hotKey.combo.modifier === ModifierKey.CommandOrControl) {
+                robot.keyToggle("control", "up");
+            }
+
             robot.keyTap(hotKey.key);
+
+            if (hotKey.combo.modifier === ModifierKey.CommandOrControl) {
+                robot.keyToggle("control", "down", );
+            }
         });
     }
 
