@@ -7,7 +7,7 @@
     <HeadLine />
     <div class="content-modal-wrapper">
       <div class="content-modal">
-        <router-view :key="$route.fullPath" />
+        <router-view />
       </div>
     </div>
   </div>
