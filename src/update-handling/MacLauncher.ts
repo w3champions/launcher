@@ -7,7 +7,7 @@ export class MacLauncher extends LauncherStrategy {
     turnOnLocalFiles(): void {
         exec("defaults write \"com.blizzard.Warcraft III\" \"Allow Local Files\" -int 1", function(err: Error) {
             if (err) {
-                throw err;
+                console.error(err);
             }
         });
     }

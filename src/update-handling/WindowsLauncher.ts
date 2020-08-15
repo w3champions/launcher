@@ -8,7 +8,7 @@ export class WindowsLauncher extends LauncherStrategy {
     turnOnLocalFiles(): void {
         exec("reg add \"HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III\" /v \"Allow Local Files\" /t REG_DWORD /d 1 /f", function(err: Error) {
             if (err) {
-                throw err;
+                console.error(err);
             }
         });
     }

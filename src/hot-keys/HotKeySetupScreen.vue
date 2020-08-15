@@ -28,6 +28,12 @@
       <div class="single-item function-item" style="margin-left: 50px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">hotkeys on/off</div></div>
     </div>
     <div class="hotkey-toggle" @click="toggleHotKeys" :style="`background-color: ${hotkeyState ? 'green' : 'red'}`" />
+    <div class="hotkey-tips">
+      Hotkeys will be turned on, as soon as you enter any game automatically.
+      If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
+      If something goes wrong, you can always toggle the hotkeys with the provided <b>hotkeys on/off</b> toggle key.
+      Right now hotkeys do not support modifiers because we ran into performance issues, but this will come in the future.
+    </div>
   </div>
 </template>
 
@@ -281,5 +287,12 @@ export default class HotKeySetupScreen extends Vue {
 .hotkey-input {
   font-size: 30px;
   text-align: center;
+}
+
+.hotkey-tips {
+  position: absolute;
+  top: 490px;
+  width: 850px;
+  left: 120px;
 }
 </style>
