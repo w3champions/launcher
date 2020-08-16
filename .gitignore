@@ -27,3 +27,7 @@ pnpm-debug.log*
 /dist_electron
 
 yarn.lock
+
+# Native module files
+Debug
+.vs
