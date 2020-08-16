@@ -11,8 +11,8 @@ void PressKey(UINT key);
 
 void ReleaseModifier(UINT modifier);
 void ReleaseLControl();
-void ReleaseAlt();
+void ReleaseLAlt();
 
 void HoldModifier(UINT modifier);
 void HoldLControl();
-void HoldAlt();
+void HoldLAlt();
