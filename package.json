@@ -6,8 +6,7 @@
   "author": "simonheiss87@gmail.com",
   "scripts": {
     "serve": "vue-cli-service electron:serve",
-    "build": "npm run rebuild && vue-cli-service electron:build",
-    "rebuild": "npm rebuild --runtime=electron --target=9.1.2 --disturl=https://atom.io/download/atom-shell --abi=80",
+    "build": "vue-cli-service electron:build",
     "lint": "vue-cli-service lint",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
@@ -21,7 +20,7 @@
     "core-js": "^3.6.5",
     "direct-vuex": "^0.12.0",
     "electron-store": "^6.0.0",
-    "robotjs": "^0.6.0",
+    "node-addon-api": "^3.0.0",
     "sudo-prompt": "^9.2.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.5",

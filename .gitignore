@@ -31,3 +31,4 @@ yarn.lock
 # Native module files
 Debug
 .vs
+/build

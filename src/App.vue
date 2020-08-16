@@ -16,14 +16,14 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
-import {NUM_LOCK} from "@/hot-keys/keyValuesRobotJs";
-const robot = window.require("robotjs");
+const hello_world = window.require('./build/Release/hello-world')
 
 @Component({
   components: {HeadLine}
 })
 export default class App extends Vue {
   async mounted() {
+    console.log(hello_world.sayHi());
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
     this.makeSureNumpadIsEnabled()
@@ -69,7 +69,7 @@ export default class App extends Vue {
       const numlockState = e.getModifierState("NumLock");
       if (!numlockState) {
         console.log("Numpad is NOT activated, do hack:" + numlockState);
-        robot.keyTap(NUM_LOCK);
+        // robot.keyTap(NUM_LOCK);
       } else {
         console.log("Numpad is activated, remove hack:" + numlockState);
       }
@@ -79,10 +79,10 @@ export default class App extends Vue {
     }
 
     window.document.onclick = () => {
-      robot.keyTap(" ");
+      // robot.keyTap(" ");
     }
 
-    robot.keyTap(" ");
+    // robot.keyTap(" ");
   }
 }
 </script>
