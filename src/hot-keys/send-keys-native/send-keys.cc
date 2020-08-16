@@ -1,7 +1,6 @@
+#include <napi.h>
 #include <iostream>
 #include <Windows.h>
-#include "send-keys.h"
-#include <string>
 #include <string>
 
 #define VK_KEY_0    0x30 // '0' key
@@ -42,58 +41,8 @@
 #define VK_KEY_Y    0x59 // 'Y' key
 #define VK_KEY_Z    0x5A // 'Z' key
 
-int main()
-{
-    if (RegisterHotKey(
-        NULL,
-        1,
-        MOD_CONTROL,
-        VK_KEY_Q))  //0x42 is 'b'
-    {
-        printf_s(("Hotkey 'CTRL+q' registered\n"));
-    }
 
-    if (RegisterHotKey(
-        NULL,
-        2,
-        MOD_CONTROL,
-        VK_KEY_W))  //0x42 is 'b'
-    {
-        printf_s(("Hotkey 'CTRL+w' registered\n"));
-    }
-
-    MSG msg = { 0 };
-    while (GetMessage(&msg, NULL, 0, 0) != 0)
-    {
-        if (msg.message == WM_HOTKEY)
-        {
-            ReleaseLControl();
-
-            switch (msg.message)
-            {
-            case WM_HOTKEY:
-                if (msg.wParam == 1)
-                {
-                    printf_s("Ctrl + q received\n");
-
-                    PressNum8();
-                }
-                else if (msg.wParam == 2)
-                {
-                    printf_s("Ctrl + w received\n");
-
-                    PressNum7();
-                }
-            }
-
-            HoldLControl();
-        }
-    }
-
-    return 0;
-}
-
-void ReleaseModifier(UINT modifier)
+Napi::Boolean ReleaseModifier(UINT modifier)
 {
     INPUT ipModifer;
     ipModifer.type = INPUT_KEYBOARD;
@@ -102,12 +51,14 @@ void ReleaseModifier(UINT modifier)
     ipModifer.ki.wVk = modifier;
     ipModifer.ki.dwFlags = KEYEVENTF_KEYUP;
     SendInput(1, &ipModifer, sizeof(INPUT));
+
+    return Napi::Boolean::Boolean();
 }
 
-void ReleaseLControl() { ReleaseModifier(VK_LCONTROL); }
-void ReleaseLAlt() { ReleaseModifier(VK_LMENU); }
+Napi::Boolean ReleaseLControl(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LCONTROL); }
+Napi::Boolean ReleaseLAlt(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LMENU); }
 
-void HoldModifier(UINT modifier)
+Napi::Boolean HoldModifier(UINT modifier)
 {
     INPUT ipModifer;
     ipModifer.type = INPUT_KEYBOARD;
@@ -118,12 +69,14 @@ void HoldModifier(UINT modifier)
     ipModifer.ki.wScan = MapVirtualKey(modifier, MAPVK_VK_TO_VSC);
     ipModifer.ki.dwFlags = KEYEVENTF_SCANCODE;
     SendInput(1, &ipModifer, sizeof(INPUT));
+
+    return Napi::Boolean::Boolean();
 }
 
-void HoldLControl() { HoldModifier(VK_LCONTROL); }
-void HoldLAlt() { HoldModifier(VK_LMENU); }
+Napi::Boolean HoldLControl(const Napi::CallbackInfo& info) { return HoldModifier(VK_LCONTROL); }
+Napi::Boolean HoldLAlt(const Napi::CallbackInfo& info) { return HoldModifier(VK_LMENU); }
 
-void PressKey(UINT key)
+Napi::Boolean PressKey(UINT key)
 {
     INPUT ip;
     ip.type = INPUT_KEYBOARD;
@@ -137,14 +90,27 @@ void PressKey(UINT key)
 
     ip.ki.dwFlags = KEYEVENTF_KEYUP;
     SendInput(1, &ip, sizeof(INPUT));
+
+    return Napi::Boolean::Boolean();
 }
 
-void PressNum8() { PressKey(VK_NUMPAD8); }
-void PressNum7() { PressKey(VK_NUMPAD7); }
-void PressNum5() { PressKey(VK_NUMPAD5); }
-void PressNum4() { PressKey(VK_NUMPAD4); }
-void PressNum2() { PressKey(VK_NUMPAD2); }
-void PressNum1() { PressKey(VK_NUMPAD1); }
-void PressNumlock() { PressKey(VK_NUMLOCK); }
+Napi::Boolean PressNum8(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD8); }
+Napi::Boolean PressNum7(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD7); }
+Napi::Boolean PressNum5(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD5); }
+Napi::Boolean PressNum4(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD4); }
+Napi::Boolean PressNum2(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD2); }
+Napi::Boolean PressNum1(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD1); }
+Napi::Boolean PressNumlock(const Napi::CallbackInfo& info) { return PressKey(VK_NUMLOCK); }
 
 
+Napi::Object init(Napi::Env env, Napi::Object exports) {
+    exports.Set(Napi::String::New(env, "pressNum1"), Napi::Function::New(env, PressNum1));
+    exports.Set(Napi::String::New(env, "pressNum2"), Napi::Function::New(env, PressNum2));
+    exports.Set(Napi::String::New(env, "pressNum4"), Napi::Function::New(env, PressNum4));
+    exports.Set(Napi::String::New(env, "pressNum5"), Napi::Function::New(env, PressNum5));
+    exports.Set(Napi::String::New(env, "pressNum7"), Napi::Function::New(env, PressNum7));
+    exports.Set(Napi::String::New(env, "pressNum8"), Napi::Function::New(env, PressNum8));
+    return exports;
+};
+
+NODE_API_MODULE(send_keys_native, init);

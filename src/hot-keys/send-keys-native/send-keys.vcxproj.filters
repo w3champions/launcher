@@ -15,12 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="send-keys.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="send-keys.cpp">
+    <ClCompile Include="send-keys.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -16,14 +16,12 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
-const hello_world = window.require('./build/Release/hello-world')
 
 @Component({
   components: {HeadLine}
 })
 export default class App extends Vue {
   async mounted() {
-    console.log(hello_world.sayHi());
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
     this.makeSureNumpadIsEnabled()

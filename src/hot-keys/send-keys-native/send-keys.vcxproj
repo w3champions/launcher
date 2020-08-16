@@ -140,10 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="send-keys.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="send-keys.h" />
+    <ClCompile Include="send-keys.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

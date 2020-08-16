@@ -3,6 +3,7 @@ import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/hotkeyTypes";
 import {combiAsString} from "@/hot-keys/utilsFunctions";
 
 const { globalShortcut } = window.require("electron").remote;
+const send_keys_native = window.require('./build/Release/send-keys-native')
 const Store = window.require("electron-store");
 
 // this functions somehow could not be made private, on register/unregister the this. operator somehow gets fucked
@@ -66,7 +67,7 @@ export class ItemHotkeyRegistrationService {
 
     public registerKey(hotKey: HotKey) {
         this.register(hotKey.combo, () => {
-            // robot.keyTap(hotKey.key);
+            send_keys_native.pressNum1();
         });
     }
 
