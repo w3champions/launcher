@@ -16,6 +16,7 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
+const keyboard = window.require('./build/Release/send-keys-native')
 
 @Component({
   components: {HeadLine}
@@ -67,7 +68,7 @@ export default class App extends Vue {
       const numlockState = e.getModifierState("NumLock");
       if (!numlockState) {
         console.log("Numpad is NOT activated, do hack:" + numlockState);
-        // robot.keyTap(NUM_LOCK);
+        keyboard.pressNumLock();
       } else {
         console.log("Numpad is activated, remove hack:" + numlockState);
       }
@@ -77,10 +78,9 @@ export default class App extends Vue {
     }
 
     window.document.onclick = () => {
-      // robot.keyTap(" ");
+      keyboard.pressNumLock();
+      keyboard.pressSpace();
     }
-
-    // robot.keyTap(" ");
   }
 }
 </script>

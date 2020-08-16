@@ -3,6 +3,15 @@
 #include <Windows.h>
 #include <string>
 
+#define VK_SPACE    0x20 // space key
+#define VK_ENTER    0x0D // enter key
+#define VK_ESCAPE   0x1B // escape key
+#define VK_F1       0x6F // f1 key
+#define VK_F2       0x70 // f2 key
+#define VK_F3       0x71 // f3 key
+#define VK_F10      0x79 // f10 key
+#define VK_F12      0x7B // f12 key
+
 #define VK_KEY_0    0x30 // '0' key
 #define VK_KEY_1    0x31 // '1' key
 #define VK_KEY_2    0x32 // '2' key
@@ -101,6 +110,16 @@ Napi::Boolean PressNum4(const Napi::CallbackInfo& info) { return PressKey(VK_NUM
 Napi::Boolean PressNum2(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD2); }
 Napi::Boolean PressNum1(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD1); }
 Napi::Boolean PressNumlock(const Napi::CallbackInfo& info) { return PressKey(VK_NUMLOCK); }
+Napi::Boolean PressSpace(const Napi::CallbackInfo& info) { return PressKey(VK_SPACE); }
+
+Napi::Boolean PressEnter(const Napi::CallbackInfo& info) { return PressKey(VK_ENTER); }
+Napi::Boolean PressEscape(const Napi::CallbackInfo& info) { return PressKey(VK_ESCAPE); }
+Napi::Boolean PressF10(const Napi::CallbackInfo& info) { return PressKey(VK_F10); }
+Napi::Boolean PressF12(const Napi::CallbackInfo& info) { return PressKey(VK_F12); }
+
+Napi::Boolean PressF1(const Napi::CallbackInfo& info) { return PressKey(VK_F1); }
+Napi::Boolean PressF2(const Napi::CallbackInfo& info) { return PressKey(VK_F2); }
+Napi::Boolean PressF3(const Napi::CallbackInfo& info) { return PressKey(VK_F3); }
 
 
 Napi::Object init(Napi::Env env, Napi::Object exports) {
@@ -110,6 +129,24 @@ Napi::Object init(Napi::Env env, Napi::Object exports) {
     exports.Set(Napi::String::New(env, "pressNum5"), Napi::Function::New(env, PressNum5));
     exports.Set(Napi::String::New(env, "pressNum7"), Napi::Function::New(env, PressNum7));
     exports.Set(Napi::String::New(env, "pressNum8"), Napi::Function::New(env, PressNum8));
+
+    exports.Set(Napi::String::New(env, "pressNumLock"), Napi::Function::New(env, PressNumlock));
+    exports.Set(Napi::String::New(env, "pressSpace"), Napi::Function::New(env, PressSpace));
+
+    exports.Set(Napi::String::New(env, "pressEnter"), Napi::Function::New(env, PressEnter));
+    exports.Set(Napi::String::New(env, "pressEscape"), Napi::Function::New(env, PressEscape));
+    exports.Set(Napi::String::New(env, "pressF10"), Napi::Function::New(env, PressF10));
+    exports.Set(Napi::String::New(env, "pressF12"), Napi::Function::New(env, PressF12));
+
+    exports.Set(Napi::String::New(env, "pressF1"), Napi::Function::New(env, PressF1));
+    exports.Set(Napi::String::New(env, "pressF2"), Napi::Function::New(env, PressF2));
+    exports.Set(Napi::String::New(env, "pressF3"), Napi::Function::New(env, PressF3));
+
+    exports.Set(Napi::String::New(env, "holdCtrl"), Napi::Function::New(env, HoldLControl));
+    exports.Set(Napi::String::New(env, "holdAlt"), Napi::Function::New(env, HoldLAlt));
+    exports.Set(Napi::String::New(env, "releaseCtrl"), Napi::Function::New(env, ReleaseLControl));
+    exports.Set(Napi::String::New(env, "releaseAlt"), Napi::Function::New(env, ReleaseLAlt));
+
     return exports;
 };
 
