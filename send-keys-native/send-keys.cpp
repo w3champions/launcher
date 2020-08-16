@@ -105,7 +105,7 @@ void ReleaseModifier(UINT modifier)
 }
 
 void ReleaseLControl() { ReleaseModifier(VK_LCONTROL); }
-void ReleaseAlt() { ReleaseModifier(VK_MENU); }
+void ReleaseLAlt() { ReleaseModifier(VK_LMENU); }
 
 void HoldModifier(UINT modifier)
 {
@@ -115,13 +115,13 @@ void HoldModifier(UINT modifier)
     ipModifer.ki.dwExtraInfo = 0;
     ipModifer.ki.wVk = modifier;
 
-    ipModifer.ki.wScan = MapVirtualKey(VK_LCONTROL, MAPVK_VK_TO_VSC);
+    ipModifer.ki.wScan = MapVirtualKey(modifier, MAPVK_VK_TO_VSC);
     ipModifer.ki.dwFlags = KEYEVENTF_SCANCODE;
     SendInput(1, &ipModifer, sizeof(INPUT));
 }
 
 void HoldLControl() { HoldModifier(VK_LCONTROL); }
-void HoldAlt() { HoldModifier(VK_MENU); }
+void HoldLAlt() { HoldModifier(VK_LMENU); }
 
 void PressKey(UINT key)
 {
