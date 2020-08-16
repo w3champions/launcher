@@ -6,9 +6,9 @@
 #define VK_SPACE    0x20 // space key
 #define VK_ENTER    0x0D // enter key
 #define VK_ESCAPE   0x1B // escape key
-#define VK_F1       0x6F // f1 key
-#define VK_F2       0x70 // f2 key
-#define VK_F3       0x71 // f3 key
+#define VK_F01      0x6F // f1 key
+#define VK_F02      0x70 // f2 key
+#define VK_F03      0x71 // f3 key
 #define VK_F10      0x79 // f10 key
 #define VK_F12      0x7B // f12 key
 
@@ -117,9 +117,9 @@ Napi::Boolean PressEscape(const Napi::CallbackInfo& info) { return PressKey(VK_E
 Napi::Boolean PressF10(const Napi::CallbackInfo& info) { return PressKey(VK_F10); }
 Napi::Boolean PressF12(const Napi::CallbackInfo& info) { return PressKey(VK_F12); }
 
-Napi::Boolean PressF1(const Napi::CallbackInfo& info) { return PressKey(VK_F1); }
-Napi::Boolean PressF2(const Napi::CallbackInfo& info) { return PressKey(VK_F2); }
-Napi::Boolean PressF3(const Napi::CallbackInfo& info) { return PressKey(VK_F3); }
+Napi::Boolean PressF1(const Napi::CallbackInfo& info) { return PressKey(VK_F01); }
+Napi::Boolean PressF2(const Napi::CallbackInfo& info) { return PressKey(VK_F02); }
+Napi::Boolean PressF3(const Napi::CallbackInfo& info) { return PressKey(VK_F03); }
 
 
 Napi::Object init(Napi::Env env, Napi::Object exports) {
