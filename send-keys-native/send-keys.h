@@ -1,21 +1,18 @@
 #pragma once
 
-enum keys
-{
-    Num8 = VK_NUMPAD8,
-    Num7 = VK_NUMPAD7,
-    Num6 = VK_NUMPAD6,
-    Num5 = VK_NUMPAD5,
-    Num4 = VK_NUMPAD4,
-    Num3 = VK_NUMPAD3,
-};
+void PressNum8();
+void PressNum7();
+void PressNum5();
+void PressNum4();
+void PressNum2();
+void PressNum1();
+void PressNumlock();
+void PressKey(UINT key);
 
-enum modifiers
-{
-    LCtrl = VK_LCONTROL,
-    Alt = VK_MENU
-};
+void ReleaseModifier(UINT modifier);
+void ReleaseLControl();
+void ReleaseAlt();
 
-void PressKey(keys key);
-void ReleaseModifier(modifiers modifier);
-void HoldModifier(modifiers modifier);
+void HoldModifier(UINT modifier);
+void HoldLControl();
+void HoldAlt();

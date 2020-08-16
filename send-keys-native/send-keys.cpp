@@ -44,8 +44,6 @@
 
 int main()
 {
-    bool controlDown = false;
-
     if (RegisterHotKey(
         NULL,
         1,
@@ -69,7 +67,7 @@ int main()
     {
         if (msg.message == WM_HOTKEY)
         {
-            ReleaseModifier(LCtrl);
+            ReleaseLControl();
 
             switch (msg.message)
             {
@@ -78,24 +76,24 @@ int main()
                 {
                     printf_s("Ctrl + q received\n");
 
-                    PressKey(Num8);
+                    PressNum8();
                 }
                 else if (msg.wParam == 2)
                 {
                     printf_s("Ctrl + w received\n");
 
-                    PressKey(Num7);
+                    PressNum7();
                 }
             }
 
-            HoldModifier(LCtrl);
+            HoldLControl();
         }
     }
 
     return 0;
 }
 
-void ReleaseModifier(modifiers modifier)
+void ReleaseModifier(UINT modifier)
 {
     INPUT ipModifer;
     ipModifer.type = INPUT_KEYBOARD;
@@ -106,7 +104,10 @@ void ReleaseModifier(modifiers modifier)
     SendInput(1, &ipModifer, sizeof(INPUT));
 }
 
-void HoldModifier(modifiers modifier)
+void ReleaseLControl() { ReleaseModifier(VK_LCONTROL); }
+void ReleaseAlt() { ReleaseModifier(VK_MENU); }
+
+void HoldModifier(UINT modifier)
 {
     INPUT ipModifer;
     ipModifer.type = INPUT_KEYBOARD;
@@ -119,7 +120,10 @@ void HoldModifier(modifiers modifier)
     SendInput(1, &ipModifer, sizeof(INPUT));
 }
 
-void PressKey(keys key)
+void HoldLControl() { HoldModifier(VK_LCONTROL); }
+void HoldAlt() { HoldModifier(VK_MENU); }
+
+void PressKey(UINT key)
 {
     INPUT ip;
     ip.type = INPUT_KEYBOARD;
@@ -134,3 +138,13 @@ void PressKey(keys key)
     ip.ki.dwFlags = KEYEVENTF_KEYUP;
     SendInput(1, &ip, sizeof(INPUT));
 }
+
+void PressNum8() { PressKey(VK_NUMPAD8); }
+void PressNum7() { PressKey(VK_NUMPAD7); }
+void PressNum5() { PressKey(VK_NUMPAD5); }
+void PressNum4() { PressKey(VK_NUMPAD4); }
+void PressNum2() { PressKey(VK_NUMPAD2); }
+void PressNum1() { PressKey(VK_NUMPAD1); }
+void PressNumlock() { PressKey(VK_NUMLOCK); }
+
+
