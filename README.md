@@ -1,8 +1,9 @@
 # w3c-launcher
 
 ## Project setup
-Install Visual Studio 2017 and the C++ Desktop Tools, as we need them for robotjs
+Install Visual Studio 2017 and the C++ Desktop Tools, as we need them for robotjs. Also this command helps
 ```
+npm install --global --production windows-build-tools
 npm install
 ```
 
