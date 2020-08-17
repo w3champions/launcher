@@ -6,7 +6,7 @@
   "author": "simonheiss87@gmail.com",
   "scripts": {
     "serve": "vue-cli-service electron:serve",
-    "build": "npm install ./src/hot-keys/send-keys-native && vue-cli-service electron:build",
+    "build": "vue-cli-service electron:build",
     "lint": "vue-cli-service lint",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
