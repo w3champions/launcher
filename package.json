@@ -17,6 +17,7 @@
     "adm-zip": "^0.4.16",
     "arraybuffer-to-buffer": "0.0.7",
     "axios": "^0.19.2",
+    "bindings": "^1.5.0",
     "core-js": "^3.6.5",
     "direct-vuex": "^0.12.0",
     "electron-store": "^6.0.0",
