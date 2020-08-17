@@ -22,7 +22,7 @@ Napi::Boolean ReleaseModifier(UINT modifier)
     ipModifer.ki.dwFlags = KEYEVENTF_KEYUP;
     SendInput(1, &ipModifer, sizeof(INPUT));
 
-    return Napi::Boolean::Boolean();
+    return Napi::Boolean();
 }
 
 Napi::Boolean ReleaseLControl(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LCONTROL); }
@@ -40,7 +40,7 @@ Napi::Boolean HoldModifier(UINT modifier)
     ipModifer.ki.dwFlags = KEYEVENTF_SCANCODE;
     SendInput(1, &ipModifer, sizeof(INPUT));
 
-    return Napi::Boolean::Boolean();
+    return Napi::Boolean();
 }
 
 Napi::Boolean HoldLControl(const Napi::CallbackInfo& info) { return HoldModifier(VK_LCONTROL); }
@@ -61,7 +61,7 @@ Napi::Boolean PressKey(UINT key)
     ip.ki.dwFlags = KEYEVENTF_KEYUP;
     SendInput(1, &ip, sizeof(INPUT));
 
-    return Napi::Boolean::Boolean();
+    return Napi::Boolean();
 }
 
 Napi::Boolean PressNum8(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD8); }
