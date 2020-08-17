@@ -3,6 +3,7 @@
 ## Project setup
 Install Visual Studio 2017 and the C++ Desktop Tools, as we need them for robotjs. Also this command helps
 ```
+npm install ./src/hot-keys/send-keys-native
 npm install --global --production windows-build-tools
 npm install
 ```
