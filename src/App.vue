@@ -16,7 +16,7 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
-const keyboard = window.require('./build/Release/send-keys-native')
+const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
 
 @Component({
   components: {HeadLine}

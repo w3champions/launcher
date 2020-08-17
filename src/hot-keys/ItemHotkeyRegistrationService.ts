@@ -14,7 +14,7 @@ import {
 } from "@/hot-keys/keyValuesRobotJs";
 
 const { globalShortcut } = window.require("electron").remote;
-const keyboard = window.require('./build/Release/send-keys-native')
+const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
 const Store = window.require("electron-store");
 
 // this functions somehow could not be made private, on register/unregister the this. operator somehow gets fucked

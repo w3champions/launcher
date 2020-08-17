@@ -31,4 +31,4 @@ yarn.lock
 # Native module files
 Debug
 .vs
-/build
+/src/hot-keys/send-keys-native/build/
