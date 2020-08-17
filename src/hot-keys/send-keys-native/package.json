@@ -1,0 +1,10 @@
+{
+  "name": "send-keys-native",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Native key module",
+  "author": "simonheiss87@gmail.com",
+  "dependencies": {
+    "node-addon-api": "^3.0.0"
+  }
+}

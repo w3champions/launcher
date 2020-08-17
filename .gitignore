@@ -32,3 +32,4 @@ yarn.lock
 Debug
 .vs
 /build
+/src/hot-keys/send-keys-native/build/
