@@ -32,8 +32,8 @@ Napi::Boolean ReleaseModifier(int modifier)
     return Napi::Boolean();
 }
 
-Napi::Boolean ReleaseLControl(const Napi::CallbackInfo& info) { return ReleaseModifier(1); }
-Napi::Boolean ReleaseLAlt(const Napi::CallbackInfo& info) { return ReleaseModifier(1); }
+Napi::Boolean ReleaseLControl(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LCTRL); }
+Napi::Boolean ReleaseLAlt(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LALT); }
 
 Napi::Boolean HoldModifier(int modifier)
 {
@@ -44,8 +44,8 @@ Napi::Boolean HoldModifier(int modifier)
     return Napi::Boolean();
 }
 
-Napi::Boolean HoldLControl(const Napi::CallbackInfo& info) { return HoldModifier(1); }
-Napi::Boolean HoldLAlt(const Napi::CallbackInfo& info) { return HoldModifier(1); }
+Napi::Boolean HoldLControl(const Napi::CallbackInfo& info) { return HoldModifier(VK_LCTRL); }
+Napi::Boolean HoldLAlt(const Napi::CallbackInfo& info) { return HoldModifier(VK_LALT); }
 
 Napi::Boolean PressKey(int key)
 {
@@ -54,12 +54,12 @@ Napi::Boolean PressKey(int key)
     return Napi::Boolean();
 }
 
-Napi::Boolean PressNum8(const Napi::CallbackInfo& info) { return PressKey(1); }
-Napi::Boolean PressNum7(const Napi::CallbackInfo& info) { return PressKey(1); }
-Napi::Boolean PressNum5(const Napi::CallbackInfo& info) { return PressKey(1); }
-Napi::Boolean PressNum4(const Napi::CallbackInfo& info) { return PressKey(1); }
-Napi::Boolean PressNum2(const Napi::CallbackInfo& info) { return PressKey(1); }
-Napi::Boolean PressNum1(const Napi::CallbackInfo& info) { return PressKey(1); }
+Napi::Boolean PressNum8(const Napi::CallbackInfo& info) { return PressKey(VK_NUM8); }
+Napi::Boolean PressNum7(const Napi::CallbackInfo& info) { return PressKey(VK_NUM7); }
+Napi::Boolean PressNum5(const Napi::CallbackInfo& info) { return PressKey(VK_NUM5); }
+Napi::Boolean PressNum4(const Napi::CallbackInfo& info) { return PressKey(VK_NUM4); }
+Napi::Boolean PressNum2(const Napi::CallbackInfo& info) { return PressKey(VK_NUM2); }
+Napi::Boolean PressNum1(const Napi::CallbackInfo& info) { return PressKey(VK_NUM1); }
 Napi::Boolean PressNumlock(const Napi::CallbackInfo& info) { return Napi::Boolean(); }
 Napi::Boolean PressSpace(const Napi::CallbackInfo& info) { return PressKey(VK_SPACE); }
 
