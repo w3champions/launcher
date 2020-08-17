@@ -1,18 +1,34 @@
 #include <napi.h>
 #include <iostream>
 #include <string>
+#include <ApplicationServices/ApplicationServices.h>
 
-#define VK_SPACE    0x20 // space key
-#define VK_ENTER    0x0D // enter key
-#define VK_ESCAPE   0x1B // escape key
-#define VK_F01      0x6F // f1 key
-#define VK_F02      0x70 // f2 key
-#define VK_F03      0x71 // f3 key
-#define VK_F10      0x79 // f10 key
-#define VK_F12      0x7B // f12 key
+#define VK_SPACE    0x31 // space key
+#define VK_ENTER    0x24 // enter key
+#define VK_ESCAPE   0x35 // escape key
+#define VK_F01      0x7A // f1 key
+#define VK_F02      0x78 // f2 key
+#define VK_F03      0x63 // f3 key
+#define VK_F10      0x6D // f10 key
+#define VK_F12      0x6F // f12 key
+
+#define VK_LCTRL    0x3B // f12 key
+#define VK_LCMD     0x37 // f12 key
+#define VK_LALT     0x3A // f12 key
+
+#define VK_NUM1     0x53 // f12 key
+#define VK_NUM2     0x54 // f12 key
+#define VK_NUM4     0x56 // f12 key
+#define VK_NUM5     0x57 // f12 key
+#define VK_NUM7     0x59 // f12 key
+#define VK_NUM8     0x5B // f12 key
 
 Napi::Boolean ReleaseModifier(int modifier)
 {
+    CGEventSourceRef src = CGEventSourceCreate(kCGEventSourceStateHIDSystemState);
+    CGEventRef evt = CGEventCreateKeyboardEvent(src, (CGKeyCode) modifier, false);
+    CGEventPost (kCGHIDEventTap, evt);
+    CFRelease (evt); CFRelease (src);
     return Napi::Boolean();
 }
 
@@ -21,6 +37,10 @@ Napi::Boolean ReleaseLAlt(const Napi::CallbackInfo& info) { return ReleaseModifi
 
 Napi::Boolean HoldModifier(int modifier)
 {
+    CGEventSourceRef src = CGEventSourceCreate(kCGEventSourceStateHIDSystemState);
+    CGEventRef evt = CGEventCreateKeyboardEvent(src, (CGKeyCode) modifier, true);
+    CGEventPost (kCGHIDEventTap, evt);
+    CFRelease (evt); CFRelease (src);
     return Napi::Boolean();
 }
 
@@ -29,6 +49,8 @@ Napi::Boolean HoldLAlt(const Napi::CallbackInfo& info) { return HoldModifier(1);
 
 Napi::Boolean PressKey(int key)
 {
+    HoldModifier(key);
+    ReleaseModifier(key);
     return Napi::Boolean();
 }
 
@@ -38,7 +60,7 @@ Napi::Boolean PressNum5(const Napi::CallbackInfo& info) { return PressKey(1); }
 Napi::Boolean PressNum4(const Napi::CallbackInfo& info) { return PressKey(1); }
 Napi::Boolean PressNum2(const Napi::CallbackInfo& info) { return PressKey(1); }
 Napi::Boolean PressNum1(const Napi::CallbackInfo& info) { return PressKey(1); }
-Napi::Boolean PressNumlock(const Napi::CallbackInfo& info) { return PressKey(1); }
+Napi::Boolean PressNumlock(const Napi::CallbackInfo& info) { return Napi::Boolean(); }
 Napi::Boolean PressSpace(const Napi::CallbackInfo& info) { return PressKey(VK_SPACE); }
 
 Napi::Boolean PressEnter(const Napi::CallbackInfo& info) { return PressKey(VK_ENTER); }
