@@ -14,12 +14,6 @@ jobs:
   - script: npm install
     displayName: 'npm install'
 
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: 'build-assets'
-      Contents: '**'
-      TargetFolder: 'build'
-
   - script: npm run build
     displayName: 'npm build'
     env:
@@ -31,7 +25,7 @@ jobs:
     inputs:
       contents: 'dist_electron/w3champions-launcher*.dmg'
       targetFolder: $(Build.ArtifactStagingDirectory)
-      
+
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: $(Build.ArtifactStagingDirectory)
@@ -50,12 +44,6 @@ jobs:
 
   - script: npm install
     displayName: 'npm install'
-
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: 'build-assets'
-      Contents: '**'
-      TargetFolder: 'build'
 
   - script: npm run build
     displayName: 'npm build'
