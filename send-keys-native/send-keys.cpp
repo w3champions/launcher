@@ -1,8 +1,6 @@
 #include <iostream>
 #include <Windows.h>
 #include "send-keys.h"
-#include <string>
-#include <string>
 
 #define VK_KEY_0    0x30 // '0' key
 #define VK_KEY_1    0x31 // '1' key
