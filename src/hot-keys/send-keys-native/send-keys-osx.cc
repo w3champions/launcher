@@ -1,4 +1,6 @@
 #include <napi.h>
+#include <iostream>
+#include <string>
 
 #define VK_SPACE    0x20 // space key
 #define VK_ENTER    0x0D // enter key
