@@ -1,6 +1,38 @@
 trigger:
 - master
 
+jobs:
+- job: macOS
+  pool:
+    vmImage: 'macOS-latest'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: 'Install Node.js'
+
+  - script: npm install
+    displayName: 'npm install'
+
+  - script: npm run build
+    displayName: 'npm build'
+    env:
+      CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_MAC)
+      CSC_LINK: w3c-certs-mac.p12
+      APP_PW: $(APP_PW)
+
+  - task: CopyFiles@2
+    inputs:
+      contents: 'dist_electron/w3champions-launcher*.dmg'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
+
+
 - job: Windows
   pool:
     vmImage: 'windows-latest'
