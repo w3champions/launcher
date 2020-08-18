@@ -8,7 +8,7 @@ export interface HotKeyModifierState {
 }
 
 export enum ModifierKey {
-  None, CommandOrControl, Alt, Shift, Space
+  None, Ctrl, Alt, Shift, Space, Cmd
 }
 
 export interface ClickCombination {

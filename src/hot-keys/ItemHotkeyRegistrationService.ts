@@ -173,7 +173,7 @@ export class ItemHotkeyRegistrationService {
 
     private toggleModifierDown(combo: ClickCombination) {
         switch (combo.modifier) {
-            case ModifierKey.CommandOrControl: {
+            case ModifierKey.Ctrl: {
                 keyboard.releaseCtrl();
                 break;
             }
@@ -181,17 +181,34 @@ export class ItemHotkeyRegistrationService {
                 keyboard.releaseAlt();
                 break;
             }
+            case ModifierKey.Shift: {
+                keyboard.releaseShift();
+                break;
+            }
+            case ModifierKey.Cmd: {
+                keyboard.releaseCmd();
+                break;
+            }
         }
     }
 
     private toggleModifierUp(combo: ClickCombination) {
         switch (combo.modifier) {
-            case ModifierKey.CommandOrControl: {
+            case ModifierKey.Ctrl: {
                 keyboard.holdCtrl();
                 break;
             }
             case ModifierKey.Alt: {
                 keyboard.holdAlt();
+                break;
+            }
+
+            case ModifierKey.Shift: {
+                keyboard.holdShift();
+                break;
+            }
+            case ModifierKey.Cmd: {
+                keyboard.holdCmd();
                 break;
             }
         }

@@ -32,7 +32,6 @@
       Hotkeys will be turned on, as soon as you enter any game automatically.
       If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
       If something goes wrong, you can always toggle the hotkeys with the provided <b>hotkeys on/off</b> toggle key.
-      Right now hotkeys do not support modifiers because we ran into performance issues, but this will come in the future.
     </div>
   </div>
 </template>
@@ -86,7 +85,7 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   get hotKeyCombo() {
-    return combiAsString({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}).replace("CommandOrControl", "Ctrl")
+    return combiAsString({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit})
   }
 
   public toggleHotKeys() {
@@ -106,11 +105,15 @@ export default class HotKeySetupScreen extends Vue {
     }
 
     if (e.ctrlKey) {
-      this.hotkeyModifierToEdit = ModifierKey.CommandOrControl;
+      this.hotkeyModifierToEdit = ModifierKey.Ctrl;
     }
 
     if (e.shiftKey) {
       this.hotkeyModifierToEdit = ModifierKey.Shift;
+    }
+
+    if (e.metaKey) {
+      this.hotkeyModifierToEdit = ModifierKey.Cmd;
     }
 
     if (e.key === " ") {
@@ -118,7 +121,7 @@ export default class HotKeySetupScreen extends Vue {
       this.hotkeyModifierToEdit = ModifierKey.Space;
     }
 
-    if (e.key !== "Alt" && e.key !== "Control" && e.key !== " " && e.key !== "Shift") {
+    if (e.key !== "Alt" && e.key !== "Control" && e.key !== " " && e.key !== "Shift" && e.key !== "Meta") {
       this.hotkeyToEdit = e.key.toLowerCase();
     }
 

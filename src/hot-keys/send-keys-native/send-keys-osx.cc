@@ -15,6 +15,7 @@
 #define VK_LCTRL    0x3B // f12 key
 #define VK_LCMD     0x37 // f12 key
 #define VK_LALT     0x3A // f12 key
+#define VK_LSHIFT   0x38 // f12 key
 
 #define VK_NUM1     0x53 // f12 key
 #define VK_NUM2     0x54 // f12 key
@@ -34,6 +35,8 @@ Napi::Boolean ReleaseModifier(int modifier)
 
 Napi::Boolean ReleaseLControl(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LCTRL); }
 Napi::Boolean ReleaseLAlt(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LALT); }
+Napi::Boolean ReleaseLShift(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LSHIFT); }
+Napi::Boolean ReleaseLCmd(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LCMD); }
 
 Napi::Boolean HoldModifier(int modifier)
 {
@@ -46,6 +49,8 @@ Napi::Boolean HoldModifier(int modifier)
 
 Napi::Boolean HoldLControl(const Napi::CallbackInfo& info) { return HoldModifier(VK_LCTRL); }
 Napi::Boolean HoldLAlt(const Napi::CallbackInfo& info) { return HoldModifier(VK_LALT); }
+Napi::Boolean HoldLShift(const Napi::CallbackInfo& info) { return HoldModifier(VK_LSHIFT); }
+Napi::Boolean HoldLCmd(const Napi::CallbackInfo& info) { return HoldModifier(VK_LCMD); }
 
 Napi::Boolean PressKey(int key)
 {
@@ -95,8 +100,12 @@ Napi::Object init(Napi::Env env, Napi::Object exports) {
 
     exports.Set(Napi::String::New(env, "holdCtrl"), Napi::Function::New(env, HoldLControl));
     exports.Set(Napi::String::New(env, "holdAlt"), Napi::Function::New(env, HoldLAlt));
+    exports.Set(Napi::String::New(env, "holdShift"), Napi::Function::New(env, HoldLShift));
+    exports.Set(Napi::String::New(env, "holdCmd"), Napi::Function::New(env, HoldLCmd));
     exports.Set(Napi::String::New(env, "releaseCtrl"), Napi::Function::New(env, ReleaseLControl));
     exports.Set(Napi::String::New(env, "releaseAlt"), Napi::Function::New(env, ReleaseLAlt));
+    exports.Set(Napi::String::New(env, "releaseShift"), Napi::Function::New(env, ReleaseLShift));
+    exports.Set(Napi::String::New(env, "releaseCmd"), Napi::Function::New(env, ReleaseLCmd));
 
     return exports;
 };

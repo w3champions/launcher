@@ -1,7 +1,7 @@
 <template>
   <div class="headline-container">
     <HeadItem target="/" text="Home"/>
-    <HeadItem target="/HotKeys" text="Hot Keys (beta)"/>
+    <HeadItem target="/HotKeys" text="Hot Keys"/>
     <SettingsButton/>
     <div v-if="isWindows" class="close-button" @click="closeApp">X</div>
   </div>
@@ -22,7 +22,6 @@ export default class HeadLine extends Vue {
   }
 
   public closeApp() {
-    console.log("click")
     remote.app.quit();
   }
 }

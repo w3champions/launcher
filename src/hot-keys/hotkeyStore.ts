@@ -10,7 +10,7 @@ const mod = {
     hotKeys: [] as HotKey[],
     hotKeyStateMachine: new NotInGameState(),
     lastW3cPort: "",
-    toggleButton: { modifier: ModifierKey.CommandOrControl, hotKey: "f4" }
+    toggleButton: { modifier: ModifierKey.Shift, hotKey: "f4" }
   } as HotKeyModifierState,
   actions: {
     addHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
