@@ -122,10 +122,18 @@ export default class HotKeySetupScreen extends Vue {
     }
 
     if (e.key !== "Alt" && e.key !== "Control" && e.key !== " " && e.key !== "Shift" && e.key !== "Meta") {
-      this.hotkeyToEdit = e.key.toLowerCase();
+      if (this.isWindows) {
+        this.hotkeyToEdit = e.key.toLowerCase();
+      } else {
+        this.hotkeyToEdit = e.code.replace("Key", "").toLowerCase();
+      }
     }
 
     e.preventDefault();
+  }
+
+  get isWindows() {
+    return this.$store.direct.state.isWindows;
   }
 
   get hotkeyState() {
