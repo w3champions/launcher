@@ -105,7 +105,7 @@ export default class HotKeySetupScreen extends Vue {
     }
 
     if (e.ctrlKey) {
-      this.hotkeyModifierToEdit = ModifierKey.Ctrl;
+      this.hotkeyModifierToEdit = ModifierKey.CommandOrControl;
     }
 
     if (e.shiftKey) {
@@ -113,7 +113,7 @@ export default class HotKeySetupScreen extends Vue {
     }
 
     if (e.metaKey) {
-      this.hotkeyModifierToEdit = ModifierKey.Cmd;
+      this.hotkeyModifierToEdit = ModifierKey.CommandOrControl;
     }
 
     if (e.key === " ") {
