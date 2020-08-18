@@ -112,7 +112,7 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   get w3Path(): string {
-    return this.$store.direct.state.updateHandling.w3Path.replace("/_retail_", "");
+    return this.$store.direct.state.updateHandling.w3Path?.replace("/_retail_", "");
   }
 
   get news() {
