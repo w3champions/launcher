@@ -8,10 +8,10 @@
         <div>Warcraft III Location: {{w3Path}}</div>
         <div class="reset-button" @click="resetW3Path" />
       </div>
-      <div :class="isMapLocationWrong ? 'path-is-wrong' : 'reset-button-line'">
-        <div>Map Location: {{mapPath}}</div>
-        <div class="reset-button" @click="resetMapPath" />
-      </div>
+<!--      <div :class="isMapLocationWrong ? 'path-is-wrong' : 'reset-button-line'">-->
+<!--        <div>Map Location: {{mapPath}}</div>-->
+<!--        <div class="reset-button" @click="resetMapPath" />-->
+<!--      </div>-->
       <div class="reset-button-line">
         <div>Battle.Net Location: {{battleNet}}</div>
         <div class="reset-button" @click="resetBnetPath" />
