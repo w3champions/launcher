@@ -9,7 +9,7 @@ exports.default = async function notarizing(context) {
     const appName = context.packager.appInfo.productFilename;
 
     return await notarize({
-        appBundleId: 'w3champions-launcher',
+        appBundleId: 'w3champions',
         appPath: `${appOutDir}/${appName}.app`,
         appleId: "simonheiss87@gmail.com",
         appleIdPassword: process.env.APP_PW,

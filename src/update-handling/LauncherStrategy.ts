@@ -136,7 +136,7 @@ export abstract class LauncherStrategy{
         try {
             zip.extractAllTo(to, true);
         } catch (e) {
-            const tempFolder = `${remote.app.getPath("appData")}/w3champions-launcher/${fileName}_temp`;
+            const tempFolder = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
             zip.extractAllTo(tempFolder, true);
             this.store.dispatch.updateHandling.sudoCopyFromTo({from: tempFolder, to})
         }
