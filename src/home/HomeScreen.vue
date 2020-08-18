@@ -5,7 +5,7 @@
       <div v-html='news[0] ? news[0].message : ""'></div>
     </div>
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
-    <button @click="tryStartWc3" :disabled="isLoading" class="start-button">
+    <button @click="tryStartWc3" :disabled="isLoading || disablePlayBtn" class="start-button">
       Play
     </button>
   </div>
@@ -23,6 +23,7 @@ const os = window.require('os');
 })
 export default class HomeScreen extends Vue {
   private updateStrategy = HomeScreen.isWindows() ? new WindowsLauncher() : new MacLauncher();
+  private disablePlayBtn = false;
 
   async mounted() {
     await this.$store.direct.dispatch.loadNews();
@@ -38,8 +39,17 @@ export default class HomeScreen extends Vue {
 
   public async tryStartWc3() {
     if (this.isLoading) return;
+    this.disablePlayButtonTemporary();
+
     await this.updateStrategy.updateIfNeeded();
     this.updateStrategy.startWc3();
+  }
+
+  private disablePlayButtonTemporary() {
+    this.disablePlayBtn = true;
+    setTimeout(() => {
+      this.disablePlayBtn = false;
+    }, 10000);
   }
 
   get isLoading() {
@@ -88,5 +98,16 @@ export default class HomeScreen extends Vue {
   text-decoration: none;
   transition: filter 200ms ease 0s;
   padding: 0 95px;
+}
+
+.start-button:hover {
+  filter: brightness(1.1);
+  background-color: rgb(217, 217, 217);
+  cursor: pointer;
+}
+
+.start-button:disabled {
+  cursor:unset;
+  opacity: 0.5;
 }
 </style>

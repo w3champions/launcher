@@ -14,33 +14,33 @@ export class WindowsLauncher extends LauncherStrategy {
     }
 
     getDefaultPathWc3(): string {
-        if (fs.existsSync("C:/Program Files (x86)/Warcraft III/_retail_")) {
-            return "C:/Program Files (x86)/Warcraft III/_retail_";
+        if (fs.existsSync("C:\\Program Files (x86)\\Warcraft III\\_retail_")) {
+            return "C:\\Program Files (x86)\\Warcraft III\\_retail_";
         }
-        return "C:/Program Files (x86)/Warcraft III";
+        return "C:\\Program Files (x86)\\Warcraft III";
     }
 
     getDefaultPathMap(): string {
         const documentPath = remote.app.getPath("documents");
         try {
-            if (fs.existsSync(`${documentPath}/Warcraft III/_retail_`)
-                && !fs.existsSync(`${documentPath}/Warcraft III/_retail_/Maps`)) {
-                fs.mkdirSync(`${documentPath}/Warcraft III/_retail_/Maps`);
-            } else if (fs.existsSync(`${documentPath}/Warcraft III`)
-                && !fs.existsSync(`${documentPath}/Warcraft III/Maps`)) {
-                fs.mkdirSync(`${documentPath}/Warcraft III/Maps`);
+            if (fs.existsSync(`${documentPath}\\Warcraft III\\_retail_`)
+                && !fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)) {
+                fs.mkdirSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`);
+            } else if (fs.existsSync(`${documentPath}\\Warcraft III`)
+                && !fs.existsSync(`${documentPath}\\Warcraft III\\Maps`)) {
+                fs.mkdirSync(`${documentPath}\\Warcraft III\\Maps`);
             }
         } catch (e) {
             console.error(e)
         }
 
-        return fs.existsSync(`${documentPath}/Warcraft III/_retail_/Maps`)
-            ? `${documentPath}/Warcraft III/_retail_/Maps`
-            : `${documentPath}/Warcraft III/Maps`;
+        return fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)
+            ? `${documentPath}\\Warcraft III\\_retail_\\Maps`
+            : `${documentPath}\\Warcraft III\\Maps`;
     }
 
     getDefaultBnetPath(): string {
-        return "C:/Program Files (x86)/Battle.net";
+        return "C:\\Program Files (x86)\\Battle.net";
     }
 
     startWc3Process(bnetPath: string): void {
@@ -48,7 +48,7 @@ export class WindowsLauncher extends LauncherStrategy {
         const indexOf = runningProcesses.indexOf("Battle.net.exe");
         if (indexOf === -1) {
             console.log("starting bnet before w3c")
-            exec(`"${bnetPath}/Battle.net.exe"`)
+            exec(`"${bnetPath}\\Battle.net.exe"`)
             setTimeout(() => this.spawnW3Process(bnetPath), 10000);
         } else {
             this.spawnW3Process(bnetPath);
@@ -56,7 +56,7 @@ export class WindowsLauncher extends LauncherStrategy {
     }
 
     private spawnW3Process(bnetPath: string) {
-        const bnetPathWithExe = `${bnetPath}/Battle.net.exe`;
+        const bnetPathWithExe = `${bnetPath}\\Battle.net.exe`;
         const ls = spawn(bnetPathWithExe, ['--exec="launch W3"'], {
             detached: true,
             windowsVerbatimArguments: true,

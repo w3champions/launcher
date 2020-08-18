@@ -216,6 +216,12 @@ export default class UpdateSettingsScreen extends Vue {
   justify-content: center;
 }
 
+.repair-button:hover {
+  filter: brightness(1.1);
+  background-color: rgb(217, 217, 217);
+  cursor: pointer;
+}
+
 .reset-button {
   width: 48px;
   height: 48px;

@@ -189,7 +189,7 @@ export abstract class LauncherStrategy{
 
     public async hardSetBnetPath() {
         await this.hardSetPath("Battle-Net", this.store.commit.updateHandling.SET_BNET_PATH);
-        this.store.dispatch.updateHandling.saveBnetPath(this.store.state.updateHandling.mapsPath)
+        this.store.dispatch.updateHandling.saveBnetPath(this.store.state.updateHandling.bnetPath)
     }
 
     public async hardSetW3cPath() {
@@ -198,7 +198,7 @@ export abstract class LauncherStrategy{
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(true);
         } else {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
-            this.store.dispatch.updateHandling.saveMapPath(this.store.state.updateHandling.w3Path)
+            this.store.dispatch.updateHandling.saveW3Path(this.store.state.updateHandling.w3Path)
         }
     }
 

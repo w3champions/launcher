@@ -26,4 +26,9 @@ export default class HeadItem extends Vue {
   font-size: 2em;
 }
 
+.header-item:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
+}
+
 </style>
