@@ -78,14 +78,23 @@ export class ItemHotkeyRegistrationService {
 
     public registerKey(hotKey: HotKey) {
         this.register(hotKey.combo, () => {
-            if (hotKey.combo.modifier !== ModifierKey.None) {
-                this.toggleModifierDown(hotKey.combo);
-                this.pressCorrespondingKey(hotKey);
-                this.toggleModifierUp(hotKey.combo);
+            const modifier = hotKey.combo.modifier;
+            if (modifier !== ModifierKey.None) {
+                if (this.isMacAndCommandOrControl(modifier)) {
+                    this.pressCorrespondingKey(hotKey);
+                } else {
+                    this.toggleModifierDown(hotKey.combo);
+                    this.pressCorrespondingKey(hotKey);
+                    this.toggleModifierUp(hotKey.combo);
+                }
             } else {
                 this.pressCorrespondingKey(hotKey);
             }
         });
+    }
+
+    private isMacAndCommandOrControl(modifier: ModifierKey.Ctrl | ModifierKey.Alt | ModifierKey.Shift | ModifierKey.Space | ModifierKey.Cmd) {
+        return !this.isWindows && (modifier === ModifierKey.Cmd || modifier === ModifierKey.Ctrl);
     }
 
     private pressCorrespondingKey(hotKey: HotKey) {
@@ -212,6 +221,10 @@ export class ItemHotkeyRegistrationService {
                 break;
             }
         }
+    }
+
+    get isWindows() {
+        return store.state.isWindows;
     }
 }
 
