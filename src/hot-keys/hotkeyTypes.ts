@@ -13,10 +13,15 @@ export enum ModifierKey {
 
 export interface ClickCombination {
   modifier: ModifierKey,
-  hotKey: string,
+  hotKey: KeyDto,
 }
 
 export interface HotKey {
-  combo: ClickCombination
-  key: string
+  combo: ClickCombination,
+  key: string,
+}
+
+export interface KeyDto {
+  key: string,
+  uiDisplay: string,
 }

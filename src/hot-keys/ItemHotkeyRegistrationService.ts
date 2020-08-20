@@ -80,21 +80,13 @@ export class ItemHotkeyRegistrationService {
         this.register(hotKey.combo, () => {
             const modifier = hotKey.combo.modifier;
             if (modifier !== ModifierKey.None) {
-                if (this.isMacAndCommandOrControl(modifier)) {
-                    this.pressCorrespondingKey(hotKey);
-                } else {
-                    this.toggleModifierDown(hotKey.combo);
-                    this.pressCorrespondingKey(hotKey);
-                    this.toggleModifierUp(hotKey.combo);
-                }
+                this.toggleModifierDown(hotKey.combo);
+                this.pressCorrespondingKey(hotKey);
+                this.toggleModifierUp(hotKey.combo);
             } else {
                 this.pressCorrespondingKey(hotKey);
             }
         });
-    }
-
-    private isMacAndCommandOrControl(modifier: ModifierKey.Ctrl | ModifierKey.Alt | ModifierKey.Shift | ModifierKey.Space | ModifierKey.Cmd) {
-        return !this.isWindows && (modifier === ModifierKey.Cmd || modifier === ModifierKey.Ctrl);
     }
 
     private pressCorrespondingKey(hotKey: HotKey) {
@@ -174,10 +166,10 @@ export class ItemHotkeyRegistrationService {
     }
 
     private enableChatCommands() {
-        this.register({modifier: ModifierKey.None, hotKey: "enter"}, enterFunction)
-        this.register({modifier: ModifierKey.None, hotKey: "escape"}, escapeFunction)
-        this.register({modifier: ModifierKey.None, hotKey: "f10"}, f10function)
-        this.register({modifier: ModifierKey.None, hotKey: "f12"}, f12function)
+        this.register({modifier: ModifierKey.None, hotKey: {key: "enter", uiDisplay: "enter"}}, enterFunction)
+        this.register({modifier: ModifierKey.None, hotKey: {key: "escape", uiDisplay: "escape"}}, escapeFunction)
+        this.register({modifier: ModifierKey.None, hotKey: {key: "f10", uiDisplay: "f10"}}, f10function)
+        this.register({modifier: ModifierKey.None, hotKey: {key: "f12", uiDisplay: "f12"}}, f12function)
     }
 
     private toggleModifierDown(combo: ClickCombination) {

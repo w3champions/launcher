@@ -49,21 +49,22 @@ import {
   ITEM_TOP_LEFT,
   ITEM_TOP_RIGHT
 } from "@/hot-keys/keyValuesRobotJs";
-import {combiAsString} from "@/hot-keys/utilsFunctions";
-import {ModifierKey} from "@/hot-keys/hotkeyTypes";
+/* eslint-disable */
+import {KeyDto, ModifierKey} from "@/hot-keys/hotkeyTypes";
 import {InGameState} from "@/hot-keys/HotKeyStateMachine";
+import {combiAsStringForDisplay} from "@/hot-keys/utilsFunctions";
 
 @Component
 export default class HotKeySetupScreen extends Vue {
   public modal = false;
-  public hotkeyToEdit = "";
+  public hotkeyToEdit = {} as KeyDto;
   public selectedHotKey = "";
   public hotkeyModifierToEdit = ModifierKey.None;
 
 
   public closeModal() {
     this.modal = false;
-    this.hotkeyToEdit = "";
+    this.hotkeyToEdit = {} as KeyDto;
     this.selectedHotKey = "";
     this.hotkeyModifierToEdit = ModifierKey.None;
     window.document.onkeydown = null;
@@ -85,7 +86,7 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   get hotKeyCombo() {
-    return combiAsString({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit})
+    return combiAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit})
   }
 
   public toggleHotKeys() {
@@ -117,15 +118,18 @@ export default class HotKeySetupScreen extends Vue {
     }
 
     if (e.key === " ") {
-      this.hotkeyToEdit = ""
+      this.hotkeyToEdit = { } as KeyDto;
       this.hotkeyModifierToEdit = ModifierKey.Space;
     }
 
     if (e.key !== "Alt" && e.key !== "Control" && e.key !== " " && e.key !== "Shift" && e.key !== "Meta") {
       if (this.isWindows) {
-        this.hotkeyToEdit = e.key.toLowerCase();
+        const key = e.key.toLowerCase();
+        this.hotkeyToEdit = { key, uiDisplay: key };
       } else {
-        this.hotkeyToEdit = e.code.replace("Key", "").toLowerCase();
+        const key = e.code.replace("Key", "").toLowerCase();
+        const uiDisplay = e.key.toLowerCase();
+        this.hotkeyToEdit = { key, uiDisplay};
       }
     }
 
@@ -177,7 +181,7 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   get hotkeyToggle() {
-    return combiAsString(this.$store.direct.state.hotKeys.toggleButton).replace("CommandOrControl", "Ctrl");
+    return combiAsStringForDisplay(this.$store.direct.state.hotKeys.toggleButton).replace("CommandOrControl", "Ctrl");
   }
 
   private getKeyComboOf(itemKey: string) {
@@ -185,7 +189,7 @@ export default class HotKeySetupScreen extends Vue {
     if (!hotKeys) return "none"
     const combo = hotKeys?.filter(h => h.key === itemKey)[0];
     if (!combo) return "none"
-    return combiAsString(combo?.combo).replace("CommandOrControl", "Ctrl");
+    return combiAsStringForDisplay(combo?.combo).replace("CommandOrControl", "Ctrl");
   }
 }
 
