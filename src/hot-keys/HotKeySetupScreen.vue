@@ -105,7 +105,7 @@ export default class HotKeySetupScreen extends Vue {
       this.hotkeyModifierToEdit = ModifierKey.Alt;
     }
 
-    if (e.ctrlKey) {
+    if (e.ctrlKey && this.isWindows) {
       this.hotkeyModifierToEdit = ModifierKey.Ctrl;
     }
 
@@ -113,7 +113,7 @@ export default class HotKeySetupScreen extends Vue {
       this.hotkeyModifierToEdit = ModifierKey.Shift;
     }
 
-    if (e.metaKey) {
+    if (e.metaKey && this.isWindows) {
       this.hotkeyModifierToEdit = ModifierKey.Cmd;
     }
 
