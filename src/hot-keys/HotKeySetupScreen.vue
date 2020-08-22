@@ -86,7 +86,12 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   get hotKeyCombo() {
-    return combiAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}) ?? " ";
+    const forDisplay = combiAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit});
+    return forDisplay === "" ? "none" : forDisplay;
+  }
+
+  get hotKeys() {
+    return this.$store.direct.state.hotKeys.hotKeys;
   }
 
   public toggleHotKeys() {
@@ -96,6 +101,11 @@ export default class HotKeySetupScreen extends Vue {
   public openChangeHotkeyModal(hotKey: string) {
     this.modal = !this.modal;
     this.selectedHotKey = hotKey;
+    const currentSelection = this.hotKeys.filter(h => h.key === hotKey)[0];
+    if (currentSelection) {
+      this.hotkeyToEdit = { key: currentSelection.combo.hotKey.key, uiDisplay: currentSelection.combo.hotKey.uiDisplay };
+      this.hotkeyModifierToEdit = currentSelection.combo.modifier;
+    }
 
     window.document.onkeydown = this.convertKeyPress;
   }
@@ -301,6 +311,8 @@ export default class HotKeySetupScreen extends Vue {
 
 .hotkey-input {
   font-size: 30px;
+  line-height: 30px;
+  margin-bottom: 25px;
   text-align: center;
 }
 
@@ -312,7 +324,8 @@ export default class HotKeySetupScreen extends Vue {
 }
 
 .modal-button {
-  margin: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
   display: inline;
   cursor: pointer;
 }
