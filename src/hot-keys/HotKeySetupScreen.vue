@@ -8,9 +8,9 @@
         {{ hotKeyCombo }}
       </div>
       <div>
-        <div style="float: left; margin: 15px" @click="addKey">Add</div>
-        <div style="float: right; margin: 15px" @click="closeModal">Cancel</div>
-        <div style="float: right; margin: 15px" @click="removeHotKey">Remove</div>
+        <div class="modal-button" @click="addKey">Add</div>
+        <div class="modal-button" @click="closeModal">Cancel</div>
+        <div class="modal-button" @click="removeHotKey">Remove</div>
       </div>
     </div>
     <div class="item-grid">
@@ -86,7 +86,12 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   get hotKeyCombo() {
-    return combiAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit})
+    const forDisplay = combiAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit});
+    return forDisplay === "" ? "none" : forDisplay;
+  }
+
+  get hotKeys() {
+    return this.$store.direct.state.hotKeys.hotKeys;
   }
 
   public toggleHotKeys() {
@@ -96,6 +101,11 @@ export default class HotKeySetupScreen extends Vue {
   public openChangeHotkeyModal(hotKey: string) {
     this.modal = !this.modal;
     this.selectedHotKey = hotKey;
+    const currentSelection = this.hotKeys.filter(h => h.key === hotKey)[0];
+    if (currentSelection) {
+      this.hotkeyToEdit = { key: currentSelection.combo.hotKey.key, uiDisplay: currentSelection.combo.hotKey.uiDisplay };
+      this.hotkeyModifierToEdit = currentSelection.combo.modifier;
+    }
 
     window.document.onkeydown = this.convertKeyPress;
   }
@@ -229,6 +239,8 @@ export default class HotKeySetupScreen extends Vue {
 }
 
 .single-item {
+  cursor: pointer;
+
   width: 67px;
   height: 67px;
   margin: 8px 10px 10px;
@@ -245,6 +257,7 @@ export default class HotKeySetupScreen extends Vue {
 }
 
 .hotkey-toggle {
+  cursor: pointer;
   width: 20px;
   height: 20px;
   border-radius: 12px;
@@ -298,6 +311,8 @@ export default class HotKeySetupScreen extends Vue {
 
 .hotkey-input {
   font-size: 30px;
+  line-height: 30px;
+  margin-bottom: 25px;
   text-align: center;
 }
 
@@ -306,5 +321,12 @@ export default class HotKeySetupScreen extends Vue {
   top: 490px;
   width: 850px;
   left: 120px;
+}
+
+.modal-button {
+  margin-left: 15px;
+  margin-right: 15px;
+  display: inline;
+  cursor: pointer;
 }
 </style>

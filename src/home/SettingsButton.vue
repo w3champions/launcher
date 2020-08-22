@@ -22,6 +22,7 @@ export default class SettingsButton extends Vue {
 
   width: 50px;
   height: 50px;
+  cursor: pointer;
 
   background: url("~@/assets/images/icons/settings-icon-resting.png") center no-repeat;
   background-size: cover;
