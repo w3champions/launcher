@@ -5,8 +5,8 @@
       <div v-html='news[0] ? news[0].message : ""'></div>
     </div>
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
-    <button @click="tryStartWc3" :disabled="isLoading || disablePlayBtn" class="start-button">
-      Play
+    <button @click="tryStartWc3" :disabled="isLoading || disablePlayBtn" class="start-button" :content="playButton" >
+      {{ playButton }}
     </button>
   </div>
 </template>
@@ -16,6 +16,7 @@ import {Component, Vue} from "vue-property-decorator";
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
+const { execSync } = window.require("child_process");
 const os = window.require('os');
 
 @Component({
@@ -24,6 +25,11 @@ const os = window.require('os');
 export default class HomeScreen extends Vue {
   private updateStrategy = HomeScreen.isWindows() ? new WindowsLauncher() : new MacLauncher();
   private disablePlayBtn = false;
+  public playButton = "Play";
+
+  private static isWindows() {
+    return os.platform() === "win32";
+  }
 
   async mounted() {
     await this.$store.direct.dispatch.loadNews();
@@ -31,10 +37,6 @@ export default class HomeScreen extends Vue {
 
   get news() {
     return this.$store.direct.state.news;
-  }
-
-  private static isWindows() {
-    return os.platform() === "win32";
   }
 
   public async tryStartWc3() {
@@ -48,12 +50,28 @@ export default class HomeScreen extends Vue {
   private disablePlayButtonTemporary() {
     this.disablePlayBtn = true;
     setTimeout(() => {
+      if (this.wc3StartErrorOnWindows) {
+        this.playButton = "Please open Bnet first"
+      } else {
+        this.playButton = "Play"
+      }
+
       this.disablePlayBtn = false;
     }, 10000);
   }
 
   get isLoading() {
     return this.$store.state.updateHandling.isUpdatingMaps || this.$store.state.updateHandling.isUpdatingWebUI;
+  }
+
+  get wc3StartErrorOnWindows() {
+    if (HomeScreen.isWindows()) {
+      const runningProcesses = execSync("tasklist /FI \"STATUS eq RUNNING").toString();
+      const indexOf = runningProcesses.indexOf("Battle.net.exe");
+      return indexOf === -1;
+    }
+
+    return false;
   }
 }
 </script>
