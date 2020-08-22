@@ -31,6 +31,7 @@ export default class HeadLine extends Vue {
 .close-button {
   -webkit-app-region: no-drag;
   position: absolute;
+  cursor: pointer;
   padding: 10px 15px 10px 10px;
   top: 0;
   right: 0;

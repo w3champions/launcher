@@ -8,9 +8,9 @@
         {{ hotKeyCombo }}
       </div>
       <div>
-        <div style="float: left; margin: 15px" @click="addKey">Add</div>
-        <div style="float: right; margin: 15px" @click="closeModal">Cancel</div>
-        <div style="float: right; margin: 15px" @click="removeHotKey">Remove</div>
+        <div class="modal-button" @click="addKey">Add</div>
+        <div class="modal-button" @click="closeModal">Cancel</div>
+        <div class="modal-button" @click="removeHotKey">Remove</div>
       </div>
     </div>
     <div class="item-grid">
@@ -86,7 +86,7 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   get hotKeyCombo() {
-    return combiAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit})
+    return combiAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}) ?? " ";
   }
 
   public toggleHotKeys() {
@@ -229,6 +229,8 @@ export default class HotKeySetupScreen extends Vue {
 }
 
 .single-item {
+  cursor: pointer;
+
   width: 67px;
   height: 67px;
   margin: 8px 10px 10px;
@@ -245,6 +247,7 @@ export default class HotKeySetupScreen extends Vue {
 }
 
 .hotkey-toggle {
+  cursor: pointer;
   width: 20px;
   height: 20px;
   border-radius: 12px;
@@ -306,5 +309,11 @@ export default class HotKeySetupScreen extends Vue {
   top: 490px;
   width: 850px;
   left: 120px;
+}
+
+.modal-button {
+  margin: 15px;
+  display: inline;
+  cursor: pointer;
 }
 </style>
