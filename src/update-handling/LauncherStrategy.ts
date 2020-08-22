@@ -86,14 +86,19 @@ export abstract class LauncherStrategy{
         });
 
         if (folderResult.response === 1) {
-            return "";
+            return "defaultPath";
         }
 
+        return await this.openSelectFolderDialog("");
+    }
+
+    private async openSelectFolderDialog(currentPath: string) {
         const openDialogReturnValue = await remote.dialog.showOpenDialog({
             properties: ["openDirectory", "openFile"],
             filters: [
-                { name: 'Applications', extensions: ['app'] },
-            ]
+                {name: 'Applications', extensions: ['app']},
+            ],
+            defaultPath: currentPath
         });
 
         return openDialogReturnValue.filePaths[0];
@@ -122,6 +127,10 @@ export abstract class LauncherStrategy{
 
     get isTest() {
         return this.store.state.isTest;
+    }
+
+    get w3PathWithOutRetail() {
+        return this.w3Path.replace("/_retail_", "").replace("\\_retail_", "");
     }
 
     private async downloadAndWriteFile(fileName: string, to: string) {
@@ -188,32 +197,25 @@ export abstract class LauncherStrategy{
     }
 
     public async hardSetBnetPath() {
-        await this.hardSetPath("Battle-Net", this.store.commit.updateHandling.SET_BNET_PATH);
+        await this.hardSetPath(this.store.commit.updateHandling.SET_BNET_PATH, this.bnetPath);
         this.store.dispatch.updateHandling.saveBnetPath(this.store.state.updateHandling.bnetPath)
     }
 
     public async hardSetW3cPath() {
-        await this.hardSetPath("Warcraft III", this.store.commit.updateHandling.SET_W3_PATH);
+        await this.hardSetPath(this.store.commit.updateHandling.SET_W3_PATH, this.w3PathWithOutRetail);
         if (!fs.existsSync(`${this.store.state.updateHandling.w3Path}/Data`)) {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(true);
         } else {
+            if (fs.existsSync(`${this.w3Path}/_retail_`)) {
+                this.store.commit.updateHandling.SET_W3_PATH(`${this.w3Path}/_retail_`);
+            }
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
-            this.store.dispatch.updateHandling.saveW3Path(this.store.state.updateHandling.w3Path)
+            this.store.dispatch.updateHandling.saveW3Path(this.w3Path)
         }
     }
 
-    public async hardSetMapPath() {
-        await this.hardSetPath("Map", this.store.commit.updateHandling.SET_MAPS_PATH);
-        if (!fs.existsSync(`${this.store.state.updateHandling.mapsPath}/Download`)) {
-            this.store.commit.updateHandling.MAP_PATH_IS_INVALID(true);
-        } else {
-            this.store.commit.updateHandling.MAP_PATH_IS_INVALID(false);
-            this.store.dispatch.updateHandling.saveMapPath(this.store.state.updateHandling.mapsPath)
-        }
-    }
-
-    private async hardSetPath(locationName: string, set: (s: string) => void) {
-        const path = await this.openDialogForUserFolderSelction(`Select ${locationName} Folder`, `Please locate the ${locationName} Folder manually`);
+    private async hardSetPath(set: (s: string) => void, currentPath: string) {
+        const path = await this.openSelectFolderDialog(currentPath);
         if (!path) return;
         set(path);
     }
@@ -276,7 +278,7 @@ export abstract class LauncherStrategy{
                 fs.rmdirSync(`${this.w3Path}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })
             }
 
-            const w3PathWithoutRetail = this.w3Path.replace("/_retail_", "");
+            const w3PathWithoutRetail = this.w3PathWithOutRetail;
             if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`))
             {
                 console.log(`delete maps in ${w3PathWithoutRetail}/Maps/W3Champions`)
