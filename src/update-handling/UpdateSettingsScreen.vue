@@ -53,6 +53,7 @@ export default class UpdateSettingsScreen extends Vue {
   constructor() {
     super();
     this.updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
+    this.updateStrategy.updateIfNeeded();
   }
 
   get isW3LocationWrong() {
