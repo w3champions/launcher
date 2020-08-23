@@ -44,22 +44,6 @@ export class WindowsLauncher extends LauncherStrategy {
     }
 
     startWc3Process(bnetPath: string): void {
-        if (this.isBnetOff()) {
-            console.log("starting bnet before w3c")
-            exec(`"${bnetPath}\\Battle.net.exe"`)
-            setTimeout(() => this.spawnW3Process(bnetPath), 10000);
-        } else {
-            this.spawnW3Process(bnetPath);
-        }
-    }
-
-    private isBnetOff() {
-        const runningProcesses = execSync("tasklist /FI \"STATUS eq RUNNING").toString();
-        const indexOf = runningProcesses.indexOf("Battle.net.exe");
-        return indexOf === -1;
-    }
-
-    private spawnW3Process(bnetPath: string) {
         const bnetPathWithExe = `${bnetPath}\\Battle.net.exe`;
         const ls = spawn(bnetPathWithExe, ['--exec="launch W3"'], {
             detached: true,

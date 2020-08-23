@@ -24,15 +24,26 @@ const os = window.require('os');
 })
 export default class HomeScreen extends Vue {
   private updateStrategy = HomeScreen.isWindows() ? new WindowsLauncher() : new MacLauncher();
-  private disablePlayBtn = false;
-  public playButton = "Play";
+  private disablePlayBtn = true;
+  public playButton = "Please open Bnet first";
 
   private static isWindows() {
     return os.platform() === "win32";
   }
 
   async mounted() {
+    this.turnOnButton();
     await this.$store.direct.dispatch.loadNews();
+  }
+
+  private turnOnButton() {
+    if (HomeScreen.isWindows() && this.isBnetOff) {
+      this.playButton = "Please open Bnet first"
+      this.disablePlayBtn = true;
+    } else {
+      this.playButton = "Play";
+      this.disablePlayBtn = false;
+    }
   }
 
   get news() {
@@ -49,29 +60,16 @@ export default class HomeScreen extends Vue {
 
   private disablePlayButtonTemporary() {
     this.disablePlayBtn = true;
-    setTimeout(() => {
-      if (this.wc3StartErrorOnWindows) {
-        this.playButton = "Please open Bnet first"
-      } else {
-        this.playButton = "Play"
-      }
-
-      this.disablePlayBtn = false;
-    }, 10000);
   }
 
   get isLoading() {
     return this.$store.state.updateHandling.isUpdatingMaps || this.$store.state.updateHandling.isUpdatingWebUI;
   }
 
-  get wc3StartErrorOnWindows() {
-    if (HomeScreen.isWindows()) {
-      const runningProcesses = execSync("tasklist /FI \"STATUS eq RUNNING").toString();
-      const indexOf = runningProcesses.indexOf("Battle.net.exe");
-      return indexOf === -1;
-    }
-
-    return false;
+  get isBnetOff() {
+    const runningProcesses = execSync("tasklist /FI \"STATUS eq RUNNING").toString();
+    const indexOf = runningProcesses.indexOf("Battle.net.exe");
+    return indexOf === -1;
   }
 }
 </script>
