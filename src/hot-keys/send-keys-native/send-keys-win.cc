@@ -6,9 +6,9 @@
 #define VK_SPACE    0x20 // space key
 #define VK_ENTER    0x0D // enter key
 #define VK_ESCAPE   0x1B // escape key
-#define VK_F01      0x6F // f1 key
-#define VK_F02      0x70 // f2 key
-#define VK_F03      0x71 // f3 key
+#define VK_F01      0x70 // f1 key
+#define VK_F02      0x71 // f2 key
+#define VK_F03      0x72 // f3 key
 #define VK_F10      0x79 // f10 key
 #define VK_F12      0x7B // f12 key
 

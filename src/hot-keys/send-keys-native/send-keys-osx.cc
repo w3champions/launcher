@@ -12,17 +12,17 @@
 #define VK_F10      0x6D // f10 key
 #define VK_F12      0x6F // f12 key
 
-#define VK_LCTRL    0x3B // f12 key
-#define VK_LCMD     0x37 // f12 key
-#define VK_LALT     0x3A // f12 key
-#define VK_LSHIFT   0x38 // f12 key
+#define VK_LCTRL    0x3B // ctrl key
+#define VK_LCMD     0x37 // cmd key
+#define VK_LALT     0x3A // alt key
+#define VK_LSHIFT   0x38 // shift key
 
-#define VK_NUM1     0x53 // f12 key
-#define VK_NUM2     0x54 // f12 key
-#define VK_NUM4     0x56 // f12 key
-#define VK_NUM5     0x57 // f12 key
-#define VK_NUM7     0x59 // f12 key
-#define VK_NUM8     0x5B // f12 key
+#define VK_NUM1     0x53 // num1 key
+#define VK_NUM2     0x54 // num2 key
+#define VK_NUM4     0x56 // num3 key
+#define VK_NUM5     0x57 // num4 key
+#define VK_NUM7     0x59 // num5 key
+#define VK_NUM8     0x5B // num6 key
 
 Napi::Boolean ReleaseModifier(int modifier)
 {
