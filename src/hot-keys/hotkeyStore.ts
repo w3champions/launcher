@@ -20,6 +20,21 @@ const mod = {
       rootGetters.itemHotkeyService.saveHotKeys(newHotKeys);
       commit.SET_HOTKEYS(newHotKeys);
     },
+    toggleManualMode(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit, rootGetters, state } = moduleActionContext(context, mod);
+
+      commit.TOGGLE_HOTKEYS_MANUAL_MODE();
+
+      rootGetters.itemHotkeyService.saveManualMode(state.hotKeyStateMachine.isManual());
+    },
+    loadManualMode(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit, rootGetters, state } = moduleActionContext(context, mod);
+      const manualMode = rootGetters.itemHotkeyService.loadManualMode();
+
+      if (manualMode !== state.hotKeyStateMachine.isManual()) {
+        commit.TOGGLE_HOTKEYS_MANUAL_MODE();
+      }
+    },
     removeHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: string) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
 

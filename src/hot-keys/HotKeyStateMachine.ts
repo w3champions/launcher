@@ -112,7 +112,12 @@ export class ManualHotkeyMode extends HotKeyState {
     }
 
     toggle(): HotKeyState {
-        this.turnOnHotKeys();
+        if (this.keysActivated()) {
+            this.turnOffHotkeys()
+        } else {
+            this.turnOnHotKeys();
+        }
+
         return this;
     }
 }

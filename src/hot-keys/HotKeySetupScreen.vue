@@ -28,11 +28,14 @@
       <div class="single-item function-item" style="margin-left: 50px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">hotkeys on/off</div></div>
     </div>
     <div class="hotkey-toggle" @click="toggleHotKeys" :style="`background-color: ${hotkeyState ? 'green' : 'red'}`" />
-    <div class="hotkey-toggle"  @click="toggleHotkeyManualMode" :style="`background-color: ${hotkeyManualMode ? 'green' : 'red'}; top: 150px`" />
     <div class="hotkey-tips">
       Hotkeys will be turned on, as soon as you enter any game automatically.
       If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
       If something goes wrong, you can always toggle the hotkeys with the provided <b>hotkeys on/off</b> toggle key.
+      <br/>
+      <br/>
+      <input type="checkbox" :checked="isHotkeyManualMode" @click="toggleHotkeyManualMode" id="manual-mode-check-box"/>
+      <label for="manual-mode-check-box">  Never turn on hotkeys automatically</label>
     </div>
   </div>
 </template>
@@ -85,8 +88,8 @@ export default class HotKeySetupScreen extends Vue {
     this.closeModal();
   }
 
-  get hotkeyManualMode() {
-    return this.$store.direct.state.hotKeys.hotKeyStateMachine.isManual;
+  get isHotkeyManualMode() {
+    return this.$store.direct.state.hotKeys.hotKeyStateMachine.isManual();
   }
 
   get hotKeyCombo() {
@@ -103,7 +106,7 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   public toggleHotkeyManualMode() {
-    this.$store.direct.commit.hotKeys.TOGGLE_HOTKEYS_MANUAL_MODE();
+    this.$store.direct.dispatch.hotKeys.toggleManualMode();
   }
 
   public openChangeHotkeyModal(hotKey: string) {

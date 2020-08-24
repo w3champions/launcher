@@ -53,6 +53,15 @@ export class ItemHotkeyRegistrationService {
 
     private hotKeyStoreKey = "hotKeyStoreKey"
     private hotKeyToggleKey = "hotKeyToggleKey"
+    private hotKeyManualMode = "hotKeyManualModeKey"
+
+    public saveManualMode(manualMode: boolean) {
+        this.keyValueStore.set(this.hotKeyManualMode, manualMode);
+    }
+
+    public loadManualMode() {
+        return this.keyValueStore.get(this.hotKeyManualMode);
+    }
 
     public saveHotKeys(hotKeys: HotKey[]) {
         this.keyValueStore.set(this.hotKeyStoreKey, hotKeys);
