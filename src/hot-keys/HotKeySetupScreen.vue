@@ -32,6 +32,10 @@
       Hotkeys will be turned on, as soon as you enter any game automatically.
       If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
       If something goes wrong, you can always toggle the hotkeys with the provided <b>hotkeys on/off</b> toggle key.
+      <br/>
+      <br/>
+      <input type="checkbox" :checked="isHotkeyManualMode" @click="toggleHotkeyManualMode" id="manual-mode-check-box"/>
+      <label for="manual-mode-check-box">  Never turn on hotkeys automatically</label>
     </div>
   </div>
 </template>
@@ -61,7 +65,6 @@ export default class HotKeySetupScreen extends Vue {
   public selectedHotKey = "";
   public hotkeyModifierToEdit = ModifierKey.None;
 
-
   public closeModal() {
     this.modal = false;
     this.hotkeyToEdit = {} as KeyDto;
@@ -85,6 +88,10 @@ export default class HotKeySetupScreen extends Vue {
     this.closeModal();
   }
 
+  get isHotkeyManualMode() {
+    return this.$store.direct.state.hotKeys.hotKeyStateMachine.isManual();
+  }
+
   get hotKeyCombo() {
     const forDisplay = combiAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit});
     return forDisplay === "" ? "none" : forDisplay;
@@ -96,6 +103,10 @@ export default class HotKeySetupScreen extends Vue {
 
   public toggleHotKeys() {
     this.$store.direct.commit.hotKeys.TOGGLE_HOTKEYS();
+  }
+
+  public toggleHotkeyManualMode() {
+    this.$store.direct.dispatch.hotKeys.toggleManualMode();
   }
 
   public openChangeHotkeyModal(hotKey: string) {

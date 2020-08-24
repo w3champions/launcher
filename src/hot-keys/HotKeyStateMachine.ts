@@ -7,29 +7,34 @@ export abstract class HotKeyState {
     abstract pressEscape(): HotKeyState;
     abstract pressF10(): HotKeyState;
     abstract pressF12(): HotKeyState;
+    abstract toggleManualMode(): HotKeyState;
+    abstract toggle(): HotKeyState;
 
     public keysActivated() {
         return this.constructor.name === InGameState.name;
     }
 
-    public toggle(): HotKeyState {
-        const volume = 0.5;
-        if (!this.keysActivated()) {
-            const audio = new Audio('/sound/PeonReady1.mp3');
-            audio.currentTime = 0.3;
-            audio.volume = volume;
-            audio.play();
+    public isManual() {
+        return this.constructor.name === ManualHotkeyMode.name;
+    }
 
-            console.log("turn on HotKeys manually")
-            return new InGameState();
-        }
-
+    protected turnOffHotkeys() {
         console.log("turn Off HotKeys manually")
         const audio = new Audio('/sound/PeonDeath.mp3');
         audio.currentTime = 0;
-        audio.volume = volume;
+        audio.volume = 0.5;
         audio.play();
         return new NotInGameState();
+    }
+
+    protected turnOnHotKeys() {
+        const audio = new Audio('/sound/PeonReady1.mp3');
+        audio.currentTime = 0.3;
+        audio.volume = 0.5;
+        audio.play();
+
+        console.log("turn on HotKeys manually")
+        return new InGameState();
     }
 }
 
@@ -60,6 +65,59 @@ export class ChatState extends HotKeyState {
     }
 
     pressF12(): HotKeyState {
+        return this;
+    }
+
+    toggleManualMode(): HotKeyState {
+        return new ManualHotkeyMode();
+    }
+
+    toggle(): HotKeyState {
+        return this.turnOnHotKeys();
+    }
+}
+
+export class ManualHotkeyMode extends HotKeyState {
+    constructor() {
+        super();
+        store.dispatch.hotKeys.disbleHotKeys();
+    }
+
+    enterGame(): HotKeyState {
+        return this;
+    }
+
+    exitGame(): HotKeyState {
+        return this;
+    }
+
+    pressEnter(): HotKeyState {
+        return this;
+    }
+
+    pressEscape(): HotKeyState {
+        return this;
+    }
+
+    pressF10(): HotKeyState {
+        return this;
+    }
+
+    pressF12(): HotKeyState {
+        return this;
+    }
+
+    toggleManualMode(): HotKeyState {
+        return new NotInGameState();
+    }
+
+    toggle(): HotKeyState {
+        if (this.keysActivated()) {
+            this.turnOffHotkeys()
+        } else {
+            this.turnOnHotKeys();
+        }
+
         return this;
     }
 }
@@ -95,6 +153,14 @@ class MenuState extends HotKeyState {
     pressF12(): HotKeyState {
         return this;
     }
+
+    toggleManualMode(): HotKeyState {
+        return new ManualHotkeyMode();
+    }
+
+    toggle(): HotKeyState {
+        return this.turnOnHotKeys();
+    }
 }
 
 class InChatLogState extends HotKeyState {
@@ -126,6 +192,14 @@ class InChatLogState extends HotKeyState {
     pressF12(): HotKeyState {
         return new InGameState();
     }
+
+    toggleManualMode(): HotKeyState {
+        return new ManualHotkeyMode();
+    }
+
+    toggle(): HotKeyState {
+        return this.turnOnHotKeys();
+    }
 }
 
 export class InGameState extends HotKeyState {
@@ -156,6 +230,14 @@ export class InGameState extends HotKeyState {
 
     pressF12(): HotKeyState {
         return new InChatLogState();
+    }
+
+    toggleManualMode(): HotKeyState {
+        return new ManualHotkeyMode();
+    }
+
+    toggle(): HotKeyState {
+        return this.turnOffHotkeys();
     }
 }
 
@@ -189,6 +271,14 @@ export class NotInGameState extends HotKeyState {
 
     pressF12(): HotKeyState {
         return this;
+    }
+
+    toggleManualMode(): HotKeyState {
+        return new ManualHotkeyMode();
+    }
+
+    toggle(): HotKeyState {
+        return this.turnOnHotKeys();
     }
 }
 
