@@ -90,6 +90,9 @@ const mod = {
     SET_HOTKEYS(state: HotKeyModifierState, hotKeys: HotKey[]) {
       state.hotKeys = hotKeys;
     },
+    TOGGLE_HOTKEYS_MANUAL_MODE(state: HotKeyModifierState) {
+      state.hotKeyStateMachine = state.hotKeyStateMachine.toggleManualMode();
+    },
     TOGGLE_HOTKEYS(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.toggle();
     },
