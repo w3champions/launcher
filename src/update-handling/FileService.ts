@@ -3,6 +3,7 @@ import {MacLauncher} from "@/update-handling/MacLauncher";
 
 const os = window.require('os');
 const fs = window.require('fs');
+const sudo = window.require("sudo-prompt");
 const { remote } = window.require("electron");
 
 export class FileService {
@@ -23,6 +24,19 @@ export class FileService {
         return false;
     }
 
+    public sudoCopyFromTo(from: string, to: string){
+        const copyCommand = this.updateStrategy.getCopyCommand(from, to);
+
+        sudo.exec(copyCommand, {
+            name: 'Warcraft 3 Champions',
+        }, (err: Error) => {
+            if (err) {
+                console.error(err)
+            }
+        });
+
+    }
+
     saveIsTeamColorsEnabled(value: boolean) {
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
         if (fs.existsSync(settingsFile)) {
@@ -32,15 +46,21 @@ export class FileService {
             const index3 = content.indexOf("allyFilter=2");
             content[index1 + index2 + index3 + 2] = `allyFilter=${value ? "2" : "0"}`;
             try {
-                const file = fs.createWriteStream(settingsFile, 'utf8');
-                content.forEach((v: string) => {
-                    file.write(v + '\n');
-                });
-                file.end();
+                this.writeArrayToFile(settingsFile, content);
             } catch (e) {
-                console.warn("Turning on Ally Filter failed")
+                const tempSettingsFile = `${remote.app.getPath("appData")}/w3champions/War3Preferences.txt`;
+                this.writeArrayToFile(tempSettingsFile, content);
+                this.sudoCopyFromTo(tempSettingsFile, settingsFile);
             }
 
         }
+    }
+
+    private writeArrayToFile(path: string, content: []) {
+        const file = fs.createWriteStream(path, 'utf8');
+        content.forEach((v: string) => {
+            file.write(v + '\n');
+        });
+        file.end();
     }
 }
