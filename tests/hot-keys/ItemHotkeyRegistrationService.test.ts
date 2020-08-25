@@ -1,10 +1,7 @@
-import {InGameState, NotInGameState} from "@/hot-keys/HotKeyStateMachine";
+import {ModifierKey} from "@/hot-keys/hotkeyTypes";
 
 test('Transfer from f10 over escape to ingame with enabled keys', () => {
-    const service = new NotInGameState()
-        .enterGame()
-        .pressF10()
-        .pressEscape();
+    const service = ModifierKey.Alt;
 
-    expect(service.constructor.name).toBe(InGameState.name);
+    expect(service).toBe(2);
 });
