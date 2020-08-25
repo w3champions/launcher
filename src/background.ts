@@ -10,23 +10,24 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null
 
+autoUpdater.logger = require("electron-log");
+
 autoUpdater.on("checking-for-update", () => {
-  console.warn(`Checking for updates`)
+  autoUpdater.logger?.info(`Checking for updates`)
 })
 
 autoUpdater.on("update-available", (info: UpdateInfo) => {
-  console.warn(`Update available: ${info.version}`)
-  console.warn(`Update available: ${info.releaseDate}`)
+  autoUpdater.logger?.warn(`Update available: ${info.version}`)
+  autoUpdater.logger?.warn(`Update available: ${info.releaseDate}`)
 })
 
 autoUpdater.on("update-downloaded", (info: UpdateInfo) => {
-  console.warn(`Update downloaded: ${info.version}`)
+  autoUpdater.logger?.warn(`Update downloaded: ${info.version}`)
   autoUpdater.quitAndInstall();
 })
 
 autoUpdater.on("download-progress", (progress: any) => {
-  console.warn(`Update progress: ${progress}`)
-  autoUpdater.quitAndInstall();
+  autoUpdater.logger?.info(`Update progress: ${progress}`)
 })
 
 // Scheme must be registered before the app is ready
