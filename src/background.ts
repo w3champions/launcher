@@ -14,8 +14,8 @@ autoUpdater.on("update-downloaded", async (info: UpdateInfo) => {
   console.warn(`Update downloaded: ${info.version}`)
   const buttonIndex = await dialog.showMessageBox({
     type: "info",
-    title: `New Update ${info.version}`,
-    message: 'A new version of the launcher is out, do you want update now?',
+    title: `New version ${info.version}`,
+    message: `A new version (${info.version}) of the launcher is out, please update`,
     buttons: ['Update and restart']
   })
 
