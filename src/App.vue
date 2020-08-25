@@ -1,9 +1,5 @@
 <template>
   <div id="app" class="app-container">
-    <div class="loading-wrapper" v-if="hasNewLauncherVersion">
-      <div style="font-size: 30px">There is a new version of the launcher ({{ onlineLauncherVersion }})</div>
-      <a class="download-button" :href="updateUrl">Download</a>
-    </div>
     <HeadLine />
     <div class="content-modal-wrapper">
       <div class="content-modal">
@@ -23,6 +19,9 @@ const keyboard = window.require("send-keys-native/build/Release/send-keys-native
 })
 export default class App extends Vue {
   async mounted() {
+    const { autoUpdater } = window.require("electron-updater");
+    autoUpdater.checkForUpdatesAndNotify();
+
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
     this.makeSureNumpadIsEnabled()
@@ -33,7 +32,6 @@ export default class App extends Vue {
     this.$store.direct.dispatch.hotKeys.loadManualMode();
 
     this.$store.direct.dispatch.updateHandling.loadAllPaths();
-    await this.$store.direct.dispatch.updateHandling.loadOnlineLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
@@ -42,18 +40,6 @@ export default class App extends Vue {
   get updateUrl() {
     const isOs = this.isWindows ? "win" : "mac"
     return `${this.$store.direct.state.updateUrl}api/launcher/${isOs}`
-  }
-
-  get currentLauncherVersion(): string {
-    return this.$store.direct.state.updateHandling.localLauncherVersion
-  }
-
-  get onlineLauncherVersion() {
-    return this.$store.state.updateHandling.onlineLauncherVersion;
-  }
-
-  get hasNewLauncherVersion() {
-    return this.onlineLauncherVersion.localeCompare(this.currentLauncherVersion) > 0;
   }
 
   get isWindows() {

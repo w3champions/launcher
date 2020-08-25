@@ -49,8 +49,6 @@ const mod = {
       rootGetters.versionService.switchToMode(mode);
 
       commit.SET_IS_TEST(mode);
-      commit.SET_UPDATE_URL(mode ? UPDATE_URL_TEST : UPDATE_URL_PROD);
-      commit.SET_NEWS_URL(mode ? NEWS_URL_TEST : NEWS_URL_PROD);
     },
     loadIsTestMode(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
@@ -58,8 +56,6 @@ const mod = {
       const mode = rootGetters.versionService.loadMode();
 
       commit.SET_IS_TEST(mode);
-      commit.SET_UPDATE_URL(mode ? UPDATE_URL_TEST : UPDATE_URL_PROD);
-      commit.SET_NEWS_URL(mode ? NEWS_URL_TEST : NEWS_URL_PROD);
     },
     loadOsMode(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
@@ -70,12 +66,8 @@ const mod = {
   mutations: {
     SET_IS_TEST(state: RootState, test: boolean) {
       state.isTest = test;
-    },
-    SET_UPDATE_URL(state: RootState, url: string) {
-      state.updateUrl = url;
-    },
-    SET_NEWS_URL(state: RootState, url: string) {
-      state.newsUrl = url;
+      state.updateUrl = test ? UPDATE_URL_TEST : UPDATE_URL_PROD;
+      state.newsUrl = test ? NEWS_URL_TEST : NEWS_URL_PROD;
     },
     SET_NEWS(state: RootState, news: News[]) {
       state.news = news;

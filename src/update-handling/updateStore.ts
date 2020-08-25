@@ -14,7 +14,6 @@ const mod = {
     mapsPath: "",
     localW3cVersion: "",
     onlineW3cVersion: "",
-    onlineLauncherVersion: "",
     localLauncherVersion: "",
     isUpdatingMaps: false,
     isUpdatingWebUI: false,
@@ -22,15 +21,6 @@ const mod = {
     w3PathIsInvalid: false,
   } as UpdateHandlingState,
   actions: {
-    async loadOnlineLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit, rootState } = moduleActionContext(context, mod);
-
-      const version = await (
-          await fetch(`${rootState.updateUrl}api/launcher-version`)
-      ).json();
-
-      commit.SET_ONLINE_LAUNCHER_VERSION(version.version);
-    },
     loadCurrentLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
@@ -127,9 +117,6 @@ const mod = {
     },
     SET_LOCAL_W3C_VERSION(state: UpdateHandlingState, version: string) {
       state.localW3cVersion = version;
-    },
-    SET_ONLINE_LAUNCHER_VERSION(state: UpdateHandlingState, version: string) {
-      state.onlineLauncherVersion = version;
     },
     SET_CURRENT_LAUNCHER_VERSION(state: UpdateHandlingState, version: string) {
       state.localLauncherVersion = version;

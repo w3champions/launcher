@@ -4,7 +4,6 @@ export interface UpdateHandlingState {
   w3Path: string,
   mapsPath: string,
   localW3cVersion: string,
-  onlineLauncherVersion: string,
   onlineW3cVersion: string,
   localLauncherVersion: string,
   isUpdatingWebUI: boolean,

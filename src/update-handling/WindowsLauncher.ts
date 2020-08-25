@@ -1,6 +1,6 @@
 import {LauncherStrategy} from "@/update-handling/LauncherStrategy";
 
-const { exec, execSync, spawn } = window.require("child_process");
+const { exec, spawn } = window.require("child_process");
 const fs = window.require("fs");
 const { remote } = window.require("electron");
 
