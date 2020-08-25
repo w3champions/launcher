@@ -19,9 +19,6 @@ const keyboard = window.require("send-keys-native/build/Release/send-keys-native
 })
 export default class App extends Vue {
   async mounted() {
-    const { autoUpdater } = window.require("electron-updater");
-    autoUpdater.checkForUpdatesAndNotify();
-
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
     this.makeSureNumpadIsEnabled()
@@ -35,11 +32,6 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
-  }
-
-  get updateUrl() {
-    const isOs = this.isWindows ? "win" : "mac"
-    return `${this.$store.direct.state.updateUrl}api/launcher/${isOs}`
   }
 
   get isWindows() {

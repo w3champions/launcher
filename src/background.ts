@@ -97,3 +97,6 @@ if (isDevelopment) {
     })
   }
 }
+
+const { autoUpdater } = require("electron-updater");
+await autoUpdater.checkForUpdatesAndNotify();
