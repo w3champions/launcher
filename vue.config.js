@@ -13,7 +13,12 @@ module.exports = {
         },
         dmg: {
           sign: false
-        }
+        },
+        publish: [{
+          provider: "github",
+          owner: "w3champions",
+          repo: "w3champions-launcher"
+        }],
       }
     }
   }
