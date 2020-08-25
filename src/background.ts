@@ -1,8 +1,10 @@
 'use strict'
 
 import { app, protocol, globalShortcut, BrowserWindow } from 'electron'
+import { autoUpdater } from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import {UpdateInfo} from "electron-updater";
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -98,5 +100,8 @@ if (isDevelopment) {
   }
 }
 
-const { autoUpdater } = require("electron-updater");
+autoUpdater.on("update-available", (info: UpdateInfo) => {
+  console.warn(`Update available: ${info.version}`)
+})
+
 autoUpdater.checkForUpdatesAndNotify();
