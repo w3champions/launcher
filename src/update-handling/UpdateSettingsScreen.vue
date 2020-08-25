@@ -100,10 +100,6 @@ export default class UpdateSettingsScreen extends Vue {
     return this.$store.direct.state.updateHandling.localLauncherVersion
   }
 
-  get onlineLauncherVersion() {
-    return this.$store.direct.state.updateHandling.onlineLauncherVersion;
-  }
-
   get w3Path(): string {
     return this.updateStrategy.w3PathWithOutRetail;
   }
@@ -115,10 +111,6 @@ export default class UpdateSettingsScreen extends Vue {
   public async tryStartWc3() {
     if (this.isLoading) return;
     await this.updateStrategy.updateIfNeeded();
-  }
-
-  get hasNewLauncherVersion() {
-    return this.onlineLauncherVersion.localeCompare(this.currentLauncherVersion) > 0;
   }
 
   get isLoading() {
