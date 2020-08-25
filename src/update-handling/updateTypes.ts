@@ -9,5 +9,5 @@ export interface UpdateHandlingState {
   isUpdatingWebUI: boolean,
   isUpdatingMaps: boolean,
   w3PathIsInvalid: boolean,
-  mapPathIsInvalid: boolean,
+  bnetPathIsInvalid: boolean,
 }

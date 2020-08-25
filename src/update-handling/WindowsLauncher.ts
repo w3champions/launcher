@@ -44,7 +44,7 @@ export class WindowsLauncher extends LauncherStrategy {
     }
 
     startWc3Process(bnetPath: string): void {
-        const bnetPathWithExe = `${bnetPath}\\Battle.net.exe`;
+        const bnetPathWithExe = `${bnetPath}\\${this.getDefaultBnetPathExecutable()}`;
         const ls = spawn(bnetPathWithExe, ['--exec="launch W3"'], {
             detached: true,
             windowsVerbatimArguments: true,
@@ -55,5 +55,9 @@ export class WindowsLauncher extends LauncherStrategy {
 
     getCopyCommand(from: string, to: string) {
         return `Xcopy "${from}" "${to}" /E /I`
+    }
+
+    getDefaultBnetPathExecutable(): string {
+        return "Battle.net.exe";
     }
 }

@@ -8,7 +8,7 @@
         <div>Warcraft III Location: {{w3Path}}</div>
         <div class="reset-button" @click="resetW3Path" />
       </div>
-      <div class="reset-button-line">
+      <div :class="isBnetLocationWrong ? 'path-is-wrong' : 'reset-button-line'">
         <div>Battle.Net Location: {{battleNet}}</div>
         <div class="reset-button" @click="resetBnetPath" />
       </div>
@@ -60,8 +60,8 @@ export default class UpdateSettingsScreen extends Vue {
     return this.$store.direct.state.updateHandling.w3PathIsInvalid;
   }
 
-  get isMapLocationWrong() {
-    return this.$store.direct.state.updateHandling.mapPathIsInvalid;
+  get isBnetLocationWrong() {
+    return this.$store.direct.state.updateHandling.bnetPathIsInvalid;
   }
 
   public async toggleVersion() {

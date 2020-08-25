@@ -12,6 +12,7 @@ export abstract class LauncherStrategy{
     abstract getDefaultPathMap(): string;
     abstract getDefaultPathWc3(): string;
     abstract getDefaultBnetPath(): string;
+    abstract getDefaultBnetPathExecutable(): string;
     abstract turnOnLocalFiles(): void;
     abstract startWc3Process(bnetPath: string): void;
     abstract getCopyCommand(from: string, to: string): string;
@@ -198,7 +199,14 @@ export abstract class LauncherStrategy{
 
     public async hardSetBnetPath() {
         await this.hardSetPath(this.store.commit.updateHandling.SET_BNET_PATH, this.bnetPath);
-        this.store.dispatch.updateHandling.saveBnetPath(this.store.state.updateHandling.bnetPath)
+        const path = `${this.store.state.updateHandling.bnetPath}/${this.getDefaultBnetPathExecutable()}`;
+        console.log(`bnet path set to: ${path}`)
+        if (!fs.existsSync(path)) {
+            this.store.commit.updateHandling.BNET_PATH_IS_INVALID(true);
+        } else {
+            this.store.commit.updateHandling.BNET_PATH_IS_INVALID(false);
+            this.store.dispatch.updateHandling.saveBnetPath(this.store.state.updateHandling.bnetPath)
+        }
     }
 
     public async hardSetW3cPath() {

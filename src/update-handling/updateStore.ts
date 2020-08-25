@@ -17,8 +17,8 @@ const mod = {
     localLauncherVersion: "",
     isUpdatingMaps: false,
     isUpdatingWebUI: false,
-    mapPathIsInvalid: false,
     w3PathIsInvalid: false,
+    bnetPathIsInvalid: false,
   } as UpdateHandlingState,
   actions: {
     loadCurrentLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -83,7 +83,7 @@ const mod = {
       rootGetters.updateService.saveW3Path("");
       rootGetters.updateService.saveLocalW3CVersion("");
 
-      commit.MAP_PATH_IS_INVALID(false);
+      commit.BNET_PATH_IS_INVALID(false);
       commit.W3_PATH_IS_INVALID(false);
       commit.SET_BNET_PATH("");
       commit.SET_BNET_PATH("");
@@ -124,9 +124,6 @@ const mod = {
     SET_ONLINE_W3C_VERSION(state: UpdateHandlingState, version: string) {
       state.onlineW3cVersion = version;
     },
-    START_WEBUI_DL(state: UpdateHandlingState) {
-      state.isUpdatingWebUI = true;
-    },
     FINISH_WEBUI_DL(state: UpdateHandlingState) {
       state.isUpdatingWebUI = false;
     },
@@ -141,8 +138,8 @@ const mod = {
     FINISH_MAPS_DL(state: UpdateHandlingState) {
       state.isUpdatingMaps = false;
     },
-    MAP_PATH_IS_INVALID(state: UpdateHandlingState, value: boolean) {
-      state.mapPathIsInvalid = value;
+    BNET_PATH_IS_INVALID(state: UpdateHandlingState, value: boolean) {
+      state.bnetPathIsInvalid = value;
     },
     W3_PATH_IS_INVALID(state: UpdateHandlingState, value: boolean) {
       state.w3PathIsInvalid = value;
