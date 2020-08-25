@@ -14,6 +14,7 @@ export abstract class LauncherStrategy{
     abstract getDefaultBnetPath(): string;
     abstract getDefaultBnetPathExecutable(): string;
     abstract turnOnLocalFiles(): void;
+    abstract getWar3PreferencesFile(): string;
     abstract startWc3Process(bnetPath: string): void;
     abstract getCopyCommand(from: string, to: string): string;
 
@@ -150,7 +151,6 @@ export abstract class LauncherStrategy{
             zip.extractAllTo(tempFolder, true);
             this.store.dispatch.updateHandling.sudoCopyFromTo({from: tempFolder, to})
         }
-
     }
 
     public async updateIfNeeded() {

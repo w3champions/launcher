@@ -10,4 +10,5 @@ export interface UpdateHandlingState {
   isUpdatingMaps: boolean,
   w3PathIsInvalid: boolean,
   bnetPathIsInvalid: boolean,
+  isTeamColorsEnabled: boolean,
 }

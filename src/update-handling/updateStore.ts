@@ -19,8 +19,20 @@ const mod = {
     isUpdatingWebUI: false,
     w3PathIsInvalid: false,
     bnetPathIsInvalid: false,
+    isTeamColorsEnabled: false,
   } as UpdateHandlingState,
   actions: {
+    loadIsTeamColorsEnabled(context: ActionContext<UpdateHandlingState, RootState>) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      commit.SET_TEAM_COLORS_ENABLED(rootGetters.fileService.loadIsTeamColorsEnabled());
+    },
+    saveIsTeamColorsEnabled(context: ActionContext<UpdateHandlingState, RootState>, enabled: boolean) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      commit.SET_TEAM_COLORS_ENABLED(enabled);
+      rootGetters.fileService.saveIsTeamColorsEnabled(enabled);
+    },
     loadCurrentLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
@@ -106,6 +118,9 @@ const mod = {
     }
   },
   mutations: {
+    SET_TEAM_COLORS_ENABLED(state: UpdateHandlingState, enabled: boolean) {
+      state.isTeamColorsEnabled = enabled;
+    },
     SET_BNET_PATH(state: UpdateHandlingState, path: string) {
       state.bnetPath = path;
     },

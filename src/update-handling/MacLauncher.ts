@@ -1,9 +1,16 @@
 import {LauncherStrategy} from "@/update-handling/LauncherStrategy";
+
 const { exec } = window.require("child_process");
 const { remote } = window.require("electron");
 const fs = window.require("fs");
 
 export class MacLauncher extends LauncherStrategy {
+    getWar3PreferencesFile(): string {
+        const documentPath = remote.app.getPath("appData");
+        return `${documentPath}\\Warcraft III\\War3Preferences.txt`;
+    }
+
+
     turnOnLocalFiles(): void {
         exec("defaults write \"com.blizzard.Warcraft III\" \"Allow Local Files\" -int 1", function(err: Error) {
             if (err) {

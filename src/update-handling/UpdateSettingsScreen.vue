@@ -12,6 +12,8 @@
         <div>Battle.Net Location: {{battleNet}}</div>
         <div class="reset-button" @click="resetBnetPath" />
       </div>
+      <input type="checkbox" :checked="isTeamColorsEnabled" @click="toggleTeamColors" id="manual-mode-check-box"/>
+      <label for="manual-mode-check-box">  Turn on team colors</label>
       <div class="button-bar">
         <div @click="repairW3c" :disabled="isLoading" class="repair-button">
           Reset W3C
@@ -55,6 +57,15 @@ export default class UpdateSettingsScreen extends Vue {
     this.updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
     this.updateStrategy.updateIfNeeded();
   }
+
+  get isTeamColorsEnabled() {
+    return this.$store.direct.state.updateHandling.isTeamColorsEnabled;
+  }
+
+  public toggleTeamColors() {
+    this.$store.direct.dispatch.updateHandling.saveIsTeamColorsEnabled(!this.isTeamColorsEnabled);
+  }
+
 
   get isW3LocationWrong() {
     return this.$store.direct.state.updateHandling.w3PathIsInvalid;
