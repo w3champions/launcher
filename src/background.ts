@@ -16,7 +16,7 @@ autoUpdater.on("update-downloaded", async (info: UpdateInfo) => {
     type: "info",
     title: `New Update ${info.version}`,
     message: 'A new version of the launcher is out, do you want update now?',
-    buttons: ['Update Now', 'Update after quitting']
+    buttons: ['Update and restart', 'Update after closing w3champions']
   })
 
   if (buttonIndex.response === 0) {
