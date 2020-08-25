@@ -1,4 +1,4 @@
-import {NotInGameState} from "@/hot-keys/HotKeyStateMachine";
+import {InGameState, NotInGameState} from "@/hot-keys/HotKeyStateMachine";
 // @ts-ignore
 window = {
     require: require
@@ -10,5 +10,5 @@ test('Transfer from f10 over escape to ingame with enabled keys', () => {
         .pressF10()
         .pressEscape();
 
-    expect(service.keysActivated()).toBe(true);
+    expect(service.constructor.name).toBe(InGameState.name);
 });

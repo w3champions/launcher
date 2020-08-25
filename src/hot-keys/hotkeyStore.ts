@@ -56,14 +56,14 @@ const mod = {
       });
       commit.SET_TOGGLE_KEY(combo);
     },
-    enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { rootGetters, state } = moduleActionContext(context, mod);
-      rootGetters.itemHotkeyService.enableHotKeys(state.hotKeys);
-    },
-    disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { rootGetters, state  } = moduleActionContext(context, mod);
-      rootGetters.itemHotkeyService.disableHotKeys(state.hotKeys);
-    },
+      enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
+        const { rootGetters, state } = moduleActionContext(context, mod);
+        rootGetters.itemHotkeyService.enableHotKeys(state.hotKeys);
+      },
+      disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
+        const { rootGetters, state  } = moduleActionContext(context, mod);
+        rootGetters.itemHotkeyService.disableHotKeys(state.hotKeys);
+      },
     loadHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
@@ -89,16 +89,14 @@ const mod = {
       commit.SET_LAST_W3C_PORT(port);
     },
     exitGame(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { commit, dispatch } = moduleActionContext(context, mod);
+      const { commit } = moduleActionContext(context, mod);
 
       commit.HOTKEY_STATE_EXITED_GAME();
-      dispatch.disbleHotKeys();
     },
     enterGame(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { commit, dispatch } = moduleActionContext(context, mod);
+      const { commit } = moduleActionContext(context, mod);
 
-      commit.HOTKEY_STATE_INGAME();
-      dispatch.enableHotKeys();
+      commit.HOTKEY_STATE_ENTER_GAME();
     }
   },
   mutations: {
@@ -111,7 +109,7 @@ const mod = {
     TOGGLE_HOTKEYS(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.toggle();
     },
-    HOTKEY_STATE_INGAME(state: HotKeyModifierState) {
+    HOTKEY_STATE_ENTER_GAME(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.enterGame();
     },
     HOTKEY_STATE_EXITED_GAME(state: HotKeyModifierState) {

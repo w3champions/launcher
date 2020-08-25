@@ -10,10 +10,6 @@ export abstract class HotKeyState {
     abstract toggleManualMode(): HotKeyState;
     abstract toggle(): HotKeyState;
 
-    public keysActivated() {
-        return this.constructor.name === InGameState.name;
-    }
-
     public isManual() {
         return this.constructor.name === ManualHotkeyMode.name;
     }
@@ -83,6 +79,8 @@ export class ManualHotkeyMode extends HotKeyState {
         store.dispatch.hotKeys.disbleHotKeys();
     }
 
+    public keysActivatedInManualMode = false;
+
     enterGame(): HotKeyState {
         return this;
     }
@@ -112,10 +110,12 @@ export class ManualHotkeyMode extends HotKeyState {
     }
 
     toggle(): HotKeyState {
-        if (this.keysActivated()) {
+        if (this.keysActivatedInManualMode) {
             this.turnOffHotkeys()
+            this.keysActivatedInManualMode = false;
         } else {
             this.turnOnHotKeys();
+            this.keysActivatedInManualMode = true;
         }
 
         return this;

@@ -55,7 +55,7 @@ import {
 } from "@/hot-keys/keyValuesRobotJs";
 /* eslint-disable */
 import {KeyDto, ModifierKey} from "@/hot-keys/hotkeyTypes";
-import {InGameState} from "@/hot-keys/HotKeyStateMachine";
+import {InGameState, ManualHotkeyMode} from "@/hot-keys/HotKeyStateMachine";
 import {combiAsStringForDisplay} from "@/hot-keys/utilsFunctions";
 
 @Component
@@ -162,7 +162,12 @@ export default class HotKeySetupScreen extends Vue {
   }
 
   get hotkeyState() {
-    return this.$store.direct.state.hotKeys.hotKeyStateMachine.constructor.name === InGameState.name
+    const hotKeyStateMachine = this.$store.direct.state.hotKeys.hotKeyStateMachine;
+    if (hotKeyStateMachine.constructor.name === ManualHotkeyMode.name) {
+      return (hotKeyStateMachine as ManualHotkeyMode).keysActivatedInManualMode;
+    }
+
+    return hotKeyStateMachine.constructor.name === InGameState.name
   }
 
   get itemTopLeft() {
