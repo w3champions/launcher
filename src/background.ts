@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, globalShortcut, BrowserWindow } from 'electron'
+import {app, protocol, globalShortcut, BrowserWindow, dialog} from 'electron'
 import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
@@ -10,23 +10,20 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null
 
-autoUpdater.on("checking-for-update", () => {
-  console.warn(`Checking for updates`)
-})
-
-autoUpdater.on("update-available", (info: UpdateInfo) => {
-  console.warn(`Update available: ${info.version}`)
-  console.warn(`Update available: ${info.releaseDate}`)
-})
-
-autoUpdater.on("update-downloaded", (info: UpdateInfo) => {
+autoUpdater.on("update-downloaded", async (info: UpdateInfo) => {
   console.warn(`Update downloaded: ${info.version}`)
-  autoUpdater.quitAndInstall();
-})
+  const buttonIndex = await dialog.showMessageBox({
+    type: "info",
+    title: `New Update ${info.version}`,
+    message: 'A new version of the launcher is out, do you want update now?',
+    buttons: ['Update Now', 'Later']
+  })
 
-autoUpdater.on("download-progress", (progress: any) => {
-  console.warn(`Update progress: ${progress}`)
-  autoUpdater.quitAndInstall();
+  if (buttonIndex.response === 0) {
+    const isSilent = true;
+    const isForceRunAfter = true;
+    autoUpdater.quitAndInstall(isSilent, isForceRunAfter);
+  }
 })
 
 // Scheme must be registered before the app is ready
@@ -101,9 +98,7 @@ app.on('ready', async () => {
     }
   }
 
-  console.log("check for updates")
   await autoUpdater.checkForUpdatesAndNotify();
-  console.log("check for updates done")
   createWindow()
 })
 
