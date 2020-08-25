@@ -35,7 +35,7 @@ export class MacLauncher extends LauncherStrategy {
     }
 
     startWc3Process(bnetPath: string): void {
-        exec(bnetPath + this.getDefaultBnetPathExecutable() + " --exec=\"launch W3\"");
+        exec(`${bnetPath}/${this.getDefaultBnetPathExecutable()} --exec="launch W3"`);
     }
 
     getCopyCommand(from: string, to: string) {
@@ -43,6 +43,6 @@ export class MacLauncher extends LauncherStrategy {
     }
 
     getDefaultBnetPathExecutable(): string {
-        return "Contents/MacOS/Battle.net ";
+        return "Contents/MacOS/Battle.net";
     }
 }

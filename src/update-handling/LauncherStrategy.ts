@@ -200,7 +200,7 @@ export abstract class LauncherStrategy{
     public async hardSetBnetPath() {
         await this.hardSetPath(this.store.commit.updateHandling.SET_BNET_PATH, this.bnetPath);
         const path = `${this.store.state.updateHandling.bnetPath}/${this.getDefaultBnetPathExecutable()}`;
-        console.log(`bnet path set to: ${path}`)
+        console.log(`bnet path selected: ${path}`)
         if (!fs.existsSync(path)) {
             this.store.commit.updateHandling.BNET_PATH_IS_INVALID(true);
         } else {
