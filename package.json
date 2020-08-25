@@ -6,9 +6,7 @@
   "author": "simonheiss87@gmail.com",
   "scripts": {
     "serve": "vue-cli-service electron:serve",
-    "build": "vue-cli-service electron:build",
-    "release": "build",
-    "dist": "electron-builder --publish always",
+    "build": "vue-cli-service electron:build --publish always",
     "lint": "vue-cli-service lint",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
