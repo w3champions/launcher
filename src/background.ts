@@ -1,15 +1,33 @@
 'use strict'
 
 import { app, protocol, globalShortcut, BrowserWindow } from 'electron'
-import { autoUpdater } from 'electron-updater'
+import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import {UpdateInfo} from "electron-updater";
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null
+
+autoUpdater.on("checking-for-update", () => {
+  console.warn(`Checking for updates`)
+})
+
+autoUpdater.on("update-available", (info: UpdateInfo) => {
+  console.warn(`Update available: ${info.version}`)
+  console.warn(`Update available: ${info.releaseDate}`)
+})
+
+autoUpdater.on("update-downloaded", (info: UpdateInfo) => {
+  console.warn(`Update downloaded: ${info.version}`)
+  autoUpdater.quitAndInstall();
+})
+
+autoUpdater.on("download-progress", (progress: any) => {
+  console.warn(`Update progress: ${progress}`)
+  autoUpdater.quitAndInstall();
+})
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -82,6 +100,10 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
+
+  console.log("check for updates")
+  await autoUpdater.checkForUpdatesAndNotify();
+  console.log("check for updates done")
   createWindow()
 })
 
@@ -99,9 +121,3 @@ if (isDevelopment) {
     })
   }
 }
-
-autoUpdater.on("update-available", (info: UpdateInfo) => {
-  console.warn(`Update available: ${info.version}`)
-})
-
-autoUpdater.checkForUpdatesAndNotify();
