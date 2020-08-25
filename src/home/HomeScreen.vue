@@ -52,14 +52,9 @@ export default class HomeScreen extends Vue {
 
   public async tryStartWc3() {
     if (this.isLoading) return;
-    this.disablePlayButtonTemporary();
 
     await this.updateStrategy.updateIfNeeded();
     this.updateStrategy.startWc3();
-  }
-
-  private disablePlayButtonTemporary() {
-    this.disablePlayBtn = true;
   }
 
   get isLoading() {
