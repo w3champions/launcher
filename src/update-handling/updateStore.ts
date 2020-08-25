@@ -27,10 +27,15 @@ const mod = {
       commit.SET_TEAM_COLORS_ENABLED(rootGetters.fileService.loadIsTeamColorsEnabled());
     },
     saveIsTeamColorsEnabled(context: ActionContext<UpdateHandlingState, RootState>, enabled: boolean) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
+      const { commit, rootGetters, state } = moduleActionContext(context, mod);
+
+      if (!enabled) {
+        rootGetters.fileService.resetTeamColorFiles(state.w3Path);
+      }
+
+      rootGetters.fileService.saveIsTeamColorsEnabled(enabled);
 
       commit.SET_TEAM_COLORS_ENABLED(enabled);
-      rootGetters.fileService.saveIsTeamColorsEnabled(enabled);
     },
     loadCurrentLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);

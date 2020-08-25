@@ -34,7 +34,13 @@ export class FileService {
                 console.error(err)
             }
         });
+    }
 
+    public resetTeamColorFiles(textureLocation: string) {
+        const copyCommand = this.updateStrategy.getCopyCommand("@assets/replaceabletextures", textureLocation);
+        if (fs.existsSync("/replaceabletextures/teamcolor/teamcolor00.blp")) {
+            console.log("asd");
+        }
     }
 
     saveIsTeamColorsEnabled(value: boolean) {
