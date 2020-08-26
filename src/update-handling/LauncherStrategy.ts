@@ -53,6 +53,7 @@ export abstract class LauncherStrategy{
     }
 
     public async repairWc3() {
+        await this.store.dispatch.setTestMode(false);
         this.store.commit.updateHandling.START_DLS();
         this.store.dispatch.updateHandling.resetPaths();
         await this.updateIfNeeded();
