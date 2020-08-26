@@ -12,8 +12,16 @@
         <div>Battle.Net Location: {{battleNet}}</div>
         <div class="reset-button" @click="resetBnetPath" />
       </div>
-      <input type="checkbox" :checked="isTeamColorsEnabled" @click="toggleTeamColors" id="manual-mode-check-box"/>
-      <label for="manual-mode-check-box">  Turn on team colors</label>
+      <div class="color-pick-bar">
+        <div>
+          <input type="checkbox" :checked="isTeamColorsEnabled" @click="toggleTeamColors" id="manual-mode-check-box"/>
+          <label for="manual-mode-check-box">  Turn on team colors</label>
+        </div>
+
+        <ColorPicker text="Own Color" color="01"/>
+        <ColorPicker text="Enemy Color"/>
+        <ColorPicker text="Allies Color"/>
+      </div>
       <div class="button-bar">
         <div @click="repairW3c" :disabled="isLoading" class="repair-button">
           Reset W3C
@@ -45,9 +53,10 @@ import {Component, Vue} from "vue-property-decorator";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
+import ColorPicker from "@/update-handling/ColorPicker.vue";
 
 @Component({
-  components: {LoadingSpinner}
+  components: {ColorPicker, LoadingSpinner}
 })
 export default class UpdateSettingsScreen extends Vue {
   private updateStrategy!: any;
@@ -234,5 +243,18 @@ export default class UpdateSettingsScreen extends Vue {
   padding-right: 20px;
   padding-top: 30px;
   text-align: right
+}
+
+.color-pick-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.color-picker {
+  width: 36px;
+  height: 36px;
+  background: url("~@/assets/images/colorSelect/color-01.png") no-repeat center;
+  background-size: cover;
 }
 </style>
