@@ -269,15 +269,9 @@ export default class UpdateSettingsScreen extends Vue {
 }
 
 .color-pick-bar {
+  margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
-
-.color-picker {
-  width: 36px;
-  height: 36px;
-  background: url("~@/assets/images/colorSelect/color-01.png") no-repeat center;
-  background-size: cover;
 }
 </style>

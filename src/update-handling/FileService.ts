@@ -52,10 +52,13 @@ export class FileService {
     public switchColor(oldColor: string, newColor: string, textureLocation: string) {
         this.copyFile(`${__static}/replaceabletextures/teamcolor/teamcolor${newColor}.blp`, `${textureLocation}/replaceabletextures/teamcolor/teamcolor${oldColor}.blp`);
         this.copyFile(`${__static}/replaceabletextures/teamglow/teamglow${newColor}.blp`, `${textureLocation}/replaceabletextures/teamglow/teamglow${oldColor}.blp`);
+
+        console.log(`copy ${newColor} to ${oldColor}`);
     }
 
     public resetTeamColorFiles(textureLocation: string) {
         this.copyFile(`${__static}/replaceabletextures`,`${textureLocation}/replaceabletextures`);
+        console.log('reset textures!');
     }
 
     private copyFile(from: string, to:string) {
@@ -64,7 +67,6 @@ export class FileService {
                 if (err) {
                     console.error(err);
                 }
-                console.log('reset textures!');
             });
         } catch (e) {
             this.sudoCopyFromTo(from, to);

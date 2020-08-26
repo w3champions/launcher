@@ -23,6 +23,7 @@ export default class ColorPicker extends Vue {
   public switchColor(color: string) {
     this.modalOpen = false;
     this.onSwitchColor(color);
+    document.onclick = null;
   }
 
   public colorGrid = [
@@ -34,6 +35,19 @@ export default class ColorPicker extends Vue {
 
   public toggleModal() {
     this.modalOpen = !this.modalOpen;
+
+    if (this.modalOpen) {
+      document.onclick = (e: any) => {
+        console.log(e.target.className);
+        if (e.target.className !== "color-picker-modal"
+            && !e.target.className.startsWith("color-selector")
+            && e.target.className !== "color-selector-row"
+            && !e.target.className.startsWith("color-picker")) {
+          document.onclick = null;
+          this.modalOpen = false;
+        }
+      }
+    }
   }
 }
 </script>
