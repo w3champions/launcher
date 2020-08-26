@@ -32,9 +32,9 @@ const mod = {
     loadColors(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
-      commit.SET_OWN_COLOR(rootGetters.fileService.loadColor("01"));
-      commit.SET_ENEMY_COLOR(rootGetters.fileService.loadColor("00"));
-      commit.SET_ALLIES_COLOR(rootGetters.fileService.loadColor("02"));
+      commit.SET_OWN_COLOR(rootGetters.fileService.loadColor("01") ?? "01");
+      commit.SET_ENEMY_COLOR(rootGetters.fileService.loadColor("00") ?? "00");
+      commit.SET_ALLIES_COLOR(rootGetters.fileService.loadColor("02") ?? "02");
     },
     switchOwnColor(context: ActionContext<UpdateHandlingState, RootState>, newColor: string) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
