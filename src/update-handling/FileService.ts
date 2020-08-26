@@ -6,6 +6,7 @@ const fs = window.require('fs');
 const sudo = window.require("sudo-prompt");
 const { remote } = window.require("electron");
 const ncp = window.require('ncp').ncp;
+declare const __static: string;
 
 export class FileService {
     public updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
@@ -39,7 +40,6 @@ export class FileService {
 
     public resetTeamColorFiles(textureLocation: string) {
         const wc3TextureLocation = `${textureLocation}/replaceabletextures`;
-        // @ts-ignore
         const originalTextures = `${__static}/replaceabletextures`;
         try {
             ncp(originalTextures, wc3TextureLocation, (err: Error) => {
