@@ -33,6 +33,7 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
     await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
     await this.$store.direct.dispatch.updateHandling.loadIsTeamColorsEnabled();
+    await this.$store.direct.dispatch.updateHandling.loadColors();
   }
 
   get isWindows() {

@@ -6,10 +6,13 @@ const fs = window.require('fs');
 const sudo = window.require("sudo-prompt");
 const { remote } = window.require("electron");
 const ncp = window.require('ncp').ncp;
+const Store = window.require("electron-store");
+
 declare const __static: string;
 
 export class FileService {
     public updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
+    private keyValueStore = new Store();
 
     public isWindows() {
         return os.platform() === "win32";
@@ -38,18 +41,33 @@ export class FileService {
         });
     }
 
+    public loadColor(oldColor: string) {
+        return this.keyValueStore.get(oldColor);
+    }
+
+    public saveColor(oldColor: string, newColor: string) {
+        return this.keyValueStore.set(oldColor, newColor);
+    }
+
+    public switchColor(oldColor: string, newColor: string, textureLocation: string) {
+        this.copyFile(`${__static}/replaceabletextures/teamcolor/teamcolor${newColor}.blp`, `${textureLocation}/replaceabletextures/teamcolor/teamcolor${oldColor}.blp`);
+        this.copyFile(`${__static}/replaceabletextures/teamglow/teamglow${newColor}.blp`, `${textureLocation}/replaceabletextures/teamglow/teamglow${oldColor}.blp`);
+    }
+
     public resetTeamColorFiles(textureLocation: string) {
-        const wc3TextureLocation = `${textureLocation}/replaceabletextures`;
-        const originalTextures = `${__static}/replaceabletextures`;
+        this.copyFile(`${__static}/replaceabletextures`,`${textureLocation}/replaceabletextures`);
+    }
+
+    private copyFile(from: string, to:string) {
         try {
-            ncp(originalTextures, wc3TextureLocation, (err: Error) => {
+            ncp(from, to, (err: Error) => {
                 if (err) {
                     console.error(err);
                 }
                 console.log('reset textures!');
             });
         } catch (e) {
-            this.sudoCopyFromTo(originalTextures, wc3TextureLocation);
+            this.sudoCopyFromTo(from, to);
         }
     }
 

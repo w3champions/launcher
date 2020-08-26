@@ -1,7 +1,12 @@
 <template>
   <div class="picker-container">
-    <div class="color-picker"></div>
+    <div class="color-picker" :class="`color-${color}`" @click="toggleModal"></div>
     <div class="color-picker-text">{{ text }}</div>
+    <div class="color-picker-modal" :style="{visibility: modalOpen ? 'visible' : 'hidden'}">
+      <div class="color-selector-row" v-for="outer in colorGrid" :key="outer.toString()">
+        <div @click="() => switchColor(color)" class="color-selector" v-for="color in outer" :key="color" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,6 +17,24 @@ import {Component, Prop, Vue} from "vue-property-decorator";
 export default class ColorPicker extends Vue {
   @Prop() public text!: string;
   @Prop() public color!: string;
+  @Prop() public onSwitchColor!: (newColor: string) => {};
+  modalOpen = false;
+
+  public switchColor(color: string) {
+    this.modalOpen = false;
+    this.onSwitchColor(color);
+  }
+
+  public colorGrid = [
+    [ "00", "01", "02", "03", "04", "05"],
+    [ "06", "07", "08", "09", "10", "11"],
+    [ "12", "13", "14", "15", "16", "17"],
+    [ "18", "19", "20", "21", "22", "23"],
+  ]
+
+  public toggleModal() {
+    this.modalOpen = !this.modalOpen;
+  }
 }
 </script>
 
@@ -21,12 +44,15 @@ export default class ColorPicker extends Vue {
   cursor: pointer;
   width: 26px;
   height: 26px;
-  background-size: cover;
-  background: url("~@/assets/images/colorSelect/color-01.png") no-repeat center;
+}
+
+.color-selector{
+  margin: 5px;
+  height: 34px;
+  width: 50px;
 }
 
 .picker-container {
-  height: 26px;
   display: flex;
   flex-direction: row;
 }
@@ -36,5 +62,142 @@ export default class ColorPicker extends Vue {
   line-height: 26px;
   padding-left: 10px;
   text-align: center;
+}
+
+.color-picker-modal {
+  padding: 15px;
+  position: absolute;
+  z-index: 100;
+  background: url('~@/assets/images/colorSelect/PopupMenu.png') center no-repeat;
+  background-size: cover;
+  width: 281px;
+  height: 181px;
+}
+
+.color-selector-row {
+  display: flex;
+  flex-direction: row;
+}
+
+/*from time to time i just hate this webpack fuck, if you read this, please make it nicer? =D*/
+.color-00 {
+  background: url('~@/assets/images/colorSelect/color-00.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-01 {
+  background: url('~@/assets/images/colorSelect/color-01.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-02{
+  background: url('~@/assets/images/colorSelect/color-02.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-03{
+  background: url('~@/assets/images/colorSelect/color-03.png') center no-repeat;
+  background-size: cover;
+}
+
+
+.color-04{
+  background: url('~@/assets/images/colorSelect/color-04.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-05{
+  background: url('~@/assets/images/colorSelect/color-05.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-06{
+  background: url('~@/assets/images/colorSelect/color-06.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-07{
+  background: url('~@/assets/images/colorSelect/color-07.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-08{
+  background: url('~@/assets/images/colorSelect/color-08.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-09{
+  background: url('~@/assets/images/colorSelect/color-09.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-10{
+  background: url('~@/assets/images/colorSelect/color-10.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-11{
+  background: url('~@/assets/images/colorSelect/color-11.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-12{
+  background: url('~@/assets/images/colorSelect/color-12.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-13{
+  background: url('~@/assets/images/colorSelect/color-13.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-14{
+  background: url('~@/assets/images/colorSelect/color-14.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-15{
+  background: url('~@/assets/images/colorSelect/color-15.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-16{
+  background: url('~@/assets/images/colorSelect/color-16.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-17{
+  background: url('~@/assets/images/colorSelect/color-17.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-18{
+  background: url('~@/assets/images/colorSelect/color-18.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-19{
+  background: url('~@/assets/images/colorSelect/color-19.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-20{
+  background: url('~@/assets/images/colorSelect/color-20.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-21{
+  background: url('~@/assets/images/colorSelect/color-21.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-22{
+  background: url('~@/assets/images/colorSelect/color-22.png') center no-repeat;
+  background-size: cover;
+}
+
+.color-23{
+  background: url('~@/assets/images/colorSelect/color-23.png') center no-repeat;
+  background-size: cover;
 }
 </style>

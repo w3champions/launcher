@@ -18,9 +18,9 @@
           <label for="manual-mode-check-box">  Turn on team colors</label>
         </div>
 
-        <ColorPicker text="Own Color" color="01"/>
-        <ColorPicker text="Enemy Color"/>
-        <ColorPicker text="Allies Color"/>
+        <ColorPicker text="Own Color" :color="ownColor" :onSwitchColor="switchOwnColor"/>
+        <ColorPicker text="Enemy Color" :color="enemyColor" :onSwitchColor="switchEnemyColor"/>
+        <ColorPicker text="Allies Color" :color="alliesColor" :onSwitchColor="switchAlliesColor"/>
       </div>
       <div class="button-bar">
         <div @click="repairW3c" :disabled="isLoading" class="repair-button">
@@ -67,6 +67,30 @@ export default class UpdateSettingsScreen extends Vue {
     this.updateStrategy.updateIfNeeded();
   }
 
+  get enemyColor() {
+    return this.$store.direct.state.updateHandling.enemyColor;
+  }
+
+  get ownColor() {
+    return this.$store.direct.state.updateHandling.ownColor;
+  }
+
+  get alliesColor() {
+    return this.$store.direct.state.updateHandling.allyColor;
+  }
+
+  public switchOwnColor(newColor: string) {
+    this.$store.direct.dispatch.updateHandling.switchOwnColor(newColor);
+  }
+
+  public switchEnemyColor(newColor: string) {
+    this.$store.direct.dispatch.updateHandling.switchEnemyColor(newColor);
+  }
+
+  public switchAlliesColor(newColor: string) {
+    this.$store.direct.dispatch.updateHandling.switchAlliesColor(newColor);
+  }
+
   get isTeamColorsEnabled() {
     return this.$store.direct.state.updateHandling.isTeamColorsEnabled;
   }
@@ -74,7 +98,6 @@ export default class UpdateSettingsScreen extends Vue {
   public toggleTeamColors() {
     this.$store.direct.dispatch.updateHandling.saveIsTeamColorsEnabled(!this.isTeamColorsEnabled);
   }
-
 
   get isW3LocationWrong() {
     return this.$store.direct.state.updateHandling.w3PathIsInvalid;
