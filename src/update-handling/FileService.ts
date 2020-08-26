@@ -5,6 +5,7 @@ const os = window.require('os');
 const fs = window.require('fs');
 const sudo = window.require("sudo-prompt");
 const { remote } = window.require("electron");
+const ncp = window.require('ncp').ncp;
 
 export class FileService {
     public updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
@@ -37,9 +38,18 @@ export class FileService {
     }
 
     public resetTeamColorFiles(textureLocation: string) {
-        const copyCommand = this.updateStrategy.getCopyCommand("@assets/replaceabletextures", textureLocation);
-        if (fs.existsSync("/replaceabletextures/teamcolor/teamcolor00.blp")) {
-            console.log("asd");
+        const wc3TextureLocation = `${textureLocation}/replaceabletextures`;
+        // @ts-ignore
+        const originalTextures = `${__static}/replaceabletextures`;
+        try {
+            ncp(originalTextures, wc3TextureLocation, (err: Error) => {
+                if (err) {
+                    console.error(err);
+                }
+                console.log('reset textures!');
+            });
+        } catch (e) {
+            this.sudoCopyFromTo(originalTextures, wc3TextureLocation);
         }
     }
 
