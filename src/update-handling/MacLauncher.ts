@@ -1,4 +1,5 @@
 import {LauncherStrategy} from "@/update-handling/LauncherStrategy";
+import logger from "@/logger";
 
 const { exec } = window.require("child_process");
 const { remote } = window.require("electron");
@@ -14,7 +15,7 @@ export class MacLauncher extends LauncherStrategy {
     turnOnLocalFiles(): void {
         exec("defaults write \"com.blizzard.Warcraft III\" \"Allow Local Files\" -int 1", function(err: Error) {
             if (err) {
-                console.error(err);
+                logger.error(err);
             }
         });
     }
@@ -31,7 +32,7 @@ export class MacLauncher extends LauncherStrategy {
                 fs.mkdirSync(`${libPath}/Blizzard/Warcraft III/Maps`);
             }
         } catch (e) {
-            console.error(e)
+            logger.error(e)
         }
 
         return `${libPath}/Blizzard/Warcraft III/Maps`

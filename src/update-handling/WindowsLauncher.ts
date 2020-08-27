@@ -1,4 +1,5 @@
 import {LauncherStrategy} from "@/update-handling/LauncherStrategy";
+import logger from "@/logger";
 
 const { exec, spawn } = window.require("child_process");
 const fs = window.require("fs");
@@ -13,7 +14,7 @@ export class WindowsLauncher extends LauncherStrategy {
     turnOnLocalFiles(): void {
         exec("reg add \"HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III\" /v \"Allow Local Files\" /t REG_DWORD /d 1 /f", function(err: Error) {
             if (err) {
-                console.error(err);
+                logger.error(err);
             }
         });
     }
@@ -36,7 +37,7 @@ export class WindowsLauncher extends LauncherStrategy {
                 fs.mkdirSync(`${documentPath}\\Warcraft III\\Maps`);
             }
         } catch (e) {
-            console.error(e)
+            logger.error(e)
         }
 
         return fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)

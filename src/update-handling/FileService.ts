@@ -1,5 +1,6 @@
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import {MacLauncher} from "@/update-handling/MacLauncher";
+import logger from "@/logger";
 
 const os = window.require('os');
 const fs = window.require('fs');
@@ -36,7 +37,7 @@ export class FileService {
             name: 'Warcraft 3 Champions',
         }, (err: Error) => {
             if (err) {
-                console.error(err)
+                logger.error(err)
             }
         });
     }
@@ -53,19 +54,19 @@ export class FileService {
         this.copyFile(`${__static}/replaceabletextures/teamcolor/teamcolor${newColor}.blp`, `${textureLocation}/replaceabletextures/teamcolor/teamcolor${oldColor}.blp`);
         this.copyFile(`${__static}/replaceabletextures/teamglow/teamglow${newColor}.blp`, `${textureLocation}/replaceabletextures/teamglow/teamglow${oldColor}.blp`);
 
-        console.log(`copy ${newColor} to ${oldColor}`);
+        logger.info(`copy ${newColor} to ${oldColor}`);
     }
 
     public resetTeamColorFiles(textureLocation: string) {
         this.copyFile(`${__static}/replaceabletextures`,`${textureLocation}/replaceabletextures`);
-        console.log('reset textures!');
+        logger.info('reset textures!');
     }
 
     private copyFile(from: string, to:string) {
         try {
             ncp(from, to, (err: Error) => {
                 if (err) {
-                    console.error(err);
+                    logger.error(err);
                 }
             });
         } catch (e) {
