@@ -15,7 +15,7 @@ module.exports = {
         'electron-updater'
       ],
       builderOptions: {
-        afterSign: "notarize.js",
+        // afterSign: "notarize.js",
         mac: {
           hardenedRuntime : true,
           gatekeeperAssess: false,
