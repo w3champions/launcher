@@ -12,8 +12,8 @@ let win: BrowserWindow | null
 
 const logger = require("electron-log")
 
-logger.transports.file.level = "debug"
-logger.transports.console.level = "debug"
+logger.transports.file.level = "trace"
+logger.transports.console.level = "trace"
 
 autoUpdater.logger = logger
 
