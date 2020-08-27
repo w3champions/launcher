@@ -28,6 +28,10 @@ export abstract class LauncherStrategy{
         this.startWc3Process(this.bnetPath);
     }
 
+    get w3PathIsValid() {
+      return !this.store.state.updateHandling.w3PathIsInvalid;
+    }
+
     get bnetPath() {
         return this.store.state.updateHandling.bnetPath;
     }
@@ -163,13 +167,21 @@ export abstract class LauncherStrategy{
         }
 
         const w3path = await this.updateW3cPath();
-        if (!w3path) return;
-        const w3mapPath = await this.updateMapPath();
-        if (!w3mapPath) return;
-        const bnetPath = this.updateBnetPath();
-        if (!bnetPath) return;
+        if (!w3path) {
+            this.unsetLoading();
+            return;
+        }
 
-        await this.downloadAndWriteFile("maps", w3mapPath);
+        const bnetPath = this.updateBnetPath();
+        if (!bnetPath) {
+            this.unsetLoading();
+            return;
+        }
+
+
+        this.store.dispatch.updateHandling.saveMapPath(this.getDefaultPathMap())
+
+        await this.downloadAndWriteFile("maps", this.mapsPath);
         this.store.commit.updateHandling.FINISH_MAPS_DL();
         await this.downloadAndWriteFile("webui", w3path);
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
@@ -189,8 +201,8 @@ export abstract class LauncherStrategy{
             "Battle.Net folder not found, please locate it manually"
         );
 
-        if (!bnetPath) {
-            return;
+        if (bnetPath === "defaultPath") {
+            return "";
         }
 
         this.store.dispatch.updateHandling.saveBnetPath(bnetPath)
@@ -221,6 +233,10 @@ export abstract class LauncherStrategy{
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
             this.store.dispatch.updateHandling.saveW3Path(this.w3Path)
         }
+
+        if (this.w3PathIsValid) {
+            await this.redownloadW3c();
+        }
     }
 
     private async hardSetPath(set: (s: string) => void, currentPath: string) {
@@ -237,25 +253,6 @@ export abstract class LauncherStrategy{
         this.store.commit.updateHandling.FINISH_MAPS_DL();
     }
 
-    public async updateMapPath() {
-        const defaultMapPath = this.getDefaultPathMap();
-        console.log("default map path: " + defaultMapPath);
-        const w3mapPath = await this.getFolderFromUserIfNeverStarted(
-            this.mapsPath,
-            defaultMapPath,
-            "Mapfolder not found",
-            "The mapfolder of Warcraft III was not found, please locate it manually"
-        );
-
-        if (!w3mapPath) {
-            return;
-        }
-
-        this.store.dispatch.updateHandling.saveMapPath(w3mapPath)
-
-        return w3mapPath;
-    }
-
     public async updateW3cPath() {
         const defaultPathWc3 = this.getDefaultPathWc3();
         console.log("default wc3 path: " + defaultPathWc3);
@@ -269,8 +266,8 @@ export abstract class LauncherStrategy{
             w3path = `${w3path}/_retail_`;
         }
 
-        if (!w3path) {
-            return;
+        if (w3path === "defaultPath") {
+            return "";
         }
 
         this.store.dispatch.updateHandling.saveW3Path(w3path)
