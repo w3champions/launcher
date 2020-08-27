@@ -109,7 +109,7 @@ app.on('ready', async () => {
     }
   }
 
-  // await autoUpdater.checkForUpdatesAndNotify();
+  await autoUpdater.checkForUpdatesAndNotify();
   createWindow()
 })
 
