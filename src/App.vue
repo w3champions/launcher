@@ -12,6 +12,7 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
+import logger from "@/logger";
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
 
 @Component({
@@ -48,10 +49,10 @@ export default class App extends Vue {
     window.document.onkeydown = (e) => {
       const numlockState = e.getModifierState("NumLock");
       if (!numlockState) {
-        console.log("Numpad is NOT activated, do hack:" + numlockState);
+        logger.info("Numpad is NOT activated, do hack:" + numlockState);
         keyboard.pressNumLock();
       } else {
-        console.log("Numpad is activated, remove hack:" + numlockState);
+        logger.info("Numpad is activated, remove hack:" + numlockState);
       }
 
       window.document.onkeydown = null;

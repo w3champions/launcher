@@ -10,12 +10,15 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null
 
-const log = require("electron-log")
-log.transports.file.level = "debug"
-autoUpdater.logger = log
+const logger = require("electron-log")
+
+logger.transports.file.level = "debug"
+logger.transports.console.level = "debug"
+
+autoUpdater.logger = logger
 
 autoUpdater.on("update-downloaded", async (info: UpdateInfo) => {
-  console.warn(`Update downloaded: ${info.version}`)
+  logger.info(`Update downloaded: ${info.version}`)
 
   if (win instanceof BrowserWindow) {
     const buttonIndex = await dialog.showMessageBox(win, {
@@ -28,6 +31,7 @@ autoUpdater.on("update-downloaded", async (info: UpdateInfo) => {
     if (buttonIndex.response === 0) {
       const isSilent = true;
       const isForceRunAfter = true;
+      logger.info("restarting app from menu")
       autoUpdater.quitAndInstall(isSilent, isForceRunAfter);
     }
   }
@@ -101,11 +105,11 @@ app.on('ready', async () => {
     try {
       await installExtension(VUEJS_DEVTOOLS)
     } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
+      logger.error('Vue Devtools failed to install:', e.toString())
     }
   }
 
-  await autoUpdater.checkForUpdatesAndNotify();
+  // await autoUpdater.checkForUpdatesAndNotify();
   createWindow()
 })
 

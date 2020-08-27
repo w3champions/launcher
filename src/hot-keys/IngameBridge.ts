@@ -1,4 +1,5 @@
 import store from "@/globalState/vuex-store";
+import logger from "@/logger";
 
 const http = window.require("http");
 const WebSocket = window.require("ws");
@@ -15,7 +16,7 @@ export class IngameBridge {
             try {
                 this.SetupWebsocketToWC3(this.lastW3cPort);
             } catch (e) {
-                console.warn(e);
+                logger.warn(e);
                 this.store.dispatch.hotKeys.saveLastW3cPort("")
             }
         }
@@ -37,32 +38,32 @@ export class IngameBridge {
         this.wc3webSocket = new WebSocket(wc3Socket);
 
         this.wc3webSocket.onerror = () => {
-            console.warn("connection to wc3 refused, game is probably off")
+            logger.warn("connection to wc3 refused, game is probably off")
         }
 
         this.wc3webSocket.onopen = () => {
-            console.log("Opened port to wc3")
+            logger.info("Opened port to wc3")
             this.store.dispatch.hotKeys.saveLastW3cPort(wc3Socket)
             this.server.close()
             this.wss.close()
-            console.log("closed websocketserver for w3c push again")
+            logger.info("closed websocketserver for w3c push again")
         }
 
         this.wc3webSocket.onmessage = (message: MessageEvent) => {
             try {
                 if (this.isMessage(message, "ExitedGame")) {
-                    console.log("User exited game, turn off hotkeys")
+                    logger.info("User exited game, turn off hotkeys")
                     this.store.dispatch.hotKeys.exitGame();
                 }
 
                 if (this.isMessage(message, "UpdateLoadingScreenInfo")) {
-                    console.log("User ENTERED game, turn on hotkeys")
+                    logger.info("User ENTERED game, turn on hotkeys")
                     this.store.dispatch.hotKeys.enterGame();
                 }
             }
 
             catch (e) {
-                console.log(e)
+                logger.error(e)
             }
         }
     }

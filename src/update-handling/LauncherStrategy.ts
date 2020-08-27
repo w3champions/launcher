@@ -1,4 +1,5 @@
 import store from '../globalState/vuex-store'
+import logger from "@/logger";
 
 const { remote } = window.require("electron");
 const axios = window.require("axios");
@@ -161,7 +162,7 @@ export abstract class LauncherStrategy{
     public async updateIfNeeded() {
         this.store.commit.updateHandling.START_DLS();
         if (!this.needsW3cUpdate) {
-            console.log("no need for update")
+            logger.info("no need for update")
             this.unsetLoading();
             return;
         }
@@ -193,7 +194,7 @@ export abstract class LauncherStrategy{
 
     public async updateBnetPath() {
         const defaultBnetPath = this.getDefaultBnetPath();
-        console.log("default bnet: " + defaultBnetPath);
+        logger.info("default bnet: " + defaultBnetPath);
         const bnetPath = await this.getFolderFromUserIfNeverStarted(
             this.bnetPath,
             defaultBnetPath,
@@ -213,7 +214,7 @@ export abstract class LauncherStrategy{
     public async hardSetBnetPath() {
         await this.hardSetPath(this.store.commit.updateHandling.SET_BNET_PATH, this.bnetPath);
         const path = `${this.store.state.updateHandling.bnetPath}/${this.getDefaultBnetPathExecutable()}`;
-        console.log(`bnet path selected: ${path}`)
+        logger.info(`bnet path selected: ${path}`)
         if (!fs.existsSync(path)) {
             this.store.commit.updateHandling.BNET_PATH_IS_INVALID(true);
         } else {
@@ -255,7 +256,7 @@ export abstract class LauncherStrategy{
 
     public async updateW3cPath() {
         const defaultPathWc3 = this.getDefaultPathWc3();
-        console.log("default wc3 path: " + defaultPathWc3);
+        logger.info("default wc3 path: " + defaultPathWc3);
         let w3path = await this.getFolderFromUserIfNeverStarted(
             this.w3Path,
             defaultPathWc3,
@@ -280,18 +281,18 @@ export abstract class LauncherStrategy{
 
             if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`))
             {
-                console.log(`delete maps in ${this.w3Path}/Maps/W3Champions`)
+                logger.info(`delete maps in ${this.w3Path}/Maps/W3Champions`)
                 fs.rmdirSync(`${this.w3Path}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })
             }
 
             const w3PathWithoutRetail = this.w3PathWithOutRetail;
             if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`))
             {
-                console.log(`delete maps in ${w3PathWithoutRetail}/Maps/W3Champions`)
+                logger.info(`delete maps in ${w3PathWithoutRetail}/Maps/W3Champions`)
                 fs.rmdirSync(`${w3PathWithoutRetail}/Maps/W3Champions`, { recursive: true }, (e: Error) => { console.error(e) })
             }
         } catch (e) {
-            console.error(e)
+            logger.error(e)
         }
     }
 }

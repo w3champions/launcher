@@ -1,4 +1,5 @@
 import store from '../globalState/vuex-store'
+import logger from "@/logger";
 
 export abstract class HotKeyState {
     abstract enterGame(): HotKeyState;
@@ -15,7 +16,7 @@ export abstract class HotKeyState {
     }
 
     protected turnOffHotkeys() {
-        console.log("turn Off HotKeys manually")
+        logger.info("turn Off HotKeys manually")
         const audio = new Audio('/sound/PeonDeath.mp3');
         audio.currentTime = 0;
         audio.volume = 0.5;
@@ -29,7 +30,7 @@ export abstract class HotKeyState {
         audio.volume = 0.5;
         audio.play();
 
-        console.log("turn on HotKeys manually")
+        logger.info("turn on HotKeys manually")
         return new InGameState();
     }
 }
@@ -141,12 +142,12 @@ class MenuState extends HotKeyState {
     }
 
     pressEscape(): HotKeyState {
-        console.log("escape from menu state")
+        logger.info("escape from menu state")
         return new InGameState();
     }
 
     pressF10(): HotKeyState {
-        console.log("f10 from menu state")
+        logger.info("f10 from menu state")
         return new InGameState();
     }
 

@@ -11,6 +11,7 @@ module.exports = {
         'ws',
         'sudo-prompt',
         'ncp',
+        'electron-log',
         'electron-updater'
       ],
       builderOptions: {
