@@ -8,24 +8,22 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win: BrowserWindow | null
+let win: BrowserWindow
 
 autoUpdater.on("update-downloaded", async (info: UpdateInfo) => {
   console.warn(`Update downloaded: ${info.version}`)
 
-  if (win instanceof BrowserWindow) {
-    const buttonIndex = await dialog.showMessageBox(win, {
-      type: "info",
-      title: `New version ${info.version}`,
-      message: `A new version (${info.version}) of the launcher is out, please update`,
-      buttons: ['Update and restart']
-    })
+  const buttonIndex = await dialog.showMessageBox(win, {
+    type: "info",
+    title: `New version ${info.version}`,
+    message: `A new version (${info.version}) of the launcher is out, please update`,
+    buttons: ['Update and restart']
+  })
 
-    if (buttonIndex.response === 0) {
-      const isSilent = true;
-      const isForceRunAfter = true;
-      autoUpdater.quitAndInstall(isSilent, isForceRunAfter);
-    }
+  if (buttonIndex.response === 0) {
+    const isSilent = true;
+    const isForceRunAfter = true;
+    autoUpdater.quitAndInstall(isSilent, isForceRunAfter);
   }
 })
 
@@ -67,7 +65,7 @@ function createWindow() {
   }
 
   win.on('closed', () => {
-    win = null
+    // win = null
   })
 }
 
