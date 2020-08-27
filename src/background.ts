@@ -101,6 +101,9 @@ app.on('ready', async () => {
     }
   }
 
+  const log = require("electron-log")
+  log.transports.file.level = "debug"
+  autoUpdater.logger = log
   await autoUpdater.checkForUpdatesAndNotify();
   createWindow()
 })
