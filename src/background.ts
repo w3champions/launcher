@@ -10,6 +10,10 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null
 
+const log = require("electron-log")
+log.transports.file.level = "debug"
+autoUpdater.logger = log
+
 autoUpdater.on("update-downloaded", async (info: UpdateInfo) => {
   console.warn(`Update downloaded: ${info.version}`)
 
@@ -101,9 +105,6 @@ app.on('ready', async () => {
     }
   }
 
-  const log = require("electron-log")
-  log.transports.file.level = "debug"
-  autoUpdater.logger = log
   await autoUpdater.checkForUpdatesAndNotify();
   createWindow()
 })

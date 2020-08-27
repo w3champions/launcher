@@ -24,6 +24,7 @@
     "bindings": "^1.5.0",
     "core-js": "^3.6.5",
     "direct-vuex": "^0.12.0",
+    "electron-log": "^4.2.4",
     "electron-store": "^6.0.0",
     "electron-updater": "^4.3.4",
     "ncp": "^2.0.0",
