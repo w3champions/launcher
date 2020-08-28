@@ -113,12 +113,16 @@ export abstract class LauncherStrategy{
     }
 
     public async switchToPtr() {
-        await this.store.dispatch.setTestMode(true);
-        await this.downloadMapsAndUi();
+        await this.switchToTestMode(true);
     }
 
     public async switchToProd() {
-        await this.store.dispatch.setTestMode(false);
+        await this.switchToTestMode(false);
+    }
+
+    private async switchToTestMode(mode: boolean) {
+        if (!this.w3PathIsValid) return;
+        await this.store.dispatch.setTestMode(mode);
         await this.downloadMapsAndUi();
     }
 
@@ -216,7 +220,9 @@ export abstract class LauncherStrategy{
     }
 
     public async hardSetBnetPath() {
-        await this.hardSetPath(this.store.commit.updateHandling.SET_BNET_PATH, this.bnetPath);
+        const selectedPpath = await this.openSelectFolderDialog(this.bnetPath);
+        if (!selectedPpath) return;
+        this.store.commit.updateHandling.SET_BNET_PATH(selectedPpath);
         const path = `${this.store.state.updateHandling.bnetPath}/${this.getDefaultBnetPathExecutable()}`;
         logger.info(`bnet path selected: ${path}`)
         if (!fs.existsSync(path)) {
@@ -228,15 +234,20 @@ export abstract class LauncherStrategy{
     }
 
     public async hardSetW3cPath() {
-        await this.hardSetPath(this.store.commit.updateHandling.SET_W3_PATH, this.w3PathWithOutRetail);
-        if (!fs.existsSync(`${this.store.state.updateHandling.w3Path}/Data`)) {
+        const path = await this.openSelectFolderDialog(this.w3PathWithOutRetail);
+        if (!path || path === this.w3PathWithOutRetail) return;
+        this.store.commit.updateHandling.SET_W3_PATH(path);
+        logger.info(`w3 path to check: ${path}`)
+        if (!fs.existsSync(`${path}/Data`) ) {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(true);
         } else {
-            if (fs.existsSync(`${this.w3Path}/_retail_`)) {
-                this.store.commit.updateHandling.SET_W3_PATH(`${this.w3Path}/_retail_`);
-            }
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
-            this.store.dispatch.updateHandling.saveW3Path(this.w3Path)
+
+            if (fs.existsSync(`${this.w3Path}/_retail_`)) {
+                this.store.dispatch.updateHandling.saveW3Path(`${path}/_retail_`)
+            } else {
+                this.store.dispatch.updateHandling.saveW3Path(path)
+            }
         }
 
         if (this.w3PathIsValid) {
@@ -244,13 +255,8 @@ export abstract class LauncherStrategy{
         }
     }
 
-    private async hardSetPath(set: (s: string) => void, currentPath: string) {
-        const path = await this.openSelectFolderDialog(currentPath);
-        if (!path) return;
-        set(path);
-    }
-
     public async redownloadW3c() {
+        if (!this.w3PathIsValid) return;
         this.store.commit.updateHandling.START_DLS();
         await this.downloadAndWriteFile("maps", this.mapsPath);
         await this.downloadAndWriteFile("webui", this.w3Path);

@@ -5,7 +5,7 @@
       <div v-html='news[0] ? news[0].message : ""'></div>
     </div>
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
-    <button @click="tryStartWc3" :disabled="isLoading || disablePlayBtn" class="start-button" :content="playButton" >
+    <button @click="tryStartWc3" :disabled="isDisabled" class="start-button" :content="playButton" >
       {{ playButton }}
     </button>
   </div>
@@ -44,6 +44,21 @@ export default class HomeScreen extends Vue {
       this.playButton = "Play";
       this.disablePlayBtn = false;
     }
+  }
+
+  get isDisabled() {
+    return (this.isLoading
+      || this.disablePlayBtn
+      || this.isW3LocationWrong
+      || this.isBnetLocationWrong);
+  }
+
+  get isW3LocationWrong() {
+    return this.$store.direct.state.updateHandling.w3PathIsInvalid;
+  }
+
+  get isBnetLocationWrong() {
+    return this.$store.direct.state.updateHandling.bnetPathIsInvalid;
   }
 
   get news() {

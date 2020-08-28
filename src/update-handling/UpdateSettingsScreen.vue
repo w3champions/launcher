@@ -24,10 +24,10 @@
         <div @click="repairW3c" :disabled="isLoading" class="repair-button">
           Reset W3C
         </div>
-        <div @click="redownloadW3c" :disabled="isLoading" class="repair-button">
+        <div @click="redownloadW3c" :disabled="isLoading" class="repair-button" :class="isW3LocationWrong ? 'disabled-option' : ''">
           Redownload
         </div>
-        <div @click="toggleVersion" class="repair-button">
+        <div @click="toggleVersion" class="repair-button" :class="isW3LocationWrong ? 'disabled-option' : ''">
           Switch to {{ !isTest ? "PTR" : "LIVE" }}
         </div>
       </div>
@@ -212,6 +212,10 @@ export default class UpdateSettingsScreen extends Vue {
   padding-right: 32px;
   background: url("~@/assets/images/fields/war3_text_error_hover_4k.png") no-repeat center;
   background-size: cover;
+}
+
+.disabled-option{
+  color: rgb(140, 137, 137) !important;
 }
 
 .repair-button {
