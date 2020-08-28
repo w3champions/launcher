@@ -28,6 +28,7 @@ export class IngameBridge {
                 const data = message.data;
                 if (data.startsWith("SET-WC3-SOCKET_")) {
                     const wc3Socket = data.split("_")[1];
+                    logger.info(`w3c send socket: ${wc3Socket}`)
                     this.SetupWebsocketToWC3(wc3Socket);
                 }
             };
