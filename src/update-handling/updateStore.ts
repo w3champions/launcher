@@ -117,10 +117,8 @@ const mod = {
     async loadOnlineW3CVersion(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootState } = moduleActionContext(context, mod);
 
-      const version = await (
-          await fetch(`${rootState.updateUrl}api/client-version`)
-      ).json();
-
+      const result = await fetch(`${rootState.updateUrl}api/client-version`);
+      const version = await result.json();
       commit.SET_ONLINE_W3C_VERSION(version.version);
     },
     loadAllPaths(context: ActionContext<UpdateHandlingState, RootState>) {
