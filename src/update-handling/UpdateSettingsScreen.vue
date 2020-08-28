@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="launcher-background"
-  >
+  <div class="launcher-background">
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <div style="padding-top: 60px">
       <div :class="isW3LocationWrong ? 'path-is-wrong' : 'reset-button-line'">
@@ -59,12 +57,10 @@ import ColorPicker from "@/update-handling/ColorPicker.vue";
   components: {ColorPicker, LoadingSpinner}
 })
 export default class UpdateSettingsScreen extends Vue {
-  private updateStrategy!: any;
+  private updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
 
-  constructor() {
-    super();
-    this.updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
-    this.updateStrategy.updateIfNeeded();
+  async mounted() {
+    await this.updateStrategy.updateIfNeeded();
   }
 
   get enemyColor() {
