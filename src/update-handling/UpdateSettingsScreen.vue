@@ -3,11 +3,11 @@
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <div style="padding-top: 60px">
       <div :class="isW3LocationWrong ? 'path-is-wrong' : 'reset-button-line'">
-        <div>Warcraft III Location: {{w3Path}}</div>
+        <div :title="explanationW3Wrong">Warcraft III Location: {{w3Path}}</div>
         <div class="reset-button" @click="resetW3Path" />
       </div>
       <div :class="isBnetLocationWrong ? 'path-is-wrong' : 'reset-button-line'">
-        <div>Battle.Net Location: {{battleNet}}</div>
+        <div :title="explanationBnetWrong">Battle.Net Location: {{battleNet}}</div>
         <div class="reset-button" @click="resetBnetPath" />
       </div>
       <div class="color-pick-bar">
@@ -24,10 +24,10 @@
         <div @click="repairW3c" :disabled="isLoading" class="repair-button">
           Reset W3C
         </div>
-        <div @click="redownloadW3c" :disabled="isLoading" class="repair-button" :class="isW3LocationWrong ? 'disabled-option' : ''">
+        <div @click="redownloadW3c" :disabled="isLoading" class="repair-button" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
           Redownload
         </div>
-        <div @click="toggleVersion" class="repair-button" :class="isW3LocationWrong ? 'disabled-option' : ''">
+        <div @click="toggleVersion" class="repair-button" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
           Switch to {{ !isTest ? "PTR" : "LIVE" }}
         </div>
       </div>
@@ -93,6 +93,22 @@ export default class UpdateSettingsScreen extends Vue {
 
   public toggleTeamColors() {
     this.$store.direct.dispatch.colorPicker.saveIsTeamColorsEnabled(!this.isTeamColorsEnabled);
+  }
+
+  get explanationW3Wrong() {
+    if (this.isW3LocationWrong) {
+      return "Warcraft III location wrong, please select a different Folder"
+    }
+
+    return ""
+  }
+
+  get explanationBnetWrong() {
+    if (this.isBnetLocationWrong) {
+      return "BattleNet location wrong, please select a different Folder"
+    }
+
+    return ""
   }
 
   get isW3LocationWrong() {
