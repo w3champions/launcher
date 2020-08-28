@@ -4,6 +4,7 @@ import {createDirectStore} from "direct-vuex";
 import {News, RootState} from "@/globalState/rootTypings";
 
 import updateHandling from "../update-handling/updateStore";
+import colorPicker from "../color-picker/colorSetStore";
 import hotKeys from "../hot-keys/hotkeyStore";
 import {UpdateService} from "@/update-handling/UpdateService";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
@@ -24,7 +25,8 @@ const services = {
 const mod = {
   modules: {
     updateHandling,
-    hotKeys
+    hotKeys,
+    colorPicker
   },
   state: {
     isTest: false,

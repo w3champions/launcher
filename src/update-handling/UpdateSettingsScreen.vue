@@ -51,7 +51,7 @@ import {Component, Vue} from "vue-property-decorator";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
-import ColorPicker from "@/update-handling/ColorPicker.vue";
+import ColorPicker from "@/color-picker/ColorPicker.vue";
 
 @Component({
   components: {ColorPicker, LoadingSpinner}
@@ -64,35 +64,35 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   get enemyColor() {
-    return this.$store.direct.state.updateHandling.enemyColor;
+    return this.$store.direct.state.colorPicker.enemyColor;
   }
 
   get ownColor() {
-    return this.$store.direct.state.updateHandling.ownColor;
+    return this.$store.direct.state.colorPicker.ownColor;
   }
 
   get alliesColor() {
-    return this.$store.direct.state.updateHandling.allyColor;
+    return this.$store.direct.state.colorPicker.allyColor;
   }
 
   public switchOwnColor(newColor: string) {
-    this.$store.direct.dispatch.updateHandling.switchOwnColor(newColor);
+    this.$store.direct.dispatch.colorPicker.switchOwnColor(newColor);
   }
 
   public switchEnemyColor(newColor: string) {
-    this.$store.direct.dispatch.updateHandling.switchEnemyColor(newColor);
+    this.$store.direct.dispatch.colorPicker.switchEnemyColor(newColor);
   }
 
   public switchAlliesColor(newColor: string) {
-    this.$store.direct.dispatch.updateHandling.switchAlliesColor(newColor);
+    this.$store.direct.dispatch.colorPicker.switchAlliesColor(newColor);
   }
 
   get isTeamColorsEnabled() {
-    return this.$store.direct.state.updateHandling.isTeamColorsEnabled;
+    return this.$store.direct.state.colorPicker.isTeamColorsEnabled;
   }
 
   public toggleTeamColors() {
-    this.$store.direct.dispatch.updateHandling.saveIsTeamColorsEnabled(!this.isTeamColorsEnabled);
+    this.$store.direct.dispatch.colorPicker.saveIsTeamColorsEnabled(!this.isTeamColorsEnabled);
   }
 
   get isW3LocationWrong() {

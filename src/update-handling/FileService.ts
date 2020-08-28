@@ -64,12 +64,14 @@ export class FileService {
 
     private copyFile(from: string, to:string) {
         try {
+            logger.info(`Copy from: ${from} to: ${to}`);
             ncp(from, to, (err: Error) => {
                 if (err) {
                     logger.error(err);
                 }
             });
         } catch (e) {
+            logger.info("Copy with sudo now")
             this.sudoCopyFromTo(from, to);
         }
     }

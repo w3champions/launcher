@@ -24,58 +24,6 @@ const mod = {
     allyColor: "02",
   } as UpdateHandlingState,
   actions: {
-    loadIsTeamColorsEnabled(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
-
-      commit.SET_TEAM_COLORS_ENABLED(rootGetters.fileService.loadIsTeamColorsEnabled());
-    },
-    loadColors(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
-
-      commit.SET_OWN_COLOR(rootGetters.fileService.loadColor("01") ?? "01");
-      commit.SET_ENEMY_COLOR(rootGetters.fileService.loadColor("00") ?? "00");
-      commit.SET_ALLIES_COLOR(rootGetters.fileService.loadColor("02") ?? "02");
-    },
-    switchOwnColor(context: ActionContext<UpdateHandlingState, RootState>, newColor: string) {
-      const { commit, rootGetters, state } = moduleActionContext(context, mod);
-
-      rootGetters.fileService.switchColor("01", newColor, state.w3Path);
-      rootGetters.fileService.saveColor("01", newColor);
-      commit.SET_OWN_COLOR(newColor);
-    },
-    switchAlliesColor(context: ActionContext<UpdateHandlingState, RootState>, newColor: string) {
-      const { commit, rootGetters, state } = moduleActionContext(context, mod);
-
-      rootGetters.fileService.switchColor("02", newColor, state.w3Path);
-      rootGetters.fileService.saveColor("02", newColor);
-      commit.SET_ALLIES_COLOR(newColor);
-    },
-    switchEnemyColor(context: ActionContext<UpdateHandlingState, RootState>, newColor: string) {
-      const { commit, rootGetters, state } = moduleActionContext(context, mod);
-
-      rootGetters.fileService.switchColor("00", newColor, state.w3Path);
-      rootGetters.fileService.saveColor("00", newColor);
-      commit.SET_ENEMY_COLOR(newColor);
-    },
-    saveIsTeamColorsEnabled(context: ActionContext<UpdateHandlingState, RootState>, enabled: boolean) {
-      const { commit, rootGetters, state } = moduleActionContext(context, mod);
-
-      if (!enabled) {
-        rootGetters.fileService.resetTeamColorFiles(state.w3Path);
-
-        rootGetters.fileService.saveColor("00", "00");
-        rootGetters.fileService.saveColor("01", "01");
-        rootGetters.fileService.saveColor("02", "02");
-
-        commit.SET_OWN_COLOR("01");
-        commit.SET_ENEMY_COLOR("00");
-        commit.SET_ALLIES_COLOR("02");
-      }
-
-      rootGetters.fileService.saveIsTeamColorsEnabled(enabled);
-
-      commit.SET_TEAM_COLORS_ENABLED(enabled);
-    },
     loadCurrentLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
@@ -150,9 +98,6 @@ const mod = {
     }
   },
   mutations: {
-    SET_TEAM_COLORS_ENABLED(state: UpdateHandlingState, enabled: boolean) {
-      state.isTeamColorsEnabled = enabled;
-    },
     SET_BNET_PATH(state: UpdateHandlingState, path: string) {
       state.bnetPath = path;
     },
@@ -190,15 +135,6 @@ const mod = {
     },
     W3_PATH_IS_INVALID(state: UpdateHandlingState, value: boolean) {
       state.w3PathIsInvalid = value;
-    },
-    SET_ALLIES_COLOR(state: UpdateHandlingState, value: string) {
-      state.allyColor = value;
-    },
-    SET_ENEMY_COLOR(state: UpdateHandlingState, value: string) {
-      state.enemyColor = value;
-    },
-    SET_OWN_COLOR(state: UpdateHandlingState, value: string) {
-      state.ownColor = value;
     }
   },
 } as const;
