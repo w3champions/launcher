@@ -12,11 +12,13 @@ export class IngameBridge {
 
     constructor() {
         this.store.dispatch.hotKeys.loadLastW3cPort();
+        logger.info(`trying to reconnect to ${this.lastW3cPort}`)
         if (this.lastW3cPort) {
             try {
                 this.SetupWebsocketToWC3(this.lastW3cPort);
             } catch (e) {
                 logger.warn(e);
+                logger.info(`could not connect to ${this.lastW3cPort}, reset port`)
                 this.store.dispatch.hotKeys.saveLastW3cPort("")
             }
         }
@@ -38,15 +40,15 @@ export class IngameBridge {
         this.wc3webSocket = new WebSocket(wc3Socket);
 
         this.wc3webSocket.onerror = () => {
-            logger.warn("connection to wc3 refused, game is probably off")
+            logger.warn(`connection to wc3 (${wc3Socket}) refused, game is probably off`)
         }
 
         this.wc3webSocket.onopen = () => {
-            logger.info("Opened port to wc3")
+            logger.info(`Opened port to wc3 (${wc3Socket})`)
             this.store.dispatch.hotKeys.saveLastW3cPort(wc3Socket)
             this.server.close()
             this.wss.close()
-            logger.info("closed websocketserver for w3c push again")
+            logger.info(`closed websocketserver for w3c push again`)
         }
 
         this.wc3webSocket.onmessage = (message: MessageEvent) => {
