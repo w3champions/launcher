@@ -49,10 +49,10 @@ export default class App extends Vue {
     window.document.onkeydown = (e) => {
       const numlockState = e.getModifierState("NumLock");
       if (!numlockState) {
-        logger.info("Numpad is NOT activated, do hack:" + numlockState);
+        logger.info("Numpad is NOT activated, do hack");
         keyboard.pressNumLock();
       } else {
-        logger.info("Numpad is activated, remove hack:" + numlockState);
+        logger.info("Numpad is activated, remove hack");
       }
 
       window.document.onkeydown = null;
@@ -60,7 +60,7 @@ export default class App extends Vue {
     }
 
     window.document.onclick = () => {
-      keyboard.pressNumLock();
+      logger.info("ui clicked, press space for hack")
       keyboard.pressSpace();
     }
   }
