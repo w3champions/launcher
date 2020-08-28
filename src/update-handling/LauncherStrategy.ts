@@ -163,12 +163,13 @@ export abstract class LauncherStrategy{
     }
 
     public async updateIfNeeded() {
-        this.store.commit.updateHandling.START_DLS();
+        await this.store.dispatch.updateHandling.loadOnlineW3CVersion();
         if (!this.needsW3cUpdate) {
             logger.info("no need for update")
-            this.unsetLoading();
             return;
         }
+
+        this.store.commit.updateHandling.START_DLS();
 
         const w3path = await this.updateW3cPath();
         if (!w3path) {
