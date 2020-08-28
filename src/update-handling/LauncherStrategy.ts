@@ -126,6 +126,9 @@ export abstract class LauncherStrategy{
         this.store.commit.updateHandling.START_DLS();
         await this.downloadAndWriteFile("webui", this.w3Path);
         await this.downloadAndWriteFile("maps", this.mapsPath);
+        await this.store.dispatch.updateHandling.loadOnlineW3CVersion();
+        this.store.dispatch.updateHandling.saveLocalW3CVersion(this.onlineW3cVersion);
+        logger.info(`switched to test/live with w3c version: ${this.localW3cVersion}`)
         this.store.commit.updateHandling.FINISH_DLS();
     }
 
