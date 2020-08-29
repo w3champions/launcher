@@ -154,6 +154,15 @@ export default class HotKeySetupScreen extends Vue {
       }
     }
 
+    // those keys are somehow not possible for french keyboards and do not work with globalShortcut, they might be shitty on other translations aswell
+    if (e.key === "é") {
+      this.hotkeyToEdit = { key: "2", uiDisplay: "é" };
+    }
+
+    if (e.key === "è") {
+      this.hotkeyToEdit = { key: "7", uiDisplay: "è" };
+    }
+
     e.preventDefault();
   }
 
