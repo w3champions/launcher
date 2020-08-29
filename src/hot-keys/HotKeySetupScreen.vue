@@ -144,31 +144,7 @@ export default class HotKeySetupScreen extends Vue {
     }
 
     if (e.key !== "Alt" && e.key !== "Control" && e.key !== " " && e.key !== "Shift" && e.key !== "Meta") {
-      if (this.isWindows) {
-        const key = e.key.toLowerCase();
-        this.hotkeyToEdit = { key, uiDisplay: key };
-      } else {
-        const key = e.code.replace("Key", "").toLowerCase();
-        const uiDisplay = e.key.toLowerCase();
-        this.hotkeyToEdit = { key, uiDisplay};
-      }
-    }
-
-    // those keys are somehow not possible for french keyboards and do not work with globalShortcut, they might be shitty on other translations aswell
-    if (e.key === "é") {
-      this.hotkeyToEdit = { key: "2", uiDisplay: "é" };
-    }
-    if (e.key === "è") {
-      this.hotkeyToEdit = { key: "7", uiDisplay: "è" };
-    }
-    if (e.key === "§") {
-      this.hotkeyToEdit = { key: "6", uiDisplay: "§" };
-    }
-    if (e.key === "ç") {
-      this.hotkeyToEdit = { key: "9", uiDisplay: "ç" };
-    }
-    if (e.key === "à") {
-      this.hotkeyToEdit = { key: "0", uiDisplay: "à" };
+      this.hotkeyToEdit = { key: e.code.replace("Digit", "").replace("Key", ""), uiDisplay: e.key };
     }
 
     e.preventDefault();
