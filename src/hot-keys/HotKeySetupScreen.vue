@@ -158,9 +158,17 @@ export default class HotKeySetupScreen extends Vue {
     if (e.key === "é") {
       this.hotkeyToEdit = { key: "2", uiDisplay: "é" };
     }
-
     if (e.key === "è") {
       this.hotkeyToEdit = { key: "7", uiDisplay: "è" };
+    }
+    if (e.key === "§") {
+      this.hotkeyToEdit = { key: "6", uiDisplay: "§" };
+    }
+    if (e.key === "ç") {
+      this.hotkeyToEdit = { key: "9", uiDisplay: "ç" };
+    }
+    if (e.key === "à") {
+      this.hotkeyToEdit = { key: "0", uiDisplay: "à" };
     }
 
     e.preventDefault();
