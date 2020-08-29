@@ -169,7 +169,7 @@ export abstract class LauncherStrategy{
         try {
             const body = await axios.get(url, {
                 responseType: 'arraybuffer',
-                onDownloadProgress: (ev: any) => {
+                onDownloadProgress: (ev: ProgressEvent) => {
                     if (!onProgress) return;
                     const percentCompleted = Math.floor(ev.loaded / ev.total * 100)
                     onProgress(percentCompleted);
