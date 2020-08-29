@@ -129,12 +129,24 @@ export abstract class LauncherStrategy{
 
     private async downloadMapsAndUi() {
         this.store.commit.updateHandling.START_DLS();
-        await this.downloadAndWriteFile("webui", this.w3Path);
-        await this.downloadAndWriteFile("maps", this.mapsPath);
+        await this.downloadWebui();
+        await this.downloadMaps();
         await this.store.dispatch.updateHandling.loadOnlineW3CVersion();
         this.store.dispatch.updateHandling.saveLocalW3CVersion(this.onlineW3cVersion);
         logger.info(`switched to test/live with w3c version: ${this.localW3cVersion}`)
         this.store.commit.updateHandling.FINISH_DLS();
+    }
+
+    private downloadWebui() {
+        return this.downloadAndWriteFile("webui", this.w3Path);
+    }
+
+    private downloadMaps() {
+        return this.downloadAndWriteFile("maps", this.mapsPath, this.updateDownloadProgress);
+    }
+
+    private updateDownloadProgress(progress: number) {
+        logger.info("Download: " + progress)
     }
 
     get updateUrl() {
@@ -149,11 +161,20 @@ export abstract class LauncherStrategy{
         return this.w3Path.replace("/_retail_", "").replace("\\_retail_", "");
     }
 
-    private async downloadAndWriteFile(fileName: string, to: string) {
+    private async downloadAndWriteFile(fileName: string, to: string, onProgress?: (percentage: number) => void) {
         logger.info(`Download ${fileName} to: ${to}`)
         const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
+
         const body = await axios.get(url, {
-            responseType: 'arraybuffer'
+            responseType: 'arraybuffer',
+            onDownloadProgress: (ev: any) => {
+                if (!onProgress) return;
+                const total = parseFloat(ev.currentTarget.responseHeaders['Content-Length'])
+                const current = ev.currentTarget.response.length
+
+                const percentCompleted = Math.floor(current / total * 100)
+                onProgress(percentCompleted);
+            }
         });
 
         const buffer = arrayBufferToBuffer(body.data);
@@ -194,9 +215,9 @@ export abstract class LauncherStrategy{
 
         this.store.dispatch.updateHandling.saveMapPath(this.getDefaultPathMap())
 
-        await this.downloadAndWriteFile("maps", this.mapsPath);
+        await this.downloadMaps()
         this.store.commit.updateHandling.FINISH_MAPS_DL();
-        await this.downloadAndWriteFile("webui", w3path);
+        await this.downloadWebui()
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
 
         this.store.dispatch.updateHandling.saveLocalW3CVersion(this.onlineW3cVersion);
@@ -262,8 +283,8 @@ export abstract class LauncherStrategy{
     public async redownloadW3c() {
         if (!this.w3PathIsValid) return;
         this.store.commit.updateHandling.START_DLS();
-        await this.downloadAndWriteFile("maps", this.mapsPath);
-        await this.downloadAndWriteFile("webui", this.w3Path);
+        await this.downloadMaps()
+        await this.downloadWebui();
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
         this.store.commit.updateHandling.FINISH_MAPS_DL();
     }
