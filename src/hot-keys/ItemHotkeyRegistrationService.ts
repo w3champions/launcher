@@ -12,6 +12,7 @@ import {
     ITEM_TOP_LEFT,
     ITEM_TOP_RIGHT
 } from "@/hot-keys/keyValuesRobotJs";
+import logger from "@/logger";
 
 const { globalShortcut } = window.require("electron").remote;
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
@@ -76,7 +77,11 @@ export class ItemHotkeyRegistrationService {
     }
 
     public removeToggleOnOff(combo: ClickCombination) {
-        globalShortcut.unregister(combiAsString(combo));
+        try {
+            globalShortcut.unregister(combiAsString(combo));
+        } catch (e) {
+            logger.error(`Failed to un-register combo: ${combiAsString(combo)}`);
+        }
     }
 
     public toggleOnOff(combo: ClickCombination, fkt: () => void) {
@@ -86,7 +91,7 @@ export class ItemHotkeyRegistrationService {
     }
 
     public registerKey(hotKey: HotKey) {
-        this.register(hotKey.combo, () => {
+        return this.register(hotKey.combo, () => {
             const modifier = hotKey.combo.modifier;
             if (modifier !== ModifierKey.None) {
                 this.toggleModifierDown(hotKey.combo);
@@ -153,12 +158,17 @@ export class ItemHotkeyRegistrationService {
     }
 
     private register(combo: ClickCombination, fkt: () => void) {
-        const keyCode = combiAsString(combo);
-        if (globalShortcut.isRegistered(keyCode)) {
-            globalShortcut.unregister(keyCode)
-        }
+        try {
+            const keyCode = combiAsString(combo);
+            if (globalShortcut.isRegistered(keyCode)) {
+                globalShortcut.unregister(keyCode)
+            }
 
-        globalShortcut.register(keyCode, fkt)
+            globalShortcut.register(keyCode, fkt)
+        } catch (e) {
+            logger.error(`Failed to register combo: ${combiAsString(combo)}`);
+            alert(`Could not register combo: ${combiAsString(combo)}, please reach out on discord to get this fixed =)`)
+        }
     }
 
     public disableHotKeys(hotKeys: HotKey[]) {
