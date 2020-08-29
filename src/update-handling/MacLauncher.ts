@@ -53,4 +53,8 @@ export class MacLauncher extends LauncherStrategy {
     getDefaultBnetPathExecutable(): string {
         return "Contents/MacOS/Battle.net";
     }
+
+    getDefaultWc3Executable(): string {
+        return "Contents/Wc3/Battle.net";
+    }
 }

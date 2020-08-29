@@ -14,6 +14,7 @@ export abstract class LauncherStrategy{
     abstract getDefaultPathWc3(): string;
     abstract getDefaultBnetPath(): string;
     abstract getDefaultBnetPathExecutable(): string;
+    abstract getDefaultWc3Executable(): string;
     abstract turnOnLocalFiles(): void;
     abstract getWar3PreferencesFile(): string;
     abstract startWc3Process(bnetPath: string): void;
@@ -149,6 +150,7 @@ export abstract class LauncherStrategy{
     }
 
     private async downloadAndWriteFile(fileName: string, to: string) {
+        logger.info(`Download ${fileName} to: ${to}`)
         const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
         const body = await axios.get(url, {
             responseType: 'arraybuffer'
@@ -160,9 +162,11 @@ export abstract class LauncherStrategy{
         try {
             zip.extractAllTo(to, true);
         } catch (e) {
-            const tempFolder = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
-            zip.extractAllTo(tempFolder, true);
-            this.store.dispatch.updateHandling.sudoCopyFromTo({from: tempFolder, to})
+            logger.info(`normal download threw exception: ${e}`)
+            const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
+            zip.extractAllTo(temPath, true);
+            logger.info(`try as sudo now from: ${temPath} to: ${to}`)
+            this.store.dispatch.updateHandling.sudoCopyFromTo({from: temPath, to})
         }
     }
 
@@ -238,7 +242,7 @@ export abstract class LauncherStrategy{
         if (!path || path === this.w3PathWithOutRetail) return;
         this.store.commit.updateHandling.SET_W3_PATH(path);
         logger.info(`w3 path to check: ${path}`)
-        if (!fs.existsSync(`${path}/Data`) ) {
+        if (!fs.existsSync(`${path}/${this.getDefaultWc3Executable()}`) ) {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(true);
         } else {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
@@ -273,6 +277,7 @@ export abstract class LauncherStrategy{
             "Warcraft III not found",
             "Warcraft III folder not found, please locate it manually"
         );
+
         if (fs.existsSync(`${w3path}/_retail_`)) {
             w3path = `${w3path}/_retail_`;
         }

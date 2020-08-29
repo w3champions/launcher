@@ -6,11 +6,6 @@ const fs = window.require("fs");
 const { remote } = window.require("electron");
 
 export class WindowsLauncher extends LauncherStrategy {
-    getWar3PreferencesFile(): string {
-        const documentPath = remote.app.getPath("documents");
-        return `${documentPath}\\Warcraft III\\War3Preferences.txt`;
-    }
-
     turnOnLocalFiles(): void {
         exec("reg add \"HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III\" /v \"Allow Local Files\" /t REG_DWORD /d 1 /f", function(err: Error) {
             if (err) {
@@ -49,6 +44,11 @@ export class WindowsLauncher extends LauncherStrategy {
         return "C:\\Program Files (x86)\\Battle.net";
     }
 
+    getWar3PreferencesFile(): string {
+        const documentPath = remote.app.getPath("documents");
+        return `${documentPath}\\Warcraft III\\War3Preferences.txt`;
+    }
+
     startWc3Process(bnetPath: string): void {
         const bnetPathWithExe = `${bnetPath}\\${this.getDefaultBnetPathExecutable()}`;
         const ls = spawn(bnetPathWithExe, ['--exec="launch W3"'], {
@@ -65,5 +65,9 @@ export class WindowsLauncher extends LauncherStrategy {
 
     getDefaultBnetPathExecutable(): string {
         return "Battle.net.exe";
+    }
+
+    getDefaultWc3Executable(): string {
+        return "Warcraft III Launcher.exe"
     }
 }
