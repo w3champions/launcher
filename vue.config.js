@@ -10,7 +10,7 @@ module.exports = {
         'vue-router',
         'ws',
         'sudo-prompt',
-        'ncp',
+        'fs-extra',
         'electron-log',
         'electron-updater'
       ],

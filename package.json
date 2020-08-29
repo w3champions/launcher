@@ -27,7 +27,7 @@
     "electron-log": "^4.2.4",
     "electron-store": "^6.0.0",
     "electron-updater": "^4.3.4",
-    "ncp": "^2.0.0",
+    "fs-extra": "^9.0.1",
     "node-addon-api": "^3.0.0",
     "send-keys-native": "file:src/hot-keys/send-keys-native",
     "sudo-prompt": "^9.2.1",

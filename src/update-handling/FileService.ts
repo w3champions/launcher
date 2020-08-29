@@ -3,10 +3,9 @@ import {MacLauncher} from "@/update-handling/MacLauncher";
 import logger from "@/logger";
 
 const os = window.require('os');
-const fs = window.require('fs');
+const fse = window.require('fs-extra');
 const sudo = window.require("sudo-prompt");
 const { remote } = window.require("electron");
-const ncp = window.require('ncp').ncp;
 const Store = window.require("electron-store");
 
 declare const __static: string;
@@ -21,8 +20,8 @@ export class FileService {
 
     loadIsTeamColorsEnabled(): boolean {
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
-        if (fs.existsSync(settingsFile)){
-            const content = fs.readFileSync(settingsFile, 'utf8').toString().split("\n");
+        if (fse.existsSync(settingsFile)){
+            const content = fse.readFileSync(settingsFile, 'utf8').toString().split("\n");
             const allyFilterSetting = content.find((l: string) => l.startsWith("allyFilter="));
             return (allyFilterSetting === "allyFilter=2")
         }
@@ -65,11 +64,7 @@ export class FileService {
     private copyFile(from: string, to:string) {
         try {
             logger.info(`Copy from: ${from} to: ${to}`);
-            ncp(from, to, (err: Error) => {
-                if (err) {
-                    logger.error(err);
-                }
-            });
+            fse.copySync(from, to);
         } catch (e) {
             logger.info("Copy with sudo now")
             this.sudoCopyFromTo(from, to);
@@ -78,8 +73,8 @@ export class FileService {
 
     saveIsTeamColorsEnabled(value: boolean) {
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
-        if (fs.existsSync(settingsFile)) {
-            const content = fs.readFileSync(settingsFile, 'utf8').toString().split("\n");
+        if (fse.existsSync(settingsFile)) {
+            const content = fse.readFileSync(settingsFile, 'utf8').toString().split("\n");
             const index1 = content.indexOf("allyFilter=0");
             const index2 = content.indexOf("allyFilter=1");
             const index3 = content.indexOf("allyFilter=2");
@@ -96,9 +91,9 @@ export class FileService {
     }
 
     private writeArrayToFile(path: string, content: []) {
-        const file = fs.createWriteStream(path, 'utf8');
-        content.forEach((v: string) => {
-            file.write(v + '\n');
+        const file = fse.createWriteStream(path, 'utf8');
+        content.forEach(async (v: string) => {
+            await file.write(v + '\n');
         });
         file.end();
     }
