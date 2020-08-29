@@ -77,7 +77,12 @@ export default class HotKeySetupScreen extends Vue {
     if (this.selectedHotKey === "toggle") {
       this.$store.direct.dispatch.hotKeys.setToggleKey({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit})
     } else {
-      this.$store.direct.dispatch.hotKeys.addHotKey({key: this.selectedHotKey, combo: {hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}})
+      // the replace is for the numpad_1 etc keys, as they need to be passed like that
+      if (this.selectedHotKey.replace("_", "") === this.hotkeyToEdit.key.toLowerCase()) {
+        this.$store.direct.dispatch.hotKeys.removeHotKey(this.selectedHotKey)
+      } else {
+        this.$store.direct.dispatch.hotKeys.addHotKey({key: this.selectedHotKey, combo: {hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}})
+      }
     }
 
     this.closeModal();
@@ -112,7 +117,7 @@ export default class HotKeySetupScreen extends Vue {
   public openChangeHotkeyModal(hotKey: string) {
     this.modal = !this.modal;
     this.selectedHotKey = hotKey;
-    const currentSelection = this.hotKeys.filter(h => h.key === hotKey)[0];
+    const currentSelection = this.hotKeys.find(h => h.key === hotKey);
     if (currentSelection) {
       this.hotkeyToEdit = { key: currentSelection.combo.hotKey.key, uiDisplay: currentSelection.combo.hotKey.uiDisplay };
       this.hotkeyModifierToEdit = currentSelection.combo.modifier;
