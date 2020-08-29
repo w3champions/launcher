@@ -144,6 +144,7 @@ export default class HotKeySetupScreen extends Vue {
     }
 
     if (e.key !== "Alt" && e.key !== "Control" && e.key !== " " && e.key !== "Shift" && e.key !== "Meta") {
+      // the key property does not work on other keyboards then en with global shortcut, that is the reason for this "hack"
       this.hotkeyToEdit = { key: e.code.replace("Digit", "").replace("Key", ""), uiDisplay: e.key };
     }
 
