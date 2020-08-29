@@ -166,26 +166,32 @@ export abstract class LauncherStrategy{
         logger.info(`Download ${fileName} to: ${to}`)
         const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
 
-        const body = await axios.get(url, {
-            responseType: 'arraybuffer',
-            onDownloadProgress: (ev: any) => {
-                if (!onProgress) return;
-                const percentCompleted = Math.floor(ev.loaded / ev.total * 100)
-                onProgress(percentCompleted);
-            }
-        });
-
-        const buffer = arrayBufferToBuffer(body.data);
-        const zip = new AdmZip(buffer);
-
         try {
-            zip.extractAllTo(to, true);
+            const body = await axios.get(url, {
+                responseType: 'arraybuffer',
+                onDownloadProgress: (ev: any) => {
+                    if (!onProgress) return;
+                    const percentCompleted = Math.floor(ev.loaded / ev.total * 100)
+                    onProgress(percentCompleted);
+                }
+            });
+
+            const buffer = arrayBufferToBuffer(body.data);
+            const zip = new AdmZip(buffer);
+
+            try {
+                zip.extractAllTo(to, true);
+            } catch (e) {
+                logger.info(`normal download threw exception: ${e}`)
+                const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
+                zip.extractAllTo(temPath, true);
+                logger.info(`try as sudo now from: ${temPath} to: ${to}`)
+                this.store.dispatch.updateHandling.sudoCopyFromTo({from: temPath, to})
+            }
+
+            return "";
         } catch (e) {
-            logger.info(`normal download threw exception: ${e}`)
-            const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
-            zip.extractAllTo(temPath, true);
-            logger.info(`try as sudo now from: ${temPath} to: ${to}`)
-            this.store.dispatch.updateHandling.sudoCopyFromTo({from: temPath, to})
+            logger.error(e);
         }
     }
 
