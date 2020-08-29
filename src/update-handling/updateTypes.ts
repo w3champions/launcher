@@ -14,4 +14,5 @@ export interface UpdateHandlingState {
   ownColor: string,
   allyColor: string,
   enemyColor: string,
+  downloadProgress: number,
 }

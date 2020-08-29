@@ -2,7 +2,7 @@
   <div class="loading-wrapper">
     <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
     <br />
-    <span>Updating Warcraft 3 Champions...</span>
+    <span>Updating Warcraft 3 Champions ({{ progress }}%)</span>
   </div>
 </template>
 
@@ -11,6 +11,9 @@ import {Component, Vue} from "vue-property-decorator";
 
 @Component({})
 export default class LoadingSpinner extends Vue {
+  get progress() {
+    return this.$store.direct.state.updateHandling.downloadProgress;
+  }
 }
 </script>
 

@@ -22,6 +22,7 @@ const mod = {
     ownColor: "01",
     enemyColor: "00",
     allyColor: "02",
+    downloadProgress: 0,
   } as UpdateHandlingState,
   actions: {
     loadCurrentLauncherVersion(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -126,6 +127,9 @@ const mod = {
     FINISH_DLS(state: UpdateHandlingState) {
       state.isUpdatingMaps = false;
       state.isUpdatingWebUI = false;
+    },
+    DOWNLOAD_PROGRESS(state: UpdateHandlingState, progress: number) {
+      state.downloadProgress = progress;
     },
     FINISH_MAPS_DL(state: UpdateHandlingState) {
       state.isUpdatingMaps = false;

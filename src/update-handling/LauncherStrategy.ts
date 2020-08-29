@@ -146,7 +146,8 @@ export abstract class LauncherStrategy{
     }
 
     private updateDownloadProgress(progress: number) {
-        logger.info("Download: " + progress)
+        logger.info("Download: " + progress);
+        store.commit.updateHandling.DOWNLOAD_PROGRESS(progress);
     }
 
     get updateUrl() {
@@ -169,10 +170,7 @@ export abstract class LauncherStrategy{
             responseType: 'arraybuffer',
             onDownloadProgress: (ev: any) => {
                 if (!onProgress) return;
-                const total = parseFloat(ev.currentTarget.responseHeaders['Content-Length'])
-                const current = ev.currentTarget.response.length
-
-                const percentCompleted = Math.floor(current / total * 100)
+                const percentCompleted = Math.floor(ev.loaded / ev.total * 100)
                 onProgress(percentCompleted);
             }
         });
