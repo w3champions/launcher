@@ -35,11 +35,11 @@ export abstract class LauncherStrategy{
     }
 
     get bnetPath() {
-        return this.store.state.updateHandling.bnetPath;
+        return this.store.state.updateHandling?.bnetPath || '';
     }
 
     get w3Path() {
-        return this.store.state.updateHandling.w3Path;
+        return this.store.state.updateHandling?.w3Path || '';
     }
 
     get localW3cVersion() {
