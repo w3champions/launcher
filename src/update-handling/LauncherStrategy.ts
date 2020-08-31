@@ -159,7 +159,8 @@ export abstract class LauncherStrategy{
     }
 
     get w3PathWithOutRetail() {
-        return this.w3Path?.replace("/_retail_", "")?.replace("\\_retail_", "") ?? "";
+        if (!this.w3Path) return ""
+        return this.w3Path.replace("/_retail_", "").replace("\\_retail_", "");
     }
 
     private async downloadAndWriteFile(fileName: string, to: string, onProgress?: (percentage: number) => void) {
