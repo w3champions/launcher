@@ -35,11 +35,11 @@ export abstract class LauncherStrategy{
     }
 
     get bnetPath() {
-        return this.store.state.updateHandling?.bnetPath || '';
+        return this.store.state.updateHandling?.bnetPath ?? "";
     }
 
     get w3Path() {
-        return this.store.state.updateHandling?.w3Path || '';
+        return this.store.state.updateHandling?.w3Path ?? "";
     }
 
     get localW3cVersion() {
@@ -159,7 +159,7 @@ export abstract class LauncherStrategy{
     }
 
     get w3PathWithOutRetail() {
-        return this.w3Path.replace("/_retail_", "").replace("\\_retail_", "");
+        return this.w3Path?.replace("/_retail_", "").replace("\\_retail_", "") ?? "";
     }
 
     private async downloadAndWriteFile(fileName: string, to: string, onProgress?: (percentage: number) => void) {
