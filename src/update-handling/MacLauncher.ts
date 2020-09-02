@@ -47,7 +47,7 @@ export class MacLauncher extends LauncherStrategy {
     }
 
     getCopyCommand(from: string, to: string) {
-        return `cp -R '${from}/' '${to}'`
+        return `cp -R '${from}/' '${to}' && chmod -R +rwX '${to}'`
     }
 
     getDefaultBnetPathExecutable(): string {
