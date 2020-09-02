@@ -32,6 +32,7 @@ export class FileService {
     public sudoCopyFromTo(from: string, to: string){
         const copyCommand = this.updateStrategy.getCopyCommand(from, to);
 
+        logger.info("copy with: " + copyCommand);
         sudo.exec(copyCommand, {
             name: 'Warcraft 3 Champions',
         }, (err: Error) => {
