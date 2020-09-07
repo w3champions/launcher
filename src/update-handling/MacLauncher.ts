@@ -21,7 +21,7 @@ export class MacLauncher extends LauncherStrategy {
     }
 
     getDefaultPathWc3(): string {
-        return "Applications/Warcraft III";
+        return "/Applications/Warcraft III";
     }
 
     getDefaultPathMap(): string {
@@ -47,7 +47,7 @@ export class MacLauncher extends LauncherStrategy {
     }
 
     getCopyCommand(from: string, to: string) {
-        return `cp -R '${from}/' '${to}'`
+        return `cp -R '${from}/' '${to}' && chmod -R +rwX '${to}'`
     }
 
     getDefaultBnetPathExecutable(): string {
