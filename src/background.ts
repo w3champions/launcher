@@ -52,11 +52,12 @@ function createWindow() {
   // Create the browser window.
 
   win = new BrowserWindow({
-    width: 1100,
-    height: 720,
+    width: 1275,
+    height: 830,
     resizable: false,
     frame: false,
     titleBarStyle: 'hidden',
+    transparent: true,
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,

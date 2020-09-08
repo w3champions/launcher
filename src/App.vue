@@ -2,10 +2,16 @@
   <div id="app" class="app-container">
     <HeadLine />
     <div class="content-modal-wrapper">
+      <div class="static-bg">
+      </div>
+<!--      <video loop muted autoplay poster="assets/images/home/Static_Background.png" class="fullscreen-bg__video">-->
+<!--        <source src="assets/images/home/Animated_Background-webm.webm" type="video/webm">-->
+<!--      </video>-->
       <div class="content-modal">
         <router-view />
       </div>
     </div>
+    <div class="close-button" @click="closeApp" />
   </div>
 </template>
 
@@ -14,6 +20,7 @@ import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
 import logger from "@/logger";
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
+const { remote } = window.require("electron")
 
 @Component({
   components: {HeadLine}
@@ -35,6 +42,10 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
     await this.$store.direct.dispatch.colorPicker.loadIsTeamColorsEnabled();
     await this.$store.direct.dispatch.colorPicker.loadColors();
+  }
+
+  public closeApp() {
+    remote.app.quit();
   }
 
   get isWindows() {
@@ -96,10 +107,31 @@ a {
 }
 
 .app-container {
-  background: url("~@/assets/images/backgrounds/main_bg.png") center no-repeat;
-  height: 99.5vh;
+  background: url("~@/assets/images/home/Maon_Border.png") center no-repeat;
+  height: 100vh;
   background-size: cover;
-  border: 0.25vh solid black;
+}
+
+.fullscreen-bg__video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -100;
+  transform: translateX(-50%) translateY(-50%);
+  width: 1200px;
+  height: 655px;
+}
+
+.static-bg {
+  position: absolute;
+  background: url("~@/assets/images/home/Static_Background.png") center no-repeat;
+  background-size: cover;
+  z-index: -100;
+  top: 140px;
+  width: 1200px;
+  height: 655px;
 }
 
 .content-modal-wrapper {
@@ -112,11 +144,9 @@ a {
 }
 
 .content-modal {
-  background: url("~@/assets/images/backgrounds/frame.png") center no-repeat;
-  background-size: cover;
-  margin-top: 5vh;
-  height: 76vh;
-  width: 90%;
+  margin-top: 15vh;
+  height: 700px;
+  width: 100%;
 }
 
 .download-button {
@@ -143,7 +173,18 @@ a {
   text-decoration: none;
   transition: filter 200ms ease 0s;
   padding: 24px 95px 0;
+}
 
+.close-button {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  background: url("~@/assets/images/home/Exit_Button.png") center no-repeat;
+  background-size: cover;
+  height: 60px;
+  width: 61px;
+  cursor: pointer;
+  top: 65px;
+  right: 55px;
 }
 
 </style>

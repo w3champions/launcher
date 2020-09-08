@@ -23,11 +23,18 @@ export default class HeadItem extends Vue {
 <style scoped type="text/css">
 .header-item {
   -webkit-app-region: no-drag;
-  font-size: 2em;
+  font-size: 1.5em;
+  text-align: center;
+  line-height: 56px;
+  width: 215px;
+  height: 56px;
+  background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;
+  background-size: cover;
 }
 
-.header-item:hover {
-  filter: brightness(1.1);
+.header-item:active {
+  background: url("~@/assets/images/home/Button_Blue_Active.png") center no-repeat;
+  background-size: cover;
   cursor: pointer;
 }
 

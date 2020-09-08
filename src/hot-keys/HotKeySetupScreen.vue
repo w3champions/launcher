@@ -255,7 +255,7 @@ export default class HotKeySetupScreen extends Vue {
 }
 
 .item-grid {
-  background: url("~@/assets/images/backgrounds/itemBg.png") no-repeat center;
+  background: url("~@/assets/images/home/itemBg.png") no-repeat center;
   background-size: cover;
   width: 187px;
   height: 276px;
