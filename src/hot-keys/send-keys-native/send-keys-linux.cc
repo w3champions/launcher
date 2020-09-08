@@ -27,23 +27,22 @@
 #define VK_NUM7     0x59 // num5 key
 #define VK_NUM8     0x5B // num6 key
 
+Display *display = XOpenDisplay(NULL);
+
 Napi::Boolean ReleaseModifier(int modifier)
 {
-    Display *display = XOpenDisplay(NULL);
     XTestFakeKeyEvent(display, modifier, False, 0);
     return Napi::Boolean();
 }
 
 Napi::Boolean HoldModifier(int modifier)
 {
-    Display *display = XOpenDisplay(NULL);
     XTestFakeKeyEvent(display, modifier, True, 0);
     return Napi::Boolean();
 }
 
 Napi::Boolean PressKey(int key)
 {
-    Display *display = XOpenDisplay(NULL);
     XTestFakeKeyEvent(display, key, True, 500);
     XTestFakeKeyEvent(display, key, False, 0);
     return Napi::Boolean();
