@@ -2,6 +2,10 @@
 #include <iostream>
 #include <string>
 
+#include <X11/Xlib.h>
+#include <X11/Intrinsic.h>
+#include <X11/extensions/XTest.h>
+
 #define VK_SPACE    0x31 // space key
 #define VK_ENTER    0x24 // enter key
 #define VK_ESCAPE   0x35 // escape key
@@ -25,19 +29,23 @@
 
 Napi::Boolean ReleaseModifier(int modifier)
 {
-    // enter linux code here
+    Display *display = XOpenDisplay(NULL)
+    XTestFakeKeyEvent(display, modifier, False, 0);
     return Napi::Boolean();
 }
 
 Napi::Boolean HoldModifier(int modifier)
 {
-    // enter linux code here
+    Display *display = XOpenDisplay(NULL)
+    XTestFakeKeyEvent(display, modifier, True, 0);
     return Napi::Boolean();
 }
 
 Napi::Boolean PressKey(int key)
 {
-    // enter linux code here
+    Display *display = XOpenDisplay(NULL)
+    XTestFakeKeyEvent(display, key, True, 500);
+    XTestFakeKeyEvent(display, key, False, 0);
     return Napi::Boolean();
 }
 
