@@ -29,19 +29,19 @@
 
 Display *display = XOpenDisplay(NULL);
 
-Napi::Boolean ReleaseModifier(UINT modifier)
+Napi::Boolean ReleaseModifier(unsigned int modifier)
 {
     XTestFakeKeyEvent(display, modifier, False, 0);
     return Napi::Boolean();
 }
 
-Napi::Boolean HoldModifier(UINT modifier)
+Napi::Boolean HoldModifier(unsigned int modifier)
 {
     XTestFakeKeyEvent(display, modifier, True, 0);
     return Napi::Boolean();
 }
 
-Napi::Boolean PressKey(UINT key)
+Napi::Boolean PressKey(unsigned int key)
 {
     XTestFakeKeyEvent(display, key, True, 500);
     XTestFakeKeyEvent(display, key, False, 0);
