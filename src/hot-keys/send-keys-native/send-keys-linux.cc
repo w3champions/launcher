@@ -43,8 +43,8 @@ Napi::Boolean HoldModifier(unsigned int modifier)
 
 Napi::Boolean PressKey(unsigned int key)
 {
-    XTestFakeKeyEvent(display, 54, True, 500);
-    XTestFakeKeyEvent(display, 54, False, 0);
+    XTestFakeKeyEvent(display, 54, True, 0);
+    XTestFakeKeyEvent(display, 54, False, 5);
     return Napi::Boolean();
 }
 
