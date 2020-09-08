@@ -36,6 +36,39 @@ jobs:
       ArtifactName: 'drop'
       publishLocation: 'Container'
 
+- job: linux
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '12.x'
+      displayName: 'Install Node.js'
+
+    - script: npm install
+      displayName: 'npm install'
+
+    - script: npm test
+      displayName: 'npm test'
+
+    - script: npm run build
+      displayName: 'npm build'
+      env:
+        CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_WIN)
+        CSC_LINK: w3c-certs-win.pfx
+        GH_TOKEN: $(GH_TOKEN)
+
+    - task: CopyFiles@2
+      inputs:
+        contents: 'dist_electron/w3champions*.dmg'
+        targetFolder: $(Build.ArtifactStagingDirectory)
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: $(Build.ArtifactStagingDirectory)
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
 
 - job: Windows
   pool:
