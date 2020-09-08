@@ -11,8 +11,12 @@
         'conditions': [
           ['OS=="win"', {
             "sources": [ "send-keys-win.cc" ],
-          }, { # OS != "win",
+          },
+          'OS=="mac"', {
             "sources": [ "send-keys-osx.cc" ],
+          },
+          { # OS == "linux",
+            "sources": [ "send-keys-linux.cc" ],
           }]
         ],
       },

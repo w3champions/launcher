@@ -1,80 +1,60 @@
 #include <napi.h>
 #include <iostream>
-#include <Windows.h>
 #include <string>
 
-#define VK_SPACE    0x20 // space key
-#define VK_ENTER    0x0D // enter key
-#define VK_ESCAPE   0x1B // escape key
-#define VK_F01      0x70 // f1 key
-#define VK_F02      0x71 // f2 key
-#define VK_F03      0x72 // f3 key
-#define VK_F10      0x79 // f10 key
-#define VK_F12      0x7B // f12 key
+#define VK_SPACE    0x31 // space key
+#define VK_ENTER    0x24 // enter key
+#define VK_ESCAPE   0x35 // escape key
+#define VK_F01      0x7A // f1 key
+#define VK_F02      0x78 // f2 key
+#define VK_F03      0x63 // f3 key
+#define VK_F10      0x6D // f10 key
+#define VK_F12      0x6F // f12 key
 
-Napi::Boolean ReleaseModifier(UINT modifier)
+#define VK_LCTRL    0x3B // ctrl key
+#define VK_LCMD     0x37 // cmd key
+#define VK_LALT     0x3A // alt key
+#define VK_LSHIFT   0x38 // shift key
+
+#define VK_NUM1     0x53 // num1 key
+#define VK_NUM2     0x54 // num2 key
+#define VK_NUM4     0x56 // num3 key
+#define VK_NUM5     0x57 // num4 key
+#define VK_NUM7     0x59 // num5 key
+#define VK_NUM8     0x5B // num6 key
+
+Napi::Boolean ReleaseModifier(int modifier)
 {
-    INPUT ipModifer;
-    ipModifer.type = INPUT_KEYBOARD;
-    ipModifer.ki.time = 0;
-    ipModifer.ki.dwExtraInfo = 0;
-    ipModifer.ki.wVk = modifier;
-    ipModifer.ki.dwFlags = KEYEVENTF_KEYUP;
-    SendInput(1, &ipModifer, sizeof(INPUT));
-
     return Napi::Boolean();
 }
 
-Napi::Boolean HoldModifier(UINT modifier)
-{
-    INPUT ipModifer;
-    ipModifer.type = INPUT_KEYBOARD;
-    ipModifer.ki.time = 0;
-    ipModifer.ki.dwExtraInfo = 0;
-    ipModifer.ki.wVk = modifier;
-
-    ipModifer.ki.wScan = MapVirtualKey(modifier, MAPVK_VK_TO_VSC);
-    ipModifer.ki.dwFlags = KEYEVENTF_SCANCODE;
-    SendInput(1, &ipModifer, sizeof(INPUT));
-
-    return Napi::Boolean();
-}
-
-Napi::Boolean PressKey(UINT key)
-{
-    INPUT ip;
-    ip.type = INPUT_KEYBOARD;
-    ip.ki.wScan = MapVirtualKey(key, MAPVK_VK_TO_VSC);
-    ip.ki.time = 0;
-    ip.ki.dwExtraInfo = 0;
-    ip.ki.wVk = key;
-    ip.ki.dwFlags = KEYEVENTF_SCANCODE;
-
-    SendInput(1, &ip, sizeof(INPUT));
-
-    ip.ki.dwFlags = KEYEVENTF_KEYUP;
-    SendInput(1, &ip, sizeof(INPUT));
-
-    return Napi::Boolean();
-}
-
-Napi::Boolean ReleaseLControl(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LCONTROL); }
-Napi::Boolean ReleaseLAlt(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LMENU); }
+Napi::Boolean ReleaseLControl(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LCTRL); }
+Napi::Boolean ReleaseLAlt(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LALT); }
 Napi::Boolean ReleaseLShift(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LSHIFT); }
-Napi::Boolean ReleaseLCmd(const Napi::CallbackInfo& info) { return Napi::Boolean(); }
+Napi::Boolean ReleaseLCmd(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LCMD); }
 
-Napi::Boolean HoldLControl(const Napi::CallbackInfo& info) { return HoldModifier(VK_LCONTROL); }
-Napi::Boolean HoldLAlt(const Napi::CallbackInfo& info) { return HoldModifier(VK_LMENU); }
+Napi::Boolean HoldModifier(int modifier)
+{
+    return Napi::Boolean();
+}
+
+Napi::Boolean PressKey(int key)
+{
+    return Napi::Boolean();
+}
+
+Napi::Boolean HoldLControl(const Napi::CallbackInfo& info) { return HoldModifier(VK_LCTRL); }
+Napi::Boolean HoldLAlt(const Napi::CallbackInfo& info) { return HoldModifier(VK_LALT); }
 Napi::Boolean HoldLShift(const Napi::CallbackInfo& info) { return HoldModifier(VK_LSHIFT); }
-Napi::Boolean HoldLCmd(const Napi::CallbackInfo& info) { return Napi::Boolean(); }
+Napi::Boolean HoldLCmd(const Napi::CallbackInfo& info) { return HoldModifier(VK_LCMD); }
 
-Napi::Boolean PressNum8(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD8); }
-Napi::Boolean PressNum7(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD7); }
-Napi::Boolean PressNum5(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD5); }
-Napi::Boolean PressNum4(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD4); }
-Napi::Boolean PressNum2(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD2); }
-Napi::Boolean PressNum1(const Napi::CallbackInfo& info) { return PressKey(VK_NUMPAD1); }
-Napi::Boolean PressNumlock(const Napi::CallbackInfo& info) { return PressKey(VK_NUMLOCK); }
+Napi::Boolean PressNum8(const Napi::CallbackInfo& info) { return PressKey(VK_NUM8); }
+Napi::Boolean PressNum7(const Napi::CallbackInfo& info) { return PressKey(VK_NUM7); }
+Napi::Boolean PressNum5(const Napi::CallbackInfo& info) { return PressKey(VK_NUM5); }
+Napi::Boolean PressNum4(const Napi::CallbackInfo& info) { return PressKey(VK_NUM4); }
+Napi::Boolean PressNum2(const Napi::CallbackInfo& info) { return PressKey(VK_NUM2); }
+Napi::Boolean PressNum1(const Napi::CallbackInfo& info) { return PressKey(VK_NUM1); }
+Napi::Boolean PressNumlock(const Napi::CallbackInfo& info) { return Napi::Boolean(); }
 Napi::Boolean PressSpace(const Napi::CallbackInfo& info) { return PressKey(VK_SPACE); }
 
 Napi::Boolean PressEnter(const Napi::CallbackInfo& info) { return PressKey(VK_ENTER); }
@@ -85,7 +65,6 @@ Napi::Boolean PressF12(const Napi::CallbackInfo& info) { return PressKey(VK_F12)
 Napi::Boolean PressF1(const Napi::CallbackInfo& info) { return PressKey(VK_F01); }
 Napi::Boolean PressF2(const Napi::CallbackInfo& info) { return PressKey(VK_F02); }
 Napi::Boolean PressF3(const Napi::CallbackInfo& info) { return PressKey(VK_F03); }
-
 
 Napi::Object init(Napi::Env env, Napi::Object exports) {
     exports.Set(Napi::String::New(env, "pressNum1"), Napi::Function::New(env, PressNum1));
