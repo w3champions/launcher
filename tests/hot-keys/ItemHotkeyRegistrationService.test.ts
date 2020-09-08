@@ -1,7 +1,9 @@
+import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
 import {ModifierKey} from "@/hot-keys/hotkeyTypes";
+import {ITEM_TOP_LEFT} from "@/hot-keys/keyValuesRobotJs";
 
 test('Transfer from f10 over escape to ingame with enabled keys', () => {
-    const service = ModifierKey.Alt;
+    const service = new ItemHotkeyRegistrationService();
 
-    expect(service).toBe(2);
+    service.registerKey({ key: ITEM_TOP_LEFT, combo: { modifier: ModifierKey.None, hotKey: { key: "a", uiDisplay: "a"} } })
 });
