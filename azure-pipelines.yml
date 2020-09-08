@@ -60,7 +60,7 @@ jobs:
 
     - task: CopyFiles@2
       inputs:
-        contents: 'dist_electron/w3champions*.dmg'
+        contents: 'dist_electron/w3champions*.AppImage'
         targetFolder: $(Build.ArtifactStagingDirectory)
 
     - task: PublishBuildArtifacts@1
