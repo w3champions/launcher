@@ -109,7 +109,13 @@ app.on('ready', async () => {
     }
   }
 
-  await autoUpdater.checkForUpdatesAndNotify();
+  try {
+    await autoUpdater.checkForUpdatesAndNotify();
+  } catch (e) {
+    logger.error("Updating failed horribly, starting without check for new version");
+    logger.error(e);
+  }
+
   createWindow()
 })
 
