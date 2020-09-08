@@ -4,7 +4,6 @@
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
-#include <X11/extensions/XTest.h>
 
 #define VK_SPACE    0x31 // space key
 #define VK_ENTER    0x24 // enter key
