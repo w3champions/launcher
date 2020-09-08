@@ -25,6 +25,19 @@
 
 Napi::Boolean ReleaseModifier(int modifier)
 {
+    // enter linux code here
+    return Napi::Boolean();
+}
+
+Napi::Boolean HoldModifier(int modifier)
+{
+    // enter linux code here
+    return Napi::Boolean();
+}
+
+Napi::Boolean PressKey(int key)
+{
+    // enter linux code here
     return Napi::Boolean();
 }
 
@@ -33,15 +46,6 @@ Napi::Boolean ReleaseLAlt(const Napi::CallbackInfo& info) { return ReleaseModifi
 Napi::Boolean ReleaseLShift(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LSHIFT); }
 Napi::Boolean ReleaseLCmd(const Napi::CallbackInfo& info) { return ReleaseModifier(VK_LCMD); }
 
-Napi::Boolean HoldModifier(int modifier)
-{
-    return Napi::Boolean();
-}
-
-Napi::Boolean PressKey(int key)
-{
-    return Napi::Boolean();
-}
 
 Napi::Boolean HoldLControl(const Napi::CallbackInfo& info) { return HoldModifier(VK_LCTRL); }
 Napi::Boolean HoldLAlt(const Napi::CallbackInfo& info) { return HoldModifier(VK_LALT); }
