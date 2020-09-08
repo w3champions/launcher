@@ -48,7 +48,7 @@ jobs:
     - task: Bash@3
       inputs:
         targetType: 'inline'
-        script: 'sudo yum install libXtst-devel'
+        script: 'sudo apt-get install libxtst-dev'
 
     - script: npm install
       displayName: 'npm install'
