@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-property-decorator";
 import {
   F1,
   F2,
@@ -58,11 +58,13 @@ import {InGameState, ManualHotkeyMode} from "@/hot-keys/HotKeyStateMachine";
 import {combiAsStringForDisplay} from "@/hot-keys/utilsFunctions";
 
 @Component
-export default class HotKeySetupScreen extends Vue {
+export default class ItemsTab extends Vue {
   public modal = false;
   public hotkeyToEdit = {} as KeyDto;
   public selectedHotKey = "";
   public hotkeyModifierToEdit = ModifierKey.None;
+
+  @Prop() public tab!: string;
 
   public closeModal() {
     this.modal = false;

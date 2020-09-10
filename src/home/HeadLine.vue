@@ -2,7 +2,7 @@
   <div class="headline-wrapper">
     <div class="headline-container">
       <HeadItem target="/" text="W3Champions" />
-      <HeadItem target="/HotKeys" text="Hotkeys"/>
+      <HeadItem target="/HotKeys/0" text="Hotkeys"/>
       <HeadItem target="/Settings" text="Settings"/>
     </div>
   </div>

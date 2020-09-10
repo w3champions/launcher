@@ -8,7 +8,11 @@ export interface HotKeyModifierState {
 }
 
 export enum ModifierKey {
-  None, Ctrl, Alt, Shift, Space, Cmd
+  None = 0, Ctrl = 1, Alt = 2, Shift = 3, Space = 4, Cmd = 5
+}
+
+export enum HotkeyTabs {
+  items= 0, human = 1, orc = 2, undead = 3, nightelf = 4, neutral = 5
 }
 
 export interface ClickCombination {

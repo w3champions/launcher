@@ -26,7 +26,7 @@ const os = window.require('os');
 export default class HomeScreen extends Vue {
   private updateStrategy = HomeScreen.isWindows() ? new WindowsLauncher() : new MacLauncher();
   private disablePlayBtn = true;
-  public playButton!: string;
+  public playButton = "";
 
   private static isWindows() {
     return os.platform() === "win32";

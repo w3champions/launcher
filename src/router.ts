@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import UpdateSettingsScreen from "@/update-handling/UpdateSettingsScreen.vue";
-import HotKeySetupScreen from "@/hot-keys/HotKeySetupScreen.vue";
+import HotKeySetupScreen from "@/hot-keys/views/HotKeySetupScreen.vue";
 import HomeScreen from "@/home/HomeScreen.vue";
 
 Vue.use(VueRouter);
@@ -13,8 +13,9 @@ const routes = [
         component: HomeScreen,
     },
     {
-        path: "/HotKeys",
+        path: "/HotKeys/:tab",
         name: "HotKeys",
+        props: true,
         component: HotKeySetupScreen,
     },
     {
