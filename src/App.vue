@@ -92,6 +92,36 @@ body {
   user-select: none;
 }
 
+label {
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  visibility: hidden;
+}
+
+input[type="checkbox"] + label:before {
+  margin-left: -15px !important;
+  background: url("~@/assets/images/settings/Settings_Toggle_Off.png") center no-repeat;
+  content: "\00a0";
+  display: inline-block;
+  line-height: 25px;
+  height: 25px;
+  width: 25px;
+}
+input[type="checkbox"]:checked + label:before {
+
+  background: url("~@/assets/images/settings/Settings_Toggle_On.png") center no-repeat;
+  background-size: cover;
+
+  content: "\00a0";
+}
+input[type="checkbox"]:checked + label:after {
+}
+
+input[type="checkbox"]:focus + label::before {
+}
+
 .loading-wrapper {
   position: absolute;
   display: flex;

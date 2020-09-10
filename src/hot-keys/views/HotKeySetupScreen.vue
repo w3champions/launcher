@@ -4,11 +4,11 @@
       <div v-for="race in racesValues" :key="race" class="hotkey-tab" :class="`hotkey-tab-${races[race]}`" @click="() => navigateTo(race)"/>
     </div>
     <div class="tab-container">
-      <div v-if="isItemTab">
-        items!!
+      <div v-if="this.tab === races.items">
+        <ItemsTab />
       </div>
       <div v-else>
-        {{races[tab]}}
+        <RaceTab :race="tab"/>
       </div>
     </div>
   </div>
@@ -19,18 +19,17 @@ import {Component, Prop, Vue} from "vue-property-decorator";
 
 import {HotkeyTabs} from "@/hot-keys/hotkeyTypes";
 import logger from "@/logger";
-
-@Component
+import RaceTab from "@/hot-keys/views/RaceTab.vue";
+import ItemsTab from "@/hot-keys/views/ItemsTab.vue";
+@Component({
+  components: {ItemsTab, RaceTab}
+})
 export default class HotKeySetupScreen extends Vue {
   public races = HotkeyTabs;
   // public racesValues = [ HotkeyTabs.items ];
   public racesValues = [ HotkeyTabs.items, HotkeyTabs.human, HotkeyTabs.orc, HotkeyTabs.undead, HotkeyTabs.nightelf, HotkeyTabs.neutral ];
 
   @Prop() public tab!: HotkeyTabs;
-
-  get isItemTab() {
-    return this.tab === HotkeyTabs.items;
-  }
   public navigateTo(tab: HotkeyTabs) {
     const path = `/HotKeys/${tab}`;
     this.$router.push({

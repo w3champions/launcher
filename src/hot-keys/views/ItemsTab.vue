@@ -1,32 +1,35 @@
 <template>
-  <div class="hotkey-wrapper">
-    <div class="hotkey-enter-modal" :style="`visibility: ${modal ? 'visible' : 'hidden'}`">
-      <div style="font-size: 30px">Enter Hotkey:</div>
-      <br/>
-      <div class="hotkey-input">
-        {{ hotKeyCombo }}
+  <div>
+    <div class="hotkey-wrapper">
+      <div class="hotkey-enter-modal" :style="`visibility: ${modal ? 'visible' : 'hidden'}`">
+        <div style="font-size: 30px">Enter Hotkey:</div>
+        <br/>
+        <div class="hotkey-input">
+          {{ hotKeyCombo }}
+        </div>
+        <div>
+          <div class="modal-button" @click="addKey">Add</div>
+          <div class="modal-button" @click="closeModal">Cancel</div>
+          <div class="modal-button" @click="removeHotKey">Remove</div>
+        </div>
       </div>
-      <div>
-        <div class="modal-button" @click="addKey">Add</div>
-        <div class="modal-button" @click="closeModal">Cancel</div>
-        <div class="modal-button" @click="removeHotKey">Remove</div>
+      <div class="item-grid">
+        <div class="single-item" @click="() => openChangeHotkeyModal(itemTopLeft)">{{getKeyComboOf(itemTopLeft)}}</div>
+        <div class="single-item" @click="() => openChangeHotkeyModal(itemTopRight)">{{getKeyComboOf(itemTopRight)}}</div>
+        <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleLeft)">{{getKeyComboOf(itemMiddleLeft)}}</div>
+        <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleRight)">{{getKeyComboOf(itemMiddleRight)}}</div>
+        <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomLeft)">{{getKeyComboOf(itemBottomLeft)}}</div>
+        <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomRight)">{{getKeyComboOf(itemBottomRight)}}</div>
       </div>
+      <div class="function-key-grid">
+        <div class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">F1</div></div>
+        <div class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">F2</div></div>
+        <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">F3</div></div>
+        <div class="single-item function-item" style="margin-left: 50px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">hotkeys on/off</div></div>
+      </div>
+      <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
     </div>
-    <div class="item-grid">
-      <div class="single-item" @click="() => openChangeHotkeyModal(itemTopLeft)">{{getKeyComboOf(itemTopLeft)}}</div>
-      <div class="single-item" @click="() => openChangeHotkeyModal(itemTopRight)">{{getKeyComboOf(itemTopRight)}}</div>
-      <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleLeft)">{{getKeyComboOf(itemMiddleLeft)}}</div>
-      <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleRight)">{{getKeyComboOf(itemMiddleRight)}}</div>
-      <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomLeft)">{{getKeyComboOf(itemBottomLeft)}}</div>
-      <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomRight)">{{getKeyComboOf(itemBottomRight)}}</div>
-    </div>
-    <div class="function-key-grid">
-      <div class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">F1</div></div>
-      <div class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">F2</div></div>
-      <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">F3</div></div>
-      <div class="single-item function-item" style="margin-left: 50px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">hotkeys on/off</div></div>
-    </div>
-    <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
+
     <div class="hotkey-tips">
       Hotkeys will be turned on, as soon as you enter any game automatically.
       If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
@@ -367,10 +370,8 @@ export default class ItemsTab extends Vue {
 }
 
 .hotkey-tips {
-  position: absolute;
-  top: 490px;
-  width: 850px;
-  left: 120px;
+  padding: 30px;
+  width: 80%;
 }
 
 .modal-button {
