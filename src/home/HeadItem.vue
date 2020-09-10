@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
+import logger from "@/logger";
 
 @Component({})
 export default class HeadItem extends Vue {
@@ -15,7 +16,14 @@ export default class HeadItem extends Vue {
   public goToTarget() {
     this.$router.push({
       path: this.target
-    })
+    }).catch(err => {
+      if (
+          err.name !== 'NavigationDuplicated' &&
+          !err.message.includes('Avoided redundant navigation to current location')
+      ) {
+        logger.error(err);
+      }
+    });
   }
 }
 </script>
