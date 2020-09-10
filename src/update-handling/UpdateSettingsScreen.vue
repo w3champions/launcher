@@ -4,12 +4,12 @@
     <div style="padding-top: 40px">
       <div class="location-wrapper-header w3font" style="margin-bottom: 10px">Directory Settings</div>
         <div class="location-wrapper">
-        <div class="w3c-icon"/>
-        <div class="reset-button-line" :class="isW3LocationWrong ? 'path-is-wrong' : 'path-is-right'">
+        <div class="w3c-icon" :title="`Enter the location to wc3 (Usually ${defaultW3Location})`"/>
+        <div class="reset-button-line"  :class="isW3LocationWrong ? 'path-is-wrong' : 'path-is-right'">
           <div :title="explanationW3Wrong">{{w3Path}}</div>
           <div class="reset-button" @click="resetW3Path" />
         </div>
-        <div class="bnet-icon"/>
+        <div class="bnet-icon" :title="`Enter the location to wc3 (Usually ${defaultBnetLocation})`" />
         <div class="reset-button-line" :class="isBnetLocationWrong ? 'path-is-wrong' : 'path-is-right'">
           <div :title="explanationBnetWrong">{{battleNet}}</div>
           <div class="reset-button" @click="resetBnetPath" />
@@ -67,6 +67,14 @@ export default class UpdateSettingsScreen extends Vue {
 
   async mounted() {
     await this.updateStrategy.updateIfNeeded();
+  }
+
+  get defaultBnetLocation() {
+    return this.updateStrategy.getDefaultBnetPath();
+  }
+
+  get defaultW3Location() {
+    return this.updateStrategy.getDefaultPathWc3().replace("\\_retail_", "").replace("_retail_", "");
   }
 
   get enemyColor() {
