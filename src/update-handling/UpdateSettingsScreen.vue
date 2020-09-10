@@ -18,7 +18,7 @@
       <div class="options-header w3font" style="margin-top: 20px">Color Settings</div>
       <div class="color-pick-bar">
         <div>
-          <input type="checkbox" :checked="isTeamColorsEnabled" @click="toggleTeamColors" id="manual-mode-check-box"/>
+          <input type="checkbox" style="margin-left: -15px !important;" :checked="isTeamColorsEnabled" @click="toggleTeamColors" id="manual-mode-check-box"/>
           <label for="manual-mode-check-box">  Team colors</label>
         </div>
 

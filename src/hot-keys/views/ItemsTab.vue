@@ -27,17 +27,24 @@
         <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">F3</div></div>
         <div class="single-item function-item" style="margin-left: 50px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">hotkeys on/off</div></div>
       </div>
-      <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
     </div>
 
     <div class="hotkey-tips">
-      Hotkeys will be turned on, as soon as you enter any game automatically.
-      If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
-      If something goes wrong, you can always toggle the hotkeys with the provided <b>hotkeys on/off</b> toggle key.
-      <br/>
-      <br/>
-      <input type="checkbox" :checked="isHotkeyManualMode" @click="toggleHotkeyManualMode" id="manual-mode-check-box"/>
-      <label for="manual-mode-check-box">  Never turn on hotkeys automatically</label>
+      <div class="inventory-options">
+        <div>
+          Hotkeys will be turned on, as soon as you enter any game automatically.
+          If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
+          If something goes wrong, you can always toggle the hotkeys with the provided <b>hotkeys on/off</b> toggle key.
+        </div>
+        <div class="just-a-row">
+          <div :class="isHotkeyManualMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleHotkeyManualMode" id="manual-mode-check-box"/>
+          <div class="text-spacer">Never turn on hotkeys automatically</div>
+        </div>
+        <div class="just-a-row">
+          <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
+          <div class="text-spacer">Inventory hotkeys are {{hotkeyState ? 'ON' : 'OFF'}}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -301,9 +308,6 @@ export default class ItemsTab extends Vue {
   cursor: pointer;
   width: 33px;
   height: 33px;
-  right: 120px;
-  top: 190px;
-  position: absolute;
 }
 
 .foot-note {
@@ -370,8 +374,17 @@ export default class ItemsTab extends Vue {
 }
 
 .hotkey-tips {
-  padding: 30px;
-  width: 80%;
+  display: flex;
+  font-size: 13px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 20px;
+  background: url("~@/assets/images/hotkeys/Hotkeys_Inventory_Text_Frame.png") no-repeat center;
+  width: 562px;
+  height: 180px;
+  margin-left: 40px;
+  background-size: cover;
 }
 
 .modal-button {
@@ -379,5 +392,37 @@ export default class ItemsTab extends Vue {
   margin-right: 15px;
   display: inline;
   cursor: pointer;
+}
+
+.inventory-options {
+  display: flex;
+  height: 100%;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.just-a-row {
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+}
+
+.manual-mode-on{
+  background: url("~@/assets/images/settings/Settings_Toggle_On.png") center no-repeat;
+  background-size: cover;
+  width: 31px;
+  height: 30px;
+}
+
+.manual-mode-off {
+  background: url("~@/assets/images/settings/Settings_Toggle_Off.png") center no-repeat;
+  background-size: cover;
+  width: 31px;
+  height: 30px;
+}
+
+.text-spacer {
+  line-height: 33px;
+  margin-left: 20px
 }
 </style>
