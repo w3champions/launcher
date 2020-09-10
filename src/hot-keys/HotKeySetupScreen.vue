@@ -1,6 +1,5 @@
 <template>
   <div class="hotkey-wrapper">
-
     <div class="hotkey-enter-modal" :style="`visibility: ${modal ? 'visible' : 'hidden'}`">
       <div style="font-size: 30px">Enter Hotkey:</div>
       <br/>
@@ -297,8 +296,6 @@ export default class HotKeySetupScreen extends Vue {
   cursor: pointer;
   width: 33px;
   height: 33px;
-  border-radius: 12px;
-  border: 2px solid #b0b0b0;
   right: 120px;
   top: 190px;
   position: absolute;

@@ -79,11 +79,15 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-@import url("https://rsms.me/inter/inter.css");
+
+@font-face {
+  font-family: "Friz Quadrata Regular OS";
+  src: url(assets/friz-quadrata-regular-os-5870333951e7c.woff);
+}
 
 body {
   margin: 0;
-  font-family: "Inter" !important;
+  font-family: "Inter";
   color: antiquewhite;
 }
 

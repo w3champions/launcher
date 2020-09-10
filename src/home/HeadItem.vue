@@ -28,6 +28,8 @@ export default class HeadItem extends Vue {
   line-height: 56px;
   width: 215px;
   height: 56px;
+  font-family: "Friz Quadrata Regular OS";
+  color: #ffd500;
   background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;
   background-size: cover;
 }
