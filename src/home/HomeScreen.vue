@@ -116,6 +116,8 @@ export default class HomeScreen extends Vue {
 .start-button {
   background: url("~@/assets/images/home/Green_Hero_Button_Static.png") no-repeat center;
   background-size: cover;
+  border: none;
+  outline: inherit;
   height: 88px;
   width: 393px;
   text-align: center;
