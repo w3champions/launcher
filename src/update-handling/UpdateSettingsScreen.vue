@@ -17,9 +17,9 @@
       </div>
       <div class="options-header w3font" style="margin-top: 20px">Color Settings</div>
       <div class="color-pick-bar">
-        <div>
-          <input type="checkbox" style="margin-left: -15px !important;" :checked="isTeamColorsEnabled" @click="toggleTeamColors" id="manual-mode-check-box"/>
-          <label for="manual-mode-check-box">  Team colors</label>
+        <div style="display: flex">
+          <div :class="isTeamColorsEnabled ? 'team-colors-on' : 'team-colors-off'" @click="toggleTeamColors"/>
+          <div style="line-height: 31px; margin-left: 5px">Team colors</div>
         </div>
 
         <ColorPicker text="Own Color" :color="ownColor" :onSwitchColor="switchOwnColor"/>
@@ -247,6 +247,19 @@ export default class UpdateSettingsScreen extends Vue {
   user-select: text;
 }
 
+.team-colors-on{
+  background: url("~@/assets/images/settings/Settings_Toggle_On.png") center no-repeat;
+  background-size: cover;
+  width: 31px;
+  height: 30px;
+}
+
+.team-colors-off {
+  background: url("~@/assets/images/settings/Settings_Toggle_Off.png") center no-repeat;
+  background-size: cover;
+  width: 31px;
+  height: 30px;
+}
 
 .path-is-wrong {
   background: url("~@/assets/images/settings/Settings_Directory_Frame_Error.png") no-repeat center;
