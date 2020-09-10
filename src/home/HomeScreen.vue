@@ -1,7 +1,8 @@
 <template>
   <div class="home-container">
     <div class="modt">
-      <h3>{{ news[0] ? news[0].date : "" }}</h3>
+      <div class="w3font news-header">{{ news[0] ? news[0].date : "" }}</div>
+      <br />
       <div v-html='news[0] ? news[0].message : ""'></div>
     </div>
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
@@ -101,11 +102,14 @@ export default class HomeScreen extends Vue {
 }
 
 .modt {
-  text-decoration: none;
+  background: url("~@/assets/images/home/W3Champion_Text_Frame.png") no-repeat center;
+  background-size: cover;
+  margin-top: 80px;
+  margin-bottom: 140px;
+  padding: 30px;
   font-size: 14px;
-  width: 850px;
-  padding: 40px 30px 30px;
-  height: 320px;
+  width: 605px;
+  height: 278px;
 }
 
 .start-button:disabled {
@@ -128,5 +132,9 @@ export default class HomeScreen extends Vue {
 .start-button:active {
   background: url("~@/assets/images/home/Green_Hero_Button_Active.png") no-repeat center;
   background-size: cover;
+}
+
+.news-header {
+  font-size: 20px;
 }
 </style>
