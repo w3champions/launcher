@@ -1,8 +1,10 @@
 <template>
-  <div class="headline-container">
-    <HeadItem target="/" text="W3Champions" />
-    <HeadItem target="/HotKeys" text="Hotkeys"/>
-    <HeadItem target="/Settings" text="Settings"/>
+  <div class="headline-wrapper">
+    <div class="headline-container">
+      <HeadItem target="/" text="W3Champions" />
+      <HeadItem target="/HotKeys" text="Hotkeys"/>
+      <HeadItem target="/Settings" text="Settings"/>
+    </div>
   </div>
 </template>
 
@@ -30,9 +32,6 @@ export default class HeadLine extends Vue {
   justify-content: space-evenly;
   align-items: center;
 
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
-
   width: 671px;
   height: 71px;
 
@@ -40,4 +39,11 @@ export default class HeadLine extends Vue {
   background-size: cover;
 }
 
+.headline-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 150px;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
 </style>

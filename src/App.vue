@@ -141,7 +141,7 @@ a {
   background-size: cover;
   z-index: -100;
   top: 140px;
-  width: 1200px;
+  width: 1210px;
   height: 655px;
 }
 
