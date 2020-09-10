@@ -5,9 +5,9 @@
       <div v-html='news[0] ? news[0].message : ""'></div>
     </div>
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
-    <button @click="tryStartWc3" :disabled="isDisabled" class="start-button" :content="playButton" :title="explanation">
+    <div @click="tryStartWc3" :disabled="isDisabled" class="start-button w3font" :content="playButton" :title="explanation">
       {{ playButton }}
-    </button>
+    </div>
   </div>
 </template>
 
@@ -109,39 +109,23 @@ export default class HomeScreen extends Vue {
 }
 
 .start-button {
-  line-height: 1;
-  background-color: transparent;
-  text-transform: uppercase;
-  color: rgb(51, 38, 28);
-  background-image: linear-gradient(rgba(255, 255, 0, 0.2) 50%, transparent 50%),
-    linear-gradient(rgb(255, 209, 85), rgb(220, 166, 13));
-  box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 0px 2px,
-    rgba(236, 174, 6, 0.3) 0px 0px 40px 15px,
-    rgba(255, 255, 255, 0.4) 0px 0px 0px 2px inset,
-    rgba(255, 125, 19, 0.3) 0px 0px 20px 10px inset;
-  text-shadow: rgb(51, 38, 28) 0px 0px;
-  height: 76px;
-  font-size: 26px;
-  border-width: 0px;
-  border-style: initial;
-  border-color: initial;
-  border-image: initial;
-  border-radius: 2px;
-  background-repeat: no-repeat;
-  outline: 0px;
-  text-decoration: none;
-  transition: filter 200ms ease 0s;
-  padding: 0 95px;
-}
-
-.start-button:hover {
-  filter: brightness(1.1);
-  background-color: rgb(217, 217, 217);
-  cursor: pointer;
+  background: url("~@/assets/images/home/Green_Hero_Button.png") no-repeat center;
+  height: 80px;
+  width: 387px;
+  text-align: center;
+  line-height: 80px;
+  background-size: cover;
+  font-size: 30px;
 }
 
 .start-button:disabled {
   cursor:unset;
   opacity: 0.5;
+}
+
+.start-button:active {
+}
+
+.start-button:hover {
 }
 </style>
