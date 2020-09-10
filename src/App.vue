@@ -110,6 +110,13 @@ a {
   color: inherit;
 }
 
+.w3font {
+  font-family: "Friz Quadrata Regular OS";
+  color: #ffd528;
+  font-weight: bold;
+  text-shadow:  3px 3px 1px #000000;
+}
+
 .app-container {
   background: url("~@/assets/images/home/Maon_Border.png") center no-repeat;
   height: 100vh;
