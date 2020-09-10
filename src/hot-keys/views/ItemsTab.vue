@@ -13,19 +13,26 @@
           <div class="modal-button" @click="removeHotKey">Remove</div>
         </div>
       </div>
-      <div class="item-grid">
-        <div class="single-item" @click="() => openChangeHotkeyModal(itemTopLeft)">{{getKeyComboOf(itemTopLeft)}}</div>
-        <div class="single-item" @click="() => openChangeHotkeyModal(itemTopRight)">{{getKeyComboOf(itemTopRight)}}</div>
-        <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleLeft)">{{getKeyComboOf(itemMiddleLeft)}}</div>
-        <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleRight)">{{getKeyComboOf(itemMiddleRight)}}</div>
-        <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomLeft)">{{getKeyComboOf(itemBottomLeft)}}</div>
-        <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomRight)">{{getKeyComboOf(itemBottomRight)}}</div>
+      <div>
+        <div class="w3font" style="margin-bottom: 15px">Inventory</div>
+        <div class="item-grid">
+          <div class="single-item" @click="() => openChangeHotkeyModal(itemTopLeft)">{{getKeyComboOf(itemTopLeft)}}</div>
+          <div class="single-item" @click="() => openChangeHotkeyModal(itemTopRight)">{{getKeyComboOf(itemTopRight)}}</div>
+          <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleLeft)">{{getKeyComboOf(itemMiddleLeft)}}</div>
+          <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleRight)">{{getKeyComboOf(itemMiddleRight)}}</div>
+          <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomLeft)">{{getKeyComboOf(itemBottomLeft)}}</div>
+          <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomRight)">{{getKeyComboOf(itemBottomRight)}}</div>
+        </div>
       </div>
-      <div class="function-key-grid">
-        <div class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">F1</div></div>
-        <div class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">F2</div></div>
-        <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">F3</div></div>
-        <div class="single-item function-item" style="margin-left: 50px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">hotkeys on/off</div></div>
+
+      <div style="margin-left: 40px">
+        <div class="w3font" style="margin-bottom: 15px; margin-left: 8px">Heroes</div>
+        <div class="function-key-grid">
+          <div class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">First</div></div>
+          <div class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">Second</div></div>
+          <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">Third</div></div>
+          <div class="single-item function-item" style="margin-left: 30px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">hotkeys on/off</div></div>
+        </div>
       </div>
     </div>
 
@@ -255,7 +262,7 @@ export default class ItemsTab extends Vue {
 
 <style scoped type="text/css">
 .hotkey-wrapper {
-  padding-top: 60px;
+  padding-top: 20px;
   padding-left: 60px;
   padding-right: 60px;
 
@@ -266,33 +273,26 @@ export default class ItemsTab extends Vue {
 }
 
 .item-grid {
-  background: url("~@/assets/images/home/itemBg.png") no-repeat center;
-  background-size: cover;
-  width: 187px;
-  height: 276px;
-  border: 2px solid rgba(0,0,0, 0.5);
-  border-radius: 5px;
+  width: 165px;
+  height: 251px;
 
   display: flex;
   flex-flow: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .function-key-grid {
-  border-radius: 5px;
-  margin-left: 40px;
-
   display: flex;
   justify-content: space-between;
 }
 
 .single-item {
+  background: url("~@/assets/images/hotkeys/Hotkeys_Inventory_Button.png") no-repeat center;
+  background-size: cover;
   cursor: pointer;
 
-  width: 67px;
-  height: 67px;
-  margin: 8px 10px 10px;
-  border: 3px solid transparent;
+  height: 76px;
+  width: 76px;
 
   display: flex;
   align-items: center;
@@ -301,7 +301,8 @@ export default class ItemsTab extends Vue {
 }
 
 .single-item:hover {
-  border: 3px solid #a59f33;
+  background: url("~@/assets/images/hotkeys/Hotkeys_Button_Highlight.png") no-repeat center;
+  background-size: cover;
 }
 
 .hotkey-toggle {
@@ -323,19 +324,8 @@ export default class ItemsTab extends Vue {
 .function-item {
   background: url("~@/assets/images/buttons/war3_btn_small_blue_normal_4k.png") no-repeat center;
   background-size: cover;
-
+  margin-left: 8px;
   position: relative;
-
-  width: 86px;
-  height: 86px;
-  margin: 0 0 0 10px;
-}
-
-.function-item:hover {
-  border: 3px solid transparent;
-
-  background: url("~@/assets/images/buttons/war3_btn_small_blue_hover_4k.png") no-repeat center;
-  background-size: cover;
 }
 
 .hotkey-on-toggle {
@@ -383,7 +373,8 @@ export default class ItemsTab extends Vue {
   background: url("~@/assets/images/hotkeys/Hotkeys_Inventory_Text_Frame.png") no-repeat center;
   width: 562px;
   height: 180px;
-  margin-left: 40px;
+  margin-left: 66px;
+  margin-top: 60px;
   background-size: cover;
 }
 
