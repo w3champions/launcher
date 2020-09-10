@@ -5,8 +5,8 @@
       <div v-html='news[0] ? news[0].message : ""'></div>
     </div>
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
-    <div @click="tryStartWc3" :disabled="isDisabled" class="start-button w3font" :content="playButton" :title="explanation">
-      {{ playButton }}
+    <div @click="tryStartWc3" class="start-button w3font" :class="isDisabled ? 'start-button-disabled' : ''" :content="playButton" :title="explanation">
+      <div style="opacity: unset" >{{ playButton }}</div>
     </div>
   </div>
 </template>
@@ -109,23 +109,17 @@ export default class HomeScreen extends Vue {
 }
 
 .start-button {
-  background: url("~@/assets/images/home/Green_Hero_Button.png") no-repeat center;
-  height: 80px;
-  width: 387px;
+  background: url("~@/assets/images/home/Green_Hero_Button_Static.png") no-repeat center;
+  background-size: cover;
+  height: 88px;
+  width: 393px;
   text-align: center;
   line-height: 80px;
-  background-size: cover;
-  font-size: 30px;
-}
-
-.start-button:disabled {
-  cursor:unset;
-  opacity: 0.5;
+  font-size: 28px;
 }
 
 .start-button:active {
-}
-
-.start-button:hover {
+  background: url("~@/assets/images/home/Green_Hero_Button_Active.png") no-repeat center;
+  background-size: cover;
 }
 </style>

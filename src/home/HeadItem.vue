@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div @click="goToTarget" class="header-item w3font">
     {{ text }}
   </div>
@@ -38,6 +38,7 @@ export default class HeadItem extends Vue {
   height: 56px;
   background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;
   background-size: cover;
+  cursor: pointer;
 }
 
 .header-item:active {

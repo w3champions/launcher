@@ -274,6 +274,7 @@ input[type="checkbox"]:focus + label::before {
   padding-bottom: 8px;
   padding-left: 32px;
   padding-right: 32px;
+  user-select: text;
 }
 
 
