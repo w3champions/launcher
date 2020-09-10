@@ -27,7 +27,7 @@
       <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">F3</div></div>
       <div class="single-item function-item" style="margin-left: 50px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">hotkeys on/off</div></div>
     </div>
-    <div class="hotkey-toggle" @click="toggleHotKeys" :style="`background-color: ${hotkeyState ? 'green' : 'red'}`" />
+    <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
     <div class="hotkey-tips">
       Hotkeys will be turned on, as soon as you enter any game automatically.
       If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
@@ -295,8 +295,8 @@ export default class HotKeySetupScreen extends Vue {
 
 .hotkey-toggle {
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 33px;
+  height: 33px;
   border-radius: 12px;
   border: 2px solid #b0b0b0;
   right: 120px;
@@ -329,6 +329,20 @@ export default class HotKeySetupScreen extends Vue {
   border: 3px solid transparent;
 
   background: url("~@/assets/images/buttons/war3_btn_small_blue_hover_4k.png") no-repeat center;
+  background-size: cover;
+}
+
+.hotkey-on-toggle {
+  width: 33px;
+  height: 33px;
+}
+
+.hotkeys-active {
+  background: url("~@/assets/images/hotkeys/Hotkeys_Inventory_On.png") no-repeat center;
+  background-size: cover;
+}
+.hotkeys-inactive {
+  background: url("~@/assets/images/hotkeys/Hotkeys_Inventory_Off.png") no-repeat center;
   background-size: cover;
 }
 
