@@ -252,8 +252,8 @@ input[type="checkbox"]:focus + label::before {
 
 .button-bar-button {
   font-size: 20px;
-  width: 215px;
-  height: 56px;
+  width: 208px;
+  height: 54px;
   text-align: center;
   line-height: 56px;
   background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;

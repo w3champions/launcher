@@ -35,7 +35,7 @@ export default class HeadItem extends Vue {
   text-align: center;
   line-height: 56px;
   width: 215px;
-  height: 56px;
+  height: 55px;
   background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;
   background-size: cover;
   cursor: pointer;
