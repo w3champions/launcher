@@ -27,13 +27,13 @@
         <ColorPicker text="Allies Color" :color="alliesColor" :onSwitchColor="switchAlliesColor"/>
       </div>
       <div class="button-bar">
-        <div @click="repairW3c" :disabled="isLoading" class="repair-button">
+        <div @click="repairW3c" :disabled="isLoading" class="button-bar-button w3font">
           Reset W3C
         </div>
-        <div @click="redownloadW3c" :disabled="isLoading" class="repair-button" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
+        <div @click="redownloadW3c" :disabled="isLoading" class="button-bar-button w3font" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
           Redownload
         </div>
-        <div @click="toggleVersion" class="repair-button" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
+        <div @click="toggleVersion" class="button-bar-button w3font" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
           Switch to {{ !isTest ? "PTR" : "LIVE" }}
         </div>
       </div>
@@ -207,13 +207,32 @@ export default class UpdateSettingsScreen extends Vue {
 }
 
 .button-bar{
-  padding-top: 35px;
-  padding-left: 20px;
-  padding-right: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+
+  margin-top: 30px;
+  width: 671px;
+  height: 71px;
+
+  background: url("~@/assets/images/home/Header_Buttons_Frame.png") center no-repeat;
+  background-size: cover;
+}
+
+.button-bar-button {
+  font-size: 20px;
+  width: 215px;
+  height: 56px;
+  text-align: center;
+  line-height: 56px;
+  background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;
+  background-size: cover;
+}
+
+.button-bar-button:active{
+  background: url("~@/assets/images/home/Button_Blue_Active.png") center no-repeat;
+  background-size: cover;
 }
 
 .reset-button-line {
@@ -226,6 +245,7 @@ export default class UpdateSettingsScreen extends Vue {
   padding-left: 32px;
   padding-right: 32px;
 }
+
 
 .path-is-wrong {
   background: url("~@/assets/images/settings/Settings_Directory_Frame_Error.png") no-repeat center;
