@@ -3,7 +3,14 @@
     <div class="hotkey-tabs">
       <div v-for="race in racesValues" :key="race" class="hotkey-tab" :class="`hotkey-tab-${races[race]}`" @click="() => navigateTo(race)"/>
     </div>
-
+    <div class="tab-container">
+      <div v-if="isItemTab">
+        items!!
+      </div>
+      <div v-else>
+        {{races[tab]}}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -16,13 +23,16 @@ import logger from "@/logger";
 @Component
 export default class HotKeySetupScreen extends Vue {
   public races = HotkeyTabs;
-  public racesValues = [ HotkeyTabs.items ];
-  // public racesValues = [ HotkeyTabs.items, HotkeyTabs.human, HotkeyTabs.orc, HotkeyTabs.undead, HotkeyTabs.nightelf, HotkeyTabs.neutral ];
+  // public racesValues = [ HotkeyTabs.items ];
+  public racesValues = [ HotkeyTabs.items, HotkeyTabs.human, HotkeyTabs.orc, HotkeyTabs.undead, HotkeyTabs.nightelf, HotkeyTabs.neutral ];
 
   @Prop() public tab!: HotkeyTabs;
 
+  get isItemTab() {
+    return this.tab === HotkeyTabs.items;
+  }
   public navigateTo(tab: HotkeyTabs) {
-    const path = `Hotkeys/${tab}`;
+    const path = `/HotKeys/${tab}`;
     this.$router.push({
       path: path
     }).catch(err => {
@@ -85,5 +95,9 @@ export default class HotKeySetupScreen extends Vue {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+
+.tab-container {
+  width: 100%;
 }
 </style>
