@@ -2,7 +2,7 @@
   <div class="launcher-background">
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <div style="padding-top: 40px">
-      <div class="location-wrapper-header w3font" style="margin-bottom: 10px">Directory Settings</div>
+      <div class="options-header w3font" style="margin-bottom: 10px">Directory Settings</div>
         <div class="location-wrapper">
         <div class="w3c-icon" :title="`Enter the location to wc3 (Usually ${defaultW3Location})`"/>
         <div class="reset-button-line"  :class="isW3LocationWrong ? 'path-is-wrong' : 'path-is-right'">
@@ -15,11 +15,11 @@
           <div class="reset-button" @click="resetBnetPath" />
         </div>
       </div>
-      <div class="location-wrapper-header w3font" style="margin-top: 10px">Color Settings</div>
+      <div class="options-header w3font" style="margin-top: 20px">Color Settings</div>
       <div class="color-pick-bar">
         <div>
           <input type="checkbox" :checked="isTeamColorsEnabled" @click="toggleTeamColors" id="manual-mode-check-box"/>
-          <label for="manual-mode-check-box">  Turn on team colors</label>
+          <label for="manual-mode-check-box">  Team colors</label>
         </div>
 
         <ColorPicker text="Own Color" :color="ownColor" :onSwitchColor="switchOwnColor"/>
@@ -208,13 +208,13 @@ label {
 }
 
 input[type="checkbox"] + label:before {
-
+  margin-left: -15px !important;
   background: url("~@/assets/images/settings/Settings_Toggle_Off.png") center no-repeat;
   content: "\00a0";
   display: inline-block;
-  line-height: 30px;
-  height: 30px;
-  width: 31px;
+  line-height: 20px;
+  height: 25px;
+  width: 25px;
 }
 input[type="checkbox"]:checked + label:before {
 
@@ -242,7 +242,7 @@ input[type="checkbox"]:focus + label::before {
   align-items: center;
   justify-content: space-around;
 
-  margin-top: 30px;
+  margin-top: 50px;
   width: 671px;
   height: 71px;
 
@@ -311,13 +311,18 @@ input[type="checkbox"]:focus + label::before {
 }
 
 .color-pick-bar {
-  margin-top: 20px;
+  margin-top: 10px;
+  background: url("~@/assets/images/home/Header_Buttons_Frame.png") no-repeat center;
+  height: 71px;
+  width: 671px;
+  background-size: cover;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.location-wrapper-header {
+.options-header {
   font-size: 18px;
 }
 

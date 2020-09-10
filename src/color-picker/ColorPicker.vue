@@ -1,6 +1,8 @@
 <template>
   <div class="picker-container">
-    <div class="color-picker" :class="`color-${color}`" @click="toggleModal"></div>
+    <div class="color-picker-border">
+      <div class="color-picker" :class="`color-${color}`" @click="toggleModal"></div>
+    </div>
     <div class="color-picker-text">{{ text }}</div>
     <div class="color-picker-modal" :style="{visibility: modalOpen ? 'visible' : 'hidden'}">
       <div class="color-selector-row" v-for="outer in colorGrid" :key="outer.toString()">
@@ -69,12 +71,11 @@ export default class ColorPicker extends Vue {
 .picker-container {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .color-picker-text {
-  height: 26px;
-  line-height: 26px;
-  padding-left: 10px;
+  padding-left: 5px;
   text-align: center;
 }
 
@@ -213,5 +214,15 @@ export default class ColorPicker extends Vue {
 .color-23{
   background: url('~@/assets/images/colorSelect/color-23.png') center no-repeat;
   background-size: cover;
+}
+
+.color-picker-border {
+  background: url("~@/assets/images/settings/Settings_Color_Frame.png") center no-repeat;
+  background-size: cover;
+  width: 52px;
+  height: 51px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
