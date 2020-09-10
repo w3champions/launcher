@@ -1,15 +1,21 @@
 <template>
   <div class="launcher-background">
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
-    <div style="padding-top: 60px">
-      <div :class="isW3LocationWrong ? 'path-is-wrong' : 'reset-button-line'">
-        <div :title="explanationW3Wrong">Warcraft III Location: {{w3Path}}</div>
-        <div class="reset-button" @click="resetW3Path" />
+    <div style="padding-top: 40px">
+      <div class="location-wrapper-header w3font" style="margin-bottom: 10px">Directory Settings</div>
+        <div class="location-wrapper">
+        <div class="w3c-icon"/>
+        <div class="reset-button-line" :class="isW3LocationWrong ? 'path-is-wrong' : 'path-is-right'">
+          <div :title="explanationW3Wrong">{{w3Path}}</div>
+          <div class="reset-button" @click="resetW3Path" />
+        </div>
+        <div class="bnet-icon"/>
+        <div class="reset-button-line" :class="isBnetLocationWrong ? 'path-is-wrong' : 'path-is-right'">
+          <div :title="explanationBnetWrong">{{battleNet}}</div>
+          <div class="reset-button" @click="resetBnetPath" />
+        </div>
       </div>
-      <div :class="isBnetLocationWrong ? 'path-is-wrong' : 'reset-button-line'">
-        <div :title="explanationBnetWrong">Battle.Net Location: {{battleNet}}</div>
-        <div class="reset-button" @click="resetBnetPath" />
-      </div>
+      <div class="location-wrapper-header w3font" style="margin-top: 10px">Color Settings</div>
       <div class="color-pick-bar">
         <div>
           <input type="checkbox" :checked="isTeamColorsEnabled" @click="toggleTeamColors" id="manual-mode-check-box"/>
@@ -206,27 +212,20 @@ export default class UpdateSettingsScreen extends Vue {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 650px;
-  height: 50px;
-  margin-bottom: 12px;
-  padding-bottom: 12px;
+  width: 540px;
+  height: 42px;
+  padding-bottom: 8px;
   padding-left: 32px;
   padding-right: 32px;
-  background: url("~@/assets/images/fields/war3_text_hover_4k.png") no-repeat center;
-  background-size: cover;
 }
 
 .path-is-wrong {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 650px;
-  height: 50px;
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-  padding-left: 32px;
-  padding-right: 32px;
-  background: url("~@/assets/images/fields/war3_text_error_hover_4k.png") no-repeat center;
+  background: url("~@/assets/images/settings/Settings_Directory_Frame_Error.png") no-repeat center;
+  background-size: cover;
+}
+
+.path-is-right {
+  background: url("~@/assets/images/settings/Settings_Directory_Frame.png") no-repeat center;
   background-size: cover;
 }
 
@@ -234,41 +233,9 @@ export default class UpdateSettingsScreen extends Vue {
   color: rgb(140, 137, 137) !important;
 }
 
-.repair-button {
-  line-height: 1;
-  background-color: transparent;
-  text-transform: uppercase;
-  color: rgb(45, 45, 45);
-  background-image: linear-gradient(rgba(88, 88, 88, 0.2) 50%, transparent 50%),
-    linear-gradient(rgb(165, 165, 165), rgb(111, 111, 111));
-  box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 0px 2px,
-    rgba(226, 223, 221, 0.3) 0px 0px 40px 15px,
-    rgba(255, 255, 255, 0.4) 0px 0px 0px 2px inset,
-    rgba(241, 201, 171, 0.3) 0px 0px 20px 10px inset;
-  text-shadow: rgb(51, 38, 28) 0px 0px;
-  height: 36px;
-  font-size: 14px;
-  border-width: 0px;
-  border-radius: 2px;
-  background-repeat: no-repeat;
-  outline: 0px;
-  text-decoration: none;
-  transition: filter 200ms ease 0s;
-  padding: 0 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.repair-button:hover {
-  filter: brightness(1.1);
-  background-color: rgb(217, 217, 217);
-  cursor: pointer;
-}
-
 .reset-button {
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   background: url("~@/assets/images/icons/folder-icon-resting.png") no-repeat center;
   background-size: cover;
 }
@@ -276,6 +243,7 @@ export default class UpdateSettingsScreen extends Vue {
 .reset-button:hover {
   background: url("~@/assets/images/icons/folder-icon-hover.png") no-repeat center;
   background-size: cover;
+  cursor: pointer;
 }
 
 .version-wrapper {
@@ -289,5 +257,35 @@ export default class UpdateSettingsScreen extends Vue {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.location-wrapper-header {
+  font-size: 18px;
+}
+
+.bnet-icon {
+  background: url("~@/assets/images/settings/Settings_Bnet_Icon.png") no-repeat center;
+  background-size: cover;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  height: 24px;
+  width: 24px;
+}
+
+.w3c-icon {
+  background: url("~@/assets/images/settings/Settings_W3_Icon.png") no-repeat center;
+  background-size: cover;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  height: 26px;
+  width: 30px;
+}
+
+.location-wrapper {
+  background: url("~@/assets/images/settings/Settings_Directory_Text_Frame.png") no-repeat center;
+  background-size: cover;
+  padding: 28px 30px 30px;
+  height: 154px;
+  width: 605px;
 }
 </style>
