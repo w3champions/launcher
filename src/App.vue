@@ -114,6 +114,7 @@ a {
 .w3font {
   font-family: "Friz Quadrata Regular OS";
   color: #ffd528;
+  text-transform: uppercase;
   text-shadow:  3px 3px 1px #000000;
 }
 

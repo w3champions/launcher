@@ -26,7 +26,7 @@ const os = window.require('os');
 export default class HomeScreen extends Vue {
   private updateStrategy = HomeScreen.isWindows() ? new WindowsLauncher() : new MacLauncher();
   private disablePlayBtn = true;
-  public playButton = "Please open Bnet first";
+  public playButton!: string;
 
   private static isWindows() {
     return os.platform() === "win32";
@@ -39,7 +39,7 @@ export default class HomeScreen extends Vue {
 
   private turnOnButton() {
     if (HomeScreen.isWindows() && this.isBnetOff) {
-      this.playButton = "Please open Bnet first"
+      this.playButton = "Please open Bnet"
       this.disablePlayBtn = true;
     } else {
       this.playButton = "Play";
