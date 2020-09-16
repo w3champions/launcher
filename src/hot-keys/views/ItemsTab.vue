@@ -15,24 +15,40 @@
       </div>
       <div>
         <div class="w3font" style="margin-bottom: 15px">Inventory</div>
-        <div class="item-grid">
-          <div class="single-item" @click="() => openChangeHotkeyModal(itemTopLeft)">{{getKeyComboOf(itemTopLeft)}}</div>
-          <div class="single-item" @click="() => openChangeHotkeyModal(itemTopRight)">{{getKeyComboOf(itemTopRight)}}</div>
-          <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleLeft)">{{getKeyComboOf(itemMiddleLeft)}}</div>
-          <div class="single-item" @click="() => openChangeHotkeyModal(itemMiddleRight)">{{getKeyComboOf(itemMiddleRight)}}</div>
-          <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomLeft)">{{getKeyComboOf(itemBottomLeft)}}</div>
-          <div class="single-item" @click="() => openChangeHotkeyModal(itemBottomRight)">{{getKeyComboOf(itemBottomRight)}}</div>
-        </div>
+        <table class="item-grid">
+          <tr>
+            <td class="single-item" @click="() => openChangeHotkeyModal(itemTopLeft)">
+              <div class="item-hover">{{getKeyComboOf(itemTopLeft)}}</div>
+            </td>
+            <td class="single-item" @click="() => openChangeHotkeyModal(itemTopRight)">
+              <div class="item-hover">{{getKeyComboOf(itemTopRight)}}</div>
+            </td>
+          </tr>
+          <tr>
+            <td class="single-item" @click="() => openChangeHotkeyModal(itemMiddleLeft)">
+              <div class="item-hover">{{getKeyComboOf(itemMiddleLeft)}}</div></td>
+            <td class="single-item" @click="() => openChangeHotkeyModal(itemMiddleRight)">
+              <div class="item-hover">{{getKeyComboOf(itemMiddleRight)}}</div></td>
+          </tr>
+          <tr>
+            <td class="single-item" @click="() => openChangeHotkeyModal(itemBottomLeft)">
+              <div class="item-hover">{{getKeyComboOf(itemBottomLeft)}}</div></td>
+            <td class="single-item" @click="() => openChangeHotkeyModal(itemBottomRight)">
+              <div class="item-hover">{{getKeyComboOf(itemBottomRight)}}</div></td>
+          </tr>
+        </table>
       </div>
 
       <div style="margin-left: 40px">
-        <div class="w3font" style="margin-bottom: 15px; margin-left: 8px">Heroes</div>
-        <div class="function-key-grid">
-          <div class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">First</div></div>
-          <div class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">Second</div></div>
-          <div class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">Third</div></div>
-          <div class="single-item function-item" style="margin-left: 30px" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">hotkeys on/off</div></div>
-        </div>
+        <div class="w3font" style="margin-bottom: 15px; margin-left: 8px">Miscellaneous</div>
+        <table class="function-key-grid">
+          <tr>
+            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">First</div></td>
+            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">Second</div></td>
+            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">Third</div></td>
+            <td class="single-item function-item" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">on/off</div></td>
+          </tr>
+        </table>
       </div>
     </div>
 
@@ -41,7 +57,7 @@
         <div>
           Hotkeys will be turned on, as soon as you enter any game automatically.
           If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
-          If something goes wrong, you can always toggle the hotkeys with the provided <b>hotkeys on/off</b> toggle key.
+          If something goes wrong, you can always toggle the hotkeys with the provided <b>on/off</b> toggle key.
         </div>
         <div class="just-a-row">
           <div :class="isHotkeyManualMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleHotkeyManualMode" id="manual-mode-check-box"/>
@@ -273,36 +289,34 @@ export default class ItemsTab extends Vue {
 }
 
 .item-grid {
-  width: 165px;
-  height: 251px;
-
-  display: flex;
-  flex-flow: wrap;
-  justify-content: space-around;
+  background: url("~@/assets/images/hotkeys/Hotkeys_Inventory_Frame.png") no-repeat center;
+  background-size: cover;
+  padding: 5px;
+  width: 155px;
+  height: 221px;
 }
 
 .function-key-grid {
-  display: flex;
-  justify-content: space-between;
+  background: url("~@/assets/images/hotkeys/Hotkeys_Heroes_Frame.png") no-repeat center;
+  background-size: cover;
+  padding: 5px;
+  width: 291px;
+  height: 85px;
 }
 
 .single-item {
   background: url("~@/assets/images/hotkeys/Hotkeys_Inventory_Button.png") no-repeat center;
   background-size: cover;
   cursor: pointer;
-
-  height: 76px;
-  width: 76px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
   font-size: 18px;
+  line-height: 68px;
 }
 
-.single-item:hover {
+.item-hover:hover {
   background: url("~@/assets/images/hotkeys/Hotkeys_Button_Highlight.png") no-repeat center;
   background-size: cover;
+  line-height: 68px;
 }
 
 .hotkey-toggle {
@@ -317,20 +331,16 @@ export default class ItemsTab extends Vue {
   font-size: 12px;
 
   position: absolute;
-  align-self: flex-end;
-  bottom: 12px;
+  bottom: -20px;
+  left: 20px;
 }
 
 .function-item {
   background: url("~@/assets/images/buttons/war3_btn_small_blue_normal_4k.png") no-repeat center;
   background-size: cover;
-  margin-left: 8px;
+  height: 64px;
+  width: 64px;
   position: relative;
-}
-
-.hotkey-on-toggle {
-  width: 33px;
-  height: 33px;
 }
 
 .hotkeys-active {
