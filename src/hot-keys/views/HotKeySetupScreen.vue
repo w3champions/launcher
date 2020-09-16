@@ -17,7 +17,7 @@
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
 
-import {HotkeyTabs} from "@/hot-keys/hotkeyTypes";
+import {HotkeyType} from "@/hot-keys/hotkeyTypes";
 import logger from "@/logger";
 import RaceTab from "@/hot-keys/views/RaceTab.vue";
 import ItemsTab from "@/hot-keys/views/ItemsTab.vue";
@@ -25,12 +25,12 @@ import ItemsTab from "@/hot-keys/views/ItemsTab.vue";
   components: {ItemsTab, RaceTab}
 })
 export default class HotKeySetupScreen extends Vue {
-  public races = HotkeyTabs;
+  public races = HotkeyType;
   // public racesValues = [ HotkeyTabs.items ];
-  public racesValues = [ HotkeyTabs.items, HotkeyTabs.human, HotkeyTabs.orc, HotkeyTabs.undead, HotkeyTabs.nightelf, HotkeyTabs.neutral ];
+  public racesValues = [ HotkeyType.items, HotkeyType.human, HotkeyType.orc, HotkeyType.undead, HotkeyType.nightelf, HotkeyType.neutral ];
 
-  @Prop() public tab!: HotkeyTabs;
-  public navigateTo(tab: HotkeyTabs) {
+  @Prop() public tab!: HotkeyType;
+  public navigateTo(tab: HotkeyType) {
     const path = `/HotKeys/${tab}`;
     this.$router.push({
       path: path

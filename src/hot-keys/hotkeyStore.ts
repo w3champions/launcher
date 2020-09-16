@@ -1,21 +1,28 @@
 import {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
-import {ClickCombination, HotKey, HotKeyModifierState, ModifierKey} from "@/hot-keys/hotkeyTypes";
+import {
+  ClickCombination,
+  HotKey,
+  HotKeyModifierState,
+  ModifierKey
+} from "@/hot-keys/hotkeyTypes";
 import {NotInGameState} from "@/hot-keys/HotKeyStateMachine";
+import defaultCustomHotkeys from "@/hot-keys/defaultCustomHotkeys";
 
 const mod = {
   namespaced: true,
   state: {
-    hotKeys: [] as HotKey[],
+    itemHotKeys: [] as HotKey[],
     hotKeyStateMachine: new NotInGameState(),
+    customHotkeys: defaultCustomHotkeys,
     lastW3cPort: "",
     toggleButton: { modifier: ModifierKey.Shift, hotKey: {key: "f4", uiDisplay: "f4"}}
   } as HotKeyModifierState,
   actions: {
     addHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
-      const allKeys = state.hotKeys.filter(h => h.key !== hotKey.key);
+      const allKeys = state.itemHotKeys.filter(h => h.key !== hotKey.key);
       const newHotKeys = [...allKeys, hotKey];
       rootGetters.itemHotkeyService.saveHotKeys(newHotKeys);
       commit.SET_HOTKEYS(newHotKeys);
@@ -38,10 +45,10 @@ const mod = {
     removeHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: string) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
 
-      const keyToUnregister = state.hotKeys.filter(h => h.key === hotKey)[0];
+      const keyToUnregister = state.itemHotKeys.filter(h => h.key === hotKey)[0];
       if (keyToUnregister) {
         rootGetters.itemHotkeyService.unregister(keyToUnregister.combo);
-        const allKeys = state.hotKeys.filter(h => h.key !== hotKey);
+        const allKeys = state.itemHotKeys.filter(h => h.key !== hotKey);
         const newHotKeys = [...allKeys];
         rootGetters.itemHotkeyService.saveHotKeys(newHotKeys);
         commit.SET_HOTKEYS(newHotKeys);
@@ -58,11 +65,11 @@ const mod = {
     },
       enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
         const { rootGetters, state } = moduleActionContext(context, mod);
-        rootGetters.itemHotkeyService.enableHotKeys(state.hotKeys);
+        rootGetters.itemHotkeyService.enableHotKeys(state.itemHotKeys);
       },
       disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
         const { rootGetters, state  } = moduleActionContext(context, mod);
-        rootGetters.itemHotkeyService.disableHotKeys(state.hotKeys);
+        rootGetters.itemHotkeyService.disableHotKeys(state.itemHotKeys);
       },
     loadHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
@@ -101,7 +108,7 @@ const mod = {
   },
   mutations: {
     SET_HOTKEYS(state: HotKeyModifierState, hotKeys: HotKey[]) {
-      state.hotKeys = hotKeys;
+      state.itemHotKeys = hotKeys;
     },
     TOGGLE_HOTKEYS_MANUAL_MODE(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.toggleManualMode();

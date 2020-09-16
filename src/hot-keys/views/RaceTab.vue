@@ -3,42 +3,43 @@
     <div class="selection-wrapper">
       <div class="selection-header w3font">Units</div>
       <table class="selection-background">
-        <tr v-for="line in lines" :key="line">
-          <td class="single-selection-item" v-for="item in line" :key="item">
+        <tr v-for="line in units" :key="line">
+          <td class="single-selection-item" v-for="item in line" :key="item.icon">
             <div class="item-selection-hover" @click="() => selectUnit(item)">{{item}}</div>
           </td>
         </tr>
       </table>
       <div class="selection-header w3font">Buildings</div>
       <table class="selection-background">
-        <tr v-for="line in lines" :key="line">
-          <td class="single-selection-item" v-for="item in line" :key="item">
-            <div class="item-selection-hover" @click="() => selectBuilding(item)">{{item}}</div>
+        <tr v-for="line in buildings" :key="line">
+          <td class="single-selection-item" v-for="item in line" :key="item.icon">
+            <div class="item-selection-hover" @click="() => selectUnit(item)">{{item.name}}</div>
           </td>
         </tr>
       </table>
       <div class="selection-header w3font">Heroes</div>
       <table class="selection-background selection-background-single-line">
         <tr>
-          <td class="single-selection-item" v-for="item in heroes" :key="item">
-            <div class="item-selection-hover" @click="() => selectHero(item)">{{item}}</div>
+          <td class="single-selection-item" v-for="item in heroes" :key="item.icon">
+            <div class="item-selection-hover" @click="() => selectUnit(item)">{{item.name}}</div>
           </td>
         </tr>
       </table>
     </div>
     <div class="selection-wrapper">
-      <div class="selection-header w3font" :class="selectedUnitName ? 'visible' : 'hidden'">Selected:
-        {{ selectedUnitName }}</div>
-      <table class="selection-background" :class="selectedUnitName ? 'visible' : 'hidden'">
-        <tr v-for="line in lines" :key="line">
+      <div class="selection-header w3font" :class="selectedUnit ? 'visible' : 'hidden'">
+        Selected: {{ selectedUnitName }}
+      </div>
+      <table class="selection-background" :class="selectedUnit ? 'visible' : 'hidden'">
+        <tr v-for="line in selectedUnitAbilities" :key="line">
           <td class="single-selection-item" v-for="item in line" :key="item">
-            <div class="item-selection-hover" @click="() => selectAbility(item)">{{item}}</div>
+            <div class="item-selection-hover" @click="getSelectionFunction()">{{item}}</div>
           </td>
         </tr>
       </table>
-      <div class="selection-header w3font" :class="selectedAbilityName ? 'visible' : 'hidden'">{{ selectedAbilityName }}</div>
-      <table class="selection-background" :class="selectedAbilityName ? 'visible' : 'hidden'">
-        <tr v-for="line in lines" :key="line">
+      <div class="selection-header w3font" :class="selectedAbility ? 'visible' : 'hidden'">{{ selectedAbilityName }}</div>
+      <table class="selection-background" :class="selectedAbility ? 'visible' : 'hidden'">
+        <tr v-for="line in selectedUnitExtendedAbilities" :key="line">
           <td class="single-selection-item" v-for="item in line" :key="item">
             <div class="item-selection-hover" @click="() => selectAbility(item)">{{item}}</div>
           </td>
@@ -53,53 +54,80 @@
         </tr>
       </table>
     </div>
-    <div class="hero-wrapper">
-
-    </div>
-
-
+    <div class="hero-wrapper" />
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
 /* eslint-disable */
-import {HotkeyTabs} from "@/hot-keys/hotkeyTypes";
+import {Ability, HotkeyType, Unit} from "@/hot-keys/hotkeyTypes";
 
 @Component
 export default class RaceTab extends Vue {
+  @Prop() public race!: HotkeyType;
 
-  @Prop() public race!: HotkeyTabs;
-
-  public lines = [[1,2,3,15], [4,5,6,25], [7,8,9,35]];
-  public selectedUnitName = 0;
-  public selectedAbilityName = 0;
+  public selectedAbility = {} as Ability | null;
+  public selectedUnit = {} as Unit;
 
   get heroes() {
-    return [1,2,3,5];
+    return this.hotKeys.heroes;
   }
 
-  public selectAbility(index: number) {
-    console.log(index);
-    this.selectedAbilityName = index;
+  get buildings() {
+    return this.splitInArrayOf4(this.hotKeys.buildings);
   }
 
-  public selectHero(index: number) {
-    console.log(index);
-    this.selectedUnitName = index;
-    this.selectedAbilityName = 0;
+  get units() {
+    return this.splitInArrayOf4(this.hotKeys.units);
   }
 
-  public selectUnit(index: number) {
-    console.log(index);
-    this.selectedUnitName = index;
-    this.selectedAbilityName = 0;
+  get selectedUnitName() {
+    return this.selectedUnit?.name ?? ""
   }
 
-  public selectBuilding(index: number) {
-    console.log(index);
-    this.selectedUnitName = index;
-    this.selectedAbilityName = 0;
+  get selectedAbilityName() {
+    return this.selectedAbility?.name ?? ""
+  }
+
+  get selectedUnitAbilities() {
+    return this.splitInArrayOf4(this.selectedUnit.abilities);
+  }
+
+  get selectedUnitExtendedAbilities() {
+    return this.splitInArrayOf4(this.selectedAbility?.abilities ?? []);
+  }
+
+  public selectAbility(selection: Ability) {
+    this.selectedAbility = selection;
+  }
+
+  get hotKeys() {
+    return this.$store.direct.state.hotKeys.customHotkeys.filter(h => h.hotkeyType === this.race)[0];
+  }
+
+  public getSelectionFunction(selection: Ability) {
+    if (selection.constructor.name === 'Ability') {
+      return this.selectAbility;
+    } else {
+      // todo
+      return this.selectAbility;
+    }
+  }
+
+  public selectUnit(selection: Unit) {
+    this.selectedUnit = selection;
+    this.selectedAbility = {} as Ability;
+  }
+
+  private splitInArrayOf4<T>(elements: T[]) {
+    const elementsPadded = [...elements, ...new Array<T>(12 - elements.length).fill({} as T)];
+
+    return elementsPadded.reduce((result, value, index, array) => {
+      if (index % 4 === 0)
+        result.push(array.slice(index, index + 4));
+      return result;
+    }, [] as T[][]);
   }
 }
 </script>
@@ -128,7 +156,7 @@ export default class RaceTab extends Vue {
 }
 
 .single-selection-item {
-  background: url("~@/assets/images/hotkeys/itemLogos/btnarcher.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/itemLogos/nightelf/btnarcher.jpg") no-repeat center;
   background-size: cover;
   height: 64px;
   width: 64px;
