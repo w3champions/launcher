@@ -49,6 +49,7 @@ export default class HotKeySetupScreen extends Vue {
 
 <style scoped type="text/css">
 .hotkey-tab {
+  cursor: pointer;
   width: 80px;
   height: 77px;
 }
