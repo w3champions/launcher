@@ -57,4 +57,8 @@ export class MacLauncher extends LauncherStrategy {
     getDefaultWc3Executable(): string {
         return "Warcraft III Launcher.app";
     }
+
+    getBattleNetAgentPath(): string {
+        return '';
+    }
 }

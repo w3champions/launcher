@@ -7,7 +7,7 @@ const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
 
-export abstract class LauncherStrategy{
+export abstract class LauncherStrategy {
     private store = store;
 
     abstract getDefaultPathMap(): string;
@@ -19,6 +19,7 @@ export abstract class LauncherStrategy{
     abstract getWar3PreferencesFile(): string;
     abstract startWc3Process(bnetPath: string): void;
     abstract getCopyCommand(from: string, to: string): string;
+    abstract getBattleNetAgentPath(): string;
 
     unsetLoading() {
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
@@ -31,7 +32,7 @@ export abstract class LauncherStrategy{
     }
 
     get w3PathIsValid() {
-      return !this.store.state.updateHandling.w3PathIsInvalid;
+        return !this.store.state.updateHandling.w3PathIsInvalid;
     }
 
     get bnetPath() {
@@ -105,7 +106,7 @@ export abstract class LauncherStrategy{
         const openDialogReturnValue = await remote.dialog.showOpenDialog({
             properties: ["openDirectory", "openFile"],
             filters: [
-                {name: 'Applications', extensions: ['app']},
+                { name: 'Applications', extensions: ['app'] },
             ],
             defaultPath: currentPath
         });
@@ -187,7 +188,7 @@ export abstract class LauncherStrategy{
                 const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
                 zip.extractAllTo(temPath, true);
                 logger.info(`try as sudo now from: ${temPath} to: ${to}`)
-                this.store.dispatch.updateHandling.sudoCopyFromTo({from: temPath, to})
+                this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to })
             }
 
             return "";
@@ -268,7 +269,7 @@ export abstract class LauncherStrategy{
         if (!path || path === this.w3PathWithOutRetail) return;
         this.store.commit.updateHandling.SET_W3_PATH(path);
         logger.info(`w3 path to check: ${path}`)
-        if (!fs.existsSync(`${path}/${this.getDefaultWc3Executable()}`) ) {
+        if (!fs.existsSync(`${path}/${this.getDefaultWc3Executable()}`)) {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(true);
         } else {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
@@ -320,20 +321,88 @@ export abstract class LauncherStrategy{
     private makeSureJoinBugFilesAreGone() {
         try {
 
-            if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`))
-            {
+            if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`)) {
                 logger.info(`delete maps in ${this.w3Path}/Maps/W3Champions`)
                 fs.rmdirSync(`${this.w3Path}/Maps/W3Champions`, { recursive: true }, (e: Error) => { logger.error(e) })
             }
 
             const w3PathWithoutRetail = this.w3PathWithOutRetail;
-            if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`))
-            {
+            if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`)) {
                 logger.info(`delete maps in ${w3PathWithoutRetail}/Maps/W3Champions`)
                 fs.rmdirSync(`${w3PathWithoutRetail}/Maps/W3Champions`, { recursive: true }, (e: Error) => { logger.error(e) })
             }
         } catch (e) {
             logger.error(e)
         }
+    }
+
+    getPathsFromLogs(): { war3Path: string, bnetPath: string } {
+        let war3Path = '';
+        let bnetPath = '';
+
+        const battleNetAgentPath = this.getBattleNetAgentPath();
+
+        if (fs.existsSync(battleNetAgentPath)) {
+            const agentFiles = fs.readdirSync(battleNetAgentPath) as string[];
+            const agentFolders = agentFiles.filter(x => x.toLowerCase().includes('agent.')).reverse();
+
+            for (const agentFolder of agentFolders) {
+                const dotIndex = agentFolder.indexOf('.');
+                const versionString = agentFolder.substr(dotIndex + 1);
+                const parsedVer = parseInt(versionString);
+
+                if (!isNaN(parsedVer)) {
+                    const agentLogsDir = `${battleNetAgentPath}\\${agentFolder}\\Logs`;
+                    if (fs.existsSync(agentLogsDir)) {
+                        const allFiles = fs.readdirSync(agentLogsDir) as string[];
+                        const logFiles = allFiles.filter(x => x.toLowerCase().includes('agent-')).reverse();
+    
+                        for (const file of logFiles) {
+                            const content = fs.readFileSync(agentLogsDir + "\\" + file).toString();
+                            bnetPath = this.getBnetPathFromLogs(content, bnetPath);
+                            war3Path  = this.getW3PathFromLogs(content, war3Path);
+        
+                            if (bnetPath && war3Path) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (bnetPath && war3Path) {
+                    break;
+                }
+            }
+        }
+
+        return { war3Path, bnetPath };
+    }
+
+    private getW3PathFromLogs(content: any, war3Path: string) {
+        let result = content.match(/"([^'"]*:[^"']*_retail_[^"']*Warcraft III.exe)"/);
+        if (!war3Path) {
+            if (result != null && result.length >= 2) {
+                if (fs.existsSync(result[1])) {
+                    war3Path = result[1].replace(/\//g, "\\");
+                }
+            } else {
+                result = content.match(/"([^'"]*:[^"']*Warcraft III.exe)"/);
+                if (result != null && result.length >= 2) {
+                    if (fs.existsSync(result[1])) {
+                        war3Path = result[1].replace(/\//g, "\\");
+                    }
+                }
+            }
+        }
+        return war3Path;
+    }
+
+    private getBnetPathFromLogs(content: any, bnetPath: string) {
+        const result = content.match(/"([^'"]*:[^'"]*Battle.net.exe)"/);
+        if (result != null && result.length >= 2) {
+            if (fs.existsSync(result[1])) {
+                bnetPath = result[1].replace(/\//g, "\\");
+            }
+        }
+        return bnetPath;
     }
 }

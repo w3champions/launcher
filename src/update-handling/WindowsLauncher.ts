@@ -70,4 +70,8 @@ export class WindowsLauncher extends LauncherStrategy {
     getDefaultWc3Executable(): string {
         return "Warcraft III Launcher.exe"
     }
+
+    getBattleNetAgentPath(): string {
+        return 'C:\\ProgramData\\Battle.net\\Agent';
+    }
 }
