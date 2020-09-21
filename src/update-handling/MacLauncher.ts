@@ -59,6 +59,32 @@ export class MacLauncher extends LauncherStrategy {
     }
 
     getBattleNetAgentPath(): string {
+        return '/Users/Shared/Battle.net/Agent';
+    }
+
+    getBnetPathFromAgentLogs(): string {
+        const bnetPath = this.getPathFromAgentLogs(/"([^'"]*\/[^'"]*Battle.net.app)"/);
+
+        if (bnetPath) {
+            return bnetPath.replace('/Battle.net.app', '');
+        }
+
+        return '';
+    }
+
+    getWc3PathFromAgentLogs(): string {
+        const wc3Retail = this.getPathFromAgentLogs(/"([^'"]*\/[^"']*_retail_[^"']*Warcraft III.app)"/);
+
+        if (wc3Retail) {
+            return wc3Retail.replace('/_retail_/x86_64/Warcraft III.app', '');
+        }
+
+        const wc3NoRetail = this.getPathFromAgentLogs(/"([^'"]*\/[^"']*Warcraft III.app)"/);
+
+        if (wc3NoRetail) {
+            return wc3NoRetail.replace('/Warcraft III.app', '');
+        }
+
         return '';
     }
 }

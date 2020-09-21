@@ -20,6 +20,8 @@ export abstract class LauncherStrategy {
     abstract startWc3Process(bnetPath: string): void;
     abstract getCopyCommand(from: string, to: string): string;
     abstract getBattleNetAgentPath(): string;
+    abstract getBnetPathFromAgentLogs(): string;
+    abstract getWc3PathFromAgentLogs(): string;
 
     unsetLoading() {
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
@@ -77,7 +79,7 @@ export abstract class LauncherStrategy {
         }
 
         if (!path) {
-            const path = await this.openDialogForUserFolderSelction(header, message);
+            const path = await this.openDialogForUserFolderSelection(header, message);
             if (!path) return false;
             return path;
         }
@@ -85,7 +87,7 @@ export abstract class LauncherStrategy {
         return path;
     }
 
-    private async openDialogForUserFolderSelction(
+    private async openDialogForUserFolderSelection(
         title: string,
         message: string
     ) {
@@ -232,7 +234,11 @@ export abstract class LauncherStrategy {
     }
 
     public async updateBnetPath() {
-        const defaultBnetPath = this.getDefaultBnetPath();
+        let defaultBnetPath = this.getBnetPathFromAgentLogs();
+        if (!defaultBnetPath) {
+            defaultBnetPath = this.getDefaultBnetPath();
+        }
+
         logger.info("default bnet: " + defaultBnetPath);
         const bnetPath = await this.getFolderFromUserIfNeverStarted(
             this.bnetPath,
@@ -296,11 +302,15 @@ export abstract class LauncherStrategy {
     }
 
     public async updateW3cPath() {
-        const defaultPathWc3 = this.getDefaultPathWc3();
-        logger.info("default wc3 path: " + defaultPathWc3);
+        let defaultW3Path = this.getWc3PathFromAgentLogs();
+        if (!defaultW3Path) {
+            defaultW3Path = this.getDefaultPathWc3();
+        }
+
+        logger.info("default wc3 path: " + defaultW3Path);
         let w3path = await this.getFolderFromUserIfNeverStarted(
             this.w3Path,
-            defaultPathWc3,
+            defaultW3Path,
             "Warcraft III not found",
             "Warcraft III folder not found, please locate it manually"
         );
@@ -336,15 +346,14 @@ export abstract class LauncherStrategy {
         }
     }
 
-    getPathsFromLogs(): { war3Path: string, bnetPath: string } {
-        let war3Path = '';
-        let bnetPath = '';
+    getPathFromAgentLogs(regex: RegExp): string {
+        let path = '';
 
         const battleNetAgentPath = this.getBattleNetAgentPath();
 
         if (fs.existsSync(battleNetAgentPath)) {
             const agentFiles = fs.readdirSync(battleNetAgentPath) as string[];
-            const agentFolders = agentFiles.filter(x => x.toLowerCase().includes('agent.')).reverse();
+            const agentFolders = agentFiles.filter(x => x.toLowerCase().startsWith('agent.')).reverse();
 
             for (const agentFolder of agentFolders) {
                 const dotIndex = agentFolder.indexOf('.');
@@ -355,54 +364,34 @@ export abstract class LauncherStrategy {
                     const agentLogsDir = `${battleNetAgentPath}\\${agentFolder}\\Logs`;
                     if (fs.existsSync(agentLogsDir)) {
                         const allFiles = fs.readdirSync(agentLogsDir) as string[];
-                        const logFiles = allFiles.filter(x => x.toLowerCase().includes('agent-')).reverse();
+                        const logFiles = allFiles.filter(x => x.toLowerCase().startsWith('agent-')).reverse();
     
                         for (const file of logFiles) {
                             const content = fs.readFileSync(agentLogsDir + "\\" + file).toString();
-                            bnetPath = this.getBnetPathFromLogs(content, bnetPath);
-                            war3Path  = this.getW3PathFromLogs(content, war3Path);
+                            path = this.getPathFromAgentLog(content, regex);
         
-                            if (bnetPath && war3Path) {
+                            if (path) {
                                 break;
                             }
                         }
                     }
                 }
-                if (bnetPath && war3Path) {
+                if (path) {
                     break;
                 }
             }
         }
-
-        return { war3Path, bnetPath };
+        return path;
     }
 
-    private getW3PathFromLogs(content: any, war3Path: string) {
-        let result = content.match(/"([^'"]*:[^"']*_retail_[^"']*Warcraft III.exe)"/);
-        if (!war3Path) {
-            if (result != null && result.length >= 2) {
-                if (fs.existsSync(result[1])) {
-                    war3Path = result[1].replace(/\//g, "\\");
-                }
-            } else {
-                result = content.match(/"([^'"]*:[^"']*Warcraft III.exe)"/);
-                if (result != null && result.length >= 2) {
-                    if (fs.existsSync(result[1])) {
-                        war3Path = result[1].replace(/\//g, "\\");
-                    }
-                }
-            }
-        }
-        return war3Path;
-    }
-
-    private getBnetPathFromLogs(content: any, bnetPath: string) {
-        const result = content.match(/"([^'"]*:[^'"]*Battle.net.exe)"/);
+    private getPathFromAgentLog(content: any, regex: RegExp) {
+        const result = content.match(regex);
+        let path = '';
         if (result != null && result.length >= 2) {
             if (fs.existsSync(result[1])) {
-                bnetPath = result[1].replace(/\//g, "\\");
+                path = result[1].replace(/\//g, "\\");
             }
         }
-        return bnetPath;
+        return path;
     }
 }
