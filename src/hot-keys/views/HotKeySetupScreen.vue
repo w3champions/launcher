@@ -26,7 +26,7 @@ import ItemsTab from "@/hot-keys/views/ItemsTab.vue";
 })
 export default class HotKeySetupScreen extends Vue {
   public races = HotkeyType;
-  // public racesValues = [ HotkeyTabs.items ];
+  // public racesValues = [ HotkeyType.items ];
   public racesValues = [ HotkeyType.items, HotkeyType.human, HotkeyType.orc, HotkeyType.undead, HotkeyType.nightelf, HotkeyType.neutral ];
 
   @Prop() public tab!: HotkeyType;
