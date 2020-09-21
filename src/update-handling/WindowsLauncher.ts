@@ -20,6 +20,10 @@ export class WindowsLauncher extends LauncherStrategy {
         }
         return "C:\\Program Files (x86)\\Warcraft III";
     }
+    
+    getDefaultBnetPath(): string {
+        return "C:\\Program Files (x86)\\Battle.net";
+    }
 
     getDefaultPathMap(): string {
         const documentPath = remote.app.getPath("documents");
@@ -38,10 +42,6 @@ export class WindowsLauncher extends LauncherStrategy {
         return fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)
             ? `${documentPath}\\Warcraft III\\_retail_\\Maps`
             : `${documentPath}\\Warcraft III\\Maps`;
-    }
-
-    getDefaultBnetPath(): string {
-        return "C:\\Program Files (x86)\\Battle.net";
     }
 
     getWar3PreferencesFile(): string {
@@ -69,5 +69,44 @@ export class WindowsLauncher extends LauncherStrategy {
 
     getDefaultWc3Executable(): string {
         return "Warcraft III Launcher.exe"
+    }
+
+    getBattleNetAgentPath(): string {
+        const windowsDrive = this.getWindowsInstallDrive();
+        return `${windowsDrive}:\\ProgramData\\Battle.net\\Agent`;
+    }
+
+    getBnetPathFromAgentLogs(): string {
+        const bnetPath = this.getPathFromAgentLogs(/"([^'"]*:[^'"]*Battle.net.exe)"/);
+
+        if (bnetPath) {
+            return bnetPath.replace('\\Battle.net.exe', '');
+        }
+        return '';
+    }
+
+    getWc3PathFromAgentLogs(): string {
+        const wc3Retail = this.getPathFromAgentLogs(/"([^'"]*:[^"']*_retail_[^"']*Warcraft III.exe)"/);
+
+        if (wc3Retail) {
+            return wc3Retail.replace('\\_retail_\\x86_64\\Warcraft III.exe', '');
+        }
+
+        const wc3NoRetail = this.getPathFromAgentLogs(/"([^'"]*:[^"']*Warcraft III.exe)"/);
+        if (wc3NoRetail) {
+            return wc3NoRetail.replace('\\Warcraft III.exe', '');
+        }
+
+        return '';
+    }
+
+    getWindowsInstallDrive() {
+        const appData = remote.app.getPath("appData") as string;
+        if (appData) {
+            const indexOfColon = appData.indexOf(':');
+            return appData.substr(0, indexOfColon);
+        }
+
+        return "C";
     }
 }

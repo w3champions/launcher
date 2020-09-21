@@ -7,7 +7,7 @@ const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
 
-export abstract class LauncherStrategy{
+export abstract class LauncherStrategy {
     private store = store;
 
     abstract getDefaultPathMap(): string;
@@ -19,6 +19,9 @@ export abstract class LauncherStrategy{
     abstract getWar3PreferencesFile(): string;
     abstract startWc3Process(bnetPath: string): void;
     abstract getCopyCommand(from: string, to: string): string;
+    abstract getBattleNetAgentPath(): string;
+    abstract getBnetPathFromAgentLogs(): string;
+    abstract getWc3PathFromAgentLogs(): string;
 
     unsetLoading() {
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
@@ -31,7 +34,7 @@ export abstract class LauncherStrategy{
     }
 
     get w3PathIsValid() {
-      return !this.store.state.updateHandling.w3PathIsInvalid;
+        return !this.store.state.updateHandling.w3PathIsInvalid;
     }
 
     get bnetPath() {
@@ -76,7 +79,7 @@ export abstract class LauncherStrategy{
         }
 
         if (!path) {
-            const path = await this.openDialogForUserFolderSelction(header, message);
+            const path = await this.openDialogForUserFolderSelection(header, message);
             if (!path) return false;
             return path;
         }
@@ -84,7 +87,7 @@ export abstract class LauncherStrategy{
         return path;
     }
 
-    private async openDialogForUserFolderSelction(
+    private async openDialogForUserFolderSelection(
         title: string,
         message: string
     ) {
@@ -105,7 +108,7 @@ export abstract class LauncherStrategy{
         const openDialogReturnValue = await remote.dialog.showOpenDialog({
             properties: ["openDirectory", "openFile"],
             filters: [
-                {name: 'Applications', extensions: ['app']},
+                { name: 'Applications', extensions: ['app'] },
             ],
             defaultPath: currentPath
         });
@@ -187,7 +190,7 @@ export abstract class LauncherStrategy{
                 const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
                 zip.extractAllTo(temPath, true);
                 logger.info(`try as sudo now from: ${temPath} to: ${to}`)
-                this.store.dispatch.updateHandling.sudoCopyFromTo({from: temPath, to})
+                this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to })
             }
 
             return "";
@@ -231,7 +234,11 @@ export abstract class LauncherStrategy{
     }
 
     public async updateBnetPath() {
-        const defaultBnetPath = this.getDefaultBnetPath();
+        let defaultBnetPath = this.getBnetPathFromAgentLogs();
+        if (!defaultBnetPath) {
+            defaultBnetPath = this.getDefaultBnetPath();
+        }
+
         logger.info("default bnet: " + defaultBnetPath);
         const bnetPath = await this.getFolderFromUserIfNeverStarted(
             this.bnetPath,
@@ -268,7 +275,7 @@ export abstract class LauncherStrategy{
         if (!path || path === this.w3PathWithOutRetail) return;
         this.store.commit.updateHandling.SET_W3_PATH(path);
         logger.info(`w3 path to check: ${path}`)
-        if (!fs.existsSync(`${path}/${this.getDefaultWc3Executable()}`) ) {
+        if (!fs.existsSync(`${path}/${this.getDefaultWc3Executable()}`)) {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(true);
         } else {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
@@ -295,11 +302,15 @@ export abstract class LauncherStrategy{
     }
 
     public async updateW3cPath() {
-        const defaultPathWc3 = this.getDefaultPathWc3();
-        logger.info("default wc3 path: " + defaultPathWc3);
+        let defaultW3Path = this.getWc3PathFromAgentLogs();
+        if (!defaultW3Path) {
+            defaultW3Path = this.getDefaultPathWc3();
+        }
+
+        logger.info("default wc3 path: " + defaultW3Path);
         let w3path = await this.getFolderFromUserIfNeverStarted(
             this.w3Path,
-            defaultPathWc3,
+            defaultW3Path,
             "Warcraft III not found",
             "Warcraft III folder not found, please locate it manually"
         );
@@ -320,20 +331,73 @@ export abstract class LauncherStrategy{
     private makeSureJoinBugFilesAreGone() {
         try {
 
-            if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`))
-            {
+            if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`)) {
                 logger.info(`delete maps in ${this.w3Path}/Maps/W3Champions`)
                 fs.rmdirSync(`${this.w3Path}/Maps/W3Champions`, { recursive: true }, (e: Error) => { logger.error(e) })
             }
 
             const w3PathWithoutRetail = this.w3PathWithOutRetail;
-            if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`))
-            {
+            if (fs.existsSync(`${w3PathWithoutRetail}/Maps/W3Champions`)) {
                 logger.info(`delete maps in ${w3PathWithoutRetail}/Maps/W3Champions`)
                 fs.rmdirSync(`${w3PathWithoutRetail}/Maps/W3Champions`, { recursive: true }, (e: Error) => { logger.error(e) })
             }
         } catch (e) {
             logger.error(e)
         }
+    }
+
+    getPathFromAgentLogs(regex: RegExp): string {
+        let path = '';
+
+        try {
+            const battleNetAgentPath = this.getBattleNetAgentPath();
+
+            if (fs.existsSync(battleNetAgentPath)) {
+                const agentFiles = fs.readdirSync(battleNetAgentPath) as string[];
+                const agentFolders = agentFiles.filter(x => x.toLowerCase().startsWith('agent.')).reverse();
+    
+                for (const agentFolder of agentFolders) {
+                    const dotIndex = agentFolder.indexOf('.');
+                    const versionString = agentFolder.substr(dotIndex + 1);
+                    const parsedVer = parseInt(versionString);
+    
+                    if (!isNaN(parsedVer)) {
+                        const agentLogsDir = `${battleNetAgentPath}\\${agentFolder}\\Logs`;
+                        if (fs.existsSync(agentLogsDir)) {
+                            const allFiles = fs.readdirSync(agentLogsDir) as string[];
+                            const logFiles = allFiles.filter(x => x.toLowerCase().startsWith('agent-')).reverse();
+        
+                            for (const file of logFiles) {
+                                const content = fs.readFileSync(agentLogsDir + "\\" + file).toString();
+                                path = this.getPathFromAgentLog(content, regex);
+            
+                                if (path) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (path) {
+                        break;
+                    }
+                }
+            }
+        }
+        catch(e) {
+            logger.error(e);
+        }
+        
+        return path;
+    }
+
+    private getPathFromAgentLog(content: any, regex: RegExp) {
+        const result = content.match(regex);
+        let path = '';
+        if (result != null && result.length >= 2) {
+            if (fs.existsSync(result[1])) {
+                path = result[1].replace(/\//g, "\\");
+            }
+        }
+        return path;
     }
 }

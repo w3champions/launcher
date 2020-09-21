@@ -26,7 +26,7 @@ const mod = {
   modules: {
     updateHandling,
     hotKeys,
-    colorPicker
+    colorPicker,
   },
   state: {
     isTest: false,

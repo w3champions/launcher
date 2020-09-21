@@ -27,16 +27,28 @@ const defaultCustomHotkeys = [
     heroes: [],
   },
   {
-    hotkeyType: HotkeyType.orc
+    hotkeyType: HotkeyType.orc,
+    units: [],
+    buildings:[],
+    heroes: [],
   },
   {
-    hotkeyType: HotkeyType.undead
+    hotkeyType: HotkeyType.undead,
+    units: [],
+    buildings:[],
+    heroes: [],
   },
   {
-    hotkeyType: HotkeyType.nightelf
+    hotkeyType: HotkeyType.nightelf,
+    units: [],
+    buildings:[],
+    heroes: [],
   },
   {
-    hotkeyType: HotkeyType.neutral
+    hotkeyType: HotkeyType.neutral,
+    units: [],
+    buildings:[],
+    heroes: [],
   },
 ] as HotkeyMappingPerRace[]
 
