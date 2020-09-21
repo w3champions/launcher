@@ -137,7 +137,7 @@ export default class ItemsTab extends Vue {
   }
 
   get hotKeys() {
-    return this.$store.direct.state.hotKeys.hotKeys;
+    return this.$store.direct.state.hotKeys.itemHotKeys;
   }
 
   public toggleHotKeys() {
@@ -266,7 +266,7 @@ export default class ItemsTab extends Vue {
   }
 
   private getKeyComboOf(itemKey: string) {
-    const hotKeys = this.$store.direct.state.hotKeys.hotKeys;
+    const hotKeys = this.$store.direct.state.hotKeys.itemHotKeys;
     if (!hotKeys) return "none"
     const combo = hotKeys?.filter(h => h.key === itemKey)[0];
     if (!combo) return "none"
