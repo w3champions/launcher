@@ -349,38 +349,44 @@ export abstract class LauncherStrategy {
     getPathFromAgentLogs(regex: RegExp): string {
         let path = '';
 
-        const battleNetAgentPath = this.getBattleNetAgentPath();
+        try {
+            const battleNetAgentPath = this.getBattleNetAgentPath();
 
-        if (fs.existsSync(battleNetAgentPath)) {
-            const agentFiles = fs.readdirSync(battleNetAgentPath) as string[];
-            const agentFolders = agentFiles.filter(x => x.toLowerCase().startsWith('agent.')).reverse();
-
-            for (const agentFolder of agentFolders) {
-                const dotIndex = agentFolder.indexOf('.');
-                const versionString = agentFolder.substr(dotIndex + 1);
-                const parsedVer = parseInt(versionString);
-
-                if (!isNaN(parsedVer)) {
-                    const agentLogsDir = `${battleNetAgentPath}\\${agentFolder}\\Logs`;
-                    if (fs.existsSync(agentLogsDir)) {
-                        const allFiles = fs.readdirSync(agentLogsDir) as string[];
-                        const logFiles = allFiles.filter(x => x.toLowerCase().startsWith('agent-')).reverse();
+            if (fs.existsSync(battleNetAgentPath)) {
+                const agentFiles = fs.readdirSync(battleNetAgentPath) as string[];
+                const agentFolders = agentFiles.filter(x => x.toLowerCase().startsWith('agent.')).reverse();
     
-                        for (const file of logFiles) {
-                            const content = fs.readFileSync(agentLogsDir + "\\" + file).toString();
-                            path = this.getPathFromAgentLog(content, regex);
+                for (const agentFolder of agentFolders) {
+                    const dotIndex = agentFolder.indexOf('.');
+                    const versionString = agentFolder.substr(dotIndex + 1);
+                    const parsedVer = parseInt(versionString);
+    
+                    if (!isNaN(parsedVer)) {
+                        const agentLogsDir = `${battleNetAgentPath}\\${agentFolder}\\Logs`;
+                        if (fs.existsSync(agentLogsDir)) {
+                            const allFiles = fs.readdirSync(agentLogsDir) as string[];
+                            const logFiles = allFiles.filter(x => x.toLowerCase().startsWith('agent-')).reverse();
         
-                            if (path) {
-                                break;
+                            for (const file of logFiles) {
+                                const content = fs.readFileSync(agentLogsDir + "\\" + file).toString();
+                                path = this.getPathFromAgentLog(content, regex);
+            
+                                if (path) {
+                                    break;
+                                }
                             }
                         }
                     }
-                }
-                if (path) {
-                    break;
+                    if (path) {
+                        break;
+                    }
                 }
             }
         }
+        catch(e) {
+            logger.error(e);
+        }
+        
         return path;
     }
 
