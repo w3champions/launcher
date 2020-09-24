@@ -38,7 +38,11 @@ export interface HotkeyMappingPerRace {
   heroes: Unit[],
 }
 
-export class Unit {
+export interface W3cIcon {
+  icon: string;
+}
+
+export class Unit implements W3cIcon {
   constructor(name: string, icon: string, abilities: Ability[]) {
     this.name = name;
     this.icon = icon;
@@ -54,7 +58,7 @@ export class Unit {
   public abilities: Ability[];
 }
 
-export class Ability {
+export class Ability implements W3cIcon {
   constructor(name: string, hotkeyIdentifier: string, icon: string, defaultHotkey: string, abilities: Ability[]) {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
