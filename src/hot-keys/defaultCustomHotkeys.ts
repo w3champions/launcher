@@ -3,26 +3,7 @@ import {HotkeyMappingPerRace, HotkeyType} from "@/hot-keys/hotkeyTypes";
 const defaultCustomHotkeys = [
   {
     hotkeyType: HotkeyType.human,
-    buildings: [
-      {
-        name: 'Townhall',
-        icon: 'btntownhall',
-        abilities: [
-          {
-            hotkeyIdentifier: 'hpea',
-            icon: 'btnpeasant',
-            name: 'Train Peasant',
-            defaultHotkey: 'P'
-          },
-          {
-            hotkeyIdentifier: 'amil',
-            icon: 'btncalltoarms',
-            name: 'Call to Arms',
-            defaultHotkey: 'C'
-          }
-        ]
-      }
-    ],
+    buildings: [],
     units: [],
     heroes: [],
   },

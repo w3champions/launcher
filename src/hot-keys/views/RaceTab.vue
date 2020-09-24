@@ -3,15 +3,15 @@
     <div class="selection-wrapper">
       <div class="selection-header w3font">Units</div>
       <table class="selection-background">
-        <tr v-for="line in units" :key="line">
+        <tr v-for="line in units" :key="toKey(line)">
           <td class="single-selection-item" v-for="item in line" :key="item.icon">
-            <div class="item-selection-hover" @click="() => selectUnit(item)">{{item}}</div>
+            <div class="item-selection-hover" @click="() => selectUnit(item)">{{item.icon}}</div>
           </td>
         </tr>
       </table>
       <div class="selection-header w3font">Buildings</div>
       <table class="selection-background">
-        <tr v-for="line in buildings" :key="line">
+        <tr v-for="line in buildings" :key="toKey(line)">
           <td class="single-selection-item" v-for="item in line" :key="item.icon">
             <div class="item-selection-hover" @click="() => selectUnit(item)">{{item.name}}</div>
           </td>
@@ -27,29 +27,29 @@
       </table>
     </div>
     <div class="selection-wrapper">
-      <div class="selection-header w3font" :class="selectedUnit ? 'visible' : 'hidden'">
+      <div class="selection-header w3font" :class="selectedUnit.icon ? 'visible' : 'hidden'">
         Selected: {{ selectedUnitName }}
       </div>
-      <table class="selection-background" :class="selectedUnit ? 'visible' : 'hidden'">
-        <tr v-for="line in selectedUnitAbilities" :key="line">
-          <td class="single-selection-item" v-for="item in line" :key="item">
-            <div class="item-selection-hover" @click="getSelectionFunction()">{{item}}</div>
+      <table class="selection-background" :class="selectedUnit.icon ? 'visible' : 'hidden'">
+        <tr v-for="line in selectedUnitAbilities" :key="toKey(line)">
+          <td class="single-selection-item" v-for="item in line" :key="item.icon">
+            <div class="item-selection-hover" @click="() => openHotkeysOrCreatNewPanel(item)">{{item.icon}}</div>
           </td>
         </tr>
       </table>
-      <div class="selection-header w3font" :class="selectedAbility ? 'visible' : 'hidden'">{{ selectedAbilityName }}</div>
-      <table class="selection-background" :class="selectedAbility ? 'visible' : 'hidden'">
-        <tr v-for="line in selectedUnitExtendedAbilities" :key="line">
-          <td class="single-selection-item" v-for="item in line" :key="item">
-            <div class="item-selection-hover" @click="() => selectAbility(item)">{{item}}</div>
+      <div class="selection-header w3font" :class="selectedAbility.icon ? 'visible' : 'hidden'">{{ selectedAbilityName }}</div>
+      <table class="selection-background" :class="selectedAbility.icon ? 'visible' : 'hidden'">
+        <tr v-for="line in selectedUnitExtendedAbilities" :key="toKey(line)">
+          <td class="single-selection-item" v-for="item in line" :key="item.icon">
+            <div class="item-selection-hover" @click="() => selectAbility(item)">{{item.icon}}</div>
           </td>
         </tr>
       </table>
       <div class="selection-header w3font" style="visibility: hidden">{{ selectedAbilityName }}</div>
       <table style="visibility: hidden"  class="selection-background selection-background-single-line">
         <tr>
-          <td class="single-selection-item" v-for="item in heroes" :key="item">
-            <div class="item-selection-hover">{{item}}</div>
+          <td class="single-selection-item" v-for="item in heroes" :key="item.icon">
+            <div class="item-selection-hover">{{item.icon}}</div>
           </td>
         </tr>
       </table>
@@ -62,6 +62,7 @@
 import {Component, Prop, Vue} from "vue-property-decorator";
 /* eslint-disable */
 import {Ability, HotkeyType, Unit} from "@/hot-keys/hotkeyTypes";
+import {warn} from "vue-class-component/lib/util";
 
 @Component
 export default class RaceTab extends Vue {
@@ -71,15 +72,16 @@ export default class RaceTab extends Vue {
   public selectedUnit = {} as Unit;
 
   get heroes() {
-    return this.hotKeys.heroes;
+    const elementsPadded = [...this.hotKeys.heroes, ...(new Array<Ability>(4 - this.hotKeys.heroes.length)).fill(Ability.Default(), this.hotKeys.heroes.length)];
+    return elementsPadded.map((e, index) => e.icon ? e : {...e, icon: index.toString()});
   }
 
   get buildings() {
-    return this.splitInArrayOf4(this.hotKeys.buildings);
+    return this.splitInArrayOf4Units(this.hotKeys.buildings ?? []);
   }
 
   get units() {
-    return this.splitInArrayOf4(this.hotKeys.units);
+    return this.splitInArrayOf4Units(this.hotKeys.units ?? []);
   }
 
   get selectedUnitName() {
@@ -91,11 +93,11 @@ export default class RaceTab extends Vue {
   }
 
   get selectedUnitAbilities() {
-    return this.splitInArrayOf4(this.selectedUnit.abilities);
+    return this.splitInArrayOf4Abilities(this.selectedUnit?.abilities ?? []);
   }
 
   get selectedUnitExtendedAbilities() {
-    return this.splitInArrayOf4(this.selectedAbility?.abilities ?? []);
+    return this.splitInArrayOf4Units(this.selectedAbility?.abilities ?? []);
   }
 
   public selectAbility(selection: Ability) {
@@ -106,12 +108,15 @@ export default class RaceTab extends Vue {
     return this.$store.direct.state.hotKeys.customHotkeys.filter(h => h.hotkeyType === this.race)[0];
   }
 
-  public getSelectionFunction(selection: Ability) {
-    if (selection.constructor.name === 'Ability') {
-      return this.selectAbility;
+  public toKey(units: Unit[]) {
+    return units.map(u => u.icon).join("_");
+  }
+
+  public openHotkeysOrCreatNewPanel(selection: Ability) {
+    if (selection.abilities.length > 0) {
+      this.selectAbility(selection);
     } else {
-      // todo
-      return this.selectAbility;
+      this.openHotkeyDialog(selection);
     }
   }
 
@@ -120,9 +125,23 @@ export default class RaceTab extends Vue {
     this.selectedAbility = {} as Ability;
   }
 
-  private splitInArrayOf4<T>(elements: T[]) {
-    const elementsPadded = [...elements, ...new Array<T>(12 - elements.length).fill({} as T)];
+  public openHotkeyDialog(ability: Ability) {
+    warn(`${ability?.icon} + ${ability?.name}`);
+  }
 
+  private splitInArrayOf4Units(elements: Unit[]) {
+    const elementsPadded = [...elements, ...(new Array<Unit>(12 - elements.length)).fill({ abilities: [], name: "", icon: "" }, elements.length)];
+    const elemsWithId = elementsPadded.map((e, index) => e.icon ? e : { ...e, icon: index.toString() });
+    return this.splitIn4s(elemsWithId);
+  }
+
+  private splitInArrayOf4Abilities(elements: Ability[]) {
+    const elementsPadded = [...elements, ...(new Array<Ability>(12 - elements.length)).fill({ abilities:[], hotkeyIdentifier: "", defaultHotkey: "", name: "", icon: "" }, elements.length)];
+    const elemsWithId = elementsPadded.map((e, index) => e.icon ? e : { ...e, icon: index.toString() });
+    return this.splitIn4s(elemsWithId);
+  }
+
+  private splitIn4s<T>(elementsPadded: T[]) {
     return elementsPadded.reduce((result, value, index, array) => {
       if (index % 4 === 0)
         result.push(array.slice(index, index + 4));

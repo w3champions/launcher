@@ -38,17 +38,40 @@ export interface HotkeyMappingPerRace {
   heroes: Unit[],
 }
 
-export interface Unit {
-  abilities: Ability[],
-  icon: string,
-  name: string,
+export class Unit {
+  constructor(name: string, icon: string, abilities: Ability[]) {
+    this.name = name;
+    this.icon = icon;
+    this.abilities = abilities;
+  }
+
+  public static Default() {
+    return new Unit("", "", [])
+  }
+
+  public name: string;
+  public icon: string;
+  public abilities: Ability[];
 }
 
-export interface Ability {
-  name: string,
-  hotkeyIdentifier: string,
-  icon: string,
-  defaultHotkey: string,
-  abilities: Ability[],
+export class Ability {
+  constructor(name: string, hotkeyIdentifier: string, icon: string, defaultHotkey: string, abilities: Ability[]) {
+    this.name = name;
+    this.hotkeyIdentifier = hotkeyIdentifier;
+    this.icon = icon;
+    this.defaultHotkey = defaultHotkey;
+    this.abilities = abilities;
+
+  }
+
+  public static Default() {
+    return new Ability("", "", "", "", [])
+  }
+
+  public name: string;
+  public hotkeyIdentifier: string;
+  public icon: string;
+  public defaultHotkey: string;
+  public abilities: Ability[];
 }
 
