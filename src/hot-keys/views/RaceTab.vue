@@ -60,7 +60,6 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
-/* eslint-disable */
 import {Ability, HotkeyType, Unit, W3cIcon} from "@/hot-keys/hotkeyTypes";
 
 @Component
@@ -69,6 +68,8 @@ export default class RaceTab extends Vue {
 
   public selectedAbility = {} as Ability | null;
   public selectedUnit = {} as Unit;
+  public selectedUnitExtendedAbilities = [] as Ability[][];
+  public selectedUnitAbilities = [] as Ability[][];
 
   get heroes() {
     return this.fillUp(this.hotKeys.heroes, 4, Unit.Default);
@@ -88,14 +89,6 @@ export default class RaceTab extends Vue {
 
   get selectedAbilityName() {
     return this.selectedAbility?.name ?? ""
-  }
-
-  get selectedUnitAbilities() {
-    return this.splitInArrayOf4Abilities(this.selectedUnit?.abilities ?? []);
-  }
-
-  get selectedUnitExtendedAbilities() {
-    return this.splitInArrayOf4Units(this.selectedAbility?.abilities ?? []);
   }
 
   public selectAbility(selection: Ability) {
@@ -121,6 +114,8 @@ export default class RaceTab extends Vue {
   public selectUnit(selection: Unit) {
     this.selectedUnit = selection;
     this.selectedAbility = {} as Ability;
+    this.selectedUnitAbilities = this.splitInArrayOf4Abilities(this.selectedUnit?.abilities ?? []);
+    this.selectedUnitExtendedAbilities = this.splitInArrayOf4Abilities(this.selectedAbility?.abilities ?? []);
   }
 
   public openHotkeyDialog(ability: Ability) {
@@ -129,12 +124,12 @@ export default class RaceTab extends Vue {
 
   private splitInArrayOf4Units(elements: Unit[]) {
     const elemsWithId = this.fillUp(elements, 12, Unit.Default);
-    return this.splitIn4s(elemsWithId);
+    return this.splitIn4s(elemsWithId) as Unit[][];
   }
 
   private splitInArrayOf4Abilities(elements: Ability[]) {
     const elemsWithId = this.fillUp(elements, 12, Ability.Default);
-    return this.splitIn4s(elemsWithId);
+    return this.splitIn4s(elemsWithId) as Ability[][];
   }
 
   private fillUp(elements: W3cIcon[], max: number, filler: () => W3cIcon) {
