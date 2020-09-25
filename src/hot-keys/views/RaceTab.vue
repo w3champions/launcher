@@ -60,6 +60,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
+/* eslint-disable */
 import {Ability, HotkeyType, Unit, W3cIcon} from "@/hot-keys/hotkeyTypes";
 
 @Component
