@@ -61,7 +61,7 @@
         </div>
         <div class="just-a-row">
           <div :class="isHotkeyManualMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleHotkeyManualMode" id="manual-mode-check-box"/>
-          <div class="text-spacer">Never turn on hotkeys automatically</div>
+          <div class="text-spacer">Never turn off hotkeys when entering chat or menus</div>
         </div>
         <div class="just-a-row">
           <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
@@ -218,7 +218,7 @@ export default class ItemsTab extends Vue {
 
   get hotkeyState() {
     const hotKeyStateMachine = this.$store.direct.state.hotKeys.hotKeyStateMachine;
-    if (hotKeyStateMachine.constructor.name === ManualHotkeyMode.name) {
+    if (hotKeyStateMachine instanceof ManualHotkeyMode) {
       return (hotKeyStateMachine as ManualHotkeyMode).keysActivatedInManualMode;
     }
 
