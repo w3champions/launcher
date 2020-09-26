@@ -15,7 +15,6 @@ const defaultCustomHotkeys = [
               new Ability('Build Townhall', 'btntownhall', 'htow', 'H', []),
               new Ability('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', [])
           ]),
-          new Ability('Defend', 'adef', 'btndefend', 'P', []),
         ]),
         new Unit("Footman", "btnfootman", [
           new Ability('Defend', 'adef', 'btndefend', 'P', []),

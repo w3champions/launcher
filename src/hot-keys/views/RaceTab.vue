@@ -33,19 +33,19 @@
       <table class="selection-background" :class="selectedUnit.icon ? 'visible' : 'hidden'">
         <tr v-for="line in selectedUnitAbilities" :key="toKey(line)">
           <td class="single-selection-item" v-for="item in line" :key="item.icon">
-            <div class="item-selection-hover" @click="() => openHotkeysOrCreatNewPanel(item)"/>
+            <div class="item-selection-hover" @click="() => openHotkeysOrCreatNewPanel(item)">.</div>
           </td>
         </tr>
       </table>
-      <div class="selection-header w3font" :class="selectedAbility.icon ? 'visible' : 'hidden'">{{ selectedAbilityName }}</div>
+      <div class="selection-header w3font" :class="selectedAbility.icon ? 'visible' : 'hidden'">Ability: {{ selectedAbilityName }}</div>
       <table class="selection-background" :class="selectedAbility.icon ? 'visible' : 'hidden'">
         <tr v-for="line in selectedUnitExtendedAbilities" :key="toKey(line)">
           <td class="single-selection-item" v-for="item in line" :key="item.icon">
-            <div class="item-selection-hover" @click="() => selectAbility(item)">.</div>
+            <div class="item-selection-hover" @click="() => selectExtendedAbility(item)">.</div>
           </td>
         </tr>
       </table>
-      <div class="selection-header w3font" style="visibility: hidden">{{ selectedAbilityName }}</div>
+      <div class="selection-header w3font" style="visibility: hidden">.</div>
       <table style="visibility: hidden"  class="selection-background selection-background-single-line">
         <tr>
           <td class="single-selection-item" v-for="item in heroes" :key="item.icon">
@@ -68,6 +68,7 @@ export default class RaceTab extends Vue {
   @Prop() public race!: HotkeyType;
 
   public selectedAbility = {} as Ability | null;
+  public selectedUnitExtendedAbility = {} as Ability | null;
   public selectedUnit = {} as Unit;
   public selectedUnitExtendedAbilities = [] as Ability[][];
   public selectedUnitAbilities = [] as Ability[][];
@@ -94,6 +95,7 @@ export default class RaceTab extends Vue {
 
   public selectAbility(selection: Ability) {
     this.selectedAbility = selection;
+    this.selectedUnitExtendedAbilities = this.splitInArrayOf4Abilities(this.selectedAbility.abilities);
   }
 
   get hotKeys() {
@@ -103,6 +105,12 @@ export default class RaceTab extends Vue {
   public toKey(units: Unit[]) {
     return units.map(u => u.icon).join("_");
   }
+
+  public selectExtendedAbility(selection: Ability) {
+    this.selectedUnitExtendedAbility = selection;
+    alert(this.selectedUnitExtendedAbility.icon + " " + this.selectedUnitExtendedAbility.name)
+  }
+
 
   public openHotkeysOrCreatNewPanel(selection: Ability) {
     if (selection.abilities.length > 0) {
