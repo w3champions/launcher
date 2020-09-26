@@ -35,6 +35,7 @@ export default class HomeScreen extends Vue {
   async mounted() {
     this.turnOnButton();
     await this.$store.direct.dispatch.loadNews();
+    await this.updateStrategy.updateIfNeeded();
   }
 
   private turnOnButton() {
