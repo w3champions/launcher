@@ -43,9 +43,9 @@
         <div class="w3font" style="margin-bottom: 15px; margin-left: 8px">Miscellaneous</div>
         <table class="function-key-grid">
           <tr>
-            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">First</div></td>
-            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">Second</div></td>
-            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">Third</div></td>
+            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">F1</div></td>
+            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">F2</div></td>
+            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">F3</div></td>
             <td class="single-item function-item" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">on/off</div></td>
           </tr>
         </table>
@@ -270,7 +270,7 @@ export default class ItemsTab extends Vue {
     if (!hotKeys) return "none"
     const combo = hotKeys?.filter(h => h.key === itemKey)[0];
     if (!combo) return "none"
-    return combiAsStringForDisplay(combo?.combo).replace("CommandOrControl", "Ctrl");
+    return combiAsStringForDisplay(combo?.combo).replace("CommandOrControl", "Ctrl").replace("Space", "Spc");
   }
 }
 
