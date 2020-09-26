@@ -43,9 +43,9 @@
         <div class="w3font" style="margin-bottom: 15px; margin-left: 8px">Miscellaneous</div>
         <table class="function-key-grid">
           <tr>
-            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">First</div></td>
-            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">Second</div></td>
-            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">Third</div></td>
+            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">F1</div></td>
+            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f2Key)">{{getKeyComboOf(f2Key)}} <div class="foot-note">F2</div></td>
+            <td class="single-item function-item" @click="() => openChangeHotkeyModal(f3Key)">{{getKeyComboOf(f3Key)}} <div class="foot-note">F3</div></td>
             <td class="single-item function-item" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">on/off</div></td>
           </tr>
         </table>
@@ -61,7 +61,7 @@
         </div>
         <div class="just-a-row">
           <div :class="isHotkeyManualMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleHotkeyManualMode" id="manual-mode-check-box"/>
-          <div class="text-spacer">Never turn on hotkeys automatically</div>
+          <div class="text-spacer">Never turn off hotkeys when entering chat or menus</div>
         </div>
         <div class="just-a-row">
           <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
@@ -112,7 +112,7 @@ export default class ItemsTab extends Vue {
       this.$store.direct.dispatch.hotKeys.setToggleKey({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit})
     } else {
       // the replace is for the numpad_1 etc keys, as they need to be passed like that
-      if (this.selectedHotKey.replace("_", "") === this.hotkeyToEdit.key.toLowerCase()) {
+      if (this.selectedHotKey.replace("_", "") === this.hotkeyToEdit?.key?.toLowerCase()) {
         this.$store.direct.dispatch.hotKeys.removeHotKey(this.selectedHotKey)
       } else {
         this.$store.direct.dispatch.hotKeys.addHotKey({key: this.selectedHotKey, combo: {hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}})
@@ -218,7 +218,7 @@ export default class ItemsTab extends Vue {
 
   get hotkeyState() {
     const hotKeyStateMachine = this.$store.direct.state.hotKeys.hotKeyStateMachine;
-    if (hotKeyStateMachine.constructor.name === ManualHotkeyMode.name) {
+    if (hotKeyStateMachine instanceof ManualHotkeyMode) {
       return (hotKeyStateMachine as ManualHotkeyMode).keysActivatedInManualMode;
     }
 
@@ -270,7 +270,7 @@ export default class ItemsTab extends Vue {
     if (!hotKeys) return "none"
     const combo = hotKeys?.filter(h => h.key === itemKey)[0];
     if (!combo) return "none"
-    return combiAsStringForDisplay(combo?.combo).replace("CommandOrControl", "Ctrl");
+    return combiAsStringForDisplay(combo?.combo).replace("CommandOrControl", "Ctrl").replace("Space", "Spc");
   }
 }
 

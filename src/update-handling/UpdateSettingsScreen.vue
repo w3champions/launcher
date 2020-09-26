@@ -65,10 +65,6 @@ import ColorPicker from "@/color-picker/ColorPicker.vue";
 export default class UpdateSettingsScreen extends Vue {
   private updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
 
-  async mounted() {
-    await this.updateStrategy.updateIfNeeded();
-  }
-
   get defaultBnetLocation() {
     return this.updateStrategy.getDefaultBnetPath();
   }

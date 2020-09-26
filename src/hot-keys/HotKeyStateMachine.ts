@@ -83,10 +83,14 @@ export class ManualHotkeyMode extends HotKeyState {
     public keysActivatedInManualMode = false;
 
     enterGame(): HotKeyState {
+        store.dispatch.hotKeys.enableHotKeys();
+        this.keysActivatedInManualMode = true;
         return this;
     }
 
     exitGame(): HotKeyState {
+        store.dispatch.hotKeys.disbleHotKeys();
+        this.keysActivatedInManualMode = false;
         return this;
     }
 
@@ -142,12 +146,10 @@ class MenuState extends HotKeyState {
     }
 
     pressEscape(): HotKeyState {
-        logger.info("escape from menu state")
         return new InGameState();
     }
 
     pressF10(): HotKeyState {
-        logger.info("f10 from menu state")
         return new InGameState();
     }
 
