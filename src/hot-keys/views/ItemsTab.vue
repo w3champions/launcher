@@ -112,7 +112,7 @@ export default class ItemsTab extends Vue {
       this.$store.direct.dispatch.hotKeys.setToggleKey({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit})
     } else {
       // the replace is for the numpad_1 etc keys, as they need to be passed like that
-      if (this.selectedHotKey.replace("_", "") === this.hotkeyToEdit.key.toLowerCase()) {
+      if (this.selectedHotKey.replace("_", "") === this.hotkeyToEdit?.key?.toLowerCase()) {
         this.$store.direct.dispatch.hotKeys.removeHotKey(this.selectedHotKey)
       } else {
         this.$store.direct.dispatch.hotKeys.addHotKey({key: this.selectedHotKey, combo: {hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit}})
