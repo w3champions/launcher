@@ -55,9 +55,7 @@
     <div class="hotkey-tips">
       <div class="inventory-options">
         <div>
-          Hotkeys will be turned on, as soon as you enter any game automatically.
-          If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
-          If something goes wrong, you can always toggle the hotkeys with the provided <b>on/off</b> toggle key.
+          After entering a game and pressing Enter [or F10 etc], hotkeys will be disabled until you'll press the same button again! If you forgot about it, toggle hotkeys on again with the <b>on/off</b> toggle key.
         </div>
         <div class="just-a-row">
           <div :class="isHotkeyManualMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleHotkeyManualMode" id="manual-mode-check-box"/>
