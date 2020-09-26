@@ -11,7 +11,7 @@
         <router-view />
       </div>
     </div>
-    <div class="close-button" @click="closeApp" />
+    <div id='close-button' class="close-button" @click="closeApp" />
   </div>
 </template>
 
@@ -70,9 +70,19 @@ export default class App extends Vue {
       window.document.onclick = null;
     }
 
-    window.document.onclick = () => {
+    window.document.onclick = (e: MouseEvent) => {
       logger.info("ui clicked, press space for hack")
-      keyboard.pressSpace();
+
+      console.log(e);
+      // @ts-ignore
+      if (e.target?.id === "close-button") {
+        console.log("click")
+        window.document.onkeydown = null;
+        window.document.onclick = null;
+      }
+      else {
+        keyboard.pressSpace();
+      }
     }
   }
 }
