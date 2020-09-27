@@ -173,6 +173,7 @@ a {
 .close-button {
   -webkit-app-region: no-drag;
   position: absolute;
+  z-index: 1;
   background: url("~@/assets/images/home/Exit_Button.png") center no-repeat;
   background-size: cover;
   height: 60px;
