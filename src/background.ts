@@ -61,7 +61,8 @@ function createWindow() {
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      webSecurity: false
     }
   })
 
