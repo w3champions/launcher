@@ -171,16 +171,9 @@ export abstract class LauncherStrategy {
         const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
 
         try {
-            const body = await axios.get(url, {
-                responseType: 'arraybuffer',
-                onDownloadProgress: (ev: ProgressEvent) => {
-                    if (!onProgress) return;
-                    const percentCompleted = Math.floor(ev.loaded / ev.total * 100)
-                    onProgress(percentCompleted);
-                }
-            });
+            const body = await fetch(url, {mode: 'no-cors'});
 
-            const buffer = arrayBufferToBuffer(body.data);
+            const buffer = arrayBufferToBuffer(await body.arrayBuffer());
             const zip = new AdmZip(buffer);
 
             try {
