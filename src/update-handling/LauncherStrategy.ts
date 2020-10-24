@@ -171,16 +171,8 @@ export abstract class LauncherStrategy {
         const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
 
         try {
-            const body = await axios.get(url, {
-                responseType: 'arraybuffer',
-                onDownloadProgress: (ev: ProgressEvent) => {
-                    if (!onProgress) return;
-                    const percentCompleted = Math.floor(ev.loaded / ev.total * 100)
-                    onProgress(percentCompleted);
-                }
-            });
-
-            const buffer = arrayBufferToBuffer(body.data);
+            const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);
+            const buffer = arrayBufferToBuffer(fileBytesArray);
             const zip = new AdmZip(buffer);
 
             try {
@@ -328,6 +320,41 @@ export abstract class LauncherStrategy {
         return w3path;
     }
 
+    private async downloadFileWithProgress(url: string, onProgress?: (percentage: number) => void) {
+        const response = await fetch(url, { mode: 'no-cors' });
+        const reader = response.body?.getReader();
+        const contentLength = parseInt(response.headers.get('Content-Length') as string);
+        let chunksAll;
+        if (reader) {
+            let receivedLength = 0;
+            const chunks = [];
+            while (true) { // eslint-disable-line no-constant-condition
+                const { done, value } = await reader.read();
+
+                if (done) {
+                    break;
+                }
+
+                chunks.push(value as Uint8Array);
+                receivedLength += value?.length || 0;
+
+                if (onProgress) {
+                    const percentCompleted = Math.floor(receivedLength / contentLength * 100);
+                    onProgress(percentCompleted);
+                }
+            }
+
+            chunksAll = new Uint8Array(receivedLength);
+            let position = 0;
+            for (const chunk of chunks) {
+                chunksAll.set(chunk, position);
+                position += chunk.length;
+            }
+        }
+
+        return chunksAll;
+    }
+
     private makeSureJoinBugFilesAreGone() {
         try {
 
@@ -355,22 +382,22 @@ export abstract class LauncherStrategy {
             if (fs.existsSync(battleNetAgentPath)) {
                 const agentFiles = fs.readdirSync(battleNetAgentPath) as string[];
                 const agentFolders = agentFiles.filter(x => x.toLowerCase().startsWith('agent.')).reverse();
-    
+
                 for (const agentFolder of agentFolders) {
                     const dotIndex = agentFolder.indexOf('.');
                     const versionString = agentFolder.substr(dotIndex + 1);
                     const parsedVer = parseInt(versionString);
-    
+
                     if (!isNaN(parsedVer)) {
                         const agentLogsDir = `${battleNetAgentPath}\\${agentFolder}\\Logs`;
                         if (fs.existsSync(agentLogsDir)) {
                             const allFiles = fs.readdirSync(agentLogsDir) as string[];
                             const logFiles = allFiles.filter(x => x.toLowerCase().startsWith('agent-')).reverse();
-        
+
                             for (const file of logFiles) {
                                 const content = fs.readFileSync(agentLogsDir + "\\" + file).toString();
                                 path = this.getPathFromAgentLog(content, regex);
-            
+
                                 if (path) {
                                     break;
                                 }
@@ -383,10 +410,10 @@ export abstract class LauncherStrategy {
                 }
             }
         }
-        catch(e) {
+        catch (e) {
             logger.error(e);
         }
-        
+
         return path;
     }
 
