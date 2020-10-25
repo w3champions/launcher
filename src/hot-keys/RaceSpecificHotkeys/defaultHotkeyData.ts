@@ -18,7 +18,7 @@ const defaultHotkeyData = [
           ]),
         ]),
         new Unit('Footman', 'btnfootman', [
-          new Ability('Defend', 'adef', 'btndefend', 'P', []),
+          new Ability('Defend', 'btndefend', 'adef', 'P', []),
         ])
     ],
     heroes: [],
