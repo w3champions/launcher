@@ -82,14 +82,14 @@ import {
   ITEM_MIDDLE_RIGHT,
   ITEM_TOP_LEFT,
   ITEM_TOP_RIGHT
-} from "@/hot-keys/keyValuesRobotJs";
+} from "@/hot-keys/keyValuesHotKeys";
 /* eslint-disable */
 import {KeyDto, ModifierKey} from "@/hot-keys/hotkeyTypes";
 import {InGameState, ManualHotkeyMode} from "@/hot-keys/HotKeyStateMachine";
 import {combiAsStringForDisplay} from "@/hot-keys/utilsFunctions";
 
 @Component
-export default class ItemsTab extends Vue {
+export default class ItemHotkeyTab extends Vue {
   public modal = false;
   public hotkeyToEdit = {} as KeyDto;
   public selectedHotKey = "";

@@ -64,7 +64,7 @@ import {Component, Prop, Vue} from "vue-property-decorator";
 import {Ability, HotkeyType, Unit, W3cIcon} from "@/hot-keys/hotkeyTypes";
 
 @Component
-export default class RaceTab extends Vue {
+export default class RaceSpecificHotkeyTab extends Vue {
   @Prop() public race!: HotkeyType;
 
   public selectedAbility = {} as Ability | null;

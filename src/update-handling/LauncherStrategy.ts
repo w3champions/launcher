@@ -2,7 +2,6 @@ import store from '../globalState/vuex-store'
 import logger from "@/logger";
 
 const { remote } = window.require("electron");
-const axios = window.require("axios");
 const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');

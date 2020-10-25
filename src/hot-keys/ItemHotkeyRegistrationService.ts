@@ -11,7 +11,7 @@ import {
     ITEM_MIDDLE_RIGHT,
     ITEM_TOP_LEFT,
     ITEM_TOP_RIGHT
-} from "@/hot-keys/keyValuesRobotJs";
+} from "@/hot-keys/keyValuesHotKeys";
 import logger from "@/logger";
 
 const { globalShortcut } = window.require("electron").remote;

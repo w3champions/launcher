@@ -5,10 +5,10 @@
     </div>
     <div class="tab-container">
       <div v-if="this.tab === races.items">
-        <ItemsTab />
+        <ItemHotkeyTab />
       </div>
       <div v-else>
-        <RaceTab :race="tab"/>
+        <RaceSpecificHotkeyTab :race="tab"/>
       </div>
     </div>
   </div>
@@ -19,10 +19,10 @@ import {Component, Prop, Vue} from "vue-property-decorator";
 
 import {HotkeyType} from "@/hot-keys/hotkeyTypes";
 import logger from "@/logger";
-import RaceTab from "@/hot-keys/views/RaceTab.vue";
-import ItemsTab from "@/hot-keys/views/ItemsTab.vue";
+import RaceSpecificHotkeyTab from "@/hot-keys/views/RaceSpecificHotkeyTab.vue";
+import ItemHotkeyTab from "@/hot-keys/views/ItemHotkeyTab.vue";
 @Component({
-  components: {ItemsTab, RaceTab}
+  components: {ItemHotkeyTab, RaceSpecificHotkeyTab}
 })
 export default class HotKeySetupScreen extends Vue {
   public races = HotkeyType;
