@@ -8,14 +8,14 @@ import {
   ModifierKey
 } from "@/hot-keys/hotkeyTypes";
 import {NotInGameState} from "@/hot-keys/HotKeyStateMachine";
-import defaultCustomHotkeys from "@/hot-keys/defaultCustomHotkeys";
+import defaultHotkeyData from "@/hot-keys/defaultHotkeyData";
 
 const mod = {
   namespaced: true,
   state: {
     itemHotKeys: [] as HotKey[],
     hotKeyStateMachine: new NotInGameState(),
-    customHotkeys: defaultCustomHotkeys,
+    customHotkeys: defaultHotkeyData,
     lastW3cPort: "",
     toggleButton: { modifier: ModifierKey.Shift, hotKey: {key: "f4", uiDisplay: "f4"}}
   } as HotKeyModifierState,

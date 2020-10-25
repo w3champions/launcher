@@ -1,6 +1,6 @@
 import {Ability, HotkeyMappingPerRace, HotkeyType, Unit} from "@/hot-keys/hotkeyTypes";
 
-const defaultCustomHotkeys = [
+const defaultHotkeyData = [
   {
     hotkeyType: HotkeyType.human,
     buildings: [
@@ -48,4 +48,4 @@ const defaultCustomHotkeys = [
   },
 ] as HotkeyMappingPerRace[]
 
-export default defaultCustomHotkeys;
+export default defaultHotkeyData;
