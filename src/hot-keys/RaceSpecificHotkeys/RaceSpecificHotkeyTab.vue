@@ -33,7 +33,11 @@
       <table class="selection-background" :class="selectedUnit.icon ? 'visible' : 'hidden'">
         <tr v-for="line in selectedUnitAbilities" :key="toKey(line)">
           <td class="single-selection-item" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
-            <div class="item-selection-hover" @click="() => openHotkeysOrCreatNewPanel(item)">.</div>
+            <div class="item-selection-hover" @click="() => openHotkeysOrCreatNewPanel(item)">
+              <div class="item-selection-hover-text w3font">
+                {{ item.currentHotkey }}
+              </div>
+            </div>
           </td>
         </tr>
       </table>
@@ -41,7 +45,11 @@
       <table class="selection-background" :class="selectedAbility.icon ? 'visible' : 'hidden'">
         <tr v-for="line in selectedUnitExtendedAbilities" :key="toKey(line)">
           <td class="single-selection-item" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
-            <div class="item-selection-hover" @click="() => selectExtendedAbility(item)">.</div>
+            <div class="item-selection-hover" @click="() => selectExtendedAbility(item)">
+              <div class="item-selection-hover-text w3font">
+                {{ item.currentHotkey }}
+              </div>
+            </div>
           </td>
         </tr>
       </table>
@@ -49,7 +57,11 @@
       <table style="visibility: hidden"  class="selection-background selection-background-single-line">
         <tr>
           <td class="single-selection-item" v-for="item in heroes" :key="item.icon" :class="getImgClass(item.icon)">
-            <div class="item-selection-hover">.</div>
+            <div class="item-selection-hover">
+              <div class="item-selection-hover-text w3font">
+                {{ item.currentHotkey }}
+              </div>
+            </div>
           </td>
         </tr>
       </table>
@@ -293,7 +305,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
 }
 
 .single-selection-item {
-  background-size: cover;
   height: 64px;
   width: 64px;
   padding: 0 !important;
@@ -302,9 +313,12 @@ export default class RaceSpecificHotkeyTab extends Vue {
 .item-selection-hover:hover{
   background: url("~@/assets/images/hotkeys/Hotkeys_Button_Highlight.png") no-repeat center;
   background-size: cover;
-  line-height: 64px;
   height: 64px;
   width: 64px;
+}
+.item-selection-hover-text {
+  padding-top: 43px;
+  padding-left: 48px;
 }
 
 .selection-wrapper {

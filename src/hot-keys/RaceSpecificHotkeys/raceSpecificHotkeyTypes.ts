@@ -28,23 +28,25 @@ export class Unit implements W3cIcon {
 }
 
 export class Ability implements W3cIcon {
-  constructor(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
+  constructor(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, currentHotkey: string, abilities: Ability[]) {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
     this.icon = icon;
     this.defaultHotkey = defaultHotkey;
+    this.currentHotkey = currentHotkey;
     this.abilities = abilities;
 
   }
 
   public static Default(identifier: string) {
-    return new Ability("", identifier, "", "", [])
+    return new Ability("", identifier, "", "", "", [])
   }
 
   public name: string;
   public hotkeyIdentifier: string;
   public icon: string;
   public defaultHotkey: string;
+  public currentHotkey: string;
   public abilities: Ability[];
 }
 
