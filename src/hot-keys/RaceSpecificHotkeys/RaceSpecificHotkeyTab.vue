@@ -96,6 +96,9 @@ export default class RaceSpecificHotkeyTab extends Vue {
   }
 
   public selectAbility(selection: Ability) {
+    if (selection.name === "") {
+      return;
+    }
     this.selectedAbility = selection;
     this.selectedUnitExtendedAbilities = this.splitInArrayOf4Abilities(this.selectedAbility.abilities);
   }
@@ -109,8 +112,10 @@ export default class RaceSpecificHotkeyTab extends Vue {
   }
 
   public selectExtendedAbility(selection: Ability) {
+    if (selection.name === "") {
+      return;
+    }
     this.selectedUnitExtendedAbility = selection;
-    alert(this.selectedUnitExtendedAbility.icon + " " + this.selectedUnitExtendedAbility.name)
   }
 
 
@@ -123,14 +128,20 @@ export default class RaceSpecificHotkeyTab extends Vue {
   }
 
   public selectUnit(selection: Unit) {
+    if (selection.name === "") {
+      return;
+    }
     this.selectedUnit = selection;
     this.selectedAbility = {} as Ability;
     this.selectedUnitAbilities = this.splitInArrayOf4Abilities(this.selectedUnit?.abilities ?? []);
     this.selectedUnitExtendedAbilities = this.splitInArrayOf4Abilities(this.selectedAbility?.abilities ?? []);
   }
 
-  public openHotkeyDialog(ability: Ability) {
-    alert(`${ability?.icon} + ${ability?.name}`);
+  public openHotkeyDialog(selection: Ability) {
+    if (selection.name === "") {
+      return
+    }
+    alert(`${selection?.icon} + ${selection?.name}`);
   }
 
   private splitInArrayOf4Units(elements: Unit[]) {
