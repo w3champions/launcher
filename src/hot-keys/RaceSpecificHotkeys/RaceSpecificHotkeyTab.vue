@@ -4,24 +4,24 @@
       <div class="selection-header w3font">Units</div>
       <table class="selection-background">
         <tr v-for="line in units" :key="toKey(line)">
-          <td class="single-selection-item" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
-            <div class="item-selection-hover" @click="() => selectUnit(item)">.</div>
+          <td class="item-selection-container" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
+            <div class="item-selection" @click="() => selectUnit(item)"/>
           </td>
         </tr>
       </table>
       <div class="selection-header w3font">Buildings</div>
       <table class="selection-background">
         <tr v-for="line in buildings" :key="toKey(line)">
-          <td class="single-selection-item" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
-            <div class="item-selection-hover" @click="() => selectUnit(item)">.</div>
+          <td class="item-selection-container" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
+            <div class="item-selection" @click="() => selectUnit(item)"/>
           </td>
         </tr>
       </table>
       <div class="selection-header w3font">Heroes</div>
       <table class="selection-background selection-background-single-line">
         <tr>
-          <td class="single-selection-item" v-for="item in heroes" :key="item.icon" :class="getImgClass(item.icon)">
-            <div class="item-selection-hover" @click="() => selectUnit(item)">.</div>
+          <td class="item-selection-container" v-for="item in heroes" :key="item.icon" :class="getImgClass(item.icon)">
+            <div class="item-selection" @click="() => selectUnit(item)"/>
           </td>
         </tr>
       </table>
@@ -32,8 +32,8 @@
       </div>
       <table class="selection-background" :class="selectedUnit.icon ? 'visible' : 'hidden'">
         <tr v-for="line in selectedUnitAbilities" :key="toKey(line)">
-          <td class="single-selection-item" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
-            <div class="item-selection-hover" @click="() => openHotkeysOrCreatNewPanel(item)">
+          <td class="item-selection-container" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
+            <div class="item-selection" @click="() => openHotkeysOrCreatNewPanel(item)">
               <div class="item-selection-hover-text w3font">
                 {{ item.currentHotkey }}
               </div>
@@ -44,8 +44,8 @@
       <div class="selection-header w3font" :class="selectedAbility.icon ? 'visible' : 'hidden'">Ability: {{ selectedAbilityName }}</div>
       <table class="selection-background" :class="selectedAbility.icon ? 'visible' : 'hidden'">
         <tr v-for="line in selectedUnitExtendedAbilities" :key="toKey(line)">
-          <td class="single-selection-item" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
-            <div class="item-selection-hover" @click="() => selectExtendedAbility(item)">
+          <td class="item-selection-container" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
+            <div class="item-selection" @click="() => selectExtendedAbility(item)">
               <div class="item-selection-hover-text w3font">
                 {{ item.currentHotkey }}
               </div>
@@ -56,8 +56,8 @@
       <div class="selection-header w3font" style="visibility: hidden">.</div>
       <table style="visibility: hidden"  class="selection-background selection-background-single-line">
         <tr>
-          <td class="single-selection-item" v-for="item in heroes" :key="item.icon" :class="getImgClass(item.icon)">
-            <div class="item-selection-hover">
+          <td class="item-selection-container" v-for="item in heroes" :key="item.icon" :class="getImgClass(item.icon)">
+            <div class="item-selection">
               <div class="item-selection-hover-text w3font">
                 {{ item.currentHotkey }}
               </div>
@@ -304,18 +304,22 @@ export default class RaceSpecificHotkeyTab extends Vue {
   visibility: hidden;
 }
 
-.single-selection-item {
+.item-selection-container {
   height: 64px;
   width: 64px;
   padding: 0 !important;
 }
 
-.item-selection-hover:hover{
+.item-selection{
+  height: 100%;
+  width: 100%;
+}
+
+.item-selection:hover{
   background: url("~@/assets/images/hotkeys/Hotkeys_Button_Highlight.png") no-repeat center;
   background-size: cover;
-  height: 64px;
-  width: 64px;
 }
+
 .item-selection-hover-text {
   padding-top: 43px;
   padding-left: 48px;
