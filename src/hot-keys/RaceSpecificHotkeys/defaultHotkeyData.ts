@@ -11,13 +11,13 @@ const defaultHotkeyData = [
       ])
     ],
     units: [
-        new Unit("Peasant", "btnpeasant", [
+        new Unit('Peasant', 'btnpeasant', [
           new Ability('Build', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
               new Ability('Build Townhall', 'btntownhall', 'htow', 'H', []),
               new Ability('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', [])
           ]),
         ]),
-        new Unit("Footman", "btnfootman", [
+        new Unit('Footman', 'btnfootman', [
           new Ability('Defend', 'adef', 'btndefend', 'P', []),
         ])
     ],
