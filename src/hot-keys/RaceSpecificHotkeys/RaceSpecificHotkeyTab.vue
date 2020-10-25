@@ -158,11 +158,11 @@ export default class RaceSpecificHotkeyTab extends Vue {
     return this.splitIn4s(elemsWithId) as Ability[][];
   }
 
-  private fillUp(elements: W3cIcon[], max: number, filler: () => W3cIcon) {
+  private fillUp(elements: W3cIcon[], max: number, filler: (index: string) => W3cIcon) {
     const envs = []
     elements.forEach(e => envs.push(e));
     for (let i = 0; i < max - elements.length; i++) {
-      const f = filler();
+      const f = filler(i.toString());
       f.icon = `${elements.length + i}`;
       envs.push(f)
     }
@@ -210,8 +210,33 @@ export default class RaceSpecificHotkeyTab extends Vue {
   background-size: cover;
 }
 
-.human-btnhumanbuild{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btnhumanbuild.jpg") no-repeat center;
+.human-btnattack{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btnattack.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btnmove{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btnmove.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btnpatrol{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btnpatrol.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btngathergold{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btngathergold.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btnstop{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btnstop.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btnholdposition{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btnholdposition.jpg") no-repeat center;
   background-size: cover;
 }
 

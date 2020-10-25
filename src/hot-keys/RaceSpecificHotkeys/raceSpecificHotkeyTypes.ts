@@ -18,8 +18,8 @@ export class Unit implements W3cIcon {
     this.abilities = abilities;
   }
 
-  public static Default() {
-    return new Unit("", "", [])
+  public static Default(identifier: string) {
+    return new Unit("", identifier, [])
   }
 
   public name: string;
@@ -37,8 +37,8 @@ export class Ability implements W3cIcon {
 
   }
 
-  public static Default() {
-    return new Ability("", "", "", "", [])
+  public static Default(identifier: string) {
+    return new Ability("", identifier, "", "", [])
   }
 
   public name: string;
