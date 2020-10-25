@@ -1,14 +1,10 @@
 import {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
-import {
-  ClickCombination,
-  HotKey,
-  HotKeyModifierState,
-  ModifierKey
-} from "@/hot-keys/hotkeyTypes";
-import {NotInGameState} from "@/hot-keys/HotKeyStateMachine";
-import defaultHotkeyData from "@/hot-keys/defaultHotkeyData";
+import {NotInGameState} from "@/hot-keys/ItemHotkeys/HotKeyStateMachine";
+import defaultHotkeyData from "@/hot-keys/RaceSpecificHotkeys/defaultHotkeyData";
+import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
+import {HotKeyModifierState} from "@/hot-keys/hotkeyState";
 
 const mod = {
   namespaced: true,

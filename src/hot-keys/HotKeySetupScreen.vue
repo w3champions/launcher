@@ -17,10 +17,10 @@
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
 
-import {HotkeyType} from "@/hot-keys/hotkeyTypes";
 import logger from "@/logger";
-import RaceSpecificHotkeyTab from "@/hot-keys/views/RaceSpecificHotkeyTab.vue";
-import ItemHotkeyTab from "@/hot-keys/views/ItemHotkeyTab.vue";
+import RaceSpecificHotkeyTab from "@/hot-keys/RaceSpecificHotkeys/RaceSpecificHotkeyTab.vue";
+import ItemHotkeyTab from "@/hot-keys/ItemHotkeys/ItemHotkeyTab.vue";
+import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 @Component({
   components: {ItemHotkeyTab, RaceSpecificHotkeyTab}
 })

@@ -1,4 +1,4 @@
-import store from '../globalState/vuex-store'
+import store from '../../globalState/vuex-store'
 import logger from "@/logger";
 
 export abstract class HotKeyState {

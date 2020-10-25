@@ -1,4 +1,5 @@
-import {Ability, HotkeyMappingPerRace, HotkeyType, Unit} from "@/hot-keys/hotkeyTypes";
+import {Ability, HotkeyMappingPerRace, Unit} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 const defaultHotkeyData = [
   {

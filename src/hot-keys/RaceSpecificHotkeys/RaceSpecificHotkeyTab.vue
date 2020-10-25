@@ -60,8 +60,10 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
-/* eslint-disable */
-import {Ability, HotkeyType, Unit, W3cIcon} from "@/hot-keys/hotkeyTypes";
+// eslint-disable-next-line no-unused-vars
+import {Ability, Unit, W3cIcon} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+// eslint-disable-next-line no-unused-vars
+import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 @Component
 export default class RaceSpecificHotkeyTab extends Vue {

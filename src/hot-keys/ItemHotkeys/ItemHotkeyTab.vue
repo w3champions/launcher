@@ -82,11 +82,11 @@ import {
   ITEM_MIDDLE_RIGHT,
   ITEM_TOP_LEFT,
   ITEM_TOP_RIGHT
-} from "@/hot-keys/keyValuesHotKeys";
-/* eslint-disable */
-import {KeyDto, ModifierKey} from "@/hot-keys/hotkeyTypes";
-import {InGameState, ManualHotkeyMode} from "@/hot-keys/HotKeyStateMachine";
-import {combiAsStringForDisplay} from "@/hot-keys/utilsFunctions";
+} from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
+import {InGameState, ManualHotkeyMode} from "@/hot-keys/ItemHotkeys/HotKeyStateMachine";
+import {combiAsStringForDisplay} from "@/hot-keys/ItemHotkeys/utilsFunctions";
+// eslint-disable-next-line no-unused-vars
+import {KeyDto, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 @Component
 export default class ItemHotkeyTab extends Vue {
