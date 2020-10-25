@@ -28,7 +28,7 @@ export class Unit implements W3cIcon {
 }
 
 export class Ability implements W3cIcon {
-  constructor(name: string, hotkeyIdentifier: string, icon: string, defaultHotkey: string, abilities: Ability[]) {
+  constructor(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
     this.icon = icon;

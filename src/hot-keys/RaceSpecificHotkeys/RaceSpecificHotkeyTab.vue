@@ -4,7 +4,7 @@
       <div class="selection-header w3font">Units</div>
       <table class="selection-background">
         <tr v-for="line in units" :key="toKey(line)">
-          <td class="single-selection-item" v-for="item in line" :key="item.icon">
+          <td class="single-selection-item" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
             <div class="item-selection-hover" @click="() => selectUnit(item)">.</div>
           </td>
         </tr>
@@ -12,7 +12,7 @@
       <div class="selection-header w3font">Buildings</div>
       <table class="selection-background">
         <tr v-for="line in buildings" :key="toKey(line)">
-          <td class="single-selection-item" v-for="item in line" :key="item.icon">
+          <td class="single-selection-item" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
             <div class="item-selection-hover" @click="() => selectUnit(item)">.</div>
           </td>
         </tr>
@@ -20,7 +20,7 @@
       <div class="selection-header w3font">Heroes</div>
       <table class="selection-background selection-background-single-line">
         <tr>
-          <td class="single-selection-item" v-for="item in heroes" :key="item.icon">
+          <td class="single-selection-item" v-for="item in heroes" :key="item.icon" :class="getImgClass(item.icon)">
             <div class="item-selection-hover" @click="() => selectUnit(item)">.</div>
           </td>
         </tr>
@@ -32,7 +32,7 @@
       </div>
       <table class="selection-background" :class="selectedUnit.icon ? 'visible' : 'hidden'">
         <tr v-for="line in selectedUnitAbilities" :key="toKey(line)">
-          <td class="single-selection-item" v-for="item in line" :key="item.icon">
+          <td class="single-selection-item" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
             <div class="item-selection-hover" @click="() => openHotkeysOrCreatNewPanel(item)">.</div>
           </td>
         </tr>
@@ -40,7 +40,7 @@
       <div class="selection-header w3font" :class="selectedAbility.icon ? 'visible' : 'hidden'">Ability: {{ selectedAbilityName }}</div>
       <table class="selection-background" :class="selectedAbility.icon ? 'visible' : 'hidden'">
         <tr v-for="line in selectedUnitExtendedAbilities" :key="toKey(line)">
-          <td class="single-selection-item" v-for="item in line" :key="item.icon">
+          <td class="single-selection-item" v-for="item in line" :key="item.icon" :class="getImgClass(item.icon)">
             <div class="item-selection-hover" @click="() => selectExtendedAbility(item)">.</div>
           </td>
         </tr>
@@ -48,7 +48,7 @@
       <div class="selection-header w3font" style="visibility: hidden">.</div>
       <table style="visibility: hidden"  class="selection-background selection-background-single-line">
         <tr>
-          <td class="single-selection-item" v-for="item in heroes" :key="item.icon">
+          <td class="single-selection-item" v-for="item in heroes" :key="item.icon" :class="getImgClass(item.icon)">
             <div class="item-selection-hover">.</div>
           </td>
         </tr>
@@ -93,6 +93,10 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
   get selectedAbilityName() {
     return this.selectedAbility?.name ?? ""
+  }
+
+  public getImgClass(image: string) {
+    return `${HotkeyType[this.race]}-${image}`
   }
 
   public selectAbility(selection: Ability) {
@@ -176,6 +180,41 @@ export default class RaceSpecificHotkeyTab extends Vue {
 </script>
 
 <style scoped type="text/css">
+.human-btnarcanevault{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btnarcanevault.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btncalltoarms{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btncalltoarms.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btnfootman{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btnfootman.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btndefend{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btndefend.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btnpeasant{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btnpeasant.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btntownhall{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btntownhall.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btnhumanbuild{
+  background: url("~@/assets/images/hotkeys/itemLogos/human/btnhumanbuild.jpg") no-repeat center;
+  background-size: cover;
+}
+
 .race-table-wrapper {
   width: 100%;
   height: 600px;
@@ -199,7 +238,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
 }
 
 .single-selection-item {
-  background: url("~@/assets/images/hotkeys/itemLogos/nightelf/btnarcher.jpg") no-repeat center;
   background-size: cover;
   height: 64px;
   width: 64px;

@@ -6,13 +6,13 @@ const defaultHotkeyData = [
     hotkeyType: HotkeyType.human,
     buildings: [
       new Unit('Townhall', 'btntownhall', [
-          new Ability('Train Peasant', 'hpea', 'btnpeasant', 'P', []),
-          new Ability('Call to Arms', 'amil', 'btncalltoarms', 'C', []),
+          new Ability('Train Peasant', 'btnpeasant', 'hpea', 'P', []),
+          new Ability('Call to Arms', 'btncalltoarms', 'amil','C', []),
       ])
     ],
     units: [
         new Unit("Peasant", "btnpeasant", [
-          new Ability('Build', 'cmdbuildhuman', 'btnpeasant', 'B', [
+          new Ability('Build', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
               new Ability('Build Townhall', 'btntownhall', 'htow', 'H', []),
               new Ability('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', [])
           ]),
