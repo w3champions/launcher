@@ -145,7 +145,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     if (selection.name === "") {
       return
     }
-    alert(`${selection?.icon} + ${selection?.name}`);
+    alert(`${selection?.icon} + ${selection?.name} + ${selection?.defaultHotkey}`);
   }
 
   private splitInArrayOf4Units(elements: Unit[]) {
@@ -181,62 +181,72 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
 <style scoped type="text/css">
 .human-btnarcanevault{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btnarcanevault.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btnarcanevault.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btnhumanbuild{
+  background: url("~@/assets/images/hotkeys/icons/human/btnhumanbuild.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.human-btnrepair{
+  background: url("~@/assets/images/hotkeys/icons/human/btnrepair.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btncalltoarms{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btncalltoarms.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btncalltoarms.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btnfootman{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btnfootman.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btnfootman.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btndefend{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btndefend.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btndefend.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btnpeasant{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btnpeasant.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btnpeasant.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btntownhall{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btntownhall.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btntownhall.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btnattack{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btnattack.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btnattack.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btnmove{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btnmove.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btnmove.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btnpatrol{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btnpatrol.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btnpatrol.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btngathergold{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btngathergold.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btngathergold.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btnstop{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btnstop.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btnstop.jpg") no-repeat center;
   background-size: cover;
 }
 
 .human-btnholdposition{
-  background: url("~@/assets/images/hotkeys/itemLogos/human/btnholdposition.jpg") no-repeat center;
+  background: url("~@/assets/images/hotkeys/icons/human/btnholdposition.jpg") no-repeat center;
   background-size: cover;
 }
 
