@@ -1,0 +1,90 @@
+.human-btnarcanevault {
+  background: url('~@/assets/images/hotkeys/icons/human/btnarcanevault.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btnattack {
+  background: url('~@/assets/images/hotkeys/icons/human/btnattack.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btncalltoarms {
+  background: url('~@/assets/images/hotkeys/icons/human/btncalltoarms.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btndefend {
+  background: url('~@/assets/images/hotkeys/icons/human/btndefend.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btnfootman {
+  background: url('~@/assets/images/hotkeys/icons/human/btnfootman.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btngathergold {
+  background: url('~@/assets/images/hotkeys/icons/human/btngathergold.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btnholdposition {
+  background: url('~@/assets/images/hotkeys/icons/human/btnholdposition.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btnhumanbuild {
+  background: url('~@/assets/images/hotkeys/icons/human/btnhumanbuild.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btnmove {
+  background: url('~@/assets/images/hotkeys/icons/human/btnmove.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btnpatrol {
+  background: url('~@/assets/images/hotkeys/icons/human/btnpatrol.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btnpeasant {
+  background: url('~@/assets/images/hotkeys/icons/human/btnpeasant.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btnrepair {
+  background: url('~@/assets/images/hotkeys/icons/human/btnrepair.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btnstop {
+  background: url('~@/assets/images/hotkeys/icons/human/btnstop.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.human-btntownhall {
+  background: url('~@/assets/images/hotkeys/icons/human/btntownhall.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.undead-btnabomination {
+  background: url('~@/assets/images/hotkeys/icons/undead/btnabomination.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.undead-btnacolyte {
+  background: url('~@/assets/images/hotkeys/icons/undead/btnacolyte.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.nightelf-btnarcher {
+  background: url('~@/assets/images/hotkeys/icons/nightelf/btnarcher.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.neutral-btnacidbomb {
+  background: url('~@/assets/images/hotkeys/icons/neutral/btnacidbomb.jpg') no-repeat center;
+  background-size: cover;
+}
+
