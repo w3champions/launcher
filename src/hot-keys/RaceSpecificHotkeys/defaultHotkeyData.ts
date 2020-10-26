@@ -39,7 +39,7 @@ const defaultHotkeyData = [
         ]),
         new Unit('Footman', 'btnfootman', [
           ...defaultUnitAbilitiesFigther,
-          new Ability('Defend', 'btndefend', 'adef', 'P', 'P', []),
+          new Ability('Defend', 'btndefend', 'adef', 'D', 'D', []),
         ])
     ],
     heroes: [],
