@@ -5,17 +5,40 @@ import {NotInGameState} from "@/hot-keys/ItemHotkeys/HotKeyStateMachine";
 import defaultHotkeyData from "@/hot-keys/RaceSpecificHotkeys/defaultHotkeyData";
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import {HotKeyModifierState} from "@/hot-keys/hotkeyState";
+import {Ability, HotkeyMappingPerRace} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 const mod = {
   namespaced: true,
   state: {
     itemHotKeys: [] as HotKey[],
     hotKeyStateMachine: new NotInGameState(),
-    customHotkeys: defaultHotkeyData,
+    raceHotkeys: defaultHotkeyData,
     lastW3cPort: "",
     toggleButton: { modifier: ModifierKey.Shift, hotKey: {key: "f4", uiDisplay: "f4"}}
   } as HotKeyModifierState,
   actions: {
+    setRaceHotkey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: Ability) {
+      const { commit, rootGetters, state } = moduleActionContext(context, mod);
+      const newHotkeys = [...state.raceHotkeys]
+      newHotkeys.forEach(h => h.units.forEach(h => h.abilities.forEach(a => {
+        if (a.abilities.length > 1) {
+          a.abilities.forEach(a2 => {
+            if (a2.hotkeyIdentifier === hotKey.hotkeyIdentifier) {
+              a2.currentHotkey = hotKey.currentHotkey
+            }
+          })
+        } else if (a.hotkeyIdentifier === hotKey.hotkeyIdentifier){
+          a.currentHotkey = hotKey.currentHotkey;
+        }
+      })))
+      rootGetters.itemHotkeyService.saveRaceHotKeys(newHotkeys);
+      commit.SET_RACE_HOTKEYS(newHotkeys);
+    },
+    loadRaceHotkeys(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+      const hotkeys = rootGetters.itemHotkeyService.loadRaceHotKeys();
+      commit.SET_RACE_HOTKEYS(hotkeys);
+    },
     addHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
       const allKeys = state.itemHotKeys.filter(h => h.key !== hotKey.key);
@@ -103,6 +126,9 @@ const mod = {
     }
   },
   mutations: {
+    SET_RACE_HOTKEYS(state: HotKeyModifierState, hotKeys: HotkeyMappingPerRace[]) {
+      state.raceHotkeys = hotKeys;
+    },
     SET_HOTKEYS(state: HotKeyModifierState, hotKeys: HotKey[]) {
       state.itemHotKeys = hotKeys;
     },

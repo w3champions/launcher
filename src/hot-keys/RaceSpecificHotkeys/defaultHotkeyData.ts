@@ -1,4 +1,10 @@
-import {Ability, HotkeyMappingPerRace, Unit} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import {
+    Ability,
+    Building,
+    Hero,
+    HotkeyMappingPerRace,
+    Unit
+} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 const defaultUnitAbilities = [
@@ -19,13 +25,14 @@ const defaultUnitAbilitiesFigther = [
 const defaultHotkeyData = [
   {
     hotkeyType: HotkeyType.human,
-    buildings: [
-      new Unit('Townhall', 'btntownhall', [
-          new Ability('Train Peasant', 'btnpeasant', 'hpea', 'P', 'P', []),
-          new Ability('Call to Arms', 'btncalltoarms', 'amil', 'C', 'C', []),
-      ])
-    ],
     units: [
+        //Buildings
+        new Building('Townhall', 'btntownhall', [
+            new Ability('Train Peasant', 'btnpeasant', 'hpea', 'P', 'P', []),
+            new Ability('Call to Arms', 'btncalltoarms', 'amil', 'C', 'C', []),
+        ]),
+
+        //Units
         new Unit('Peasant', 'btnpeasant', [
           ...defaultUnitAbilities,
           new Ability('Repair', 'btnrepair', 'ahrp', 'F', 'F', []),
@@ -40,33 +47,29 @@ const defaultHotkeyData = [
         new Unit('Footman', 'btnfootman', [
           ...defaultUnitAbilitiesFigther,
           new Ability('Defend', 'btndefend', 'adef', 'D', 'D', []),
+        ]),
+
+        //Heroes
+        new Hero('Paladin', 'btnpaladin', [
+            ...defaultUnitAbilitiesFigther,
         ])
     ],
-    heroes: [],
   },
   {
     hotkeyType: HotkeyType.orc,
     units: [],
-    buildings:[],
-    heroes: [],
   },
   {
     hotkeyType: HotkeyType.undead,
     units: [],
-    buildings:[],
-    heroes: [],
   },
   {
     hotkeyType: HotkeyType.nightelf,
     units: [],
-    buildings:[],
-    heroes: [],
   },
   {
     hotkeyType: HotkeyType.neutral,
     units: [],
-    buildings:[],
-    heroes: [],
   },
 ] as HotkeyMappingPerRace[]
 

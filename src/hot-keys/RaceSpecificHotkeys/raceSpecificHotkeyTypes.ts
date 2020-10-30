@@ -2,9 +2,7 @@ import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 export interface HotkeyMappingPerRace {
   hotkeyType: HotkeyType,
-  units: Unit[],
-  buildings: Unit[],
-  heroes: Unit[],
+  units: Unit[]
 }
 
 export interface W3cIcon {
@@ -12,6 +10,8 @@ export interface W3cIcon {
 }
 
 export class Unit implements W3cIcon {
+  public type = Unit.name
+
   constructor(name: string, icon: string, abilities: Ability[]) {
     this.name = name;
     this.icon = icon;
@@ -25,6 +25,14 @@ export class Unit implements W3cIcon {
   public name: string;
   public icon: string;
   public abilities: Ability[];
+}
+
+export class Building extends Unit {
+  public type = Building.name
+}
+
+export class Hero extends Unit {
+  public type = Hero.name
 }
 
 export class Ability implements W3cIcon {

@@ -13,6 +13,7 @@ import {
 } from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
 import logger from "@/logger";
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
+import {HotkeyMappingPerRace} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 const { globalShortcut } = window.require("electron").remote;
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
@@ -53,6 +54,7 @@ export class ItemHotkeyRegistrationService {
     private lastPortKey = "lastPortKey";
 
     private hotKeyStoreKey = "hotKeyStoreKey"
+    private hotKeyStoreRaceKey = "hotKeyStoreRaceKey"
     private hotKeyToggleKey = "hotKeyToggleKey"
     private hotKeyManualMode = "hotKeyManualModeKey"
 
@@ -70,6 +72,14 @@ export class ItemHotkeyRegistrationService {
 
     public loadHotKeys() {
         return this.keyValueStore.get(this.hotKeyStoreKey) ?? [];
+    }
+
+    public saveRaceHotKeys(hotKeys: HotkeyMappingPerRace[]) {
+        this.keyValueStore.set(this.hotKeyStoreRaceKey, hotKeys);
+    }
+
+    public loadRaceHotKeys() {
+        return this.keyValueStore.get("hotKeyStoreRaceKey") ?? [];
     }
 
     public loadToggleKey() {

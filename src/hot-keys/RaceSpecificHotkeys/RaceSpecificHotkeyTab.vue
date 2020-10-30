@@ -1,39 +1,59 @@
 <template>
-  <div class="race-table-wrapper">
-    <div class="selection-wrapper">
-      <div class="selection-header w3font">Units</div>
-      <ItemSelectionContainer :on-click="selectUnit" :selection-items="units"/>
-      <div class="selection-header w3font">Buildings</div>
-      <ItemSelectionContainer :on-click="selectUnit" :selection-items="buildings"/>
-      <div class="selection-header w3font">Heroes</div>
-      <ItemSelectionContainer :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
-    </div>
-    <div class="selection-wrapper">
-      <div class="selection-header w3font" :class="selectedUnit.icon ? 'visible' : 'hidden'">
-        Selected: {{ selectedUnitName }}
+  <div>
+    <div class="hotkey-enter-modal" :style="`visibility: ${modal ? 'visible' : 'hidden'}`">
+      <div style="font-size: 30px">{{ editAbility.name }}:</div>
+      <br/>
+      <div class="hotkey-input">
+        {{ hotkeyPressed }}
       </div>
-      <ItemSelectionContainer :class="selectedUnit.icon ? 'visible' : 'hidden'" :on-click="openHotkeysOrCreatNewPanel" :selection-items="selectedUnitAbilities"/>
-      <div class="selection-header w3font" :class="selectedAbility.icon ? 'visible' : 'hidden'">Ability: {{ selectedAbilityName }}</div>
-      <ItemSelectionContainer :class="selectedAbility.icon ? 'visible' : 'hidden'" :on-click="selectExtendedAbility" :selection-items="selectedUnitExtendedAbilities"/>
-      <div class="selection-header w3font" style="visibility: hidden">.</div>
-      <ItemSelectionContainer style="visibility: hidden" :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
+      <div>
+        <div class="modal-button" @click="addHotkey">Add</div>
+        <div class="modal-button" @click="cancelHotkeyModal">Cancel</div>
+        <div class="modal-button" @click="setDefaultHotkey">Reset to Default ({{ editAbility.defaultHotkey }})</div>
+      </div>
     </div>
-    <div class="hero-wrapper" />
+    <div class="race-table-wrapper">
+      <div class="selection-wrapper">
+        <div class="selection-header w3font">Units</div>
+        <ItemSelectionContainer :on-click="selectUnit" :selection-items="units"/>
+        <div class="selection-header w3font">Buildings</div>
+        <ItemSelectionContainer :on-click="selectUnit" :selection-items="buildings"/>
+        <div class="selection-header w3font">Heroes</div>
+        <ItemSelectionContainer :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
+      </div>
+      <div class="selection-wrapper">
+        <div class="selection-header w3font" :class="selectedUnit.icon ? 'visible' : 'hidden'">
+          Selected: {{ selectedUnitName }}
+        </div>
+        <ItemSelectionContainer :class="selectedUnit.icon ? 'visible' : 'hidden'" :on-click="openHotkeysOrCreatNewPanel" :selection-items="selectedUnitAbilities"/>
+        <div class="selection-header w3font" :class="selectedAbility.icon ? 'visible' : 'hidden'">Ability: {{ selectedAbilityName }}</div>
+        <ItemSelectionContainer :class="selectedAbility.icon ? 'visible' : 'hidden'" :on-click="selectExtendedAbility" :selection-items="selectedUnitExtendedAbilities"/>
+        <div class="selection-header w3font" style="visibility: hidden">.</div>
+        <ItemSelectionContainer style="visibility: hidden" :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
+      </div>
+      <div class="hero-wrapper" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
-import {Ability, Unit} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+// eslint-disable-next-line no-unused-vars
+import {Ability, Building, Hero, Unit, W3cIcon} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 // eslint-disable-next-line no-unused-vars
 import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import ItemSelectionContainer from "@/hot-keys/RaceSpecificHotkeys/ItemSelectionContainer.vue";
+
 @Component({
   components: {ItemSelectionContainer}
 })
 export default class RaceSpecificHotkeyTab extends Vue {
   @Prop() public race!: HotkeyType;
 
+  public modal = false;
+
+  public hotkeyPressed = "";
+  public editAbility = {} as Ability | null;
   public selectedAbility = {} as Ability | null;
   public selectedUnitExtendedAbility = {} as Ability | null;
   public selectedUnit = {} as Unit;
@@ -41,15 +61,15 @@ export default class RaceSpecificHotkeyTab extends Vue {
   public selectedUnitAbilities = [] as Ability[][];
 
   get heroes() {
-    return this.fillUp(this.hotKeys.heroes, 4, Unit.Default);
+    return this.fillUp(this.hotKeys.units.filter(u => u.type === Hero.name), 4, Unit.Default);
   }
 
   get buildings() {
-    return this.splitInArrayOf4Units(this.hotKeys.buildings ?? []);
+    return this.splitInArrayOf4Units(this.hotKeys.units.filter(u => u.type === Building.name) ?? []);
   }
 
   get units() {
-    return this.splitInArrayOf4Units(this.hotKeys.units ?? []);
+    return this.splitInArrayOf4Units(this.hotKeys.units.filter(u => u.type === Unit.name) ?? []);
   }
 
   get selectedUnitName() {
@@ -69,7 +89,36 @@ export default class RaceSpecificHotkeyTab extends Vue {
   }
 
   get hotKeys() {
-    return this.$store.direct.state.hotKeys.customHotkeys.filter(h => h.hotkeyType === this.race)[0];
+    return this.$store.direct.state.hotKeys.raceHotkeys.filter(h => h.hotkeyType === this.race)[0];
+  }
+
+  public cancelHotkeyModal() {
+    this.closeModalAndResetVariables();
+  }
+
+  public addHotkey() {
+    if (!this.editAbility) return;
+
+    this.$store.direct.dispatch.hotKeys.setRaceHotkey(
+        new Ability(
+            this.editAbility.name,
+            this.editAbility.icon,
+            this.editAbility.hotkeyIdentifier,
+            this.editAbility.defaultHotkey,
+            this.hotkeyPressed,
+            this.editAbility.abilities)
+    );
+    this.closeModalAndResetVariables();
+  }
+
+  public setDefaultHotkey() {
+    this.closeModalAndResetVariables();
+  }
+
+  private closeModalAndResetVariables() {
+    this.modal = false;
+    this.editAbility = {} as Ability;
+    this.hotkeyPressed = "";
   }
 
   public toKey(units: Unit[]) {
@@ -82,7 +131,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
     }
     this.selectedUnitExtendedAbility = selection;
   }
-
 
   public openHotkeysOrCreatNewPanel(selection: Ability) {
     if (selection.abilities.length > 0) {
@@ -106,7 +154,21 @@ export default class RaceSpecificHotkeyTab extends Vue {
     if (selection.name === "") {
       return
     }
-    alert(`${selection?.icon} + ${selection?.name} + ${selection?.defaultHotkey}`);
+
+    this.editAbility = selection;
+    this.hotkeyPressed = selection.currentHotkey;
+    this.modal = true;
+
+    window.document.onkeydown = this.convertKeyPress;
+  }
+
+  private convertKeyPress(e: KeyboardEvent) {
+    if (!e.code.startsWith("Key")) return;
+
+    const pressedKey = e.code.replace("Key", "");
+    if (pressedKey.length != 1) return;
+
+    this.hotkeyPressed = pressedKey;
   }
 
   private splitInArrayOf4Units(elements: Unit[]) {
@@ -141,6 +203,34 @@ export default class RaceSpecificHotkeyTab extends Vue {
 </script>
 
 <style scoped type="text/css">
+
+.hotkey-enter-modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0, 0.8);
+}
+
+.hotkey-input {
+  font-size: 30px;
+  line-height: 30px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.modal-button {
+  margin-left: 15px;
+  margin-right: 15px;
+  display: inline;
+  cursor: pointer;
+}
 
 .race-table-wrapper {
   width: 100%;

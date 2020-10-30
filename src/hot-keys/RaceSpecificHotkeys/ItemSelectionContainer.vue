@@ -2,7 +2,11 @@
   <table v-if="!singleRow" class="selection-background">
     <tr v-for="line in selectionItems" :key="toKey(line)">
       <td class="item-selection-container" v-for="item in line" :key="item.icon" :class="item.icon">
-        <div class="item-selection" @click="() => onClick(item)"/>
+        <div class="item-selection" @click="() => onClick(item)">
+          <div class="item-selection-hover-text w3font">
+            {{ item.currentHotkey }}
+          </div>
+        </div>
       </td>
     </tr>
   </table>
