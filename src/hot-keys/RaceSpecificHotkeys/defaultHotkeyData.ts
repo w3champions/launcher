@@ -1,76 +1,91 @@
-import {Ability, HotkeyMappingPerRace, Unit} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import {
+    Ability,
+    Building,
+    Hero,
+    HotkeyMappingPerRace,
+    Unit
+} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 const defaultUnitAbilities = [
-    new Ability("Move", "btnmove", "cmdmove", "M", []),
-    new Ability("Stop", "btnstop", "cmdstop", "S", []),
-    new Ability("Hold", "btnholdposition", "cmdholdpos", "H", []),
-    new Ability("Attack", "btnattack", "cmdattack", "A", []),
-    new Ability("Patrol", "btnpatrol", "cmdpatrol", "P", [])
+    new Ability("Move", "btnmove", "cmdmove", "M", "M", []),
+    new Ability("Stop", "btnstop", "cmdstop", "S", "S", []),
+    new Ability("Hold", "btnholdposition", "cmdholdpos", "H", "H", []),
+    new Ability("Attack", "btnattack", "cmdattack", "A", "A", []),
+    new Ability("Patrol", "btnpatrol", "cmdpatrol", "P", "P", [])
 ]
 
-const defaultUnitAbilitiesFigther = [
-    new Ability("Move", "btnmove", "attack", "M", []),
-    new Ability("Stop", "btnstop", "attack", "Spatrol", []),
-    new Ability("Hold", "btnholdposition", "attack", "A", []),
-    new Ability("Attack", "btnattack", "attack", "A", []),
-    new Ability("Patrol", "btnpatrol", "attack", "A", []),
+const defaultFighterAbilities = [
+    ...defaultUnitAbilities,
     Ability.Default("default_1"),
     Ability.Default("default_2"),
     Ability.Default("default_3"),
 ]
 
+const defaultHeroAbilities = (learningSkills: Ability[]) => [
+    ...defaultUnitAbilities,
+    Ability.Default("default_1"),
+    Ability.Default("default_2"),
+    new Ability('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', 'O', learningSkills)
+]
+
 const defaultHotkeyData = [
   {
     hotkeyType: HotkeyType.human,
-    buildings: [
-      new Unit('Townhall', 'btntownhall', [
-          new Ability('Train Peasant', 'btnpeasant', 'hpea', 'P', []),
-          new Ability('Call to Arms', 'btncalltoarms', 'amil','C', []),
-      ])
-    ],
     units: [
+        //Buildings
+        new Building('Townhall', 'btntownhall', [
+            new Ability('Train Peasant', 'btnpeasant', 'hpea', 'P', 'P', []),
+            new Ability('Call to Arms', 'btncalltoarms', 'amil', 'C', 'C', []),
+        ]),
+
+        //Units
         new Unit('Peasant', 'btnpeasant', [
           ...defaultUnitAbilities,
-          new Ability('Repair', 'btnrepair', 'ahrp', 'F', []),
+          new Ability('Repair', 'btnrepair', 'ahrp', 'F', 'F', []),
           Ability.Default("default_a"),
-          new Ability('Gather', 'btngathergold', 'ahar', 'G', []),
-          new Ability('Build', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
-              new Ability('Build Townhall', 'btntownhall', 'htow', 'H', []),
-              new Ability('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', [])
+          new Ability('Gather', 'btngathergold', 'ahar', 'G', 'G', []),
+          new Ability('Build', 'btnhumanbuild', 'cmdbuildhuman', 'B', 'B', [
+              new Ability('Build Townhall', 'btntownhall', 'htow', 'H', 'H', []),
+              new Ability('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', 'V', [])
           ]),
-          new Ability('Call to Arms', 'btncalltoarms', 'amil', 'C', [])
+          new Ability('Call to Arms', 'btncalltoarms', 'amil', 'C', 'C', [])
         ]),
         new Unit('Footman', 'btnfootman', [
-          ...defaultUnitAbilitiesFigther,
-          new Ability('Defend', 'btndefend', 'adef', 'P', []),
+          ...defaultFighterAbilities,
+          new Ability('Defend', 'btndefend', 'adef', 'D', 'D', []),
+        ]),
+
+        //Heroes
+        new Hero('Paladin', 'btnheropaladin', [
+            ...defaultHeroAbilities([
+                new Ability('Holy Light', 'btnholybolt', 'ahhb', 'T', 'T', []),
+                new Ability('Divine Shield', 'btndivineshieldoff', 'adef', 'D', 'D', []),
+                new Ability('Devotion Aura', 'btndevotion', 'ahad', 'V', 'V', []),
+                new Ability('Resurrection', 'btnresurrection', 'ahre', 'R', 'R', []),
+            ]),
+            new Ability('Holy Light', 'btnholybolt', 'ahhb', 'T', 'T', []),
+            new Ability('Divine Shield', 'btndivineshieldoff', 'adef', 'D', 'D', []),
+            Ability.Default("default_5"),
+            new Ability('Resurrection', 'btnresurrection', 'ahre', 'R', 'R', []),
         ])
     ],
-    heroes: [],
   },
   {
     hotkeyType: HotkeyType.orc,
     units: [],
-    buildings:[],
-    heroes: [],
   },
   {
     hotkeyType: HotkeyType.undead,
     units: [],
-    buildings:[],
-    heroes: [],
   },
   {
     hotkeyType: HotkeyType.nightelf,
     units: [],
-    buildings:[],
-    heroes: [],
   },
   {
     hotkeyType: HotkeyType.neutral,
     units: [],
-    buildings:[],
-    heroes: [],
   },
 ] as HotkeyMappingPerRace[]
 

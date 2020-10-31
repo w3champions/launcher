@@ -4,7 +4,7 @@ import {ClickCombination, HotKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 export interface HotKeyModifierState {
   itemHotKeys: HotKey[],
-  customHotkeys: HotkeyMappingPerRace[],
+  raceHotkeys: HotkeyMappingPerRace[],
   hotKeyStateMachine: HotKeyState,
   toggleButton: ClickCombination,
   lastW3cPort: string,
