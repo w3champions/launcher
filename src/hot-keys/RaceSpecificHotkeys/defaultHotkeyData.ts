@@ -15,11 +15,18 @@ const defaultUnitAbilities = [
     new Ability("Patrol", "btnpatrol", "cmdpatrol", "P", "P", [])
 ]
 
-const defaultUnitAbilitiesFigther = [
+const defaultFighterAbilities = [
     ...defaultUnitAbilities,
     Ability.Default("default_1"),
     Ability.Default("default_2"),
     Ability.Default("default_3"),
+]
+
+const defaultHeroAbilities = (learningSkills: Ability[]) => [
+    ...defaultUnitAbilities,
+    Ability.Default("default_1"),
+    Ability.Default("default_2"),
+    new Ability('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', 'O', learningSkills)
 ]
 
 const defaultHotkeyData = [
@@ -45,13 +52,22 @@ const defaultHotkeyData = [
           new Ability('Call to Arms', 'btncalltoarms', 'amil', 'C', 'C', [])
         ]),
         new Unit('Footman', 'btnfootman', [
-          ...defaultUnitAbilitiesFigther,
+          ...defaultFighterAbilities,
           new Ability('Defend', 'btndefend', 'adef', 'D', 'D', []),
         ]),
 
         //Heroes
-        new Hero('Paladin', 'btnpaladin', [
-            ...defaultUnitAbilitiesFigther,
+        new Hero('Paladin', 'btnheropaladin', [
+            ...defaultHeroAbilities([
+                new Ability('Holy Light', 'btnholybolt', 'ahhb', 'T', 'T', []),
+                new Ability('Divine Shield', 'btndivineshieldoff', 'adef', 'D', 'D', []),
+                new Ability('Devotion Aura', 'btndevotion', 'ahad', 'V', 'V', []),
+                new Ability('Resurrection', 'btnresurrection', 'ahre', 'R', 'R', []),
+            ]),
+            new Ability('Holy Light', 'btnholybolt', 'ahhb', 'T', 'T', []),
+            new Ability('Divine Shield', 'btndivineshieldoff', 'adef', 'D', 'D', []),
+            Ability.Default("default_5"),
+            new Ability('Resurrection', 'btnresurrection', 'ahre', 'R', 'R', []),
         ])
     ],
   },
