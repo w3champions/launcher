@@ -7,7 +7,10 @@ import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotk
 import {HotKeyModifierState} from "@/hot-keys/hotkeyState";
 import {HotkeyMappingPerRace, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
-function mergeHotkeyDataAndSelectedHotkeys(raceHotkeyData: HotkeyMappingPerRace[], hotkeysLoaded: RaceHotKey[]) {
+function mergeHotkeyDataAndSelectedHotkeys(
+    raceHotkeyData: HotkeyMappingPerRace[],
+    hotkeysLoaded: RaceHotKey[]
+) {
   const hotkeys = [...raceHotkeyData]
   hotkeysLoaded.forEach(hotKey =>
       hotkeys.forEach(h =>
