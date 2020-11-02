@@ -40,6 +40,7 @@ const mod = {
   actions: {
     setRaceHotkey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: RaceHotKey) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
+
       const newHotkeys = [...state.raceHotkeys.filter(r => r.hotKey !== hotKey.hotKey), hotKey]
       rootGetters.itemHotkeyService.saveRaceHotKeys(newHotkeys);
       const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, newHotkeys);
@@ -48,12 +49,14 @@ const mod = {
     },
     loadRaceHotkeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
+
       const hotkeysLoaded = rootGetters.itemHotkeyService.loadRaceHotKeys();
       const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, hotkeysLoaded);
       commit.SET_RACE_HOTKEY_DATA(hotkeys);
     },
     addHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
+
       const allKeys = state.itemHotKeys.filter(h => h.key !== hotKey.key);
       const newHotKeys = [...allKeys, hotKey];
       rootGetters.itemHotkeyService.saveHotKeys(newHotKeys);
@@ -61,11 +64,13 @@ const mod = {
     },
     toggleManualMode(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
+
       commit.TOGGLE_HOTKEYS_MANUAL_MODE();
       rootGetters.itemHotkeyService.saveManualMode(state.hotKeyStateMachine.isManual());
     },
     loadManualMode(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
+
       const manualMode = rootGetters.itemHotkeyService.loadManualMode();
       if (manualMode !== state.hotKeyStateMachine.isManual()) {
         commit.TOGGLE_HOTKEYS_MANUAL_MODE();
@@ -73,6 +78,7 @@ const mod = {
     },
     removeHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: string) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
+
       const keyToUnregister = state.itemHotKeys.filter(h => h.key === hotKey)[0];
       if (keyToUnregister) {
         rootGetters.itemHotkeyService.unregister(keyToUnregister.combo);
@@ -84,6 +90,7 @@ const mod = {
     },
     setToggleKey(context: ActionContext<HotKeyModifierState, RootState>, combo: ClickCombination) {
       const { rootGetters, commit, state } = moduleActionContext(context, mod);
+
       rootGetters.itemHotkeyService.removeToggleOnOff(state.toggleButton);
       rootGetters.itemHotkeyService.toggleOnOff(combo, () => {
         commit.TOGGLE_HOTKEYS()
@@ -92,14 +99,17 @@ const mod = {
     },
       enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
         const { rootGetters, state } = moduleActionContext(context, mod);
+
         rootGetters.itemHotkeyService.enableHotKeys(state.itemHotKeys);
       },
       disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
         const { rootGetters, state  } = moduleActionContext(context, mod);
+
         rootGetters.itemHotkeyService.disableHotKeys(state.itemHotKeys);
       },
     loadHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
+
       const hotKeys = rootGetters.itemHotkeyService.loadHotKeys()
       commit.SET_HOTKEYS(hotKeys);
     },
