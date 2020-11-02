@@ -11,6 +11,10 @@ export class MacLauncher extends LauncherStrategy {
         return `${documentPath}\\Warcraft III\\War3Preferences.txt`;
     }
 
+    getWar3HotkeyFile(): string {
+        const documentPath = remote.app.getPath("appData");
+        return `${documentPath}\\Blizzard\\Warcraft III\\CustomKeyBindings\\CustomKeys.txt`;
+    }
 
     turnOnLocalFiles(): void {
         exec("defaults write \"com.blizzard.Warcraft III\" \"Allow Local Files\" -int 1", function(err: Error) {

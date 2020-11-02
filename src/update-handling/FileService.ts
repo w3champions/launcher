@@ -1,9 +1,10 @@
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import logger from "@/logger";
+import {RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
-const os = window.require('os');
-const fse = window.require('fs-extra');
+const os = window.require("os");
+const fse = window.require("fs-extra");
 const sudo = window.require("sudo-prompt");
 const { remote } = window.require("electron");
 const Store = window.require("electron-store");
@@ -27,6 +28,23 @@ export class FileService {
         }
 
         return false;
+    }
+
+    saveHotkeys(hotkeys: RaceHotKey[]) {
+        const fileContent = [] as string[];
+        hotkeys.forEach(h => {
+            fileContent.push(h.hotkeyCommand);
+            fileContent.push(h.hotKey);
+            fileContent.push('\n');
+        })
+        const war3HotkeyFile = this.updateStrategy.getWar3HotkeyFile();
+        const file = fse.createWriteStream(war3HotkeyFile, 'utf8');
+        fileContent.forEach(async (v: string) => {
+            await file.write(v + '\n');
+        });
+        logger.info("write hotkey file: " + war3HotkeyFile);
+        logger.info("keys: " + hotkeys.length);
+        logger.info("line: " + fileContent.length);
     }
 
     public sudoCopyFromTo(from: string, to: string){

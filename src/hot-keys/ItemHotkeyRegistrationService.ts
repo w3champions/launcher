@@ -79,7 +79,7 @@ export class ItemHotkeyRegistrationService {
     }
 
     public loadRaceHotKeys(): RaceHotKey[] {
-        return this.keyValueStore.get("hotKeyStoreRaceKey") ?? [];
+        return this.keyValueStore.get(this.hotKeyStoreRaceKey) ?? [];
     }
 
     public loadToggleKey() {

@@ -44,11 +44,22 @@ const mod = {
     setRaceHotkey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: RaceHotKey) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
 
-      const newHotkeys = [...state.raceHotkeys.filter(r => r.hotKey !== hotKey.hotKey), hotKey]
-      rootGetters.itemHotkeyService.saveRaceHotKeys(newHotkeys);
+      const newHotkeys = [...state.raceHotkeys.filter(r =>
+          r.hotkeyCommand !== hotKey.hotkeyCommand
+      ), hotKey]
+
       const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, newHotkeys);
+
+      rootGetters.fileService.saveHotkeys(newHotkeys);
+      rootGetters.itemHotkeyService.saveRaceHotKeys(newHotkeys);
+
       commit.SET_RACE_HOTKEY_DATA(hotkeys);
       commit.SET_RACE_HOTKEYS(newHotkeys);
+    },
+    saveHotkeysToFile(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { rootGetters, state } = moduleActionContext(context, mod);
+
+      rootGetters.fileService.saveHotkeys(state.raceHotkeys);
     },
     loadRaceHotkeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
@@ -56,6 +67,7 @@ const mod = {
       const hotkeysLoaded = rootGetters.itemHotkeyService.loadRaceHotKeys();
       const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, hotkeysLoaded);
       commit.SET_RACE_HOTKEY_DATA(hotkeys);
+      commit.SET_RACE_HOTKEYS(hotkeysLoaded);
     },
     addHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);

@@ -16,6 +16,7 @@ export abstract class LauncherStrategy {
     abstract getDefaultWc3Executable(): string;
     abstract turnOnLocalFiles(): void;
     abstract getWar3PreferencesFile(): string;
+    abstract getWar3HotkeyFile(): string;
     abstract startWc3Process(bnetPath: string): void;
     abstract getCopyCommand(from: string, to: string): string;
     abstract getBattleNetAgentPath(): string;
