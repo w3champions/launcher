@@ -30,7 +30,7 @@ export class FileService {
         return false;
     }
 
-    saveHotkeys(hotkeys: RaceHotKey[]) {
+    async saveHotkeys(hotkeys: RaceHotKey[]) {
         const fileContent = [] as string[];
         hotkeys.forEach(h => {
             fileContent.push("[" + h.hotkeyCommand + "]");
@@ -38,11 +38,7 @@ export class FileService {
             fileContent.push('\n');
         })
 
-        const file = fse.createWriteStream(this.updateStrategy.getWar3HotkeyFile(), 'utf8');
-        fileContent.forEach(async (v: string) => {
-            await file.write(v + '\n');
-        });
-        file.end();
+        await this.writeArrayToFileForce(this.updateStrategy.getWar3HotkeyFile(), fileContent, "CustomKeys.txt")
 
         logger.info("write hotkey file: " + this.updateStrategy.getWar3HotkeyFile());
         logger.info("keys: " + hotkeys.length);
@@ -91,7 +87,7 @@ export class FileService {
         }
     }
 
-    saveIsTeamColorsEnabled(value: boolean) {
+    async saveIsTeamColorsEnabled(value: boolean) {
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
         if (fse.existsSync(settingsFile)) {
             const content = fse.readFileSync(settingsFile, 'utf8').toString().split("\n");
@@ -99,18 +95,21 @@ export class FileService {
             const index2 = content.indexOf("allyFilter=1");
             const index3 = content.indexOf("allyFilter=2");
             content[index1 + index2 + index3 + 2] = `allyFilter=${value ? "2" : "0"}`;
-            try {
-                this.writeArrayToFile(settingsFile, content);
-            } catch (e) {
-                const tempSettingsFile = `${remote.app.getPath("appData")}/w3champions/War3Preferences.txt`;
-                this.writeArrayToFile(tempSettingsFile, content);
-                this.sudoCopyFromTo(tempSettingsFile, settingsFile);
-            }
-
+            await this.writeArrayToFileForce(settingsFile, content, "War3Preferences.txt");
         }
     }
 
-    private writeArrayToFile(path: string, content: []) {
+    private async writeArrayToFileForce(path: string, content: string[], tempFileName: string) {
+        try {
+            await this.writeArrayToFile(path, content);
+        } catch (e) {
+            const tempSettingsFile = `${remote.app.getPath("appData")}/w3champions/${tempFileName}`;
+            await this.writeArrayToFile(tempSettingsFile, content);
+            this.sudoCopyFromTo(tempSettingsFile, path);
+        }
+    }
+
+    private writeArrayToFile(path: string, content: string[]) {
         const file = fse.createWriteStream(path, 'utf8');
         content.forEach(async (v: string) => {
             await file.write(v + '\n');
