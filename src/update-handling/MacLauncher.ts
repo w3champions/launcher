@@ -13,7 +13,7 @@ export class MacLauncher extends LauncherStrategy {
 
     getWar3HotkeyFile(): string {
         const documentPath = remote.app.getPath("appData");
-        return `${documentPath}\\Blizzard\\Warcraft III\\CustomKeyBindings\\CustomKeys.txt`;
+        return `${documentPath}/Blizzard/Warcraft III/CustomKeyBindings/CustomKeys.txt`;
     }
 
     turnOnLocalFiles(): void {

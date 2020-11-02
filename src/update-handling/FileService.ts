@@ -33,18 +33,19 @@ export class FileService {
     saveHotkeys(hotkeys: RaceHotKey[]) {
         const fileContent = [] as string[];
         hotkeys.forEach(h => {
-            fileContent.push(h.hotkeyCommand);
-            fileContent.push(h.hotKey);
+            fileContent.push("[" + h.hotkeyCommand + "]");
+            fileContent.push("Hotkey=" + h.hotKey);
             fileContent.push('\n');
         })
-        const war3HotkeyFile = this.updateStrategy.getWar3HotkeyFile();
-        const file = fse.createWriteStream(war3HotkeyFile, 'utf8');
+
+        const file = fse.createWriteStream(this.updateStrategy.getWar3HotkeyFile(), 'utf8');
         fileContent.forEach(async (v: string) => {
             await file.write(v + '\n');
         });
-        logger.info("write hotkey file: " + war3HotkeyFile);
+        file.end();
+
+        logger.info("write hotkey file: " + this.updateStrategy.getWar3HotkeyFile());
         logger.info("keys: " + hotkeys.length);
-        logger.info("line: " + fileContent.length);
     }
 
     public sudoCopyFromTo(from: string, to: string){
