@@ -13,20 +13,19 @@ function mergeHotkeyDataAndSelectedHotkeys(
 ) {
   const hotkeys = [...raceHotkeyData]
   hotkeysLoaded.forEach(hotKey =>
-      hotkeys.forEach(h =>
-          h.units.forEach(h => h.abilities.forEach(a => {
-                if (a.abilities.length > 1) {
-                  a.abilities.forEach(a2 => {
-                    if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
-                      a2.currentHotkey = hotKey.hotKey
-                    }
-                  })
-                } else if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
-                  a.currentHotkey = hotKey.hotKey;
-                }
-              }
-          ))
-      ))
+    hotkeys.forEach(h =>
+      h.units.forEach(h => h.abilities.forEach(a => {
+        if (a.abilities.length > 1) {
+          a.abilities.forEach(a2 => {
+            if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
+              a2.currentHotkey = hotKey.hotKey
+            }
+          })
+        } else if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
+          a.currentHotkey = hotKey.hotKey;
+        }
+      }))
+    ))
   return hotkeys;
 }
 
