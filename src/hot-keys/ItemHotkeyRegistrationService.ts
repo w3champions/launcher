@@ -13,7 +13,7 @@ import {
 } from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
 import logger from "@/logger";
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
-import {HotkeyMappingPerRace} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import {RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 const { globalShortcut } = window.require("electron").remote;
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
@@ -74,11 +74,11 @@ export class ItemHotkeyRegistrationService {
         return this.keyValueStore.get(this.hotKeyStoreKey) ?? [];
     }
 
-    public saveRaceHotKeys(hotKeys: HotkeyMappingPerRace[]) {
+    public saveRaceHotKeys(hotKeys: RaceHotKey[]) {
         this.keyValueStore.set(this.hotKeyStoreRaceKey, hotKeys);
     }
 
-    public loadRaceHotKeys() {
+    public loadRaceHotKeys(): RaceHotKey[] {
         return this.keyValueStore.get("hotKeyStoreRaceKey") ?? [];
     }
 

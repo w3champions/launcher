@@ -9,6 +9,11 @@ export interface W3cIcon {
   icon: string;
 }
 
+export interface RaceHotKey {
+  hotkeyCommand: string;
+  hotKey: string;
+}
+
 export class Unit implements W3cIcon {
   public type = Unit.name
 

@@ -89,7 +89,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
   }
 
   get hotKeys() {
-    return this.$store.direct.state.hotKeys.raceHotkeys.filter(h => h.hotkeyType === this.race)[0];
+    return this.$store.direct.state.hotKeys.raceHotkeyData.filter(h => h.hotkeyType === this.race)[0];
   }
 
   public cancelHotkeyModal() {
@@ -100,18 +100,21 @@ export default class RaceSpecificHotkeyTab extends Vue {
     if (!this.editAbility) return;
 
     this.$store.direct.dispatch.hotKeys.setRaceHotkey(
-        new Ability(
-            this.editAbility.name,
-            this.editAbility.icon,
-            this.editAbility.hotkeyIdentifier,
-            this.editAbility.defaultHotkey,
-            this.hotkeyPressed,
-            this.editAbility.abilities)
-    );
+      {
+        hotKey: this.hotkeyPressed,
+        hotkeyCommand: this.editAbility.hotkeyIdentifier
+      });
     this.closeModalAndResetVariables();
   }
 
   public setDefaultHotkey() {
+    if (!this.editAbility) return;
+
+    this.$store.direct.dispatch.hotKeys.setRaceHotkey(
+      {
+        hotKey: this.editAbility.defaultHotkey,
+        hotkeyCommand: this.editAbility.hotkeyIdentifier
+      });
     this.closeModalAndResetVariables();
   }
 

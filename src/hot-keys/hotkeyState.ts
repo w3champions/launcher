@@ -1,10 +1,11 @@
 import {HotKeyState} from "@/hot-keys/ItemHotkeys/HotKeyStateMachine";
-import {HotkeyMappingPerRace} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import {HotkeyMappingPerRace, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 import {ClickCombination, HotKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 export interface HotKeyModifierState {
   itemHotKeys: HotKey[],
-  raceHotkeys: HotkeyMappingPerRace[],
+  raceHotkeyData: HotkeyMappingPerRace[],
+  raceHotkeys: RaceHotKey[],
   hotKeyStateMachine: HotKeyState,
   toggleButton: ClickCombination,
   lastW3cPort: string,
