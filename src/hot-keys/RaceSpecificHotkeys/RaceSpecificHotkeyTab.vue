@@ -133,11 +133,13 @@ export default class RaceSpecificHotkeyTab extends Vue {
       return;
     }
     this.selectedUnitExtendedAbility = selection;
+    this.openHotkeyDialog(selection);
   }
 
   public openHotkeysOrCreatNewPanel(selection: Ability) {
     if (selection.abilities.length > 0) {
       this.selectAbility(selection);
+      this.openHotkeyDialog(selection);
     } else {
       this.openHotkeyDialog(selection);
     }

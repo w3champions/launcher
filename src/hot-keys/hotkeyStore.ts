@@ -21,7 +21,9 @@ function mergeHotkeyDataAndSelectedHotkeys(
               a2.currentHotkey = hotKey.hotKey
             }
           })
-        } else if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
+        }
+
+        if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
           a.currentHotkey = hotKey.hotKey;
         }
       }))
