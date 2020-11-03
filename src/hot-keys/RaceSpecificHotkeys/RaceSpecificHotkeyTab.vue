@@ -179,6 +179,10 @@ export default class RaceSpecificHotkeyTab extends Vue {
   }
 
   private convertKeyPress(e: KeyboardEvent) {
+    if (e.code === "Escape") {
+      this.hotkeyPressed = "ESC"
+      return;
+    }
     if (!e.code.startsWith("Key")) return;
 
     const pressedKey = e.code.replace("Key", "");

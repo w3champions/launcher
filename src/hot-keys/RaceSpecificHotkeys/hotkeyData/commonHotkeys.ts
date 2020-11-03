@@ -21,3 +21,5 @@ export const defaultHeroAbilities = (learningSkills: Ability[]) => [
     Ability.Default(),
     new Ability('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', 'O', learningSkills)
 ]
+
+export const cancel = new Ability('Cancel', 'btncancel', 'cmdcancel', 'ESC', 'ESC', [])

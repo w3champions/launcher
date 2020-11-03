@@ -14,7 +14,7 @@
     <tr>
       <td class="item-selection-container" v-for="item in selectionItems" :key="item.icon" :class="item.icon">
         <div class="item-selection" @click="() => onClick(item)">
-          <div class="item-selection-hover-text w3font">
+          <div class="item-selection-hover-text w3font" :class="item.hasConflict ? 'has-conflict' : ''">
             {{ item.currentHotkey }}
           </div>
         </div>
@@ -78,8 +78,9 @@ export default class ItemSelectionContainer extends Vue {
 }
 
 .item-selection-hover-text {
+  text-align: right;
+  padding-right: 5px;
   padding-top: 43px;
-  padding-left: 48px;
 }
 
 .selection-wrapper {

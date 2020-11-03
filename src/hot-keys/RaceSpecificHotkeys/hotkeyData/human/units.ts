@@ -3,7 +3,11 @@ import {
     Building,
     Unit,
 } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
-import {defaultFighterAbilities, defaultUnitAbilities} from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
+import {
+    cancel,
+    defaultFighterAbilities,
+    defaultUnitAbilities
+} from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
 const units =
     [
@@ -14,7 +18,8 @@ const units =
             new Ability('Gather', 'btngathergold', 'ahar', 'G', 'G', []),
             new Ability('Build', 'btnhumanbuild', 'cmdbuildhuman', 'B', 'B', [
                 new Ability('Build Townhall', 'btntownhall', 'htow', 'H', 'H', []),
-                new Ability('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', 'V', [])
+                new Ability('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', 'V', []),
+                cancel
             ]),
             new Ability('Call to Arms', 'btncalltoarms', 'amil', 'C', 'C', [])
         ]),
