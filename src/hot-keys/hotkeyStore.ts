@@ -40,8 +40,8 @@ const mod = {
     toggleButton: { modifier: ModifierKey.Shift, hotKey: {key: "f4", uiDisplay: "f4"}}
   } as HotKeyModifierState,
   actions: {
-    async setRaceHotkey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: RaceHotKey) {
-      const {commit, rootGetters, state} = moduleActionContext(context, mod);
+    setRaceHotkey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: RaceHotKey) {
+      const {commit, state} = moduleActionContext(context, mod);
 
       const newHotkeys = [...state.raceHotkeys.filter(r =>
           r.hotkeyCommand !== hotKey.hotkeyCommand
@@ -49,11 +49,15 @@ const mod = {
 
       const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, newHotkeys);
 
-      await rootGetters.fileService.saveHotkeys(newHotkeys);
-      rootGetters.itemHotkeyService.saveRaceHotKeys(newHotkeys);
-
       commit.SET_RACE_HOTKEY_DATA(hotkeys);
       commit.SET_RACE_HOTKEYS(newHotkeys);
+    },
+    async saveRaceHotkeyToFile(context: ActionContext<HotKeyModifierState, RootState>) {
+      const {rootGetters, state} = moduleActionContext(context, mod);
+
+      rootGetters.itemHotkeyService.saveRaceHotKeys(state.raceHotkeys);
+      await rootGetters.fileService.saveHotkeysToHotkeyFile(state.raceHotkeys);
+      await rootGetters.fileService.enableCustomHotkeys();
     },
     loadRaceHotkeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
