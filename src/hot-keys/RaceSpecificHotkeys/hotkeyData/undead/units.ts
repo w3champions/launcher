@@ -46,6 +46,13 @@ const units =
             Ability.Default(),
             Ability.Default(),
             new Ability('Burrow', 'btncryptfiendburrow', 'abur', 'B', 'B', []),
+        ]),
+        new Unit('Gargoyle', 'btngargoyle', [
+            ...defaultUnitAbilities,
+            new Ability('Prioritize', 'btnairattackon', 'aatp', 'R', 'R', []),
+            Ability.Default(),
+            Ability.Default(),
+            new Ability('Stone Form', 'btnstoneform', 'astn', 'F', 'F', []),
         ])
     ] as Unit[]
 

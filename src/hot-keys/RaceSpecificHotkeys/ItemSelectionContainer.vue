@@ -99,6 +99,11 @@ export default class ItemSelectionContainer extends Vue {
 }
 
 /*This is hacky AF, but I did not get the dynamic styling to work with webpack and all that electron fuck....*/
+.btnairattackon {
+  background: url('~@/assets/images/hotkeys/icons/all/btnairattackon.jpg') no-repeat center;
+  background-size: cover;
+}
+
 .btnabomination {
   background: url('~@/assets/images/hotkeys/icons/all/btnabomination.jpg') no-repeat center;
   background-size: cover;
