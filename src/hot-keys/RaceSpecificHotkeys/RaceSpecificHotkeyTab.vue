@@ -96,25 +96,25 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.closeModalAndResetVariables();
   }
 
-  public addHotkey() {
+  public async addHotkey() {
     if (!this.editAbility) return;
 
-    this.$store.direct.dispatch.hotKeys.setRaceHotkey(
-      {
-        hotKey: this.hotkeyPressed,
-        hotkeyCommand: this.editAbility.hotkeyIdentifier
-      });
+    await this.$store.direct.dispatch.hotKeys.setRaceHotkey(
+        {
+          hotKey: this.hotkeyPressed,
+          hotkeyCommand: this.editAbility.hotkeyIdentifier
+        });
     this.closeModalAndResetVariables();
   }
 
-  public setDefaultHotkey() {
+  public async setDefaultHotkey() {
     if (!this.editAbility) return;
 
-    this.$store.direct.dispatch.hotKeys.setRaceHotkey(
-      {
-        hotKey: this.editAbility.defaultHotkey,
-        hotkeyCommand: this.editAbility.hotkeyIdentifier
-      });
+    await this.$store.direct.dispatch.hotKeys.setRaceHotkey(
+        {
+          hotKey: this.editAbility.defaultHotkey,
+          hotkeyCommand: this.editAbility.hotkeyIdentifier
+        });
     this.closeModalAndResetVariables();
   }
 
