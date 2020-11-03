@@ -34,6 +34,18 @@ export const buildingWithCancel = (buildItems: Ability[]) => [
     cancelBuild
 ]
 
+export const shop = (buildItems: Ability[]) => [
+    ...buildItems,
+    new Ability('Select User', 'btnselectunit', 'anei', 'U', [])
+]
+
+export const t2Shop = [
+    new Ability('Purchase Potion of Healing', 'btnpotiongreensmall', 'phea', 'P', []),
+    new Ability('Purchase Potion of Mana', 'btnpotionbluesmall', 'pman', 'M', []),
+    new Ability('Purchase Scroll of Town Portal', 'btnscrolluber', 'stwp', 'T', []),
+    Ability.Default()
+]
+
 export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([
     ...Ability.Defaults(4),
 
