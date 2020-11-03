@@ -2,7 +2,7 @@ import {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
 import {NotInGameState} from "@/hot-keys/ItemHotkeys/HotKeyStateMachine";
-import defaultHotkeyData from "@/hot-keys/RaceSpecificHotkeys/defaultHotkeyData";
+import defaultHotkeyData from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/defaultHotkeyData";
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import {HotKeyModifierState} from "@/hot-keys/hotkeyState";
 import {Ability, HotkeyMappingPerRace, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
