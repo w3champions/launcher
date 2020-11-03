@@ -39,6 +39,13 @@ const units =
             Ability.Default(),
             new Ability('Gather', 'btngathergold', 'ahrl', 'G', 'G', []),
             new Ability('Cannibalize', 'btncannibalize', 'acan', 'C', 'C', []),
+        ]),
+        new Unit('Crypt Fiend', 'btncryptfiend', [
+            ...defaultFighterAbilities,
+            new Ability('Web', 'btnweboff', 'aweb', 'W', 'W', []),
+            Ability.Default(),
+            Ability.Default(),
+            new Ability('Burrow', 'btncryptfiendburrow', 'abur', 'B', 'B', []),
         ])
     ] as Unit[]
 
