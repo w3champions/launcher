@@ -6,7 +6,7 @@ import {
 import {
     buildingWithCancel,
     defaultAltar,
-    defaultMainBuilding, empty8s,
+    defaultMainBuilding,
     rally
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
@@ -17,16 +17,14 @@ const buildings =
                 new Ability('Train Acolyte', 'btnacolyte', 'uaco', 'C', []),
                 ...defaultMainBuilding,
                 new Ability('Upgrade to Halls of the Dead', 'btnhallofthedead', 'unp1', 'U', []),
-                Ability.Default(),
-                Ability.Default(),
+                ...Ability.Defaults(2)
         ])),
         new Building('Halls of the Dead', 'btnhallofthedead',
             buildingWithCancel(
                 [new Ability('Train Acolyte', 'btnacolyte', 'uaco', 'C', []),
                 ...defaultMainBuilding,
                 new Ability('Upgrade to Black Citadel ', 'btnblackcitadel', 'unp2', 'U', []),
-                Ability.Default(),
-                Ability.Default()])
+                ...Ability.Defaults(2)])
         ),
         new Building('Crypt', 'btncrypt',
             buildingWithCancel([
@@ -47,20 +45,14 @@ const buildings =
         new Building('Graveyard', 'btngraveyard',
             buildingWithCancel([new Ability('Upgrade Unholy Strength', 'btnunholystrength', 'rume', 'S', []),
                 new Ability('Upgrade Creature Attack', 'btncreatureattack', 'rura', 'A', []),
-                Ability.Default(),
-                Ability.Default(),
+                ...Ability.Defaults(2),
 
                 new Ability('Upgrade Unholy Armo', 'btnunholyarmor', 'ruar', 'U', []),
                 new Ability('Upgrade Creature Carapace', 'btncreaturecarapace', 'rucr', 'C', []),
-                Ability.Default(),
-                Ability.Default(),
-
-                Ability.Default(),
-                Ability.Default(),
-                Ability.Default()])),
+                ...Ability.Defaults(5)])),
         new Building('Ziggurat', 'btnziggurat',
             buildingWithCancel([
-                ...empty8s,
+                ...Ability.Defaults(8),
                 new Ability('Upgrade to Spirit Tower', 'btnzigguratupgrade', 'uzg1', 'T', []),
                 new Ability('Upgrade to Nerubian Tower', 'btnfrosttower', 'uzg2', 'N', []),
                 Ability.Default()])),

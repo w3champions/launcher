@@ -59,6 +59,15 @@ export class Ability implements W3cIcon {
     return new Ability("", guid, "", "", [])
   }
 
+  public static Defaults(amount: number) {
+    const abs = []
+    for (let i = 0; i < amount; i++) {
+      abs.push(Ability.Default());
+    }
+
+    return abs;
+  }
+
   public name: string;
   public hasConflict: boolean;
   public hotkeyIdentifier: string;

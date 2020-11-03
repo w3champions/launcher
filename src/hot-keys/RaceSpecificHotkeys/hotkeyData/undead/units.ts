@@ -35,23 +35,20 @@ const units =
         ]),
         new Unit('Ghoul', 'btnghoul', [
             ...defaultUnitAbilities,
-            Ability.Default(),
-            Ability.Default(),
+            ...Ability.Defaults(2),
             new Ability('Gather', 'btngathergold', 'ahrl', 'G', []),
             new Ability('Cannibalize', 'btncannibalize', 'acan', 'C', []),
         ]),
         new Unit('Crypt Fiend', 'btncryptfiend', [
             ...defaultFighterAbilities,
             new Ability('Web', 'btnweboff', 'aweb', 'W', []),
-            Ability.Default(),
-            Ability.Default(),
+            ...Ability.Defaults(2),
             new Ability('Burrow', 'btncryptfiendburrow', 'abur', 'B', []),
         ]),
         new Unit('Gargoyle', 'btngargoyle', [
             ...defaultUnitAbilities,
             new Ability('Prioritize', 'btnairattackon', 'aatp', 'R', []),
-            Ability.Default(),
-            Ability.Default(),
+            ...Ability.Defaults(2),
             new Ability('Stone Form', 'btnstoneform', 'astn', 'F', []),
         ]),
         new Unit('Abomination', 'btnabomination', [

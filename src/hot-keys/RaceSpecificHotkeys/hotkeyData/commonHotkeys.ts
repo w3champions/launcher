@@ -14,34 +14,18 @@ export const defaultUnitAbilities = [
 
 export const defaultFighterAbilities = [
     ...defaultUnitAbilities,
-    Ability.Default(),
-    Ability.Default(),
-    Ability.Default(),
+    ...Ability.Defaults(3),
 ]
 
 export const defaultSiegeAbilities = [
     ...defaultUnitAbilities,
-    Ability.Default(),
-    Ability.Default(),
+    ...Ability.Defaults(2),
     new Ability("Attack Ground", "btnattackground", "cmdattackground", "G", [])
-]
-
-export const empty8s = [
-    Ability.Default(),
-    Ability.Default(),
-    Ability.Default(),
-    Ability.Default(),
-
-    Ability.Default(),
-    Ability.Default(),
-    Ability.Default(),
-    Ability.Default(),
 ]
 
 export const defaultHeroAbilities = (learningSkills: Ability[]) => [
     ...defaultUnitAbilities,
-    Ability.Default(),
-    Ability.Default(),
+    ...Ability.Defaults(2),
     new Ability('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', learningSkills)
 ]
 
@@ -51,14 +35,10 @@ export const buildingWithCancel = (buildItems: Ability[]) => [
 ]
 
 export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([
-    Ability.Default(),
-    Ability.Default(),
-    Ability.Default(),
-    Ability.Default(),
+    ...Ability.Defaults(4),
 
     heroes[0],
-    Ability.Default(),
-    Ability.Default(),
+    ...Ability.Defaults(2),
     rally,
 
     heroes[1],
@@ -67,11 +47,8 @@ export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([
 )
 
 export const defaultMainBuilding = [
-    Ability.Default(),
-    Ability.Default(),
+    ...Ability.Defaults(2),
     new Ability('Research Backpack', 'btnpackbeast', 'rupm', 'B', []),
-    Ability.Default(),
-    Ability.Default(),
-    Ability.Default(),
+    ...Ability.Defaults(3),
     rally
 ]
