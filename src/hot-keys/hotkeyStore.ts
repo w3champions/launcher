@@ -5,7 +5,18 @@ import {NotInGameState} from "@/hot-keys/ItemHotkeys/HotKeyStateMachine";
 import defaultHotkeyData from "@/hot-keys/RaceSpecificHotkeys/defaultHotkeyData";
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import {HotKeyModifierState} from "@/hot-keys/hotkeyState";
-import {HotkeyMappingPerRace, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import {Ability, HotkeyMappingPerRace, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+
+function getDuplicateHotkeys(abilities: Ability[]) {
+  const allBilitiesSorted = abilities.map(a => a.currentHotkey).sort();
+  const results = [] as string[];
+  for (let i = 0; i < allBilitiesSorted.length - 1; i++) {
+    if (allBilitiesSorted[i + 1] == allBilitiesSorted[i]) {
+      results.push(allBilitiesSorted[i]);
+    }
+  }
+  return results;
+}
 
 function mergeHotkeyDataAndSelectedHotkeys(
     raceHotkeyData: HotkeyMappingPerRace[],
@@ -14,29 +25,37 @@ function mergeHotkeyDataAndSelectedHotkeys(
   const hotkeys = [...raceHotkeyData]
   hotkeysLoaded.forEach(hotKey =>
     hotkeys.forEach(h =>
-      h.units.forEach(h => h.abilities.forEach(a => {
-        a.hasConflict = false;
+      h.units.forEach(h => {
+        h.abilities.forEach(a => {
+            a.hasConflict = false;
+            const resultsInner = getDuplicateHotkeys(h.abilities);
+            a.abilities.forEach(a2 => {
+              a2.hasConflict = false;
 
-        a.abilities.forEach(a2 => {
-          a2.hasConflict = false;
+              if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
+                a2.currentHotkey = hotKey.hotKey
+              }
+            })
 
-          if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
-            a2.currentHotkey = hotKey.hotKey
-          }
+            a.abilities.forEach(a => {
+              if (resultsInner.includes(a.currentHotkey)) {
+                a.hasConflict = true;
+              }
+            })
 
-          if (a2.currentHotkey === hotKey.hotKey && a2.hotkeyIdentifier !== hotKey.hotkeyCommand) {
-            a2.hasConflict = true
-          }
+            if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
+                a.currentHotkey = hotKey.hotKey;
+            }
         })
 
-        if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
-          a.currentHotkey = hotKey.hotKey;
-        }
+        const resultsOuter = getDuplicateHotkeys(h.abilities);
 
-        if (a.currentHotkey === hotKey.hotKey && a.hotkeyIdentifier !== hotKey.hotkeyCommand) {
-          a.hasConflict = true
-        }
-      }))
+        h.abilities.forEach(a => {
+          if (resultsOuter.includes(a.currentHotkey)) {
+            a.hasConflict = true;
+          }
+        })
+      })
     ))
   return hotkeys;
 }
