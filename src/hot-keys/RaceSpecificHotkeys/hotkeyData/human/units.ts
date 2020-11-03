@@ -10,7 +10,7 @@ const units =
         new Unit('Peasant', 'btnpeasant', [
             ...defaultUnitAbilities,
             new Ability('Repair', 'btnrepair', 'ahrp', 'F', 'F', []),
-            Ability.Default("default_a"),
+            Ability.Default(),
             new Ability('Gather', 'btngathergold', 'ahar', 'G', 'G', []),
             new Ability('Build', 'btnhumanbuild', 'cmdbuildhuman', 'B', 'B', [
                 new Ability('Build Townhall', 'btntownhall', 'htow', 'H', 'H', []),

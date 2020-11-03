@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from "vue-property-decorator";
+import {Component, Prop, Vue, Watch} from "vue-property-decorator";
 // eslint-disable-next-line no-unused-vars
 import {Ability, Building, Hero, Unit, W3cIcon} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 // eslint-disable-next-line no-unused-vars
@@ -61,6 +61,11 @@ export default class RaceSpecificHotkeyTab extends Vue {
   public selectedUnit = {} as Unit;
   public selectedUnitExtendedAbilities = [] as Ability[][];
   public selectedUnitAbilities = [] as Ability[][];
+
+  @Watch("race")
+  public onRaceChange() {
+    this.closeModalAndResetVariables()
+  }
 
   get heroes() {
     return this.fillUp(this.hotKeys.units.filter(u => u.type === Hero.name), 4, Unit.Default);

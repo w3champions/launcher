@@ -10,14 +10,14 @@ export const defaultUnitAbilities = [
 
 export const defaultFighterAbilities = [
     ...defaultUnitAbilities,
-    Ability.Default("default_1"),
-    Ability.Default("default_2"),
-    Ability.Default("default_3"),
+    Ability.Default(),
+    Ability.Default(),
+    Ability.Default(),
 ]
 
 export const defaultHeroAbilities = (learningSkills: Ability[]) => [
     ...defaultUnitAbilities,
-    Ability.Default("default_1"),
-    Ability.Default("default_2"),
+    Ability.Default(),
+    Ability.Default(),
     new Ability('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', 'O', learningSkills)
 ]

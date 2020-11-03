@@ -51,8 +51,12 @@ export class Ability implements W3cIcon {
     this.hasConflict = false;
   }
 
-  public static Default(identifier: string) {
-    return new Ability("", identifier, "", "", "", [])
+  public static Default() {
+    const guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+    return new Ability("", guid, "", "", "", [])
   }
 
   public name: string;
