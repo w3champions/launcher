@@ -27,29 +27,29 @@ function mergeHotkeyDataAndSelectedHotkeys(
     hotkeys.forEach(h =>
       h.units.forEach(h => {
         h.abilities.forEach(a => {
-            a.hasConflict = false;
-            const resultsInner = getDuplicateHotkeys(h.abilities);
-            a.abilities.forEach(a2 => {
-              a2.hasConflict = false;
+          a.hasConflict = false;
 
-              if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
-                a2.currentHotkey = hotKey.hotKey
-              }
-            })
+          a.abilities.forEach(a2 => {
+            a2.hasConflict = false;
 
-            a.abilities.forEach(a => {
-              if (resultsInner.includes(a.currentHotkey)) {
-                a.hasConflict = true;
-              }
-            })
-
-            if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
-                a.currentHotkey = hotKey.hotKey;
+            if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
+              a2.currentHotkey = hotKey.hotKey
             }
+          })
+
+          if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
+              a.currentHotkey = hotKey.hotKey;
+          }
+
+          const resultsInner = getDuplicateHotkeys(a.abilities);
+          a.abilities.forEach(a => {
+            if (resultsInner.includes(a.currentHotkey)) {
+              a.hasConflict = true;
+            }
+          })
         })
 
         const resultsOuter = getDuplicateHotkeys(h.abilities);
-
         h.abilities.forEach(a => {
           if (resultsOuter.includes(a.currentHotkey)) {
             a.hasConflict = true;
