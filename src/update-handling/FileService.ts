@@ -30,7 +30,19 @@ export class FileService {
         return false;
     }
 
-    async saveHotkeys(hotkeys: RaceHotKey[]) {
+    async enableCustomHotkeys() {
+        const settingsFile = this.updateStrategy.getWar3PreferencesFile();
+        if (fse.existsSync(settingsFile)) {
+            const content = fse.readFileSync(settingsFile, 'utf8').toString().split("\n");
+            const index1 = content.indexOf("customkeys=0");
+            const index2 = content.indexOf("customkeys=1");
+            const index3 = content.indexOf("customkeys=2");
+            content[index1 + index2 + index3 + 2] = `customkeys=1`;
+            await this.writeArrayToFileForce(settingsFile, content, "War3Preferences.txt");
+        }
+    }
+
+    async saveHotkeysToHotkeyFile(hotkeys: RaceHotKey[]) {
         const fileContent = [] as string[];
         hotkeys.forEach(h => {
             fileContent.push("[" + h.hotkeyCommand + "]");

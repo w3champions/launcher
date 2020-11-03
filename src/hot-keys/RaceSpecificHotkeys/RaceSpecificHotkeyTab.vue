@@ -32,6 +32,7 @@
         <ItemSelectionContainer style="visibility: hidden" :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
       </div>
       <div class="hero-wrapper" />
+      <ButtonWarcraft style="position: absolute; bottom: 88px; right: 100px" :on-click="saveHotkeys" text="Save" />
     </div>
   </div>
 </template>
@@ -43,9 +44,10 @@ import {Ability, Building, Hero, Unit, W3cIcon} from "@/hot-keys/RaceSpecificHot
 // eslint-disable-next-line no-unused-vars
 import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import ItemSelectionContainer from "@/hot-keys/RaceSpecificHotkeys/ItemSelectionContainer.vue";
+import ButtonWarcraft from "@/home/ButtonWarcraft.vue";
 
 @Component({
-  components: {ItemSelectionContainer}
+  components: {ButtonWarcraft, ItemSelectionContainer}
 })
 export default class RaceSpecificHotkeyTab extends Vue {
   @Prop() public race!: HotkeyType;
@@ -80,6 +82,10 @@ export default class RaceSpecificHotkeyTab extends Vue {
     return this.selectedAbility?.name ?? ""
   }
 
+  public async saveHotkeys() {
+    await this.$store.direct.dispatch.hotKeys.saveRaceHotkeyToFile();
+  }
+
   public selectAbility(selection: Ability) {
     if (selection.name === "") {
       return;
@@ -96,25 +102,25 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.closeModalAndResetVariables();
   }
 
-  public addHotkey() {
+  public async addHotkey() {
     if (!this.editAbility) return;
 
-    this.$store.direct.dispatch.hotKeys.setRaceHotkey(
-      {
-        hotKey: this.hotkeyPressed,
-        hotkeyCommand: this.editAbility.hotkeyIdentifier
-      });
+    await this.$store.direct.dispatch.hotKeys.setRaceHotkey(
+        {
+          hotKey: this.hotkeyPressed,
+          hotkeyCommand: this.editAbility.hotkeyIdentifier
+        });
     this.closeModalAndResetVariables();
   }
 
-  public setDefaultHotkey() {
+  public async setDefaultHotkey() {
     if (!this.editAbility) return;
 
-    this.$store.direct.dispatch.hotKeys.setRaceHotkey(
-      {
-        hotKey: this.editAbility.defaultHotkey,
-        hotkeyCommand: this.editAbility.hotkeyIdentifier
-      });
+    await this.$store.direct.dispatch.hotKeys.setRaceHotkey(
+        {
+          hotKey: this.editAbility.defaultHotkey,
+          hotkeyCommand: this.editAbility.hotkeyIdentifier
+        });
     this.closeModalAndResetVariables();
   }
 
