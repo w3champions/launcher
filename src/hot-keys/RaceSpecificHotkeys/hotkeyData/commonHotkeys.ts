@@ -26,12 +26,45 @@ export const defaultSiegeAbilities = [
     new Ability("Attack Ground", "btnattackground", "cmdattackground", "G", [])
 ]
 
+export const empty8s = [
+    Ability.Default(),
+    Ability.Default(),
+    Ability.Default(),
+    Ability.Default(),
+
+    Ability.Default(),
+    Ability.Default(),
+    Ability.Default(),
+    Ability.Default(),
+]
+
 export const defaultHeroAbilities = (learningSkills: Ability[]) => [
     ...defaultUnitAbilities,
     Ability.Default(),
     Ability.Default(),
     new Ability('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', learningSkills)
 ]
+
+export const buildingWithCancel = (buildItems: Ability[]) => [
+    ...buildItems,
+    cancelBuild
+]
+
+export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([
+    Ability.Default(),
+    Ability.Default(),
+    Ability.Default(),
+    Ability.Default(),
+
+    heroes[0],
+    Ability.Default(),
+    Ability.Default(),
+    rally,
+
+    heroes[1],
+    heroes[2],
+    heroes[3]]
+)
 
 export const defaultMainBuilding = [
     Ability.Default(),
