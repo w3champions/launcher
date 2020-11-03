@@ -3,7 +3,7 @@
     <tr v-for="line in selectionItems" :key="toKey(line)">
       <td class="item-selection-container" v-for="item in line" :key="item.icon" :class="item.icon">
         <div class="item-selection" @click="() => onClick(item)">
-          <div class="item-selection-hover-text w3font">
+          <div class="item-selection-hover-text w3font" :class="item.hasConflict ? 'has-conflict' : ''">
             {{ item.currentHotkey }}
           </div>
         </div>
@@ -42,6 +42,10 @@ export default class ItemSelectionContainer extends Vue {
 </script>
 
 <style scoped type="text/css">
+.has-conflict {
+  color: #ff2828;
+}
+
 .item-selection-container {
   height: 64px;
   width: 64px;

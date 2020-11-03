@@ -48,7 +48,7 @@ export class Ability implements W3cIcon {
     this.defaultHotkey = defaultHotkey;
     this.currentHotkey = currentHotkey;
     this.abilities = abilities;
-
+    this.hasConflict = false;
   }
 
   public static Default(identifier: string) {
@@ -56,6 +56,7 @@ export class Ability implements W3cIcon {
   }
 
   public name: string;
+  public hasConflict: boolean;
   public hotkeyIdentifier: string;
   public icon: string;
   public defaultHotkey: string;

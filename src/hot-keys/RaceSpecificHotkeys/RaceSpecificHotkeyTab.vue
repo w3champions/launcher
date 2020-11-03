@@ -179,7 +179,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     const pressedKey = e.code.replace("Key", "");
     if (pressedKey.length != 1) return;
 
-    this.hotkeyPressed = pressedKey;
+    this.hotkeyPressed = pressedKey.toUpperCase();
   }
 
   private splitInArrayOf4Units(elements: Unit[]) {
