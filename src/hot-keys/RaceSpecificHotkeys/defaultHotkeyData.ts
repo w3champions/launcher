@@ -3,8 +3,10 @@
 // new Ability("Move", "btnmove", "cmdmove", "M", "M", [])
 // Where the most Parameters are as follow:
 // new Ability(<Name in the UI>, <name of the icon>, <name of the hotkey command>, <default hotkey>, <current hootkey (is always the same as default, for the data file here>, [])
-// the [] on the end is and array of "Extended Abilities" that open up, when you select the ability. You can see it as sub hotkeys. An example is the peasent build hotkey, which is on B, but if you enter that menu, you get more options on what buildings you can build, which also have hotkeys. The same goes for hero ability selections for example
-// to add extendedn abilities, do something like that
+// the [] on the end is and array of "Extended Abilities" that open up, when you select the ability. You can see it as sub hotkeys.
+// An example is the peasent build hotkey, which is on B, but if you enter that menu, you get more options on what buildings you can build, which also have hotkeys.
+// The same goes for hero ability selections for example.
+// To add extended abilities, do something like that
 // new Ability('Build', 'btnhumanbuild', 'cmdbuildhuman', 'B', 'B', [
 //     new Ability('Build Townhall', 'btntownhall', 'htow', 'H', 'H', []),
 //     new Ability('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', 'V', [])
