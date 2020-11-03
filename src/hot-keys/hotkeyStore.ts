@@ -16,19 +16,18 @@ function mergeHotkeyDataAndSelectedHotkeys(
     hotkeys.forEach(h =>
       h.units.forEach(h => h.abilities.forEach(a => {
         a.hasConflict = false;
-        if (a.abilities.length > 1) {
-          a.abilities.forEach(a2 => {
-            a2.hasConflict = false;
 
-            if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
-              a2.currentHotkey = hotKey.hotKey
-            }
+        a.abilities.forEach(a2 => {
+          a2.hasConflict = false;
 
-            if (a2.currentHotkey === hotKey.hotKey && a2.hotkeyIdentifier !== hotKey.hotkeyCommand) {
-              a2.hasConflict = true
-            }
-          })
-        }
+          if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
+            a2.currentHotkey = hotKey.hotKey
+          }
+
+          if (a2.currentHotkey === hotKey.hotKey && a2.hotkeyIdentifier !== hotKey.hotkeyCommand) {
+            a2.hasConflict = true
+          }
+        })
 
         if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
           a.currentHotkey = hotKey.hotKey;
