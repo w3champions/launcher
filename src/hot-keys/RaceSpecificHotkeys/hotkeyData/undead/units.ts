@@ -32,6 +32,13 @@ const units =
             new Ability('Unsummon Building', 'btnunsummonbuilding', 'auns', 'U', 'U', []),
             Ability.Default(),
             new Ability('Sacrifice ', 'btnsacrifice', 'alam', 'C', 'C', []),
+        ]),
+        new Unit('Ghoul', 'btnghoul', [
+            ...defaultUnitAbilities,
+            Ability.Default(),
+            Ability.Default(),
+            new Ability('Gather', 'btngathergold', 'ahrl', 'G', 'G', []),
+            new Ability('Cannibalize', 'btncannibalize', 'acan', 'C', 'C', []),
         ])
     ] as Unit[]
 
