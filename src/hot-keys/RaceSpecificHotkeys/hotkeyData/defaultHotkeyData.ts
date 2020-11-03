@@ -15,17 +15,17 @@
 import {
     HotkeyMappingPerRace,
 } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
-import humans from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/human";
-import orcs from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/orcs";
-import undeads from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/undeads";
-import nightelfs from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/nightelfs";
-import neutral from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/neutral";
+import human from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/human/human";
+import orc from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/orc/orc";
+import undead from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/undead/undead";
+import nightelf from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/nightelf/nightelf";
+import neutral from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/neutral/neutral";
 
 const defaultHotkeyData = [
-  humans,
-  orcs,
-  undeads,
-  nightelfs,
+  human,
+  orc,
+  undead,
+  nightelf,
   neutral,
 ] as HotkeyMappingPerRace[]
 
