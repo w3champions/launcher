@@ -15,6 +15,13 @@ export const defaultFighterAbilities = [
     Ability.Default(),
 ]
 
+export const defaultSiegeAbilities = [
+    ...defaultUnitAbilities,
+    Ability.Default(),
+    Ability.Default(),
+    new Ability("Attack Ground", "btnattackground", "cmdattackground", "G", "G", [])
+]
+
 export const defaultHeroAbilities = (learningSkills: Ability[]) => [
     ...defaultUnitAbilities,
     Ability.Default(),
