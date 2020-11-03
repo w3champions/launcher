@@ -88,6 +88,12 @@ const units =
             new Ability('Orb of Annihilation', 'btnorbofdeathoff', 'afak', 'O', []),
             Ability.Default(),
             new Ability('Absorb Mana', 'btnabsorbmagic', 'aabs', 'B', []),
+        ]),
+        new Unit('Carrion Beetle', 'btncarrionscarabslv3', [
+            ...defaultFighterAbilities,
+            ...Ability.Defaults(2),
+            new Ability('Burrow Lvl 2', 'btncryptfiendburrow', 'abu2', 'B', []),
+            new Ability('Burrow Lvl 3', 'btncryptfiendburrow', 'abu3', 'B', []),
         ])
     ] as Unit[]
 
