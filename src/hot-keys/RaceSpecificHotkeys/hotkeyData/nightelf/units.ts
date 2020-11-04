@@ -8,10 +8,12 @@ import {
     defaultUnitAbilities
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
+export const shadowMeld = new Ability("Shadowmeld", "btnambush", "ashm", "I", []);
+
 const defaultNightelfFighterAbilities = [
     ...defaultUnitAbilities,
     Ability.Default(),
-    new Ability("Shadowmeld", "btnambush", "ashm", "I", []),
+    shadowMeld,
     Ability.Default()
 ]
 

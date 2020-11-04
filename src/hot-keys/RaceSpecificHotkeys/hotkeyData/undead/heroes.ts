@@ -19,9 +19,9 @@ const heroes =
         new Hero('Dreadlord', 'btnherodreadlord', [
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Carrion Swarm', 'btncarrionswarm', 'aucs', 'C', []),
-                Ability.HeroAbility('Sleep ', 'btnsleep', 'ausl', 'E', []),
+                Ability.HeroAbility('Sleep', 'btnsleep', 'ausl', 'E', []),
                 Ability.Aura('Vampiric Aura', 'pasbtnvampiricaura', 'auav', 'V', []),
-                Ability.HeroAbility('Inferno ', 'btninfernal', 'auin', 'N', []),
+                Ability.HeroAbility('Inferno', 'btninfernal', 'auin', 'N', []),
             ])
         ]),
 
