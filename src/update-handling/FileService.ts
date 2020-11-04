@@ -52,11 +52,11 @@ export class FileService {
                 fileContent.push("Researchhotkey=" + h.hotKey);
             }
 
-            if (h.additionalHotkeyIdentifier) {
+            h.additionalHotkeyIdentifiers?.forEach(additionalKey => {
                 fileContent.push('\n');
-                fileContent.push("[" + h.additionalHotkeyIdentifier + "]");
+                fileContent.push("[" + additionalKey + "]");
                 fileContent.push("Hotkey=" + h.hotKey);
-            }
+            })
 
             fileContent.push('\n');
         })

@@ -16,7 +16,7 @@ const buildings =
             buildingWithCancel([
                 new Ability('Train Acolyte', 'btnacolyte', 'uaco', 'C', []),
                 ...defaultMainBuilding(Ability.Default(), 'rupm'),
-                Ability.DoubleHotkey('Upgrade', 'btnhallofthedead', 'unp1', 'U', [], 'unp2'),
+                Ability.MultiHotkey('Upgrade', 'btnhallofthedead', 'unp1', 'U', [], ['unp2']),
                 ...Ability.Defaults(2)
         ])),
 

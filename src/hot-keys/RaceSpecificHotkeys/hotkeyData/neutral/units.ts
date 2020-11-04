@@ -29,13 +29,13 @@ const units =
             new Ability('Load', 'btnload', 'aloa', 'L', []),
             new Ability('Unload All', 'btnunload', 'adro', 'U', []),
         ]),
-        new Unit('Storm (Pandaren Ultimate)', 'btnstormearthfire', [
+        new Unit('Storm (Pandaren Ultimate)', 'btnearthbrewmaster', [
             ...defaultFighterAbilities,
             new Ability('Wind Walk', 'btnwindwalkon', 'anwk', 'W', []),
             new Ability('Cyclone', 'btncyclone', 'accy', 'C', []),
             new Ability('Dispel Magic', 'btndispelmagic', 'adsm', 'D', []),
         ]),
-        new Unit('Earth (Pandaren Ultimate)', 'btnstormearthfire', [
+        new Unit('Earth (Pandaren Ultimate)', 'btnstormbrewmaster', [
             ...defaultFighterAbilities,
             new Ability('TaunT', 'btnpandataunt', 'anta', 'T', []),
         ]),

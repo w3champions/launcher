@@ -68,7 +68,7 @@ const units =
 
         new Unit('Druid of the Claw', 'btndruidoftheclaw', [
             ...defaultFighterAbilities,
-            Ability.DoubleHotkey("Roar ", "btnbattleroar", "aroa", "R", [], "ara2"),
+            Ability.MultiHotkey("Roar ", "btnbattleroar", "aroa", "R", [], ["ara2"]),
             new Ability("Rejuvenation", "btnrejuvenation", "arej", "E", []),
             Ability.Default(),
             new Ability("Bear Form", "btnbearform", "abrf", "F", []),
@@ -92,7 +92,7 @@ const units =
 
         new Unit('Druid of the Talon', 'btndruidofthetalon', [
             ...defaultFighterAbilities,
-            Ability.DoubleHotkey("Faerie Fire", "btnfaeriefireoff", "afae", "R", [], "afa2"),
+            Ability.MultiHotkey("Faerie Fire", "btnfaeriefireoff", "afae", "R", [], ["afa2"]),
             new Ability("Cyclone", "btncyclone", "acyc", "C", []),
             Ability.Default(),
             new Ability("Storm Crow Form", "btnravenform", "arav", "F", [])

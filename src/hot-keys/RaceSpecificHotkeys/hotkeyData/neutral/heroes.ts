@@ -54,8 +54,8 @@ const heroes =
 
         new Hero('Goblin Tinker', 'btnherotinker', [
             ...defaultHeroAbilities([
-                Ability.HeroAbility('Pocket Factory', 'btnpocketfactory', 'ansy', 'F', []),
-                Ability.HeroAbility('Cluster Rockets', 'btnclusterrockets', 'ancs', 'R', []),
+                Ability.MultiHotkey('Pocket Factory', 'btnpocketfactory', 'ansy', 'F', [], ['ans1','ans2','ans2'], true),
+                Ability.MultiHotkey('Cluster Rockets', 'btnclusterrockets', 'ancs', 'R', [], ['anc1','anc2','anc2'], true),
                 Ability.Aura('Engineering Upgrade', 'pasbtnengineeringupgrade', 'aneg', 'E', []),
                 Ability.HeroAbility('Robo-Goblin', 'btnrobogoblin', 'anrg', 'B', []),
             ])

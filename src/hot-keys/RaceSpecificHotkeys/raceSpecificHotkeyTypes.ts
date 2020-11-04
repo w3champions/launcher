@@ -13,7 +13,7 @@ export interface RaceHotKey {
   hotkeyCommand: string;
   hotKey: string;
   isResearchAbility: boolean;
-  additionalHotkeyIdentifier: string;
+  additionalHotkeyIdentifiers: string[];
 }
 
 export class Unit implements W3cIcon {
@@ -43,13 +43,13 @@ export class Hero extends Unit {
 }
 
 export class Ability implements W3cIcon {
-  constructor(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isResearchAbility: boolean = false, isAura: boolean = false, additionalHotkeyIdentifier = '') {
+  constructor(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isResearchAbility: boolean = false, isAura: boolean = false, additionalHotkeyIdentifiers: string[] = []) {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
     this.icon = icon;
     this.defaultHotkey = defaultHotkey;
     this.currentHotkey = defaultHotkey;
-    this.additionalHotkeyIdentifier = additionalHotkeyIdentifier;
+    this.additionalHotkeyIdentifiers = additionalHotkeyIdentifiers;
     this.abilities = abilities;
     this.hasConflict = false;
     this.isAura = isAura;
@@ -60,8 +60,12 @@ export class Ability implements W3cIcon {
     return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, true, true)
   }
 
-  public static DoubleHotkey(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], additionalHotkeyIdentifier: string) {
-    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, false, false, additionalHotkeyIdentifier)
+  public static Create(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, true, true)
+  }
+
+  public static MultiHotkey(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], additionalHotkeyIdentifiers: string[], isResearch: boolean = false) {
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, isResearch, false, additionalHotkeyIdentifiers)
   }
 
   public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
@@ -90,7 +94,7 @@ export class Ability implements W3cIcon {
   public isAura: boolean;
   public isResearchAbility: boolean;
   public hotkeyIdentifier: string;
-  public additionalHotkeyIdentifier: string;
+  public additionalHotkeyIdentifiers: string[];
   public icon: string;
   public defaultHotkey: string;
   public currentHotkey: string;

@@ -16,7 +16,7 @@ const buildings =
             buildingWithCancel([
             new Ability('Train Peasant', 'btnpeasant', 'hpea', 'P', []),
             ...defaultMainBuilding(Ability.Default(), 'rhpm'),
-            Ability.DoubleHotkey('Upgrade to Keep', 'btnkeep', 'hkee', 'U', [], 'hcas'),
+            Ability.MultiHotkey('Upgrade to Keep', 'btnkeep', 'hkee', 'U', [], ['hcas']),
             new Ability('Call to Arms', 'btncalltoarms', 'amil', 'C', []),
             new Ability('Back to Work', 'btnbacktowork', 'amil', 'W', []),
             ])),
@@ -70,7 +70,7 @@ const buildings =
             buildingWithCancel([
                 new Ability('Train Flying Machine', 'btnflyingmachine', 'hgyr', 'F', []),
                 new Ability('Train Mortar Team', 'btnmortarteam', 'hmtm', 'M', []),
-                Ability.DoubleHotkey('Train Siege Engine', 'btnseigeengine', 'hmtt', 'E', [], 'hrtt'),
+                Ability.MultiHotkey('Train Siege Engine', 'btnseigeengine', 'hmtt', 'E', [], ['hrtt']),
                 ...Ability.Defaults(1),
                 new Ability('Research Flying Machine Bombs', 'btnhumanartilleryupone', 'rhgb', 'B', []),
                 new Ability('Research Fragmentation Shards', 'btnfragmentationbombs', 'rhfs', 'S', []),
