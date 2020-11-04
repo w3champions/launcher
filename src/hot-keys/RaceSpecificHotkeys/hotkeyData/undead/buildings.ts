@@ -7,7 +7,7 @@ import {
     buildingWithCancel,
     defaultAltar,
     defaultMainBuilding,
-    rally, shop, tier2ITems
+    rally, shop
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
 const buildings =
@@ -15,18 +15,10 @@ const buildings =
         new Building('Necropolis', 'btnnecropolis',
             buildingWithCancel([
                 new Ability('Train Acolyte', 'btnacolyte', 'uaco', 'C', []),
-                ...defaultMainBuilding,
-                new Ability('Upgrade to Halls of the Dead', 'btnhallofthedead', 'unp1', 'U', []),
+                ...defaultMainBuilding(Ability.Default(), 'rupm'),
+                Ability.DoubleHotkey('Upgrade', 'btnhallofthedead', 'unp1', 'U', [], 'unp2'),
                 ...Ability.Defaults(2)
         ])),
-
-        new Building('Halls of the Dead', 'btnhallofthedead',
-            buildingWithCancel(
-                [new Ability('Train Acolyte', 'btnacolyte', 'uaco', 'C', []),
-                ...defaultMainBuilding,
-                new Ability('Upgrade to Black Citadel ', 'btnblackcitadel', 'unp2', 'U', []),
-                ...Ability.Defaults(2)])
-        ),
 
         new Building('Crypt', 'btncrypt',
             buildingWithCancel([

@@ -70,9 +70,10 @@ export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([
     heroes[3]]
 )
 
-export const defaultMainBuilding = [
-    ...Ability.Defaults(2),
-    new Ability('Research Backpack', 'btnpackbeast', 'rupm', 'B', []),
+export const defaultMainBuilding = (abilityBeforeBackpack: Ability, backpackCommand: string) => [
+    Ability.Default(),
+    abilityBeforeBackpack,
+    new Ability('Research Backpack', 'btnpackbeast', backpackCommand, 'B', []),
     ...Ability.Defaults(3),
     rally
 ]
