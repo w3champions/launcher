@@ -72,6 +72,40 @@ const units =
             new Ability("Bear Form", "btnbearform", "abrf", "F", []),
         ]),
 
+        new Unit('Mountain Giant', 'btnmountaingiant', [
+            ...defaultFighterAbilities,
+            new Ability("Taunt", "btntaunt", "atau", "T", []),
+            new Ability("War Club", "btngrabtree", "agra", "W", []),
+        ]),
+
+        new Unit('Hippogryph', 'btnhippogriff', [
+            ...defaultFighterAbilities,
+            new Ability("Pick up Archer", "btnhippogriffrider", "aco3", "U", [])
+        ]),
+
+        new Unit('Hippogryph Rider', 'btnhippogriffrider', [
+            ...defaultFighterAbilities,
+            new Ability("Dismount Archer", "btnarcher", "adec", "U", [])
+        ]),
+
+        new Unit('Druid of the Talon', 'btndruidofthetalon', [
+            ...defaultFighterAbilities,
+            Ability.DoubleHotkey("Faerie Fire", "btnfaeriefireoff", "afae", "R", [], "afa2"),
+            new Ability("Cyclone", "btncyclone", "acyc", "C", []),
+            Ability.Default(),
+            new Ability("Storm Crow Form", "btnravenform", "arav", "F", [])
+        ]),
+
+        new Unit('Faerie Dragon', 'btnfaeriedragon', [
+            ...defaultFighterAbilities,
+            new Ability("Phase Shift", "btnphaseshiftoff", "apsh", "E", []),
+            new Ability("Mana Flare", "btnmanaflare", "amfl", "F", [])
+        ]),
+
+        new Unit('Chimaera', 'btnchimaera', [
+            ...defaultFighterAbilities,
+        ]),
+
     ] as Unit[]
 
 export default units;
