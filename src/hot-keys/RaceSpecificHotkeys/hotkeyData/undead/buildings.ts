@@ -7,7 +7,7 @@ import {
     buildingWithCancel,
     defaultAltar,
     defaultMainBuilding,
-    rally, shop, t2Shop
+    rally, shop, tier2ITems
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
 const buildings =
@@ -121,12 +121,12 @@ const buildings =
                 new Ability('Purchase Rod of Necromancy', 'btnrodofnecromancy', 'rnec', 'R', []),
                 new Ability('Purchase Ritual Dagger', 'btnsacrificialdagger', 'ritd', 'A', []),
                 new Ability('Purchase Sacrificial Skull', 'btnsacrificialskull', 'skul', 'K', []),
-                new Ability('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', []),
-                ...t2Shop,
+                new Ability('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', [])],
+                [
                 new Ability('Purchase Orb of Corruption', 'btnorbofcorruption', 'ocor', 'B', []),
                 new Ability('Purchase Scroll of Healing', 'btnscrolloftownportal', 'shea', 'H', []),
-                Ability.Default(),
-            ])
+                Ability.Default()],
+            )
         )
     ] as Unit[]
 
