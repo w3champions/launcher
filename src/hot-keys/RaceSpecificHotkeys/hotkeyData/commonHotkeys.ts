@@ -56,8 +56,7 @@ export const shop = (tier1ITems: Ability[], tier3ITems: Ability[]) => [
 export const tier2ITems = [
     new Ability('Purchase Potion of Healing', 'btnpotiongreensmall', 'phea', 'P', []),
     new Ability('Purchase Potion of Mana', 'btnpotionbluesmall', 'pman', 'M', []),
-    new Ability('Purchase Scroll of Town Portal', 'btnscrolluber', 'stwp', 'T', []),
-    Ability.Default()
+    new Ability('Purchase Scroll of Town Portal', 'btnscrolluber', 'stwp', 'T', [])
 ]
 
 export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([

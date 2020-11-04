@@ -7,7 +7,7 @@ import {
     attack,
     cancelBuild, defaultAltar,
     defaultFighterAbilities,
-    defaultMainBuilding, rally, stop
+    defaultMainBuilding, rally, shop, stop
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 const uproot = new Ability('Uproot', 'btnuproot', 'aro1', 'R', [])
 
@@ -115,6 +115,29 @@ const buildings =
             cancelBuild,
             uproot,
         ]),
+
+        new Building('Chimaera Roost', 'btnchimaeraroost', [
+            new Ability('Train Chimaera', 'btnchimaera', 'echm', 'C', []),
+            ...Ability.Defaults(6),
+            rally,
+            new Ability('Research Corrosive Breath', 'btncorrosivebreath', 'recb', 'B', []),
+            ...Ability.Defaults(2),
+            cancelBuild,
+        ]),
+
+        new Building('Ancient of Wonders', 'btnancientofwonders', [
+            ...shop([
+                new Ability('Purchase Moonstone', 'btnmoonstone', 'moon', 'N', []),
+                new Ability('Purchase Lesser Clarity Potion', 'btnlesserclaritypotion', 'plcl', 'C', []),
+                Ability.Default(),
+                new Ability('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', []),
+            ],[
+                new Ability('Purchase Staff of Preservation', 'btnstaffofpreservation', 'spre', 'E', []),
+                new Ability('Purchase Orb of Venom', 'btnorbofvenom', 'oven', 'V', []),
+                new Ability('Purchase Anti-magic Potion', 'btnsnazzypotion', 'pams', 'A', []),
+                uproot
+            ])
+        ])
     ] as Unit[]
 
 export default buildings;
