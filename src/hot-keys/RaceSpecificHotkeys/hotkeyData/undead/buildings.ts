@@ -56,7 +56,7 @@ const buildings =
         new Building('Altar of Darkness', 'btnaltarofdarkness',
             defaultAltar([
                 new Ability('Summon Crypt Lord', 'btnherocryptlord', 'ucrl', 'C', []),
-                new Ability('Summon Death Knigh', 'btnherodeathknight', 'udea', 'D', []),
+                new Ability('Summon Death Knight', 'btnherodeathknight', 'udea', 'D', []),
                 new Ability('Summon Dreadlord', 'btnherodreadlord', 'udre', 'E', []),
                 new Ability('Summon Lich', 'btnlichversion2', 'ulic', 'L', []),
             ])
