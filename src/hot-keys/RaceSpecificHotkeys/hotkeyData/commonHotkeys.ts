@@ -3,12 +3,14 @@ import {Ability} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 export const cancel = new Ability('Cancel', 'btncancel', 'cmdcancel', 'ESC', [])
 export const cancelBuild = new Ability('Cancel', 'btncancel', 'cmdcancelbuild', 'ESC', [])
 export const rally = new Ability('Rally', 'btnrallypoint', 'cmdrally', 'Y', [])
+export const stop = new Ability("Stop", "btnstop", "cmdstop", "S", []);
+export const attack = new Ability("Attack", "btnattack", "cmdattack", "A", []);
 
 export const defaultUnitAbilities = [
     new Ability("Move", "btnmove", "cmdmove", "M", []),
-    new Ability("Stop", "btnstop", "cmdstop", "S", []),
+    stop,
     new Ability("Hold", "btnholdposition", "cmdholdpos", "H", []),
-    new Ability("Attack", "btnattack", "cmdattack", "A", []),
+    attack,
     new Ability("Patrol", "btnpatrol", "cmdpatrol", "P", [])
 ]
 
@@ -54,8 +56,7 @@ export const shop = (tier1ITems: Ability[], tier3ITems: Ability[]) => [
 export const tier2ITems = [
     new Ability('Purchase Potion of Healing', 'btnpotiongreensmall', 'phea', 'P', []),
     new Ability('Purchase Potion of Mana', 'btnpotionbluesmall', 'pman', 'M', []),
-    new Ability('Purchase Scroll of Town Portal', 'btnscrolluber', 'stwp', 'T', []),
-    Ability.Default()
+    new Ability('Purchase Scroll of Town Portal', 'btnscrolluber', 'stwp', 'T', [])
 ]
 
 export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([

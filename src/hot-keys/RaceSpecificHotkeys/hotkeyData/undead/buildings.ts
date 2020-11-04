@@ -115,9 +115,10 @@ const buildings =
                 new Ability('Purchase Sacrificial Skull', 'btnsacrificialskull', 'skul', 'K', []),
                 new Ability('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', [])],
                 [
+                ...Ability.Defaults(1),
                 new Ability('Purchase Orb of Corruption', 'btnorbofcorruption', 'ocor', 'B', []),
                 new Ability('Purchase Scroll of Healing', 'btnscrolloftownportal', 'shea', 'H', []),
-                Ability.Default()],
+                ...Ability.Defaults(1)],
             )
         )
     ] as Unit[]
