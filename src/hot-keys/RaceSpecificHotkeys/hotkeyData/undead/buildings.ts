@@ -7,7 +7,7 @@ import {
     buildingWithCancel,
     defaultAltar,
     defaultMainBuilding,
-    rally, shop, tier2ITems
+    rally, shop
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
 const buildings =
