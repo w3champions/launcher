@@ -87,7 +87,7 @@ const buildings =
                     ...Ability.Defaults(1),
                     new Ability('Stop', 'btnstop', 'cmdstop', 'S', []),
                     ...Ability.Defaults(1),
-                    new Ability('Attack', 'btnattack', 'cmdattack', 'A', [])               
+                    new Ability('Attack', 'btnattack', 'cmdattack', 'A', [])
                 ]),
                 new Ability('Upgrade to Cannon Tower', 'btncannontower', 'hctw', 'C', [
                     ...Ability.Defaults(1),
@@ -125,11 +125,12 @@ const buildings =
                 [
                     new Ability('Purchase Ivory Tower', 'btnhumanwatchtower', 'tsct', 'V', []),
                     new Ability('Purchase Orb of Fire', 'btnorboffire', 'ofr2', 'F', []),
-                    new Ability('Purchase Staff of Sanctuary', 'btnstaffofsanctuary', 'ssan', 'N', [])],
+                    new Ability('Purchase Staff of Sanctuary', 'btnstaffofsanctuary', 'ssan', 'N', []),
+                    Ability.Default()],
             )
         )
 
-        
+
 
 
     ] as Unit[]
