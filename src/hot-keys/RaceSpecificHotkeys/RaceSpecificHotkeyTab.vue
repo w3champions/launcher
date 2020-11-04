@@ -16,9 +16,9 @@
       <div class="selection-wrapper">
         <div class="selection-header w3font">Units</div>
         <ItemSelectionContainer :on-click="selectUnit" :selection-items="units"/>
-        <div class="selection-header w3font">Buildings</div>
+        <div class="selection-header w3font">{{ isNeutralUnitTab ? 'Heroes' : 'Buildings' }}</div>
         <ItemSelectionContainer :on-click="selectUnit" :selection-items="buildings"/>
-        <div class="selection-header w3font">Heroes</div>
+        <div class="selection-header w3font">{{ isNeutralUnitTab ? 'Buildings' : 'Heroes' }}</div>
         <ItemSelectionContainer :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
       </div>
       <div class="selection-wrapper">
@@ -67,12 +67,18 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.closeModalAndResetVariables()
   }
 
+  get isNeutralUnitTab() {
+    return this.race === HotkeyType.neutral;
+  }
+
   get heroes() {
-    return this.fillUp(this.hotKeys.units.filter(u => u.type === Hero.name), 4, Unit.Default);
+    const compareValue = this.isNeutralUnitTab ? Building.name : Hero.name;
+    return this.fillUp(this.hotKeys.units.filter(u => u.type === compareValue), 4, Unit.Default);
   }
 
   get buildings() {
-    return this.splitInArrayOf4Units(this.hotKeys.units.filter(u => u.type === Building.name) ?? []);
+    const compareValue = this.isNeutralUnitTab ? Hero.name : Building.name;
+    return this.splitInArrayOf4Units(this.hotKeys.units.filter(u => u.type === compareValue) ?? []);
   }
 
   get units() {
