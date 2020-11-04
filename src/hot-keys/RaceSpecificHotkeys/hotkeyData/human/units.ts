@@ -31,7 +31,7 @@ const units =
                 cancel
             ]),
             Ability.Create('Call to Arms', 'btncalltoarms', 'amil', 'C', []),
-            Ability.Create('Back to Work', 'btnbacktowork', 'amil', 'W', []),
+            Ability.Default(),
             cancel
         ]),
         new Unit('Footman', 'btnfootman', [

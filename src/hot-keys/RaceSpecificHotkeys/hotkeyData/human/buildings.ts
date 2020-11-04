@@ -18,7 +18,7 @@ const buildings =
             ...defaultMainBuilding(Ability.Default(), 'rhpm'),
             Ability.MultiHotkey('Upgrade to Keep', 'btnkeep', 'hkee', 'U', [], ['hcas']),
             Ability.Create('Call to Arms', 'btncalltoarms', 'amil', 'C', []),
-            Ability.Create('Back to Work', 'btnbacktowork', 'amil', 'W', []),
+            Ability.Default()
             ])),
         new Building('Barracks', 'btnhumanbarracks',
             buildingWithCancel([
