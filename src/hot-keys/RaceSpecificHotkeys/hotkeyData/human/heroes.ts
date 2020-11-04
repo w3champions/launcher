@@ -9,15 +9,11 @@ const heroes =
     [
         new Hero('Paladin', 'btnheropaladin', [
             ...defaultHeroAbilities([
-                new Ability('Holy Light', 'btnholybolt', 'ahhb', 'T', []),
-                new Ability('Divine Shield', 'btndivineintervention', 'adef', 'D', []),
-                new Ability('Devotion Aura', 'btndevotion', 'ahad', 'V', []),
-                new Ability('Resurrection', 'btnresurrection', 'ahre', 'R', []),
-            ]),
-            new Ability('Holy Light', 'btnholybolt', 'ahhb', 'T', []),
-            new Ability('Divine Shield', 'btndivineintervention', 'adef', 'D', []),
-            Ability.Default(),
-            new Ability('Resurrection', 'btnresurrection', 'ahre', 'R', []),
+                Ability.HeroAbility('Holy Light', 'btnholybolt', 'ahhb', 'T', []),
+                Ability.HeroAbility('Divine Shield', 'btndivineintervention', 'ahds', 'D', []),
+                Ability.Aura('Devotion Aura', 'btndevotion', 'ahad', 'V', []),
+                Ability.HeroAbility('Resurrection', 'btnresurrection', 'ahre', 'R', []),
+            ])
         ])
     ] as Unit[]
 

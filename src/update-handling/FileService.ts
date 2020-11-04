@@ -47,6 +47,9 @@ export class FileService {
         hotkeys.forEach(h => {
             fileContent.push("[" + h.hotkeyCommand + "]");
             fileContent.push("Hotkey=" + h.hotKey);
+            if (h.isResearchAbility) {
+                fileContent.push("Researchhotkey=" + h.hotKey);
+            }
             fileContent.push('\n');
         })
 

@@ -23,11 +23,21 @@ export const defaultSiegeAbilities = [
     new Ability("Attack Ground", "btnattackground", "cmdattackground", "G", [])
 ]
 
-export const defaultHeroAbilities = (learningSkills: Ability[]) => [
-    ...defaultUnitAbilities,
-    ...Ability.Defaults(2),
-    new Ability('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', learningSkills)
-]
+export const defaultHeroAbilities = (learningSkills: Ability[]) => {
+    const notAuras = learningSkills.filter(l => !l.isAura);
+    const ammountAuras = notAuras.length;
+    const ultimate = notAuras[ammountAuras - 1];
+    notAuras.pop();
+    Ability.Defaults(learningSkills.length - ammountAuras)
+    return [
+        ...defaultUnitAbilities,
+        ...Ability.Defaults(2),
+        new Ability('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', learningSkills),
+        ...notAuras,
+        ...Ability.Defaults(learningSkills.length - ammountAuras),
+        ultimate
+    ];
+}
 
 export const buildingWithCancel = (buildItems: Ability[]) => [
     ...buildItems,

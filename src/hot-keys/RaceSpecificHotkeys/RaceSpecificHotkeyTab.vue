@@ -113,7 +113,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
     await this.$store.direct.dispatch.hotKeys.setRaceHotkey(
         {
           hotKey: this.hotkeyPressed,
-          hotkeyCommand: this.editAbility.hotkeyIdentifier
+          hotkeyCommand: this.editAbility.hotkeyIdentifier,
+          isResearchAbility: this.editAbility.isResearchAbility
         });
     this.closeModalAndResetVariables();
   }
@@ -124,7 +125,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
     await this.$store.direct.dispatch.hotKeys.setRaceHotkey(
         {
           hotKey: this.editAbility.defaultHotkey,
-          hotkeyCommand: this.editAbility.hotkeyIdentifier
+          hotkeyCommand: this.editAbility.hotkeyIdentifier,
+          isResearchAbility: this.editAbility.isResearchAbility
         });
     this.closeModalAndResetVariables();
   }
