@@ -91,9 +91,8 @@ const units =
         ]),
         new Unit('Carrion Beetle', 'btncarrionscarabslv3', [
             ...defaultFighterAbilities,
-            ...Ability.Defaults(2),
-            new Ability('Burrow Lvl 2', 'btncryptfiendburrow', 'abu2', 'B', []),
-            new Ability('Burrow Lvl 3', 'btncryptfiendburrow', 'abu3', 'B', []),
+            ...Ability.Defaults(3),
+            Ability.DoubleHotkey('Burrow', 'btncryptfiendburrow', 'abu2', 'B', [], 'abu3'),
         ])
     ] as Unit[]
 

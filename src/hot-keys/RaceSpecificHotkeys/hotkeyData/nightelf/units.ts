@@ -4,9 +4,16 @@ import {
 } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 import {
     cancel, cancelBuild,
-    defaultFighterAbilities,
+    defaultFighterAbilities, defaultSiegeAbilities,
     defaultUnitAbilities
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
+
+const defaultNightelfFighterAbilities = [
+    ...defaultUnitAbilities,
+    Ability.Default(),
+    new Ability("Shadowmeld", "btnambush", "ashm", "I", []),
+    Ability.Default()
+]
 
 const units =
     [
@@ -37,6 +44,34 @@ const units =
             Ability.Default(),
             cancelBuild
         ]),
+
+        new Unit('Archer', 'btnarcher', [
+            ...defaultNightelfFighterAbilities,
+            new Ability("Mount Hippogryph", "btnhippogriffrider", "aco2", "U", []),
+        ]),
+
+        new Unit('Huntress', 'btnhuntress', [
+            ...defaultNightelfFighterAbilities,
+            new Ability("Sentinel", "btnsentinel", "aesn", "E", []),
+        ]),
+
+        new Unit('Glaive Thrower', 'btnglaivethrower', [
+            ...defaultSiegeAbilities,
+        ]),
+
+        new Unit('Dryad', 'btndryad', [
+            ...defaultFighterAbilities,
+            new Ability("Abolish Magic", "btndryaddispelmagicoff", "aadm", "B", []),
+        ]),
+
+        new Unit('Druid of the Claw', 'btndruidoftheclaw', [
+            ...defaultFighterAbilities,
+            Ability.DoubleHotkey("Roar ", "btnbattleroar", "aroa", "R", [], "ara2"),
+            new Ability("Rejuvenation", "btnrejuvenation", "arej", "E", []),
+            Ability.Default(),
+            new Ability("Bear Form", "btnbearform", "abrf", "F", []),
+        ]),
+
     ] as Unit[]
 
 export default units;

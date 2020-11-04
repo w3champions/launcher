@@ -13,6 +13,7 @@ export interface RaceHotKey {
   hotkeyCommand: string;
   hotKey: string;
   isResearchAbility: boolean;
+  additionalHotkeyIdentifier: string;
 }
 
 export class Unit implements W3cIcon {
@@ -42,12 +43,13 @@ export class Hero extends Unit {
 }
 
 export class Ability implements W3cIcon {
-  constructor(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isResearchAbility: boolean = false, isAura: boolean = false) {
+  constructor(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isResearchAbility: boolean = false, isAura: boolean = false, additionalHotkeyIdentifier = '') {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
     this.icon = icon;
     this.defaultHotkey = defaultHotkey;
     this.currentHotkey = defaultHotkey;
+    this.additionalHotkeyIdentifier = additionalHotkeyIdentifier;
     this.abilities = abilities;
     this.hasConflict = false;
     this.isAura = isAura;
@@ -56,6 +58,10 @@ export class Ability implements W3cIcon {
 
   public static Aura(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
     return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, true, true)
+  }
+
+  public static DoubleHotkey(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], additionalHotkeyIdentifier: string) {
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, false, false, additionalHotkeyIdentifier)
   }
 
   public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
@@ -84,6 +90,7 @@ export class Ability implements W3cIcon {
   public isAura: boolean;
   public isResearchAbility: boolean;
   public hotkeyIdentifier: string;
+  public additionalHotkeyIdentifier: string;
   public icon: string;
   public defaultHotkey: string;
   public currentHotkey: string;

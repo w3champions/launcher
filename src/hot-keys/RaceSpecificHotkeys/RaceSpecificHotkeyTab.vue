@@ -114,7 +114,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
         {
           hotKey: this.hotkeyPressed,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
-          isResearchAbility: this.editAbility.isResearchAbility
+          isResearchAbility: this.editAbility.isResearchAbility,
+          additionalHotkeyIdentifier: this.editAbility.additionalHotkeyIdentifier
         });
     this.closeModalAndResetVariables();
   }
@@ -126,7 +127,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
         {
           hotKey: this.editAbility.defaultHotkey,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
-          isResearchAbility: this.editAbility.isResearchAbility
+          isResearchAbility: this.editAbility.isResearchAbility,
+          additionalHotkeyIdentifier: this.editAbility.additionalHotkeyIdentifier
         });
     this.closeModalAndResetVariables();
   }
