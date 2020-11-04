@@ -85,7 +85,36 @@ const buildings =
                 new Ability('Summon Keeper of the Grove', 'btnkeeperofthegrove', 'ekee', 'K', []),
                 new Ability('Summon Priestess of the Moon', 'btnpriestessofthemoon', 'emoo', 'P', []),
             ])
-        ])
+        ]),
+
+        new Building('Ancient of Lore', 'btnancientoflore', [
+            new Ability('Train Dryad', 'btndryad', 'edry', 'D', []),
+            new Ability('Train Druid of the Claw', 'btndruidoftheclaw', 'edoc', 'C', []),
+            new Ability('Train Mountain Giant', 'btnmountaingiant', 'emtg', 'G', []),
+            cancelBuild,
+            ...Ability.Defaults(1),
+            new Ability('Research Mark of the Claw', 'btnenchantedbears', 'reeb', 'M', []),
+            new Ability('Research Hardened Skin', 'btnhardenedskin', 'rehs', 'H', []),
+            rally,
+            new Ability('Research Abolish Magic', 'btndryaddispelmagic', 'resi', 'A', []),
+            new Ability('Druid of the Claw Training', 'btndocadepttraining', 'redc', 'L', []),
+            new Ability('Research Resistant Skin', 'btnhardenedskin', 'rers', 'T', []),
+            uproot,
+        ]),
+
+        new Building('Ancient of Wind', 'btnancientofthemoon', [
+            new Ability('Train Hippogryph', 'btnhippogriff', 'ehip', 'H', []),
+            new Ability('Train Druid of the Talon', 'btndruidofthetalon', 'edot', 'T', []),
+            new Ability('Train Faerie Dragon', 'btnfaeriedragon', 'efdr', 'F', []),
+            ...Ability.Defaults(2),
+            new Ability('Research Mark of the Talon', 'btnenchantedcrows', 'reec', 'M', []),
+            ...Ability.Defaults(1),
+            rally,
+            ...Ability.Defaults(1),
+            new Ability('Druid of the Talon Training', 'btndotadepttraining', 'redt', 'A ', []),
+            cancelBuild,
+            uproot,
+        ]),
     ] as Unit[]
 
 export default buildings;
