@@ -8,55 +8,55 @@ const units =
     [
         new Unit('Forest Troll Shadow Priest', 'btnforesttrollshadowpriest', [
             ...defaultFighterAbilities,
-            new Ability('Heal', 'btnhealoff', 'anh1', 'E', []),
-            new Ability('Abolish Magic', 'btndryaddispelmagicoff', 'acdm', 'B', []),
+            Ability.Create('Heal', 'btnhealoff', 'anh1', 'E', []),
+            Ability.Create('Abolish Magic', 'btndryaddispelmagicoff', 'acdm', 'B', []),
         ]),
         new Unit('Mud Golem', 'btnmudgolem', [
             ...defaultFighterAbilities,
-            new Ability('Slow', 'btnslowoff', 'acsw', 'W', []),
+            Ability.Create('Slow', 'btnslowoff', 'acsw', 'W', []),
         ]),
         new Unit('Goblin Shredder', 'btnjunkgolem', [
             ...defaultUnitAbilities,
             ...Ability.Defaults(2),
-            new Ability('Gather', 'btngathergold', 'ahr3', 'G', []),
+            Ability.Create('Gather', 'btngathergold', 'ahr3', 'G', []),
         ]),
         new Unit('Goblin Sappers', 'btngoblinsapper', [
             ...defaultFighterAbilities,
-            new Ability('Kaboom!', 'btnselfdestructoff', 'asds', 'B', []),
+            Ability.Create('Kaboom!', 'btnselfdestructoff', 'asds', 'B', []),
         ]),
         new Unit('Goblin Zeppelin', 'btngoblinzeppelin', [
             ...defaultFighterAbilities,
-            new Ability('Load', 'btnload', 'aloa', 'L', []),
-            new Ability('Unload All', 'btnunload', 'adro', 'U', []),
+            Ability.Create('Load', 'btnload', 'aloa', 'L', []),
+            Ability.Create('Unload All', 'btnunload', 'adro', 'U', []),
         ]),
         new Unit('Storm (Pandaren Ultimate)', 'btnearthbrewmaster', [
             ...defaultFighterAbilities,
-            new Ability('Wind Walk', 'btnwindwalkon', 'anwk', 'W', []),
-            new Ability('Cyclone', 'btncyclone', 'accy', 'C', []),
-            new Ability('Dispel Magic', 'btndispelmagic', 'adsm', 'D', []),
+            Ability.Create('Wind Walk', 'btnwindwalkon', 'anwk', 'W', []),
+            Ability.Create('Cyclone', 'btncyclone', 'accy', 'C', []),
+            Ability.Create('Dispel Magic', 'btndispelmagic', 'adsm', 'D', []),
         ]),
         new Unit('Earth (Pandaren Ultimate)', 'btnstormbrewmaster', [
             ...defaultFighterAbilities,
-            new Ability('TaunT', 'btnpandataunt', 'anta', 'T', []),
+            Ability.Create('TaunT', 'btnpandataunt', 'anta', 'T', []),
         ]),
         new Unit('Spirit Bear (Level 3)', 'btnspiritbear', [
             ...defaultFighterAbilities,
-            new Ability('Blink', 'btnbearblink', 'anbl', 'B', []),
+            Ability.Create('Blink', 'btnbearblink', 'anbl', 'B', []),
         ]),
         new Unit('Quilbeast (Level 2/3)', 'btnquillbeastlv2', [
             ...defaultFighterAbilities,
-            new Ability('Frenzy', 'btnbloodlustoff', 'afzy', 'F', []),
+            Ability.Create('Frenzy', 'btnbloodlustoff', 'afzy', 'F', []),
         ]),
         new Unit('Doom Guard', 'btndoomguard', [
             ...defaultFighterAbilities,
-            new Ability('Dispel Magic', 'btndispelmagic', 'adsm', 'D', []),
-            new Ability('War Stomp', 'btnwarstomp', 'awrs', 'T', []),
-            new Ability('Cripple', 'btncripple', 'accr', 'C', []),
-            new Ability('Rain of Fire', 'btnfire', 'acrf', 'F', []),
+            Ability.Create('Dispel Magic', 'btndispelmagic', 'adsm', 'D', []),
+            Ability.Create('War Stomp', 'btnwarstomp', 'awrs', 'T', []),
+            Ability.Create('Cripple', 'btncripple', 'accr', 'C', []),
+            Ability.Create('Rain of Fire', 'btnfire', 'acrf', 'F', []),
         ]),
         new Unit('Cloak of Shadows', 'btncloak', [
             ...Ability.Defaults(6),
-            new Ability('Hide', 'btncloak', 'aihm', 'I', []),
+            Ability.Create('Hide', 'btncloak', 'aihm', 'I', []),
         ])
     ] as Unit[]
 

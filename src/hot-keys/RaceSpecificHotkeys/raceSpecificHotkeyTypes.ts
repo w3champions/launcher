@@ -43,7 +43,7 @@ export class Hero extends Unit {
 }
 
 export class Ability implements W3cIcon {
-  constructor(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isResearchAbility: boolean = false, isAura: boolean = false, additionalHotkeyIdentifiers: string[] = []) {
+  private constructor(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isResearchAbility: boolean = false, isAura: boolean = false, additionalHotkeyIdentifiers: string[] = []) {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
     this.icon = icon;
@@ -77,7 +77,7 @@ export class Ability implements W3cIcon {
       const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
-    return new Ability("", guid, "", "", [])
+    return Ability.Create("", guid, "", "", [])
   }
 
   public static Defaults(amount: number) {

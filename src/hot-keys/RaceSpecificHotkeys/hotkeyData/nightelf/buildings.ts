@@ -9,57 +9,57 @@ import {
     defaultFighterAbilities,
     defaultMainBuilding, rally, shop, stop
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
-const uproot = new Ability('Uproot', 'btnuproot', 'aro1', 'R', [])
+const uproot = Ability.Create('Uproot', 'btnuproot', 'aro1', 'R', [])
 
 const buildings =
     [
         new Building('Tree of Life', 'btntreeoflife', [
-            new Ability('Train Wisp', 'btnwisp', 'hpea', 'P', []),
+            Ability.Create('Train Wisp', 'btnwisp', 'hpea', 'P', []),
             ...defaultMainBuilding(
-                new Ability('Research Nature’s Blessing', 'btnnaturesblessing', 'renb', 'N', []),
+                Ability.Create('Research Nature’s Blessing', 'btnnaturesblessing', 'renb', 'N', []),
                 'repm'
             ),
             Ability.MultiHotkey('Upgrade', 'btntreeofages', 'etoa', 'U', [], ['etoe']),
-            new Ability('Entangle Gold Mine', 'btngoldmine', 'aent', 'G', []),
+            Ability.Create('Entangle Gold Mine', 'btngoldmine', 'aent', 'G', []),
             uproot,
             cancelBuild
         ]),
 
         new Building('Entangled Gold Mine', 'btngoldmine', [
             ...Ability.Defaults(9),
-            new Ability('Load Wisp', 'btnload', 'slo2', 'L', []),
-            new Ability('Unload All', 'btnunload', 'adri', 'U', [])
+            Ability.Create('Load Wisp', 'btnload', 'slo2', 'L', []),
+            Ability.Create('Unload All', 'btnunload', 'adri', 'U', [])
         ]),
 
         new Building('Uprooted Ancient', 'btnuproot', [
             ...defaultFighterAbilities,
-            new Ability('Eat Tree', 'btneattree', 'aeat', 'E', []),
+            Ability.Create('Eat Tree', 'btneattree', 'aeat', 'E', []),
             ...Ability.Defaults(2),
             uproot
         ]),
 
         new Building('Ancient of War', 'btnancientoftheearth', [
-            new Ability('Train Archer', 'btnarcher', 'earc', 'A', []),
-            new Ability('Train Huntress', 'btnhuntress', 'esen', 'H', []),
-            new Ability('Train Glaive Thrower', 'btnglaivethrower', 'ebal', 'T', []),
+            Ability.Create('Train Archer', 'btnarcher', 'earc', 'A', []),
+            Ability.Create('Train Huntress', 'btnhuntress', 'esen', 'H', []),
+            Ability.Create('Train Glaive Thrower', 'btnglaivethrower', 'ebal', 'T', []),
             Ability.Default(),
-            new Ability('Research Marksmanship', 'btnmarksmanship', 'remk', 'M', []),
-            new Ability('Research Moon Glaive', 'btnupgrademoonglaive', 'remg', 'G', []),
+            Ability.Create('Research Marksmanship', 'btnmarksmanship', 'remk', 'M', []),
+            Ability.Create('Research Moon Glaive', 'btnupgrademoonglaive', 'remg', 'G', []),
             Ability.Default(),
             rally,
-            new Ability('Research Improved Bows', 'btnimprovedbows', 'reib', 'I', []),
-            new Ability('Research Sentinel', 'btnsentinel', 'resc', 'S', []),
-            new Ability('Research Vorpal Blades', 'btnvorpalblades', 'repb', 'P', []),
+            Ability.Create('Research Improved Bows', 'btnimprovedbows', 'reib', 'I', []),
+            Ability.Create('Research Sentinel', 'btnsentinel', 'resc', 'S', []),
+            Ability.Create('Research Vorpal Blades', 'btnvorpalblades', 'repb', 'P', []),
             uproot
         ]),
 
         new Building('Hunter’s Hall', 'btnhuntershall', [
-            new Ability('Upgrade Strength of the Moon', 'btnstrengthofthemoon', 'resm', 'M', []),
-            new Ability('Upgrade Strength of the Wild', 'btnstrengthofthewild', 'resw', 'W', []),
-            new Ability('Research Ultravision', 'btnultravision', 'reuv', 'U', []),
-            new Ability('Research Well Spring', 'btnwellspring', 'rews', 'E', []),
-            new Ability('Upgrade Moon Armor', 'btnmoonarmor', 'rema', 'A', []),
-            new Ability('Upgrade Reinforced Hides', 'btnreinforcedhides', 'rerh', 'R', []),
+            Ability.Create('Upgrade Strength of the Moon', 'btnstrengthofthemoon', 'resm', 'M', []),
+            Ability.Create('Upgrade Strength of the Wild', 'btnstrengthofthewild', 'resw', 'W', []),
+            Ability.Create('Research Ultravision', 'btnultravision', 'reuv', 'U', []),
+            Ability.Create('Research Well Spring', 'btnwellspring', 'rews', 'E', []),
+            Ability.Create('Upgrade Moon Armor', 'btnmoonarmor', 'rema', 'A', []),
+            Ability.Create('Upgrade Reinforced Hides', 'btnreinforcedhides', 'rerh', 'R', []),
             ...Ability.Defaults(5),
             cancelBuild
         ]),
@@ -75,66 +75,66 @@ const buildings =
 
         new Building('Moon Well', 'btnmoonwell', [
             ...Ability.Defaults(1),
-            new Ability('Replenish Mana and Life', 'btnmanarechargeoff', 'ambt', 'R', []),
+            Ability.Create('Replenish Mana and Life', 'btnmanarechargeoff', 'ambt', 'R', []),
         ]),
 
         new Building('Altar of Elders', 'btnaltarofelders', [
             ...defaultAltar([
-                new Ability('Summon Warden', 'btnherowarden', 'ewar', 'W', []),
-                new Ability('Summon Demon Hunter', 'btnherodemonhunter', 'edem', 'D', []),
-                new Ability('Summon Keeper of the Grove', 'btnkeeperofthegrove', 'ekee', 'K', []),
-                new Ability('Summon Priestess of the Moon', 'btnpriestessofthemoon', 'emoo', 'P', []),
+                Ability.Create('Summon Warden', 'btnherowarden', 'ewar', 'W', []),
+                Ability.Create('Summon Demon Hunter', 'btnherodemonhunter', 'edem', 'D', []),
+                Ability.Create('Summon Keeper of the Grove', 'btnkeeperofthegrove', 'ekee', 'K', []),
+                Ability.Create('Summon Priestess of the Moon', 'btnpriestessofthemoon', 'emoo', 'P', []),
             ])
         ]),
 
         new Building('Ancient of Lore', 'btnancientoflore', [
-            new Ability('Train Dryad', 'btndryad', 'edry', 'D', []),
-            new Ability('Train Druid of the Claw', 'btndruidoftheclaw', 'edoc', 'C', []),
-            new Ability('Train Mountain Giant', 'btnmountaingiant', 'emtg', 'G', []),
+            Ability.Create('Train Dryad', 'btndryad', 'edry', 'D', []),
+            Ability.Create('Train Druid of the Claw', 'btndruidoftheclaw', 'edoc', 'C', []),
+            Ability.Create('Train Mountain Giant', 'btnmountaingiant', 'emtg', 'G', []),
             cancelBuild,
             ...Ability.Defaults(1),
-            new Ability('Research Mark of the Claw', 'btnenchantedbears', 'reeb', 'M', []),
-            new Ability('Research Hardened Skin', 'btnhardenedskin', 'rehs', 'H', []),
+            Ability.Create('Research Mark of the Claw', 'btnenchantedbears', 'reeb', 'M', []),
+            Ability.Create('Research Hardened Skin', 'btnhardenedskin', 'rehs', 'H', []),
             rally,
-            new Ability('Research Abolish Magic', 'btndryaddispelmagic', 'resi', 'A', []),
-            new Ability('Druid of the Claw Training', 'btndocadepttraining', 'redc', 'L', []),
-            new Ability('Research Resistant Skin', 'btnhardenedskin', 'rers', 'T', []),
+            Ability.Create('Research Abolish Magic', 'btndryaddispelmagic', 'resi', 'A', []),
+            Ability.Create('Druid of the Claw Training', 'btndocadepttraining', 'redc', 'L', []),
+            Ability.Create('Research Resistant Skin', 'btnhardenedskin', 'rers', 'T', []),
             uproot,
         ]),
 
         new Building('Ancient of Wind', 'btnancientofthemoon', [
-            new Ability('Train Hippogryph', 'btnhippogriff', 'ehip', 'H', []),
-            new Ability('Train Druid of the Talon', 'btndruidofthetalon', 'edot', 'T', []),
-            new Ability('Train Faerie Dragon', 'btnfaeriedragon', 'efdr', 'F', []),
+            Ability.Create('Train Hippogryph', 'btnhippogriff', 'ehip', 'H', []),
+            Ability.Create('Train Druid of the Talon', 'btndruidofthetalon', 'edot', 'T', []),
+            Ability.Create('Train Faerie Dragon', 'btnfaeriedragon', 'efdr', 'F', []),
             ...Ability.Defaults(2),
-            new Ability('Research Mark of the Talon', 'btnenchantedcrows', 'reec', 'M', []),
+            Ability.Create('Research Mark of the Talon', 'btnenchantedcrows', 'reec', 'M', []),
             ...Ability.Defaults(1),
             rally,
             ...Ability.Defaults(1),
-            new Ability('Druid of the Talon Training', 'btndotadepttraining', 'redt', 'A ', []),
+            Ability.Create('Druid of the Talon Training', 'btndotadepttraining', 'redt', 'A ', []),
             cancelBuild,
             uproot,
         ]),
 
         new Building('Chimaera Roost', 'btnchimaeraroost', [
-            new Ability('Train Chimaera', 'btnchimaera', 'echm', 'C', []),
+            Ability.Create('Train Chimaera', 'btnchimaera', 'echm', 'C', []),
             ...Ability.Defaults(6),
             rally,
-            new Ability('Research Corrosive Breath', 'btncorrosivebreath', 'recb', 'B', []),
+            Ability.Create('Research Corrosive Breath', 'btncorrosivebreath', 'recb', 'B', []),
             ...Ability.Defaults(2),
             cancelBuild,
         ]),
 
         new Building('Ancient of Wonders', 'btnancientofwonders', [
             ...shop([
-                new Ability('Purchase Moonstone', 'btnmoonstone', 'moon', 'N', []),
-                new Ability('Purchase Lesser Clarity Potion', 'btnlesserclaritypotion', 'plcl', 'C', []),
+                Ability.Create('Purchase Moonstone', 'btnmoonstone', 'moon', 'N', []),
+                Ability.Create('Purchase Lesser Clarity Potion', 'btnlesserclaritypotion', 'plcl', 'C', []),
                 Ability.Default(),
-                new Ability('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', []),
+                Ability.Create('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', []),
             ],[
-                new Ability('Purchase Staff of Preservation', 'btnstaffofpreservation', 'spre', 'E', []),
-                new Ability('Purchase Orb of Venom', 'btnorbofvenom', 'oven', 'V', []),
-                new Ability('Purchase Anti-magic Potion', 'btnsnazzypotion', 'pams', 'A', []),
+                Ability.Create('Purchase Staff of Preservation', 'btnstaffofpreservation', 'spre', 'E', []),
+                Ability.Create('Purchase Orb of Venom', 'btnorbofvenom', 'oven', 'V', []),
+                Ability.Create('Purchase Anti-magic Potion', 'btnsnazzypotion', 'pams', 'A', []),
                 uproot
             ])
         ])

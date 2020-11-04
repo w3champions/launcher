@@ -13,30 +13,30 @@ const units =
     [
         new Unit('Peasant', 'btnpeasant', [
             ...defaultUnitAbilities,
-            new Ability('Repair', 'btnrepair', 'ahrp', 'F', []),
-            new Ability('Lumber Harvest', 'pasbtnhumanlumberupgrade1', 'ahlh', '', []),
-            new Ability('Gather', 'btngathergold', 'ahar', 'G', []),
-            new Ability('Build', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
-                new Ability('Build Townhall', 'btntownhall', 'htow', 'H', []),
-                new Ability('Build Barracks', 'btnhumanbarracks', 'hbar', 'B', []),
-                new Ability('Build Lumber Mill', 'btnhumanlumbermill', 'hlum', 'L', []),
-                new Ability('Build Blacksmith', 'btnblacksmith', 'hbla', 'S', []),
-                new Ability('Build Farm', 'btnfarm', 'hhou', 'F', []),
-                new Ability('Build Altar of Kings', 'btnaltarofkings', 'halt', 'A', []),
-                new Ability('Build Arcane Sanctum', 'btnarcanesanctum', 'hars', 'R', []),
-                new Ability('Build Workshop', 'btnworkshop', 'harm', 'W', []),
-                new Ability('Build Scout Tower', 'btnhumanwatchtower', 'hwtw', 'T', []),
-                new Ability('Build Gryphon Aviary', 'btngryphonaviary', 'hgra', 'V', []),
-                new Ability('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', []),
+            Ability.Create('Repair', 'btnrepair', 'ahrp', 'F', []),
+            Ability.Create('Lumber Harvest', 'pasbtnhumanlumberupgrade1', 'ahlh', '', []),
+            Ability.Create('Gather', 'btngathergold', 'ahar', 'G', []),
+            Ability.Create('Build', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
+                Ability.Create('Build Townhall', 'btntownhall', 'htow', 'H', []),
+                Ability.Create('Build Barracks', 'btnhumanbarracks', 'hbar', 'B', []),
+                Ability.Create('Build Lumber Mill', 'btnhumanlumbermill', 'hlum', 'L', []),
+                Ability.Create('Build Blacksmith', 'btnblacksmith', 'hbla', 'S', []),
+                Ability.Create('Build Farm', 'btnfarm', 'hhou', 'F', []),
+                Ability.Create('Build Altar of Kings', 'btnaltarofkings', 'halt', 'A', []),
+                Ability.Create('Build Arcane Sanctum', 'btnarcanesanctum', 'hars', 'R', []),
+                Ability.Create('Build Workshop', 'btnworkshop', 'harm', 'W', []),
+                Ability.Create('Build Scout Tower', 'btnhumanwatchtower', 'hwtw', 'T', []),
+                Ability.Create('Build Gryphon Aviary', 'btngryphonaviary', 'hgra', 'V', []),
+                Ability.Create('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', []),
                 cancel
             ]),
-            new Ability('Call to Arms', 'btncalltoarms', 'amil', 'C', []),
-            new Ability('Back to Work', 'btnbacktowork', 'amil', 'W', []),
+            Ability.Create('Call to Arms', 'btncalltoarms', 'amil', 'C', []),
+            Ability.Create('Back to Work', 'btnbacktowork', 'amil', 'W', []),
             cancel
         ]),
         new Unit('Footman', 'btnfootman', [
             ...defaultFighterAbilities,
-            new Ability('Defend', 'btndefend', 'adef', 'D', []),
+            Ability.Create('Defend', 'btndefend', 'adef', 'D', []),
         ]),
         new Unit('Rifleman', 'btnrifleman', [
             ...defaultFighterAbilities,
@@ -46,27 +46,27 @@ const units =
         ]),
         new Unit('Priest', 'btnpriest', [
             ...defaultFighterAbilities,
-            new Ability('Heal', 'btnhealoff', 'ahea', 'E', []),
-            new Ability('Dispel Magic', 'btndispelmagic', 'adis', 'D', []),
-            new Ability('Inner Fire', 'btninnerfireoff', 'ainf', 'F', []),
+            Ability.Create('Heal', 'btnhealoff', 'ahea', 'E', []),
+            Ability.Create('Dispel Magic', 'btndispelmagic', 'adis', 'D', []),
+            Ability.Create('Inner Fire', 'btninnerfireoff', 'ainf', 'F', []),
         ]),
         new Unit('Sorceress', 'btnsorceress', [
             ...defaultFighterAbilities,
-            new Ability('Slow', 'btnslowoff', 'aslo', 'W', []),
-            new Ability('Invisibility', 'btninvisibility', 'aivs', 'I', []),
-            new Ability('Polymorph', 'btnpolymorph', 'aply', 'O', []),
+            Ability.Create('Slow', 'btnslowoff', 'aslo', 'W', []),
+            Ability.Create('Invisibility', 'btninvisibility', 'aivs', 'I', []),
+            Ability.Create('Polymorph', 'btnpolymorph', 'aply', 'O', []),
         ]),
         new Unit('Spell Breaker', 'btnspellbreaker', [
             ...defaultFighterAbilities,
-            new Ability('Spell Steal', 'btnspellstealoff', 'asps', 'T', []),
-            new Ability('Control Magic', 'btncontrolmagic', 'acmg', 'C', []),
+            Ability.Create('Spell Steal', 'btnspellstealoff', 'asps', 'T', []),
+            Ability.Create('Control Magic', 'btncontrolmagic', 'acmg', 'C', []),
         ]),
         new Unit('Flying Machine', 'btnflyingmachine', [
             ...defaultFighterAbilities,
         ]),
         new Unit('Mortar Team', 'btnmortarteam', [
             ...defaultSiegeAbilities,
-            new Ability('Flare', 'btnflare', 'afla', 'F', []),
+            Ability.Create('Flare', 'btnflare', 'afla', 'F', []),
         ]),
         new Unit('Siege Engine', 'btnseigeengine', [
             ...defaultFighterAbilities,
@@ -76,8 +76,8 @@ const units =
         ]),
         new Unit('Dragonhawk Rider', 'btndragonhawkrider', [
             ...defaultFighterAbilities,
-            new Ability('Aerial Shackles', 'btnmagiclariet', 'AMLS', 'E', []),
-            new Ability('Cloud', 'btncloudoffog', 'aclf', 'C', []),
+            Ability.Create('Aerial Shackles', 'btnmagiclariet', 'AMLS', 'E', []),
+            Ability.Create('Cloud', 'btncloudoffog', 'aclf', 'C', []),
         ]),
 
     ] as Unit[]

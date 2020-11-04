@@ -1,17 +1,17 @@
 import {Ability} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
-export const cancel = new Ability('Cancel', 'btncancel', 'cmdcancel', 'ESC', [])
-export const cancelBuild = new Ability('Cancel', 'btncancel', 'cmdcancelbuild', 'ESC', [])
-export const rally = new Ability('Rally', 'btnrallypoint', 'cmdrally', 'Y', [])
-export const stop = new Ability("Stop", "btnstop", "cmdstop", "S", []);
-export const attack = new Ability("Attack", "btnattack", "cmdattack", "A", []);
+export const cancel = Ability.Create('Cancel', 'btncancel', 'cmdcancel', 'ESC', [])
+export const cancelBuild = Ability.Create('Cancel', 'btncancel', 'cmdcancelbuild', 'ESC', [])
+export const rally = Ability.Create('Rally', 'btnrallypoint', 'cmdrally', 'Y', [])
+export const stop = Ability.Create("Stop", "btnstop", "cmdstop", "S", []);
+export const attack = Ability.Create("Attack", "btnattack", "cmdattack", "A", []);
 
 export const defaultUnitAbilities = [
-    new Ability("Move", "btnmove", "cmdmove", "M", []),
+    Ability.Create("Move", "btnmove", "cmdmove", "M", []),
     stop,
-    new Ability("Hold", "btnholdposition", "cmdholdpos", "H", []),
+    Ability.Create("Hold", "btnholdposition", "cmdholdpos", "H", []),
     attack,
-    new Ability("Patrol", "btnpatrol", "cmdpatrol", "P", [])
+    Ability.Create("Patrol", "btnpatrol", "cmdpatrol", "P", [])
 ]
 
 export const defaultFighterAbilities = [
@@ -22,7 +22,7 @@ export const defaultFighterAbilities = [
 export const defaultSiegeAbilities = [
     ...defaultUnitAbilities,
     ...Ability.Defaults(2),
-    new Ability("Attack Ground", "btnattackground", "cmdattackground", "G", [])
+    Ability.Create("Attack Ground", "btnattackground", "cmdattackground", "G", [])
 ]
 
 export const defaultHeroAbilities = (learningSkills: Ability[], middleAbilities: Ability[] = []) => {
@@ -37,7 +37,7 @@ export const defaultHeroAbilities = (learningSkills: Ability[], middleAbilities:
     return [
         ...defaultUnitAbilities,
         ...middleAbilities,
-        new Ability('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', learningSkills),
+        Ability.Create('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', learningSkills),
         ...notAuras,
         ...Ability.Defaults(learningSkills.length - ammountAuras),
         ultimate
@@ -49,7 +49,7 @@ export const buildingWithCancel = (buildItems: Ability[]) => [
     cancelBuild
 ]
 
-export const selectUser = new Ability('Select User', 'btnselectunit', 'anei', 'U', []);
+export const selectUser = Ability.Create('Select User', 'btnselectunit', 'anei', 'U', []);
 export const shop = (tier1ITems: Ability[], tier3ITems: Ability[]) => [
     ...tier1ITems,
     ...tier2ITems,
@@ -58,9 +58,9 @@ export const shop = (tier1ITems: Ability[], tier3ITems: Ability[]) => [
 ]
 
 export const tier2ITems = [
-    new Ability('Purchase Potion of Healing', 'btnpotiongreensmall', 'phea', 'P', []),
-    new Ability('Purchase Potion of Mana', 'btnpotionbluesmall', 'pman', 'M', []),
-    new Ability('Purchase Scroll of Town Portal', 'btnscrolluber', 'stwp', 'T', [])
+    Ability.Create('Purchase Potion of Healing', 'btnpotiongreensmall', 'phea', 'P', []),
+    Ability.Create('Purchase Potion of Mana', 'btnpotionbluesmall', 'pman', 'M', []),
+    Ability.Create('Purchase Scroll of Town Portal', 'btnscrolluber', 'stwp', 'T', [])
 ]
 
 export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([
@@ -78,7 +78,7 @@ export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([
 export const defaultMainBuilding = (abilityBeforeBackpack: Ability, backpackCommand: string) => [
     Ability.Default(),
     abilityBeforeBackpack,
-    new Ability('Research Backpack', 'btnpackbeast', backpackCommand, 'B', []),
+    Ability.Create('Research Backpack', 'btnpackbeast', backpackCommand, 'B', []),
     ...Ability.Defaults(3),
     rally
 ]
