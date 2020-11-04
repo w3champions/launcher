@@ -6,7 +6,7 @@ import {
 import {
     cancelBuild,
     defaultFighterAbilities,
-    defaultMainBuilding
+    defaultMainBuilding, rally
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 const uproot = new Ability('Uproot', 'btnuproot', 'aro1', 'R', [])
 
@@ -34,6 +34,21 @@ const buildings =
             ...defaultFighterAbilities,
             new Ability('Eat Tree', 'btneattree', 'aeat', 'E', []),
             ...Ability.Defaults(2),
+            uproot
+        ]),
+
+        new Building('Ancient of War', 'btnancientoftheearth', [
+            new Ability('Train Archer', 'btnarcher', 'earc', 'A', []),
+            new Ability('Train Huntress ', 'btnhuntress', 'esen', 'H', []),
+            new Ability('Train Glaive Thrower', 'btnglaivethrower', 'ebal', 'T', []),
+            Ability.Default(),
+            new Ability('Research Marksmanship', 'btnmarksmanship', 'remk', 'M', []),
+            new Ability('Research Moon Glaive', 'btnupgrademoonglaive', 'remg', 'G', []),
+            Ability.Default(),
+            rally,
+            new Ability('Research Improved Bows', 'btnimprovedbows', 'reib', 'I', []),
+            new Ability('Research Sentinel', 'btnsentinel', 'resc', 'S', []),
+            new Ability('Research Vorpal Blades', 'btnvorpalblades', 'repb', 'P', []),
             uproot
         ])
     ] as Unit[]
