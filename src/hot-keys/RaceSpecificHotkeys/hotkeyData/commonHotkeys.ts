@@ -49,11 +49,12 @@ export const buildingWithCancel = (buildItems: Ability[]) => [
     cancelBuild
 ]
 
+export const selectUser = new Ability('Select User', 'btnselectunit', 'anei', 'U', []);
 export const shop = (tier1ITems: Ability[], tier3ITems: Ability[]) => [
     ...tier1ITems,
     ...tier2ITems,
     ...tier3ITems,
-    new Ability('Select User', 'btnselectunit', 'anei', 'U', [])
+    selectUser
 ]
 
 export const tier2ITems = [
