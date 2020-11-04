@@ -61,7 +61,7 @@ export class Ability implements W3cIcon {
   }
 
   public static Create(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
-    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, true, true)
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities)
   }
 
   public static MultiHotkey(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], additionalHotkeyIdentifiers: string[], isResearch: boolean = false) {
