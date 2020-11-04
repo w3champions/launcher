@@ -9,7 +9,7 @@ const buildings =
     [
         new Building('Townhall', 'btntownhall', [
             new Ability('Train Peasant', 'btnpeasant', 'hpea', 'P', []),
-            ...defaultMainBuilding,
+            ...defaultMainBuilding(Ability.Default(), 'rhpm'),
             new Ability('Upgrade to Keep', 'btnkeep', 'hkee', 'U', []),
             new Ability('Call to Arms', 'btncalltoarms', 'amil', 'C', []),
             Ability.Default(),

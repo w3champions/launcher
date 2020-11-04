@@ -15,7 +15,7 @@ const buildings =
         new Building('Necropolis', 'btnnecropolis',
             buildingWithCancel([
                 new Ability('Train Acolyte', 'btnacolyte', 'uaco', 'C', []),
-                ...defaultMainBuilding,
+                ...defaultMainBuilding(Ability.Default(), 'rupm'),
                 Ability.DoubleHotkey('Upgrade', 'btnhallofthedead', 'unp1', 'U', [], 'unp2'),
                 ...Ability.Defaults(2)
         ])),
