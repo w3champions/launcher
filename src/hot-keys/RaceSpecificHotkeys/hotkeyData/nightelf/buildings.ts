@@ -18,6 +18,12 @@ const buildings =
             new Ability('Entangle Gold Mine', 'btngoldmine', 'aent', 'G', []),
             uproot,
             cancelBuild
+        ]),
+
+        new Building('Entangled Gold Mine', 'btngoldmine', [
+            ...Ability.Defaults(9),
+            new Ability('Load Wisp', 'btnload', 'slo2', 'L', []),
+            new Ability('Unload All', 'btnunload', 'adri', 'U', [])
         ])
     ] as Unit[]
 
