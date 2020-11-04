@@ -3,7 +3,11 @@ import {
     Building,
     Unit,
 } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
-import {cancelBuild, defaultMainBuilding} from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
+import {
+    cancelBuild,
+    defaultFighterAbilities,
+    defaultMainBuilding
+} from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 const uproot = new Ability('Uproot', 'btnuproot', 'aro1', 'R', [])
 
 const buildings =
@@ -24,6 +28,13 @@ const buildings =
             ...Ability.Defaults(9),
             new Ability('Load Wisp', 'btnload', 'slo2', 'L', []),
             new Ability('Unload All', 'btnunload', 'adri', 'U', [])
+        ]),
+
+        new Building('Uprooted Ancient', 'btnuproot', [
+            ...defaultFighterAbilities,
+            new Ability('Eat Tree', 'btneattree', 'aeat', 'E', []),
+            ...Ability.Defaults(2),
+            uproot
         ])
     ] as Unit[]
 
