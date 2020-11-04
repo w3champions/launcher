@@ -16,17 +16,9 @@ const buildings =
             buildingWithCancel([
                 new Ability('Train Acolyte', 'btnacolyte', 'uaco', 'C', []),
                 ...defaultMainBuilding,
-                new Ability('Upgrade to Halls of the Dead', 'btnhallofthedead', 'unp1', 'U', []),
+                Ability.DoubleHotkey('Upgrade', 'btnhallofthedead', 'unp1', 'U', [], 'unp2'),
                 ...Ability.Defaults(2)
         ])),
-
-        new Building('Halls of the Dead', 'btnhallofthedead',
-            buildingWithCancel(
-                [new Ability('Train Acolyte', 'btnacolyte', 'uaco', 'C', []),
-                ...defaultMainBuilding,
-                new Ability('Upgrade to Black Citadel ', 'btnblackcitadel', 'unp2', 'U', []),
-                ...Ability.Defaults(2)])
-        ),
 
         new Building('Crypt', 'btncrypt',
             buildingWithCancel([
