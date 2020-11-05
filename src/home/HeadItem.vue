@@ -1,14 +1,15 @@
-  <template>
-  <div @click="goToTarget" class="header-item w3font">
-    {{ text }}
-  </div>
+<template>
+  <ButtonWarcraft :on-click="goToTarget" :text="text" class="header-item w3font" />
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
 import logger from "@/logger";
+import ButtonWarcraft from "@/home/ButtonWarcraft.vue";
 
-@Component({})
+@Component({
+  components: {ButtonWarcraft}
+})
 export default class HeadItem extends Vue {
   @Prop() public text!: string;
   @Prop() public target!: string;
@@ -27,24 +28,3 @@ export default class HeadItem extends Vue {
   }
 }
 </script>
-
-<style scoped type="text/css">
-.header-item {
-  -webkit-app-region: no-drag;
-  font-size: 1.5em;
-  text-align: center;
-  line-height: 56px;
-  width: 215px;
-  height: 55px;
-  background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;
-  background-size: cover;
-  cursor: pointer;
-}
-
-.header-item:active {
-  background: url("~@/assets/images/home/Button_Blue_Active.png") center no-repeat;
-  background-size: cover;
-  cursor: pointer;
-}
-
-</style>

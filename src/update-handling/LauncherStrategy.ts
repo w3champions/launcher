@@ -2,7 +2,6 @@ import store from '../globalState/vuex-store'
 import logger from "@/logger";
 
 const { remote } = window.require("electron");
-const axios = window.require("axios");
 const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
@@ -17,6 +16,7 @@ export abstract class LauncherStrategy {
     abstract getDefaultWc3Executable(): string;
     abstract turnOnLocalFiles(): void;
     abstract getWar3PreferencesFile(): string;
+    abstract getWar3HotkeyFile(): string;
     abstract startWc3Process(bnetPath: string): void;
     abstract getCopyCommand(from: string, to: string): string;
     abstract getBattleNetAgentPath(): string;

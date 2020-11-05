@@ -5,10 +5,10 @@
     </div>
     <div class="tab-container">
       <div v-if="this.tab === races.items">
-        <ItemsTab />
+        <ItemHotkeyTab />
       </div>
       <div v-else>
-        <RaceTab :race="tab"/>
+        <RaceSpecificHotkeyTab :race="tab"/>
       </div>
     </div>
   </div>
@@ -17,19 +17,18 @@
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
 
-import {HotkeyType} from "@/hot-keys/hotkeyTypes";
 import logger from "@/logger";
-import RaceTab from "@/hot-keys/views/RaceTab.vue";
-import ItemsTab from "@/hot-keys/views/ItemsTab.vue";
+import RaceSpecificHotkeyTab from "@/hot-keys/RaceSpecificHotkeys/RaceSpecificHotkeyTab.vue";
+import ItemHotkeyTab from "@/hot-keys/ItemHotkeys/ItemHotkeyTab.vue";
+import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 @Component({
-  components: {ItemsTab, RaceTab}
+  components: {ItemHotkeyTab, RaceSpecificHotkeyTab}
 })
 export default class HotKeySetupScreen extends Vue {
   public races = HotkeyType;
-  public racesValues = [ HotkeyType.items ];
-  // public racesValues = [ HotkeyType.items, HotkeyType.human, HotkeyType.orc, HotkeyType.undead, HotkeyType.nightelf, HotkeyType.neutral ];
-
+  public racesValues = [ HotkeyType.items, HotkeyType.human, HotkeyType.orc, HotkeyType.undead, HotkeyType.nightelf, HotkeyType.neutral ];
   @Prop() public tab!: HotkeyType;
+
   public navigateTo(tab: HotkeyType) {
     const path = `/HotKeys/${tab}`;
     this.$router.push({

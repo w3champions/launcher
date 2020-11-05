@@ -20,7 +20,7 @@ export class WindowsLauncher extends LauncherStrategy {
         }
         return "C:\\Program Files (x86)\\Warcraft III";
     }
-    
+
     getDefaultBnetPath(): string {
         return "C:\\Program Files (x86)\\Battle.net";
     }
@@ -47,6 +47,11 @@ export class WindowsLauncher extends LauncherStrategy {
     getWar3PreferencesFile(): string {
         const documentPath = remote.app.getPath("documents");
         return `${documentPath}\\Warcraft III\\War3Preferences.txt`;
+    }
+
+    getWar3HotkeyFile(): string {
+        const documentPath = remote.app.getPath("documents");
+            return `${documentPath}\\Warcraft III\\CustomKeyBindings\\CustomKeys.txt`;
     }
 
     startWc3Process(bnetPath: string): void {

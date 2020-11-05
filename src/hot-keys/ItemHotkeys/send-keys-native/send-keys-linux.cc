@@ -31,20 +31,20 @@ Display *display = XOpenDisplay(NULL);
 
 Napi::Boolean ReleaseModifier(unsigned int modifier)
 {
-    XTestFakeKeyEvent(display, 54, False, 0);
+    XTestFakeKeyEvent(display, modifier, False, 0);
     return Napi::Boolean();
 }
 
 Napi::Boolean HoldModifier(unsigned int modifier)
 {
-    XTestFakeKeyEvent(display, 54, True, 0);
+    XTestFakeKeyEvent(display, modifier, True, 0);
     return Napi::Boolean();
 }
 
 Napi::Boolean PressKey(unsigned int key)
 {
-    XTestFakeKeyEvent(display, 54, True, 0);
-    XTestFakeKeyEvent(display, 54, False, 5);
+    XTestFakeKeyEvent(display, key, True, 0);
+    XTestFakeKeyEvent(display, key, False, 5);
     return Napi::Boolean();
 }
 

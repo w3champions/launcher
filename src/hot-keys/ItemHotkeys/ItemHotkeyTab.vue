@@ -55,9 +55,7 @@
     <div class="hotkey-tips">
       <div class="inventory-options">
         <div>
-          Hotkeys will be turned on, as soon as you enter any game automatically.
-          If you open the chat or any menu by keyboard they will be turned off and turned back on when you leave the chat or menu.
-          If something goes wrong, you can always toggle the hotkeys with the provided <b>on/off</b> toggle key.
+          After entering a game and pressing Enter [or F10 etc], hotkeys will be disabled until you'll press the same button again! If you forgot about it, toggle hotkeys on again with the <b>on/off</b> toggle key.
         </div>
         <div class="just-a-row">
           <div :class="isHotkeyManualMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleHotkeyManualMode" id="manual-mode-check-box"/>
@@ -84,14 +82,14 @@ import {
   ITEM_MIDDLE_RIGHT,
   ITEM_TOP_LEFT,
   ITEM_TOP_RIGHT
-} from "@/hot-keys/keyValuesRobotJs";
-/* eslint-disable */
-import {KeyDto, ModifierKey} from "@/hot-keys/hotkeyTypes";
-import {InGameState, ManualHotkeyMode} from "@/hot-keys/HotKeyStateMachine";
-import {combiAsStringForDisplay} from "@/hot-keys/utilsFunctions";
+} from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
+import {InGameState, ManualHotkeyMode} from "@/hot-keys/ItemHotkeys/HotKeyStateMachine";
+import {combiAsStringForDisplay} from "@/hot-keys/ItemHotkeys/utilsFunctions";
+// eslint-disable-next-line no-unused-vars
+import {KeyDto, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 @Component
-export default class ItemsTab extends Vue {
+export default class ItemHotkeyTab extends Vue {
   public modal = false;
   public hotkeyToEdit = {} as KeyDto;
   public selectedHotKey = "";

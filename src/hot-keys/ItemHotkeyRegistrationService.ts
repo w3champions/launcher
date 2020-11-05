@@ -1,6 +1,5 @@
 import store from '../globalState/vuex-store'
-import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/hotkeyTypes";
-import {combiAsString} from "@/hot-keys/utilsFunctions";
+import {combiAsString} from "@/hot-keys/ItemHotkeys/utilsFunctions";
 import {
     F1,
     F2,
@@ -11,8 +10,10 @@ import {
     ITEM_MIDDLE_RIGHT,
     ITEM_TOP_LEFT,
     ITEM_TOP_RIGHT
-} from "@/hot-keys/keyValuesRobotJs";
+} from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
 import logger from "@/logger";
+import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
+import {RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 const { globalShortcut } = window.require("electron").remote;
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
@@ -53,6 +54,7 @@ export class ItemHotkeyRegistrationService {
     private lastPortKey = "lastPortKey";
 
     private hotKeyStoreKey = "hotKeyStoreKey"
+    private hotKeyStoreRaceKey = "hotKeyStoreRaceKey"
     private hotKeyToggleKey = "hotKeyToggleKey"
     private hotKeyManualMode = "hotKeyManualModeKey"
 
@@ -70,6 +72,14 @@ export class ItemHotkeyRegistrationService {
 
     public loadHotKeys() {
         return this.keyValueStore.get(this.hotKeyStoreKey) ?? [];
+    }
+
+    public saveRaceHotKeys(hotKeys: RaceHotKey[]) {
+        this.keyValueStore.set(this.hotKeyStoreRaceKey, hotKeys);
+    }
+
+    public loadRaceHotKeys(): RaceHotKey[] {
+        return this.keyValueStore.get(this.hotKeyStoreRaceKey) ?? [];
     }
 
     public loadToggleKey() {

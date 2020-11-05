@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter, {Route} from "vue-router";
 import UpdateSettingsScreen from "@/update-handling/UpdateSettingsScreen.vue";
-import HotKeySetupScreen from "@/hot-keys/views/HotKeySetupScreen.vue";
+import HotKeySetupScreen from "@/hot-keys/HotKeySetupScreen.vue";
 import HomeScreen from "@/home/HomeScreen.vue";
 
 Vue.use(VueRouter);
