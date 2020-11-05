@@ -45,7 +45,7 @@ const heroes =
                 Ability.HeroAbility('Shadow Strike', 'btnshadowstrike', 'aesh', 'D', []),
                 Ability.HeroAbility('Vengeance ', 'btnspiritofvengeance', 'aesv', 'V', []),
             ],[
-                Ability.Create("Spirit of Vengeance (on Avatar)", "btnavengingwatcheroff", "avng", "V", []),
+                Ability.Default(),
                 shadowMeld
             ])
         ]),

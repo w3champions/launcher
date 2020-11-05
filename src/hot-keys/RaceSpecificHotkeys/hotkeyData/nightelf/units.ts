@@ -82,7 +82,7 @@ const units =
 
         new Unit('Hippogryph', 'btnhippogriff', [
             ...defaultFighterAbilities,
-            Ability.Create("Pick up Archer", "btnhippogriffrider", "aco3", "U", [])
+            Ability.Create("Pick up Archer", "btnhippogriffrider", "aco3", "U", []),
         ]),
 
         new Unit('Hippogryph Rider', 'btnhippogriffrider', [
@@ -104,8 +104,9 @@ const units =
             Ability.Create("Mana Flare", "btnmanaflare", "amfl", "F", [])
         ]),
 
-        new Unit('Chimaera', 'btnchimaera', [
+        new Unit('Avatar of Vengance', 'btnvengeanceincarnate', [
             ...defaultFighterAbilities,
+            Ability.Create("Spirit of Vengeance", "btnavengingwatcheroff", "avng", "V", []),
         ]),
 
     ] as Unit[]
