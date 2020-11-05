@@ -17,7 +17,7 @@ const buildings =
             buildingWithCancel([
                 Ability.Create('Train Peon', 'btnpeon', 'opeo', 'P', []),
                 ...defaultMainBuilding(Ability.Create('Research Pillage', 'btnpillage', 'ropg', 'G', []), 'rupm'),
-                Ability.MultiHotkey('Upgrade to Stronghold/Fortress', 'btnstronghold', 'ostr', 'U', [], ['ofrt']),
+                Ability.MultiHotkey('Upgrade to Stronghold/Fortress', 'btnfortress', 'ostr', 'U', [], ['ofrt']),
             ])),
 
         new Building('Barracks', 'btnbarracks',

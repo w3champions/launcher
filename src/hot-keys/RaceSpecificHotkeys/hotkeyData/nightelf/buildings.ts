@@ -19,7 +19,7 @@ const buildings =
                 Ability.Create('Research Nature’s Blessing', 'btnnaturesblessing', 'renb', 'N', []),
                 'repm'
             ),
-            Ability.MultiHotkey('Upgrade', 'btntreeofages', 'etoa', 'U', [], ['etoe']),
+            Ability.MultiHotkey('Upgrade to Tree of Ages/Eternity', 'btntreeofeternity', 'etoa', 'U', [], ['etoe']),
             Ability.Create('Entangle Gold Mine', 'btngoldmine', 'aent', 'G', []),
             uproot,
             cancelBuild
