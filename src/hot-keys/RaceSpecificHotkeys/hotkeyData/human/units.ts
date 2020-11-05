@@ -13,10 +13,10 @@ const units =
     [
         new Unit('Peasant', 'btnpeasant', [
             ...defaultUnitAbilities,
-            Ability.Create('Repair', 'btnrepair', 'ahrp', 'F', []),
-            Ability.Create('Lumber Harvest', 'pasbtnhumanlumberupgrade1', 'ahlh', '', []),
+            Ability.Create('Repair', 'btnrepair', 'ahrp', 'R', []),
+            Ability.Default(),
             Ability.Create('Gather', 'btngathergold', 'ahar', 'G', []),
-            Ability.Create('Build', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
+            Ability.Create('Build Structure', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
                 Ability.Create('Build Townhall', 'btntownhall', 'htow', 'H', []),
                 Ability.Create('Build Barracks', 'btnhumanbarracks', 'hbar', 'B', []),
                 Ability.Create('Build Lumber Mill', 'btnhumanlumbermill', 'hlum', 'L', []),
