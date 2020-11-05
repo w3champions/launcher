@@ -15,11 +15,8 @@ const buildings =
         new Building('Great Hall', 'btngreathall',
             buildingWithCancel([
                 Ability.Create('Train Peon', 'btnpeon', 'opeo', 'P', []),
-                //Ability.Default(),
-                Ability.Create('Research Pillage', 'btnpillage', 'ropg', 'G', []),
-                ...defaultMainBuilding(Ability.Default(), 'rupm'),
+                ...defaultMainBuilding(Ability.Create('Research Pillage', 'btnpillage', 'ropg', 'G', []), 'rupm'),
                 Ability.MultiHotkey('Upgrade to Stronghold/Fortress', 'btnstronghold', 'ostr', 'U', [], ['ofrt']),
-                //...Ability.Defaults(2)
             ])),
 
         new Building('Barracks', 'btnbarracks',
@@ -74,7 +71,7 @@ const buildings =
                 Ability.Create('Train Shaman', 'btnshaman', 'oshm', 'S', []),
                 Ability.Create('Train Witch Doctor', 'btnwitchdoctor', 'odoc', 'W', []),
                 ...Ability.Defaults(5),
-                rally,                
+                rally,
                 Ability.Create('Shaman Training', 'btnshamanadept', 'rost', 'M', []),
                 Ability.Create('Witch Doctor Training', 'btnwitchdoctoradept', 'rowd', 'D', []),
                 Ability.Default(),
