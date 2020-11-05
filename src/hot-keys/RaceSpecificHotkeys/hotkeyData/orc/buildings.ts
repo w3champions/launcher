@@ -4,10 +4,11 @@ import {
     Unit,
 } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 import {
+    attack,
     buildingWithCancel,
     defaultAltar,
     defaultMainBuilding,
-    rally, shop
+    rally, shop, stop
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
 const buildings =
@@ -55,7 +56,12 @@ const buildings =
 
         new Building('Watch Tower', 'btnorctower',
             buildingWithCancel([
-                ...Ability.Defaults(11)])),
+                ...Ability.Defaults(1),
+                stop,
+                ...Ability.Defaults(1),
+                attack,
+                ...Ability.Defaults(7)
+            ])),
 
         new Building('Altar of Storms', 'btnaltarofstorms',
             defaultAltar([
