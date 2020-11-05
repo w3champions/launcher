@@ -3,7 +3,7 @@ import {
     Hero,
     Unit,
 } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
-import {defaultHeroAbilities} from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
+import {defaultHeroAbilities, defaultUnitAbilities} from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
 const heroes =
     [
@@ -24,12 +24,16 @@ const heroes =
             ])
         ]),
         new Hero('Tauren Chieftain', 'btnherotaurenchieftain', [
-            ...defaultHeroAbilities([
+            ...defaultUnitAbilities,
+            ...Ability.Defaults(2),
+            Ability.Create('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', [
                 Ability.HeroAbility('Shockwave', 'btnshockwave', 'aosh', 'W', []),
                 Ability.HeroAbility('War Stomp', 'btnwarstomp', 'aows', 'T', []),
                 Ability.Aura('Endurance Aura', 'pasbtncommand', 'aoae', 'E', []),
                 Ability.Aura('Reincarnation', 'pasbtnreincarnation', 'aore', 'R', []),
-            ])
+            ]),
+            Ability.HeroAbility('Shockwave', 'btnshockwave', 'aosh', 'W', []),
+            Ability.HeroAbility('War Stomp', 'btnwarstomp', 'aows', 'T', []),
         ]),
         new Hero('Shadow Hunter', 'btnshadowhunter', [
             ...defaultHeroAbilities([
