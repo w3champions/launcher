@@ -79,7 +79,9 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.selectedUnit = {} as Unit;
     this.selectedUnitAbilities = [];
     this.selectedUnitExtendedAbilities = [];
+    this.selectedUnitAbilities = [] as Ability[][];
     this.editAbility = {} as Ability;
+    this.selectedAbility = {} as Ability;
     this.hotkeyPressed = "";
     this.selectGridForAbility(null);
   }
