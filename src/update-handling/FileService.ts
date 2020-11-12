@@ -64,7 +64,7 @@ export class FileService {
                 if (l.startsWith("Hotkey=")) {
                     const hotkeyText = l.split("=")[1];
                     if (hotkeyText === "512") {
-                        currentHotkey.hotKey = "Esc";
+                        currentHotkey.hotKey = "512";
                     } else {
                         const newHotkey = hotkeyText[0];
                         if (newHotkey) {

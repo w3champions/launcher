@@ -1,22 +1,5 @@
 <template>
   <div>
-    <div class="hotkey-enter-modal" :style="`visibility: ${modal ? 'visible' : 'hidden'}`">
-      <div style="font-size: 30px">{{ editAbility.name }}:</div>
-      <br/>
-      <div class="hotkey-input">
-        {{ hotkeyPressed }}
-      </div>
-      <br/>
-      Custom hotkey location:
-      <ItemSelectionContainer style="margin-top: 20px" :on-click="selectGridForAbility" :selection-items="selectionGrid"/>
-      <br/>
-      <br/>
-      <div>
-        <div class="modal-button" @click="saveHotkey">Save</div>
-        <div class="modal-button" @click="cancelHotkeyModal">Cancel</div>
-        <div class="modal-button" @click="reset">Reset to Default ({{ editAbility.defaultHotkey }})</div>
-      </div>
-    </div>
     <div class="race-table-wrapper">
       <div class="selection-wrapper">
         <div class="selection-header w3font">Units</div>
@@ -40,6 +23,24 @@
       <ButtonWarcraft style="position: absolute; bottom: 158px; right: 100px" :on-click="importHotkeys" text="Import" />
       <ButtonWarcraft style="position: absolute; bottom: 88px; right: 100px" :on-click="saveHotkeys" text="Save" />
     </div>
+    <div style="position:absolute; left: 905px; top: 172px; font-size: 18px;"  class="w3font">
+      {{ editAbility.name }}
+    </div>
+    <div style="position:absolute; right: 80px; top: 193px" :class="editAbility.icon ? 'visible' : 'hidden'" class="current-selection-container">
+      <div style="display: flex; flex-direction: row">
+        <div style="height: 64px; width: 64px; margin: 10px; display: flex" class="w3font" :class="editAbility.icon">
+          <div style="padding-top: 45px; position: absolute; right: 222px">
+             {{ parseHotkey(editAbility.currentHotkey) }}
+          </div>
+        </div>
+        <div style="margin-top: 15px">
+          <div class="w3font">Press desired key</div>
+          <div style="cursor: pointer; color: aliceblue; margin-top: 18px; font-size: 14px" class="w3font" @click="resetKey">Reset default: {{parseHotkey(editAbility.defaultHotkey)}}</div>
+        </div>
+      </div>
+      <div style="margin-top: 25px" class="w3font"><div style="display:inline; ">hotkey location</div><div @click="resetGrid" style=" float: right; margin-right: 20px; cursor: pointer; color: aliceblue; display:inline; font-size: 14px">(Reset)</div></div>
+      <ItemSelectionContainer style="margin-top: 10px" :on-click="selectGridForAbility" :selection-items="selectionGrid"/>
+    </div>
   </div>
 </template>
 
@@ -58,8 +59,6 @@ import ButtonWarcraft from "@/home/ButtonWarcraft.vue";
 export default class RaceSpecificHotkeyTab extends Vue {
   @Prop() public race!: HotkeyType;
 
-  public modal = false;
-
   public hotkeyPressed = "";
   public editAbility = {} as Ability | null;
   public selectedGrid = {} as Grid | null;
@@ -76,11 +75,17 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
   @Watch("race")
   public onRaceChanged() {
-    this.closeModalAndResetVariables();
     this.selectedGrid = null;
     this.selectedUnit = {} as Unit;
     this.selectedUnitAbilities = [];
     this.selectedUnitExtendedAbilities = [];
+    this.editAbility = {} as Ability;
+    this.hotkeyPressed = "";
+    this.selectGridForAbility(null);
+  }
+
+  public parseHotkey(item: string) {
+    return item ? item?.replace("512", "ESC") : '';
   }
 
   get isNeutralUnitTab() {
@@ -120,6 +125,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     }));
 
     this.selectionGrid = [...this.selectionGrid]
+    await this.saveHotkey()
   }
 
   public async saveHotkeys() {
@@ -142,10 +148,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
     return this.$store.direct.state.hotKeys.raceHotkeyData.filter(h => h.hotkeyType === this.race)[0];
   }
 
-  public cancelHotkeyModal() {
-    this.closeModalAndResetVariables();
-  }
-
   public async saveHotkey() {
     if (!this.editAbility) return;
 
@@ -157,10 +159,9 @@ export default class RaceSpecificHotkeyTab extends Vue {
           grid: this.selectedGrid,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers
         });
-    this.closeModalAndResetVariables();
   }
 
-  public reset() {
+  public resetKey() {
     if (!this.editAbility) return;
 
     this.$store.direct.dispatch.hotKeys.setRaceHotkey(
@@ -168,16 +169,24 @@ export default class RaceSpecificHotkeyTab extends Vue {
           hotKey: this.editAbility.defaultHotkey,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
           isResearchAbility: this.editAbility.isResearchAbility,
+          grid: this.selectedGrid,
+          additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers
+        });
+  }
+
+  public resetGrid() {
+    if (!this.editAbility) return;
+
+    this.$store.direct.dispatch.hotKeys.setRaceHotkey(
+        {
+          hotKey: this.editAbility.currentHotkey,
+          hotkeyCommand: this.editAbility.hotkeyIdentifier,
+          isResearchAbility: this.editAbility.isResearchAbility,
           grid: null,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers
         });
-    this.closeModalAndResetVariables();
-  }
 
-  private closeModalAndResetVariables() {
-    this.modal = false;
-    this.editAbility = {} as Ability;
-    this.hotkeyPressed = "";
+    this.selectedGrid = null
     this.selectGridForAbility(null);
   }
 
@@ -190,15 +199,15 @@ export default class RaceSpecificHotkeyTab extends Vue {
       return;
     }
     this.selectedUnitExtendedAbility = selection;
-    this.openHotkeyDialog(selection);
+    this.setupHotkeyDialog(selection);
   }
 
   public openHotkeysOrCreatNewPanel(selection: Ability) {
     if (selection.abilities.length > 0) {
       this.selectAbility(selection);
-      this.openHotkeyDialog(selection);
+      this.setupHotkeyDialog(selection);
     } else {
-      this.openHotkeyDialog(selection);
+      this.setupHotkeyDialog(selection);
     }
   }
 
@@ -212,7 +221,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.selectedUnitExtendedAbilities = this.splitInArrayOf4Abilities(this.selectedAbility?.abilities ?? []);
   }
 
-  public openHotkeyDialog(selection: Ability) {
+  public setupHotkeyDialog(selection: Ability) {
     if (selection.name === "") {
       return
     }
@@ -220,14 +229,14 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.editAbility = selection;
     this.hotkeyPressed = selection.currentHotkey;
     this.selectGridForAbility(selection.currentGrid);
-    this.modal = true;
 
     window.document.onkeydown = this.convertKeyPress;
   }
 
-  private convertKeyPress(e: KeyboardEvent) {
+  private async convertKeyPress(e: KeyboardEvent) {
     if (e.code === "Escape") {
-      this.hotkeyPressed = "ESC"
+      this.hotkeyPressed = "512"
+      await this.saveHotkey();
       return;
     }
     if (!e.code.startsWith("Key")) return;
@@ -235,6 +244,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
     if (e.key.length != 1) return;
 
     this.hotkeyPressed = e.key.toUpperCase();
+
+    await this.saveHotkey();
   }
 
   private splitInArrayOf4Units(elements: Unit[]) {
@@ -322,5 +333,13 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
 .hidden {
   visibility: hidden;
+}
+
+.current-selection-container {
+  margin-left: 50px;
+  background: url("~@/assets/images/hotkeys/Hotkeys_Change_Key_Frame.png") no-repeat center;
+  background-size: cover;
+  width: 291px;
+  height: 85px;
 }
 </style>

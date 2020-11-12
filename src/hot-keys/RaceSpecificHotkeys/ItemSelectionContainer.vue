@@ -4,7 +4,7 @@
       <td class="item-selection-container" v-for="item in line" :key="item.icon" :class="item.icon">
         <div class="item-selection" @click="() => onClick(item)">
           <div class="item-selection-hover-text w3font" :class="item.hasConflict ? 'has-conflict' : ''">
-            {{ item.currentHotkey }}
+            {{ parseHotkey(item) }}
           </div>
         </div>
       </td>
@@ -15,7 +15,7 @@
       <td class="item-selection-container" v-for="item in selectionItems" :key="item.icon" :class="item.icon">
         <div class="item-selection" @click="() => onClick(item)">
           <div class="item-selection-hover-text w3font" :class="item.hasConflict ? 'has-conflict' : ''">
-            {{ item.currentHotkey }}
+            {{ parseHotkey(item) }}
           </div>
         </div>
       </td>
@@ -26,7 +26,7 @@
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
 // eslint-disable-next-line no-unused-vars
-import {W3cIcon} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import {Ability, W3cIcon} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 @Component
 export default class ItemSelectionContainer extends Vue {
@@ -37,11 +37,15 @@ export default class ItemSelectionContainer extends Vue {
   public toKey(units: W3cIcon[]) {
     return units.map(u => u.icon).join("_");
   }
+
+  public parseHotkey(item: Ability) {
+    return item ? item.currentHotkey?.replace("512", "ESC") : '';
+  }
 }
 
 </script>
 
-<style scoped type="text/css">
+<style type="text/css">
 .has-conflict {
   color: #ff2828;
 }
