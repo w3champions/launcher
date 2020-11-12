@@ -212,7 +212,6 @@ export default class ItemHotkeyTab extends Vue {
 
     e.preventDefault();
     this.addKey()
-    this.closeModal()
   }
 
   get isWindows() {
