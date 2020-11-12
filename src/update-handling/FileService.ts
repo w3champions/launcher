@@ -51,6 +51,14 @@ export class FileService {
 
             if (h.isResearchAbility) {
                 fileContent.push("Researchhotkey=" + h.hotKey);
+
+                if (h.grid) {
+                    fileContent.push(`Researchbuttonpos=${h.grid.x},${h.grid.y}`);
+                }
+            }
+
+            if (h.grid) {
+                fileContent.push(`Buttonpos=${h.grid.x},${h.grid.y}`);
             }
 
             h.additionalHotkeyIdentifiers?.forEach(additionalKey => {

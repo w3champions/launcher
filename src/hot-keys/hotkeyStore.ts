@@ -33,12 +33,14 @@ function mergeHotkeyDataAndSelectedHotkeys(
             a2.hasConflict = false;
 
             if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
-              a2.currentHotkey = hotKey.hotKey
+              a2.currentHotkey = hotKey.hotKey;
+              a2.currentGrid = hotKey.grid;
             }
           })
 
           if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
               a.currentHotkey = hotKey.hotKey;
+              a.currentGrid = hotKey.grid;
           }
 
           const resultsInner = getDuplicateHotkeys(a.abilities);

@@ -14,7 +14,7 @@ const units =
             ...defaultUnitAbilities,
             Ability.Create('Restore', 'btnrepair', 'arst', 'R', []),
             Ability.Default(),
-            Ability.Create('Gather', 'btngathergold', 'ahaa', 'G', []),
+            Ability.Create('Gather', 'btngathergold', 'aaha', 'G', []),
             Ability.Create('Summon Building', 'btnscourgebuild', 'cmdbuildundead', 'B', [
                 Ability.Create('Summon Necropolis', 'btnnecropolis', 'unpl', 'N', []),
                 Ability.Create('Summon Crypt', 'btncrypt', 'usep', 'C', []),

@@ -14,6 +14,27 @@ export interface RaceHotKey {
   hotKey: string;
   isResearchAbility: boolean;
   additionalHotkeyIdentifiers: string[];
+  grid: Grid | null;
+}
+
+export class Grid implements W3cIcon {
+  public Select() {
+    this.icon = 'selected-item'
+  }
+
+  public UnSelect() {
+    this.icon = `none${this.x}${this.y}`;
+  }
+
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+    this.UnSelect();
+  }
+
+  public x: number;
+  public y: number;
+  public icon!: string;
 }
 
 export class Unit implements W3cIcon {
@@ -52,6 +73,7 @@ export class Ability implements W3cIcon {
     this.additionalHotkeyIdentifiers = additionalHotkeyIdentifiers;
     this.abilities = abilities;
     this.hasConflict = false;
+    this.currentGrid = null;
     this.isAura = isAura;
     this.isResearchAbility = isResearchAbility;
   }
@@ -98,5 +120,6 @@ export class Ability implements W3cIcon {
   public icon: string;
   public defaultHotkey: string;
   public currentHotkey: string;
+  public currentGrid: Grid | null;
   public abilities: Ability[];
 }

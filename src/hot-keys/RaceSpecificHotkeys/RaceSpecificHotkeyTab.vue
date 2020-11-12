@@ -6,10 +6,15 @@
       <div class="hotkey-input">
         {{ hotkeyPressed }}
       </div>
+      <br/>
+      Custom hotkey location:
+      <ItemSelectionContainer style="margin-top: 20px" :on-click="selectGridForAbility" :selection-items="selectionGrid"/>
+      <br/>
+      <br/>
       <div>
-        <div class="modal-button" @click="addHotkey">Add</div>
+        <div class="modal-button" @click="saveHotkey">Save</div>
         <div class="modal-button" @click="cancelHotkeyModal">Cancel</div>
-        <div class="modal-button" @click="setDefaultHotkey">Reset to Default ({{ editAbility.defaultHotkey }})</div>
+        <div class="modal-button" @click="reset">Reset to Default ({{ editAbility.defaultHotkey }})</div>
       </div>
     </div>
     <div class="race-table-wrapper">
@@ -40,7 +45,7 @@
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from "vue-property-decorator";
 // eslint-disable-next-line no-unused-vars
-import {Ability, Building, Hero, Unit, W3cIcon} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import {Ability, Building, Grid, Hero, Unit, W3cIcon} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 // eslint-disable-next-line no-unused-vars
 import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import ItemSelectionContainer from "@/hot-keys/RaceSpecificHotkeys/ItemSelectionContainer.vue";
@@ -56,11 +61,17 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
   public hotkeyPressed = "";
   public editAbility = {} as Ability | null;
+  public selectedGrid = {} as Grid | null;
   public selectedAbility = {} as Ability | null;
   public selectedUnitExtendedAbility = {} as Ability | null;
   public selectedUnit = {} as Unit;
   public selectedUnitExtendedAbilities = [] as Ability[][];
   public selectedUnitAbilities = [] as Ability[][];
+  public selectionGrid = [
+    [new Grid(0, 0), new Grid(1, 0), new Grid(2, 0), new Grid(3, 0)],
+    [new Grid(0, 1), new Grid(1, 1), new Grid(2, 1), new Grid(3, 1)],
+    [new Grid(0, 2), new Grid(1, 2), new Grid(2, 2), new Grid(3, 2)],
+  ];
 
   @Watch("race")
   public onRaceChange() {
@@ -93,6 +104,19 @@ export default class RaceSpecificHotkeyTab extends Vue {
     return this.selectedAbility?.name ?? ""
   }
 
+  public async selectGridForAbility(selection: Grid | null) {
+    this.selectedGrid = selection;
+    this.selectionGrid.forEach(g => g.forEach(g2 => {
+      if (g2.x === this.selectedGrid?.x && g2.y === this.selectedGrid?.y) {
+        g2.Select()
+      } else {
+        g2.UnSelect()
+      }
+    }));
+
+    this.selectionGrid = [...this.selectionGrid]
+  }
+
   public async saveHotkeys() {
     await this.$store.direct.dispatch.hotKeys.saveRaceHotkeyToFile();
   }
@@ -113,7 +137,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.closeModalAndResetVariables();
   }
 
-  public async addHotkey() {
+  public async saveHotkey() {
     if (!this.editAbility) return;
 
     await this.$store.direct.dispatch.hotKeys.setRaceHotkey(
@@ -121,19 +145,21 @@ export default class RaceSpecificHotkeyTab extends Vue {
           hotKey: this.hotkeyPressed,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
           isResearchAbility: this.editAbility.isResearchAbility,
+          grid: this.selectedGrid,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers
         });
     this.closeModalAndResetVariables();
   }
 
-  public async setDefaultHotkey() {
+  public reset() {
     if (!this.editAbility) return;
 
-    await this.$store.direct.dispatch.hotKeys.setRaceHotkey(
+    this.$store.direct.dispatch.hotKeys.setRaceHotkey(
         {
           hotKey: this.editAbility.defaultHotkey,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
           isResearchAbility: this.editAbility.isResearchAbility,
+          grid: null,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers
         });
     this.closeModalAndResetVariables();
@@ -143,6 +169,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.modal = false;
     this.editAbility = {} as Ability;
     this.hotkeyPressed = "";
+    this.selectGridForAbility(null);
   }
 
   public toKey(units: Unit[]) {
@@ -183,6 +210,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
     this.editAbility = selection;
     this.hotkeyPressed = selection.currentHotkey;
+    this.selectGridForAbility(selection.currentGrid);
     this.modal = true;
 
     window.document.onkeydown = this.convertKeyPress;

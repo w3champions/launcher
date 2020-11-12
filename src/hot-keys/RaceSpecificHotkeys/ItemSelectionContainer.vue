@@ -61,6 +61,12 @@ export default class ItemSelectionContainer extends Vue {
   background: url("~@/assets/images/hotkeys/Hotkeys_Button_Highlight.png") no-repeat center;
   background-size: cover;
 }
+
+.selected-item{
+  background: url("~@/assets/images/hotkeys/Hotkeys_Button_Highlight.png") no-repeat center;
+  background-size: cover;
+}
+
 .item-selection-container {
   height: 64px;
   width: 64px;
