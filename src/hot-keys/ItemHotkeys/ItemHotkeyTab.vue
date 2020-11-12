@@ -78,6 +78,7 @@ import {
   F1,
   F2,
   F3,
+  F4,
   ITEM_BOTTOM_LEFT,
   ITEM_BOTTOM_RIGHT,
   ITEM_MIDDLE_LEFT,
@@ -123,7 +124,12 @@ export default class ItemHotkeyTab extends Vue {
   }
 
   public removeHotKey() {
-    this.$store.direct.dispatch.hotKeys.removeHotKey(this.selectedHotKey);
+    if (this.selectedHotKey === "toggle") {
+      this.$store.direct.dispatch.hotKeys.setToggleKey({hotKey: { key: F4, uiDisplay: F4 }, modifier: ModifierKey.Shift})
+    } else {
+      this.$store.direct.dispatch.hotKeys.removeHotKey(this.selectedHotKey);
+    }
+
     this.closeModal();
   }
 
