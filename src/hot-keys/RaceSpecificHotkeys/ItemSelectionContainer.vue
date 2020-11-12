@@ -93,10 +93,6 @@ export default class ItemSelectionContainer extends Vue {
   padding-top: 43px;
 }
 
-.selection-wrapper {
-  margin-left: 50px;
-}
-
 .selection-background {
   padding: 5px;
   background: url("~@/assets/images/hotkeys/Hotkeys_Full_Frame.png") no-repeat center;
