@@ -20,13 +20,13 @@
         <ItemSelectionContainer style="visibility: hidden" :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
       </div>
       <div class="hero-wrapper" />
-      <ButtonWarcraft style="position: absolute; bottom: 158px; right: 100px" :on-click="importHotkeys" text="Import" />
-      <ButtonWarcraft style="position: absolute; bottom: 88px; right: 100px" :on-click="saveHotkeys" text="Save" />
+      <ButtonWarcraft style="position: absolute; bottom: 158px; right: 125px" :on-click="importHotkeys" text="Import" />
+      <ButtonWarcraft style="position: absolute; bottom: 88px; right: 125px" :on-click="saveHotkeys" text="Save" />
     </div>
-    <div style="position:absolute; left: 905px; top: 172px; font-size: 18px;"  class="w3font">
+    <div style="position:absolute; left: 860px; top: 172px; font-size: 18px;"  class="w3font">
       {{ editAbility.name }}
     </div>
-    <div style="position:absolute; right: 80px; top: 193px" :class="editAbility.icon ? 'visible' : 'hidden'" class="current-selection-container">
+    <div style="position:absolute; right: 125px; top: 193px" :class="editAbility.icon ? 'visible' : 'hidden'" class="current-selection-container">
       <div style="display: flex; flex-direction: row">
         <div style="height: 64px; width: 64px; margin: 10px; display: flex" class="w3font" :class="editAbility.icon">
           <div style="padding-top: 45px; position: absolute; right: 222px">

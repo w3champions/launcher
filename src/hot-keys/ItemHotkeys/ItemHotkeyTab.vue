@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <div style="position:absolute; right: 80px; top: 210px" :class="modal ? 'visible' : 'hidden'" class="current-selection-container">
+    <div style="position:absolute; right: 125px; top: 210px" :class="modal ? 'visible' : 'hidden'" class="current-selection-container">
       <div style="display: flex; flex-direction: row">
         <div style="height: 64px; width: 64px; margin: 10px;" class="function-item w3font">
           <div style="padding-top: 38px; position: absolute; right: 7px">
