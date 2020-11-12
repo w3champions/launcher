@@ -75,8 +75,12 @@ export default class RaceSpecificHotkeyTab extends Vue {
   ];
 
   @Watch("race")
-  public onRaceChange() {
-    this.closeModalAndResetVariables()
+  public onRaceChanged() {
+    this.closeModalAndResetVariables();
+    this.selectedGrid = null;
+    this.selectedUnit = {} as Unit;
+    this.selectedUnitAbilities = [];
+    this.selectedUnitExtendedAbilities = [];
   }
 
   get isNeutralUnitTab() {
