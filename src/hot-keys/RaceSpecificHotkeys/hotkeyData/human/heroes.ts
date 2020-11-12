@@ -27,8 +27,8 @@ const heroes =
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Storm Bolt', 'btnstormbolt', 'ahtb', 'T', []),
                 Ability.HeroAbility('Thunder Clap', 'btnthunderclap', 'ahtc', 'C', []),
-                Ability.Aura('Bash', 'pasbtnbrilliance', 'ahbh', 'B', []),
-                Ability.HeroAbility('Avatar', 'pasbtnbash', 'ahav', 'V', []),
+                Ability.Aura('Bash', 'pasbtnbash', 'ahbh', 'B', []),
+                Ability.HeroAbility('Avatar', 'btnavatar', 'ahav', 'V', []),
             ])
         ]),
         new Hero('Blood Mage', 'btnherobloodelfprince', [
