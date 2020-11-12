@@ -1,18 +1,6 @@
 <template>
   <div>
     <div class="hotkey-wrapper">
-      <div class="hotkey-enter-modal" :style="`visibility: ${modal ? 'visible' : 'hidden'}`">
-        <div style="font-size: 30px">Enter Hotkey:</div>
-        <br/>
-        <div class="hotkey-input">
-          {{ hotKeyCombo }}
-        </div>
-        <div>
-          <div class="modal-button" @click="addKey">Add</div>
-          <div class="modal-button" @click="closeModal">Cancel</div>
-          <div class="modal-button" @click="removeHotKey">Remove</div>
-        </div>
-      </div>
       <div>
         <div class="w3font" style="margin-bottom: 15px">Inventory</div>
         <table class="item-grid">
@@ -49,6 +37,20 @@
             <td class="single-item function-item" @click="() => openChangeHotkeyModal('toggle')">{{hotkeyToggle}} <div class="foot-note">on/off</div></td>
           </tr>
         </table>
+      </div>
+    </div>
+
+    <div style="position:absolute; right: 80px; top: 210px" :class="modal ? 'visible' : 'hidden'" class="current-selection-container">
+      <div style="display: flex; flex-direction: row">
+        <div style="height: 64px; width: 64px; margin: 10px;" class="function-item w3font">
+          <div style="padding-top: 38px; position: absolute; right: 7px">
+            {{ hotKeyCombo }}
+          </div>
+        </div>
+        <div style="margin-top: 15px">
+          <div class="w3font">Press desired key</div>
+          <div style="cursor: pointer; color: aliceblue; margin-top: 18px; font-size: 14px" class="w3font" @click="removeHotKey">Remove</div>
+        </div>
       </div>
     </div>
 
@@ -98,10 +100,10 @@ export default class ItemHotkeyTab extends Vue {
   @Prop() public tab!: string;
 
   public closeModal() {
-    this.modal = false;
     this.hotkeyToEdit = {} as KeyDto;
     this.selectedHotKey = "";
     this.hotkeyModifierToEdit = ModifierKey.None;
+    this.modal = false;
     window.document.onkeydown = null;
   }
 
@@ -147,8 +149,9 @@ export default class ItemHotkeyTab extends Vue {
   }
 
   public openChangeHotkeyModal(hotKey: string) {
-    this.modal = !this.modal;
+    this.closeModal();
     this.selectedHotKey = hotKey;
+    this.modal = true;
     const currentSelection = this.hotKeys.find(h => h.key === hotKey);
     if (currentSelection) {
       this.hotkeyToEdit = { key: currentSelection.combo.hotKey.key, uiDisplay: currentSelection.combo.hotKey.uiDisplay };
@@ -208,6 +211,8 @@ export default class ItemHotkeyTab extends Vue {
     }
 
     e.preventDefault();
+    this.addKey()
+    this.closeModal()
   }
 
   get isWindows() {
@@ -307,8 +312,10 @@ export default class ItemHotkeyTab extends Vue {
   background-size: cover;
   cursor: pointer;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 68px;
+  height: 68px;
+  width: 68px;
 }
 
 .item-hover:hover {
@@ -350,27 +357,6 @@ export default class ItemHotkeyTab extends Vue {
   background-size: cover;
 }
 
-.hotkey-enter-modal {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0,0,0, 0.8);
-}
-
-.hotkey-input {
-  font-size: 30px;
-  line-height: 30px;
-  margin-bottom: 25px;
-  text-align: center;
-}
-
 .hotkey-tips {
   display: flex;
   font-size: 13px;
@@ -384,13 +370,6 @@ export default class ItemHotkeyTab extends Vue {
   margin-left: 66px;
   margin-top: 60px;
   background-size: cover;
-}
-
-.modal-button {
-  margin-left: 15px;
-  margin-right: 15px;
-  display: inline;
-  cursor: pointer;
 }
 
 .inventory-options {
