@@ -92,6 +92,16 @@ const mod = {
       await rootGetters.fileService.saveHotkeysToHotkeyFile(state.raceHotkeys);
       await rootGetters.fileService.enableCustomHotkeys();
     },
+    async importHotkeysFromFile(context: ActionContext<HotKeyModifierState, RootState>) {
+      const {rootGetters, state, commit } = moduleActionContext(context, mod);
+
+      const newHotkeys = await rootGetters.fileService.importHotkeys();
+
+      const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, newHotkeys);
+
+      commit.SET_RACE_HOTKEY_DATA(hotkeys);
+      commit.SET_RACE_HOTKEYS(newHotkeys);
+    },
     loadRaceHotkeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
 

@@ -1,7 +1,7 @@
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import logger from "@/logger";
-import {RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import {Grid, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 const os = window.require("os");
 const fse = window.require("fs-extra");
@@ -40,6 +40,57 @@ export class FileService {
             content[index1 + index2 + index3 + 2] = `customkeys=1`;
             await this.writeArrayToFileForce(settingsFile, content, "War3Preferences.txt");
         }
+    }
+
+    async importHotkeys() {
+        const hotkeyFile = this.updateStrategy.getWar3HotkeyFile();
+        if (fse.existsSync(hotkeyFile)) {
+            const hotkeys = [] as RaceHotKey[]
+            const content = fse.readFileSync(hotkeyFile, 'utf8').toString().split("\n");
+            let currentHotkey = {} as RaceHotKey;
+            content.forEach((l: string) => {
+                if (l.startsWith("[")) {
+                    if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
+                        hotkeys.push(currentHotkey)
+                    }
+
+                    currentHotkey = {} as RaceHotKey;
+                    const newCommand = l.split("[")[1].split("]")[0];
+                    if (newCommand) {
+                        currentHotkey.hotkeyCommand = newCommand;
+                    }
+                }
+
+                if (l.startsWith("Hotkey=")) {
+                    const hotkeyText = l.split("=")[1];
+                    if (hotkeyText === "512") {
+                        currentHotkey.hotKey = "Esc";
+                    } else {
+                        const newHotkey = hotkeyText[0];
+                        if (newHotkey) {
+                            currentHotkey.hotKey = newHotkey;
+                        }
+                    }
+                }
+
+                if (l.startsWith("Buttonpos=")) {
+                    const positions = l.split("=")[1].split(",");
+                    if (positions.length === 2) {
+                        currentHotkey.grid = new Grid(parseInt(positions[0]), parseInt(positions[1]))
+                    }
+                }
+            })
+
+            if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
+                hotkeys.push(currentHotkey)
+            }
+
+
+            logger.info(`retrieved ${hotkeys.length} hotkeys from file`)
+            return hotkeys
+        }
+
+        return [];
     }
 
     async saveHotkeysToHotkeyFile(hotkeys: RaceHotKey[]) {

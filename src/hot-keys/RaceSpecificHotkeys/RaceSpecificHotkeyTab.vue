@@ -37,6 +37,7 @@
         <ItemSelectionContainer style="visibility: hidden" :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
       </div>
       <div class="hero-wrapper" />
+      <ButtonWarcraft style="position: absolute; bottom: 158px; right: 100px" :on-click="importHotkeys" text="Import" />
       <ButtonWarcraft style="position: absolute; bottom: 88px; right: 100px" :on-click="saveHotkeys" text="Save" />
     </div>
   </div>
@@ -119,6 +120,10 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
   public async saveHotkeys() {
     await this.$store.direct.dispatch.hotKeys.saveRaceHotkeyToFile();
+  }
+
+  public async importHotkeys() {
+    await this.$store.direct.dispatch.hotKeys.importHotkeysFromFile();
   }
 
   public selectAbility(selection: Ability) {
