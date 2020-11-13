@@ -110,6 +110,7 @@ export class FileService {
 
             if (h.grid) {
                 fileContent.push(`Buttonpos=${h.grid.x},${h.grid.y}`);
+                fileContent.push(`UnButtonpos=${h.grid.x},${h.grid.y}`);
             }
 
             h.additionalHotkeyIdentifiers?.forEach(additionalKey => {
