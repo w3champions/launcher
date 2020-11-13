@@ -57,7 +57,7 @@ export class FileService {
                     currentHotkey = {} as RaceHotKey;
                     const newCommand = l.split("[")[1].split("]")[0];
                     if (newCommand) {
-                        currentHotkey.hotkeyCommand = newCommand;
+                        currentHotkey.hotkeyCommand = newCommand.toLowerCase();
                     }
                 }
 
