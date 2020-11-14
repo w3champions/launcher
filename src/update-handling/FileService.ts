@@ -173,6 +173,7 @@ export class FileService {
 
     async saveIsTeamColorsEnabled(value: boolean) {
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
+        logger.info("write to settings file: " + settingsFile)
         if (fse.existsSync(settingsFile)) {
             const content = fse.readFileSync(settingsFile, 'utf8').toString().split("\n");
             const index1 = content.indexOf("allyFilter=0");
@@ -180,6 +181,7 @@ export class FileService {
             const index3 = content.indexOf("allyFilter=2");
             content[index1 + index2 + index3 + 2] = `allyFilter=${value ? "2" : "0"}`;
             await this.writeArrayToFileForce(settingsFile, content, "War3Preferences.txt");
+            logger.info("set w3 team color preferences to " + value)
         }
     }
 

@@ -45,7 +45,7 @@ const mod = {
       rootGetters.fileService.saveColor("00", newColor);
       commit.SET_ENEMY_COLOR(newColor);
     },
-    saveIsTeamColorsEnabled(context: ActionContext<UpdateHandlingState, ColorPickState>, enabled: boolean) {
+    async saveIsTeamColorsEnabled(context: ActionContext<UpdateHandlingState, ColorPickState>, enabled: boolean) {
       const {commit, rootGetters, rootState} = moduleActionContext(context, mod);
 
       if (!enabled) {
@@ -60,7 +60,7 @@ const mod = {
         commit.SET_ALLIES_COLOR("02");
       }
 
-      rootGetters.fileService.saveIsTeamColorsEnabled(enabled);
+      await rootGetters.fileService.saveIsTeamColorsEnabled(enabled);
 
       commit.SET_TEAM_COLORS_ENABLED(enabled);
     }

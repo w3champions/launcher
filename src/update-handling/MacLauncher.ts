@@ -8,7 +8,7 @@ const fs = window.require("fs");
 export class MacLauncher extends LauncherStrategy {
     getWar3PreferencesFile(): string {
         const documentPath = remote.app.getPath("appData");
-        return `${documentPath}\\Warcraft III\\War3Preferences.txt`;
+        return `${documentPath}/Blizzard/Warcraft III/War3Preferences.txt`;
     }
 
     getWar3HotkeyFile(): string {

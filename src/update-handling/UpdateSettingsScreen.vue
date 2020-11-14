@@ -101,8 +101,8 @@ export default class UpdateSettingsScreen extends Vue {
     return this.$store.direct.state.colorPicker.isTeamColorsEnabled;
   }
 
-  public toggleTeamColors() {
-    this.$store.direct.dispatch.colorPicker.saveIsTeamColorsEnabled(!this.isTeamColorsEnabled);
+  public async toggleTeamColors() {
+    await this.$store.direct.dispatch.colorPicker.saveIsTeamColorsEnabled(!this.isTeamColorsEnabled);
   }
 
   get explanationW3Wrong() {
