@@ -11,6 +11,7 @@ export interface W3cIcon {
 
 export interface RaceHotKey {
   hotkeyCommand: string;
+  researchHotkey: string;
   hotKey: string;
   isResearchAbility: boolean;
   isStagedUpgrade: boolean;
@@ -82,6 +83,7 @@ export class Ability implements W3cIcon {
     this.icon = icon;
     this.defaultHotkey = defaultHotkey;
     this.currentHotkey = defaultHotkey;
+    this.researchHotkey = defaultHotkey;
     this.additionalHotkeyIdentifiers = additionalHotkeyIdentifiers;
     this.abilities = abilities;
     this.hasConflict = false;
@@ -145,6 +147,7 @@ export class Ability implements W3cIcon {
   public icon: string;
   public defaultHotkey: string;
   public unHotkey: string;
+  public researchHotkey: string;
   public currentHotkey: string;
   public currentGrid: Grid | null;
   public abilities: Ability[];

@@ -62,27 +62,15 @@ export class FileService {
                 }
 
                 if (l.startsWith("Hotkey=")) {
-                    const hotkeyText = l.split("=")[1];
-                    if (hotkeyText === "512") {
-                        currentHotkey.hotKey = "512";
-                    } else {
-                        const newHotkey = hotkeyText[0];
-                        if (newHotkey) {
-                            currentHotkey.hotKey = newHotkey;
-                        }
-                    }
+                    currentHotkey.hotKey = this.extractRightString(l);
                 }
 
                 if (l.startsWith("Unhotkey=")) {
-                    const hotkeyText = l.split("=")[1];
-                    if (hotkeyText === "512") {
-                        currentHotkey.unHotkey = "512";
-                    } else {
-                        const newHotkey = hotkeyText[0];
-                        if (newHotkey) {
-                            currentHotkey.unHotkey = newHotkey;
-                        }
-                    }
+                    currentHotkey.unHotkey = this.extractRightString(l);
+                }
+
+                if (l.startsWith("Researchhotkey=")) {
+                    currentHotkey.researchHotkey = this.extractRightString(l);
                 }
 
                 if (l.startsWith("Buttonpos=")) {
@@ -104,6 +92,20 @@ export class FileService {
         return [];
     }
 
+    private extractRightString(l: string) {
+        const hotkeyText = l.split("=")[1];
+        if (hotkeyText === "512") {
+            return "512";
+        } else {
+            const newHotkey = hotkeyText[0];
+            if (newHotkey) {
+                return newHotkey;
+            }
+        }
+
+        return '';
+    }
+
     async saveHotkeysToHotkeyFile(hotkeys: RaceHotKey[]) {
         const fileContent = [] as string[];
         hotkeys.forEach(h => {
@@ -114,8 +116,8 @@ export class FileService {
                 fileContent.push("Unhotkey=" + h.unHotkey);
             }
 
-            if (h.isResearchAbility) {
-                fileContent.push("Researchhotkey=" + h.hotKey);
+            if (h.isResearchAbility && h.researchHotkey) {
+                fileContent.push("Researchhotkey=" + h.researchHotkey);
 
                 if (h.grid) {
                     fileContent.push(`Researchbuttonpos=${h.grid.x},${h.grid.y}`);

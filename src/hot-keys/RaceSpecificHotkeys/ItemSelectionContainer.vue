@@ -32,6 +32,7 @@ import {Ability, W3cIcon} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotke
 export default class ItemSelectionContainer extends Vue {
   @Prop() public selectionItems!: W3cIcon[][];
   @Prop() public singleRow!: boolean;
+  @Prop() public isResearchAbilitySelected!: boolean;
   @Prop() public onClick!: (icon: W3cIcon) => {};
 
   public toKey(units: W3cIcon[]) {
@@ -39,7 +40,14 @@ export default class ItemSelectionContainer extends Vue {
   }
 
   public parseHotkey(item: Ability) {
-    return item ? item.currentHotkey?.replace("512", "ESC") : '';
+    if (this.isResearchAbilitySelected) {
+      return this.parseWithEscape(item.researchHotkey)
+    }
+    return this.parseWithEscape(item.currentHotkey);
+  }
+
+  private parseWithEscape(item: string) {
+    return item ? item.replace("512", "ESC") : '';
   }
 }
 

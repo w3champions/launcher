@@ -38,6 +38,10 @@ function mergeHotkeyDataAndSelectedHotkeys(
                 a2.unHotkey = hotKey.unHotkey;
               }
 
+              if (a2.isResearchAbility && hotKey.researchHotkey){
+                a2.researchHotkey = hotKey.researchHotkey;
+              }
+
               a2.currentGrid = hotKey.grid;
             }
           })
@@ -47,6 +51,11 @@ function mergeHotkeyDataAndSelectedHotkeys(
               if (a.isUnhotkey && hotKey.unHotkey) {
                 a.unHotkey = hotKey.unHotkey;
               }
+
+              if (a.isResearchAbility && hotKey.researchHotkey){
+                a.researchHotkey = hotKey.researchHotkey;
+              }
+              
               a.currentGrid = hotKey.grid;
           }
 

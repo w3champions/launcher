@@ -15,7 +15,7 @@
         </div>
         <ItemSelectionContainer :class="selectedUnit.icon ? 'visible' : 'hidden'" :on-click="openHotkeysOrCreatNewPanel" :selection-items="selectedUnitAbilities"/>
         <div class="selection-header w3font" :class="selectedAbility.icon ? 'visible' : 'hidden'">Ability: {{ selectedAbilityName }}</div>
-        <ItemSelectionContainer :class="selectedAbility.icon ? 'visible' : 'hidden'" :on-click="selectExtendedAbility" :selection-items="selectedUnitExtendedAbilities"/>
+        <ItemSelectionContainer :class="selectedAbility.icon ? 'visible' : 'hidden'" :on-click="selectExtendedAbility" :selection-items="selectedUnitExtendedAbilities" :is-research-ability-selected="isResearchAbilitySelected || wasSkillSelectSelected"/>
         <div class="selection-header w3font" style="visibility: hidden">.</div>
         <ItemSelectionContainer style="visibility: hidden" :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
       </div>
@@ -24,24 +24,24 @@
       <ButtonWarcraft style="position: absolute; bottom: 58px; right: 150px" :on-click="saveHotkeys" text="Save" />
     </div>
     <div style="position:absolute; left: 852px; top: 172px; font-size: 18px;"  class="w3font">
-      {{ editAbility.name }}
+      <span v-if="isResearchAbilitySelected">Train: </span>{{ editAbility.name }}
     </div>
     <div style="position:absolute; right: 133px; top: 193px" :class="editAbility.icon ? 'visible' : 'hidden'" class="current-selection-container">
       <div style="display: flex; flex-direction: row">
         <div style="height: 64px; width: 64px; margin: 10px; display: flex" class="w3font" :class="editAbility.icon">
           <div style="padding-top: 45px; position: absolute; right: 222px">
-             {{ parseHotkey(editAbility.currentHotkey) }}
+             {{ parseHotkey(editAbility) }}
           </div>
         </div>
         <div style="margin-top: 15px">
           <div class="w3font">Press desired key</div>
-          <div style="cursor: pointer; color: aliceblue; margin-top: 18px; font-size: 14px" class="w3font" @click="resetKey">Reset default: {{parseHotkey(editAbility.defaultHotkey)}}</div>
+          <div style="cursor: pointer; color: aliceblue; margin-top: 18px; font-size: 14px" class="w3font" @click="resetKey">Reset default: {{parseWithEscape(editAbility.defaultHotkey)}}</div>
         </div>
       </div>
       <div v-if="editAbility.unHotkey" style="display: flex; flex-direction: row">
         <div style="height: 64px; width: 64px; margin: 10px; display: flex; cursor: pointer" class="w3font btncancel" @click="setListenerToUnhotkey">
           <div style="padding-top: 45px; position: absolute; right: 222px">
-            {{ parseHotkey(editAbility.unHotkey) }}
+            {{ parseWithEscape(editAbility.unHotkey) }}
           </div>
         </div>
         <div style="margin-top: 15px">
@@ -71,7 +71,10 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
   public hotkeyPressed = "";
   public unhotkeyPressed = "";
+  public researchHotkeyPressed = "";
   public listenToUnhotkeyFunction = false;
+  public isResearchAbilitySelected = false;
+  public wasSkillSelectSelected = false;
   public editAbility = {} as Ability | null;
   public selectedGrid = {} as Grid | null;
   public selectedAbility = {} as Ability | null;
@@ -88,6 +91,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
   @Watch("race")
   public onRaceChanged() {
     this.selectedGrid = null;
+    this.wasSkillSelectSelected = false;
+    this.isResearchAbilitySelected = false;
     this.selectedUnit = {} as Unit;
     this.selectedUnitAbilities = [];
     this.selectedUnitExtendedAbilities = [];
@@ -95,13 +100,21 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.editAbility = {} as Ability;
     this.selectedAbility = {} as Ability;
     this.hotkeyPressed = "";
-    this.listenToUnhotkeyFunction = false;
     this.unhotkeyPressed = "";
+    this.researchHotkeyPressed = "";
+    this.listenToUnhotkeyFunction = false;
     this.selectGridForAbility(null);
   }
 
-  public parseHotkey(item: string) {
-    return item ? item?.replace("512", "ESC") : '';
+  public parseHotkey(item: Ability) {
+    if (this.isResearchAbilitySelected) {
+      return this.parseWithEscape(item.researchHotkey)
+    }
+    return this.parseWithEscape(item.currentHotkey);
+  }
+
+  private parseWithEscape(item: string) {
+    return item ? item.replace("512", "ESC") : '';
   }
 
   get isNeutralUnitTab() {
@@ -156,8 +169,11 @@ export default class RaceSpecificHotkeyTab extends Vue {
     if (selection.name === "") {
       return;
     }
+
     this.selectedAbility = selection;
-    this.selectedUnitExtendedAbilities = this.splitInArrayOf4Abilities(this.selectedAbility.abilities);
+    this.wasSkillSelectSelected = selection.icon === 'btnskillz';
+    this.isResearchAbilitySelected = false;
+    this.selectedUnitExtendedAbilities = this.splitInArrayOf4Abilities(this.selectedAbility?.abilities ?? []);
   }
 
   get hotKeys() {
@@ -175,7 +191,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
           grid: this.selectedGrid,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
-          unHotkey: this.unhotkeyPressed
+          unHotkey: this.unhotkeyPressed,
+          researchHotkey: this.researchHotkeyPressed
         });
   }
 
@@ -194,7 +211,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
           grid: this.selectedGrid,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
-          unHotkey: this.editAbility.defaultHotkey
+          unHotkey: this.editAbility.defaultHotkey,
+          researchHotkey: this.editAbility.defaultHotkey
         });
   }
 
@@ -209,7 +227,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
           grid: null,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
-          unHotkey: this.editAbility.unHotkey
+          unHotkey: this.editAbility.unHotkey,
+          researchHotkey: this.editAbility.researchHotkey
         });
 
     this.selectedGrid = null
@@ -224,6 +243,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
     if (selection.name === "") {
       return;
     }
+
+    this.isResearchAbilitySelected = this.wasSkillSelectSelected && selection.isResearchAbility;
     this.selectedUnitExtendedAbility = selection;
     this.setupHotkeyDialog(selection);
   }
@@ -233,6 +254,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
       this.selectAbility(selection);
       this.setupHotkeyDialog(selection);
     } else {
+      this.isResearchAbilitySelected = false;
       this.setupHotkeyDialog(selection);
     }
   }
@@ -241,6 +263,9 @@ export default class RaceSpecificHotkeyTab extends Vue {
     if (selection.name === "") {
       return;
     }
+    this.wasSkillSelectSelected = false;
+    this.isResearchAbilitySelected = false;
+    this.selectedUnit = selection;
     this.selectedUnit = selection;
     this.selectedAbility = {} as Ability;
     this.editAbility = {} as Ability;
@@ -257,6 +282,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.editAbility = selection;
     this.hotkeyPressed = selection.currentHotkey;
     this.unhotkeyPressed = selection.unHotkey;
+    this.researchHotkeyPressed = selection.researchHotkey;
     this.listenToUnhotkeyFunction = false;
     this.selectGridForAbility(selection.currentGrid);
 
@@ -281,7 +307,9 @@ export default class RaceSpecificHotkeyTab extends Vue {
   private setHotkeyPressed(key: string) {
     if (this.listenToUnhotkeyFunction) {
       this.unhotkeyPressed = key;
-    } else {
+    } else if (this.isResearchAbilitySelected) {
+      this.researchHotkeyPressed = key;
+    }else {
       this.hotkeyPressed = key;
     }
   }
