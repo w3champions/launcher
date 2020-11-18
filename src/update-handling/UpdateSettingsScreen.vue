@@ -221,6 +221,7 @@ export default class UpdateSettingsScreen extends Vue {
   width: 208px;
   height: 54px;
   text-align: center;
+  cursor: pointer;
   line-height: 56px;
   background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;
   background-size: cover;
