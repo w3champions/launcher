@@ -31,6 +31,8 @@ export default class App extends Vue {
     this.$store.direct.dispatch.loadOsMode();
     this.makeSureNumpadIsEnabled()
 
+    await this.$store.direct.dispatch.loadNews();
+
     logger.info(remote.app.getPath('userData'))
     this.$store.direct.dispatch.hotKeys.loadToggleKey();
     this.$store.direct.dispatch.hotKeys.loadHotKeys();

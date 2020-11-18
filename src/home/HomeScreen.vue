@@ -3,7 +3,9 @@
     <div class="modt">
       <div class="w3font news-header">{{ news[0] ? news[0].date : "" }}</div>
       <br />
-      <div v-html='news[0] ? news[0].message : ""'></div>
+      <vue-markdown>
+        {{ news[0].message }}
+      </vue-markdown>
     </div>
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <button @click="tryStartWc3" class="start-button w3font" :disabled="isDisabled" :content="playButton" :title="explanation">
@@ -19,9 +21,10 @@ import {MacLauncher} from "@/update-handling/MacLauncher";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 const { execSync } = window.require("child_process");
 const os = window.require('os');
+import VueMarkdown from "vue-markdown";
 
 @Component({
-  components: {LoadingSpinner}
+  components: {LoadingSpinner, VueMarkdown}
 })
 export default class HomeScreen extends Vue {
   private updateStrategy = HomeScreen.isWindows() ? new WindowsLauncher() : new MacLauncher();
@@ -34,7 +37,6 @@ export default class HomeScreen extends Vue {
 
   async mounted() {
     this.turnOnButton();
-    await this.$store.direct.dispatch.loadNews();
     await this.updateStrategy.updateIfNeeded();
   }
 
