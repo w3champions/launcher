@@ -39,11 +39,11 @@ const buildings =
 
         new Building('Graveyard', 'btngraveyard',
             buildingWithCancel([Ability.Create('Upgrade Unholy Strength', 'btnunholystrength', 'rume', 'S', []),
-                Ability.Create('Upgrade Creature Attack', 'btncreatureattack', 'rura', 'A', []),
+                Ability.StagedUpgrade('Upgrade Creature Attack', 'btncreatureattack', 'rura', 'A', []),
                 ...Ability.Defaults(2),
 
-                Ability.Create('Upgrade Unholy Armo', 'btnunholyarmor', 'ruar', 'U', []),
-                Ability.Create('Upgrade Creature Carapace', 'btncreaturecarapace', 'rucr', 'C', []),
+                Ability.StagedUpgrade('Upgrade Unholy Armor', 'btnunholyarmor', 'ruar', 'U', []),
+                Ability.StagedUpgrade('Upgrade Creature Carapace', 'btncreaturecarapace', 'rucr', 'C', []),
                 ...Ability.Defaults(5)])),
 
         new Building('Ziggurat', 'btnziggurat',
@@ -70,8 +70,8 @@ const buildings =
                 Ability.Create('Research Skeletal Mastery', 'btnskeletonmage', 'rusm', 'M', []),
                 ...Ability.Defaults(2),
                 rally,
-                Ability.Create('Necromancer Training', 'btnnecromanceradept', 'rune', 'E', []),
-                Ability.Create('Banshee Training', 'btnbansheeadept', 'ruba', 'A', []),
+                Ability.StagedUpgrade('Necromancer Training', 'btnnecromanceradept', 'rune', 'E', []),
+                Ability.StagedUpgrade('Banshee Training', 'btnbansheeadept', 'ruba', 'A', []),
                 Ability.Default(),
             ])
         ),

@@ -13,6 +13,7 @@ export interface RaceHotKey {
   hotkeyCommand: string;
   hotKey: string;
   isResearchAbility: boolean;
+  isStagedUpgrade: boolean;
   additionalHotkeyIdentifiers: string[];
   grid: Grid | null;
 }
@@ -64,7 +65,16 @@ export class Hero extends Unit {
 }
 
 export class Ability implements W3cIcon {
-  private constructor(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isResearchAbility: boolean = false, isAura: boolean = false, additionalHotkeyIdentifiers: string[] = []) {
+  private constructor(
+      name: string,
+      icon: string,
+      hotkeyIdentifier: string,
+      defaultHotkey: string,
+      abilities: Ability[],
+      isResearchAbility: boolean = false,
+      isAura: boolean = false,
+      additionalHotkeyIdentifiers: string[] = [],
+      isStagedUpgrade: boolean = false) {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
     this.icon = icon;
@@ -76,6 +86,7 @@ export class Ability implements W3cIcon {
     this.currentGrid = null;
     this.isAura = isAura;
     this.isResearchAbility = isResearchAbility;
+    this.isStagedUpgrade = isStagedUpgrade;
   }
 
   public static Aura(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
@@ -88,6 +99,10 @@ export class Ability implements W3cIcon {
 
   public static MultiHotkey(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], additionalHotkeyIdentifiers: string[], isResearch: boolean = false) {
     return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, isResearch, false, additionalHotkeyIdentifiers)
+  }
+
+  public static StagedUpgrade(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, false, false, [], true)
   }
 
   public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
@@ -115,6 +130,7 @@ export class Ability implements W3cIcon {
   public hasConflict: boolean;
   public isAura: boolean;
   public isResearchAbility: boolean;
+  public isStagedUpgrade: boolean;
   public hotkeyIdentifier: string;
   public additionalHotkeyIdentifiers: string[];
   public icon: string;

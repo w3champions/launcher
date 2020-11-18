@@ -97,7 +97,8 @@ export class FileService {
         const fileContent = [] as string[];
         hotkeys.forEach(h => {
             fileContent.push("[" + h.hotkeyCommand + "]");
-            fileContent.push("Hotkey=" + h.hotKey);
+            const hotKey = h.isStagedUpgrade ? `${h.hotKey},${h.hotKey},${h.hotKey}` : h.hotKey;
+            fileContent.push("Hotkey=" + hotKey);
             fileContent.push("Unhotkey=" + h.hotKey);
 
             if (h.isResearchAbility) {
@@ -117,6 +118,7 @@ export class FileService {
                 fileContent.push('\n');
                 fileContent.push("[" + additionalKey + "]");
                 fileContent.push("Hotkey=" + h.hotKey);
+
             })
 
             fileContent.push('\n');

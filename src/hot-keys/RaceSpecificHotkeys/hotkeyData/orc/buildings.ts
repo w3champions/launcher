@@ -36,11 +36,11 @@ const buildings =
 
         new Building('War Mill', 'btnforge',
             buildingWithCancel([
-                Ability.Create('Upgrade Melee Weapons', 'btnorcmeleeupone', 'rome', 'M', []),
-                Ability.Create('Upgrade Ranged Weapons', 'btnsteelranged', 'rora', 'R', []),
+                Ability.StagedUpgrade('Upgrade Melee Weapons', 'btnorcmeleeupone', 'rome', 'M', []),
+                Ability.StagedUpgrade('Upgrade Ranged Weapons', 'btnsteelranged', 'rora', 'R', []),
                 Ability.Create('Upgrade Barricades', 'btnspikedbarricades', 'rosp', 'S', []),
                 Ability.Default(),
-                Ability.Create('Upgrade Armor', 'btnsteelarmor', 'roar', 'A', []),
+                Ability.StagedUpgrade('Upgrade Armor', 'btnsteelarmor', 'roar', 'A', []),
                 Ability.Default(),
                 Ability.Create('Reinforced Defenses', 'btnreinforcedburrows', 'rorb', 'D', []),
                 ...Ability.Defaults(4)]
@@ -78,8 +78,8 @@ const buildings =
                 Ability.Create('Train Witch Doctor', 'btnwitchdoctor', 'odoc', 'W', []),
                 ...Ability.Defaults(5),
                 rally,
-                Ability.Create('Shaman Training', 'btnshamanadept', 'rost', 'M', []),
-                Ability.Create('Witch Doctor Training', 'btnwitchdoctoradept', 'rowd', 'D', []),
+                Ability.StagedUpgrade('Shaman Training', 'btnshamanadept', 'rost', 'M', []),
+                Ability.StagedUpgrade('Witch Doctor Training', 'btnwitchdoctoradept', 'rowd', 'D', []),
                 Ability.Default(),
             ])
         ),
@@ -103,7 +103,7 @@ const buildings =
                 Ability.Create('Train Tauren', 'btntauren', 'otau', 'T', []),
                 ...Ability.Defaults(5),
                 rally,
-                Ability.Create('Spirit Walker Training', 'btnspiritwalkeradepttraining', 'rowt', 'R', []),
+                Ability.StagedUpgrade('Spirit Walker Training', 'btnspiritwalkeradepttraining', 'rowt', 'R', []),
                 Ability.Create('Upgrade Pulverize', 'btnsmash', 'rows', 'P', []),
                 Ability.Default(),
             ])
