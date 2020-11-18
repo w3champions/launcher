@@ -192,7 +192,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.unhotkeyPressed,
-          researchHotkey: this.researchHotkeyPressed
+          researchHotkey: this.researchHotkeyPressed,
+          hotkeyName: this.editAbility.name
         });
   }
 
@@ -212,7 +213,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.editAbility.defaultHotkey,
-          researchHotkey: this.editAbility.defaultHotkey
+          researchHotkey: this.editAbility.defaultHotkey,
+          hotkeyName: this.editAbility.name
         });
   }
 
@@ -228,7 +230,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.editAbility.unHotkey,
-          researchHotkey: this.editAbility.researchHotkey
+          researchHotkey: this.editAbility.researchHotkey,
+          hotkeyName: this.editAbility.name
         });
 
     this.selectedGrid = null

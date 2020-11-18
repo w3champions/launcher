@@ -109,6 +109,10 @@ export class FileService {
     async saveHotkeysToHotkeyFile(hotkeys: RaceHotKey[]) {
         const fileContent = [] as string[];
         hotkeys.forEach(h => {
+            if (h.hotkeyName) {
+                fileContent.push("// " + h.hotkeyName);
+            }
+
             fileContent.push("[" + h.hotkeyCommand + "]");
             const hotKey = h.isStagedUpgrade ? `${h.hotKey},${h.hotKey},${h.hotKey}` : h.hotKey;
             fileContent.push("Hotkey=" + hotKey);

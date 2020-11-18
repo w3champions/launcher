@@ -11,6 +11,7 @@ export interface W3cIcon {
 
 export interface RaceHotKey {
   hotkeyCommand: string;
+  hotkeyName: string;
   researchHotkey: string;
   hotKey: string;
   isResearchAbility: boolean;
