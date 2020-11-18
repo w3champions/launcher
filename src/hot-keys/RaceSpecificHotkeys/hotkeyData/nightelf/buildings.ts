@@ -14,7 +14,7 @@ const uproot = Ability.Create('Uproot', 'btnuproot', 'aro1', 'R', [])
 const buildings =
     [
         new Building('Tree of Life', 'btntreeoflife', [
-            Ability.Create('Train Wisp', 'btnwisp', 'hpea', 'P', []),
+            Ability.Create('Train Wisp', 'btnwisp', 'ewsp', 'W', []),
             ...defaultMainBuilding(
                 Ability.Create('Research Nature’s Blessing', 'btnnaturesblessing', 'renb', 'N', []),
                 'repm'
