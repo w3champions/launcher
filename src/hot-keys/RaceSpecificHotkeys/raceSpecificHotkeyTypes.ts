@@ -10,6 +10,7 @@ export interface W3cIcon {
 }
 
 export interface RaceHotKey {
+  isW3cSupportedKey: boolean;
   hotkeyCommand: string;
   hotkeyName: string;
   researchHotkey: string;
