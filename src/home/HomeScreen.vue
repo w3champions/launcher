@@ -109,10 +109,10 @@ export default class HomeScreen extends Vue {
   background-size: cover;
   margin-top: 80px;
   margin-bottom: 140px;
-  padding: 30px;
+  padding: 50px;
   font-size: 14px;
-  width: 605px;
-  height: 278px;
+  width: 865px;
+  height: 390px;
 }
 
 .start-button:disabled {
