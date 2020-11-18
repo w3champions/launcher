@@ -3,7 +3,7 @@ import {
     Hero,
     Unit,
 } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
-import {defaultFighterAbilities, defaultHeroAbilities} from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
+import {defaultHeroAbilities} from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
 const heroes =
     [
@@ -11,7 +11,7 @@ const heroes =
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Forked Lightning', 'btnmonsoon', 'anfl', 'F', []),
                 Ability.HeroAbility('Frost Arrows', 'btncoldarrowsoff', 'anfa', 'R', []),
-                Ability.HeroAbility('Mana Shield', 'btnneutralmanashield', 'anms', 'N', []),
+                Ability.UnhotkeyAbility('Mana Shield', 'btnneutralmanashield', 'anms', 'N', true),
                 Ability.HeroAbility('Tornado ', 'btntornado', 'anto', 'T', []),
             ])
         ]),

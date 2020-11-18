@@ -15,7 +15,7 @@ const units =
             ...defaultUnitAbilities,
             Ability.Create('Repair', 'btnrepair', 'ahrp', 'R', []),
             Ability.Default(),
-            Ability.Create('Gather', 'btngathergold', 'ahar', 'G', []),
+            Ability.UnhotkeyAbility('Gather', 'btngathergold', 'ahar', 'G'),
             Ability.Create('Build Structure', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
                 Ability.Create('Build Townhall', 'btntownhall', 'htow', 'H', []),
                 Ability.Create('Build Barracks', 'btnhumanbarracks', 'hbar', 'B', []),
@@ -30,13 +30,13 @@ const units =
                 Ability.Create('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', []),
                 cancel
             ]),
-            Ability.Create('Call to Arms', 'btncalltoarms', 'amil', 'C', []),
+            Ability.UnhotkeyAbility('Call to Arms', 'btncalltoarms', 'amil', 'C'),
             Ability.Default(),
             cancel
         ]),
         new Unit('Footman', 'btnfootman', [
             ...defaultFighterAbilities,
-            Ability.Create('Defend', 'btndefend', 'adef', 'D', []),
+            Ability.UnhotkeyAbility('Defend', 'btndefend', 'adef', 'D'),
         ]),
         new Unit('Rifleman', 'btnrifleman', [
             ...defaultFighterAbilities,

@@ -34,12 +34,19 @@ function mergeHotkeyDataAndSelectedHotkeys(
 
             if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
               a2.currentHotkey = hotKey.hotKey;
+              if (a2.isUnhotkey && hotKey.unHotkey){
+                a2.unHotkey = hotKey.unHotkey;
+              }
+
               a2.currentGrid = hotKey.grid;
             }
           })
 
           if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
               a.currentHotkey = hotKey.hotKey;
+              if (a.isUnhotkey && hotKey.unHotkey) {
+                a.unHotkey = hotKey.unHotkey;
+              }
               a.currentGrid = hotKey.grid;
           }
 

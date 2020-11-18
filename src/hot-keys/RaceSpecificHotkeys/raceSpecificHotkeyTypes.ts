@@ -14,6 +14,7 @@ export interface RaceHotKey {
   hotKey: string;
   isResearchAbility: boolean;
   isStagedUpgrade: boolean;
+  unHotkey: string;
   additionalHotkeyIdentifiers: string[];
   grid: Grid | null;
 }
@@ -74,7 +75,8 @@ export class Ability implements W3cIcon {
       isResearchAbility: boolean = false,
       isAura: boolean = false,
       additionalHotkeyIdentifiers: string[] = [],
-      isStagedUpgrade: boolean = false) {
+      isStagedUpgrade: boolean = false,
+      unHotkey: string = '') {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
     this.icon = icon;
@@ -85,6 +87,8 @@ export class Ability implements W3cIcon {
     this.hasConflict = false;
     this.currentGrid = null;
     this.isAura = isAura;
+    this.unHotkey = unHotkey;
+    this.isUnhotkey = !!unHotkey;
     this.isResearchAbility = isResearchAbility;
     this.isStagedUpgrade = isStagedUpgrade;
   }
@@ -103,6 +107,10 @@ export class Ability implements W3cIcon {
 
   public static StagedUpgrade(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
     return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, false, false, [], true)
+  }
+
+  public static UnhotkeyAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, isResearch: boolean = false, extendedAbilities: string[] = []) {
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, [], isResearch, false, extendedAbilities, false, defaultHotkey)
   }
 
   public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
@@ -131,10 +139,12 @@ export class Ability implements W3cIcon {
   public isAura: boolean;
   public isResearchAbility: boolean;
   public isStagedUpgrade: boolean;
+  public isUnhotkey: boolean;
   public hotkeyIdentifier: string;
   public additionalHotkeyIdentifiers: string[];
   public icon: string;
   public defaultHotkey: string;
+  public unHotkey: string;
   public currentHotkey: string;
   public currentGrid: Grid | null;
   public abilities: Ability[];

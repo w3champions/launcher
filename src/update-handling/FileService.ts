@@ -73,6 +73,18 @@ export class FileService {
                     }
                 }
 
+                if (l.startsWith("Unhotkey=")) {
+                    const hotkeyText = l.split("=")[1];
+                    if (hotkeyText === "512") {
+                        currentHotkey.unHotkey = "512";
+                    } else {
+                        const newHotkey = hotkeyText[0];
+                        if (newHotkey) {
+                            currentHotkey.unHotkey = newHotkey;
+                        }
+                    }
+                }
+
                 if (l.startsWith("Buttonpos=")) {
                     const positions = l.split("=")[1].split(",");
                     if (positions.length === 2) {
@@ -84,7 +96,6 @@ export class FileService {
             if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
                 hotkeys.push(currentHotkey)
             }
-
 
             logger.info(`retrieved ${hotkeys.length} hotkeys from file`)
             return hotkeys
@@ -99,7 +110,9 @@ export class FileService {
             fileContent.push("[" + h.hotkeyCommand + "]");
             const hotKey = h.isStagedUpgrade ? `${h.hotKey},${h.hotKey},${h.hotKey}` : h.hotKey;
             fileContent.push("Hotkey=" + hotKey);
-            fileContent.push("Unhotkey=" + h.hotKey);
+            if (h.unHotkey) {
+                fileContent.push("Unhotkey=" + h.unHotkey);
+            }
 
             if (h.isResearchAbility) {
                 fileContent.push("Researchhotkey=" + h.hotKey);

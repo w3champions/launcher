@@ -71,7 +71,7 @@ const units =
             Ability.MultiHotkey("Roar ", "btnbattleroar", "aroa", "R", [], ["ara2"]),
             Ability.Create("Rejuvenation", "btnrejuvenation", "arej", "E", []),
             Ability.Default(),
-            Ability.Create("Bear Form", "btnbearform", "abrf", "F", []),
+            Ability.UnhotkeyAbility("Bear Form", "btnbearform", "abrf", "F"),
         ]),
 
         new Unit('Mountain Giant', 'btnmountaingiant', [
@@ -95,13 +95,13 @@ const units =
             Ability.MultiHotkey("Faerie Fire", "btnfaeriefireoff", "afae", "R", [], ["afa2"]),
             Ability.Create("Cyclone", "btncyclone", "acyc", "C", []),
             Ability.Default(),
-            Ability.Create("Storm Crow Form", "btnravenform", "arav", "F", [])
+            Ability.UnhotkeyAbility("Storm Crow Form", "btnravenform", "arav", "F")
         ]),
 
         new Unit('Faerie Dragon', 'btnfaeriedragon', [
             ...defaultFighterAbilities,
             Ability.Create("Phase Shift", "btnphaseshiftoff", "apsh", "E", []),
-            Ability.Create("Mana Flare", "btnmanaflare", "amfl", "F", [])
+            Ability.UnhotkeyAbility("Mana Flare", "btnmanaflare", "amfl", "F")
         ]),
 
         new Unit('Avatar of Vengance', 'btnvengeanceincarnate', [

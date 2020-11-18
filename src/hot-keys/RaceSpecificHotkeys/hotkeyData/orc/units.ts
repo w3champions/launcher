@@ -59,7 +59,7 @@ const units =
             Ability.Create('Spirit Link', 'btnspiritlink', 'aspl', 'R', []),
             Ability.Create('Disenchant', 'btndisenchant', 'adcn', 'D', []),
             Ability.Create('Ancestral Spirit', 'btnancestralspirit', 'aast', 'C', []),
-            Ability.Create('Corporeal Form', 'btnspiritwalker', 'acpf', 'F', []),
+            Ability.UnhotkeyAbility('Corporeal Form', 'btnspiritwalker', 'acpf', 'F'),
         ]),
         new Unit('Raider', 'btnraider', [
             ...defaultFighterAbilities,

@@ -18,7 +18,7 @@ const units =
         new Unit('Goblin Shredder', 'btnjunkgolem', [
             ...defaultUnitAbilities,
             ...Ability.Defaults(2),
-            Ability.Create('Gather', 'btngathergold', 'ahr3', 'G', []),
+            Ability.UnhotkeyAbility('Gather', 'btngathergold', 'ahr3', 'G'),
         ]),
         new Unit('Goblin Sappers', 'btngoblinsapper', [
             ...defaultFighterAbilities,

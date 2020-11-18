@@ -43,13 +43,13 @@ const units =
             ...defaultFighterAbilities,
             Ability.Create('Web', 'btnweboff', 'aweb', 'W', []),
             ...Ability.Defaults(2),
-            Ability.Create('Burrow', 'btncryptfiendburrow', 'abur', 'B', []),
+            Ability.UnhotkeyAbility('Burrow', 'btncryptfiendburrow', 'abur', 'B'),
         ]),
         new Unit('Gargoyle', 'btngargoyle', [
             ...defaultUnitAbilities,
             Ability.Create('Prioritize', 'btnairattackon', 'aatp', 'R', []),
             ...Ability.Defaults(2),
-            Ability.Create('Stone Form', 'btnstoneform', 'astn', 'F', []),
+            Ability.UnhotkeyAbility('Stone Form', 'btnstoneform', 'astn', 'F'),
         ]),
         new Unit('Abomination', 'btnabomination', [
             ...defaultFighterAbilities,
@@ -92,7 +92,7 @@ const units =
         new Unit('Carrion Beetle', 'btncarrionscarabslv3', [
             ...defaultFighterAbilities,
             ...Ability.Defaults(3),
-            Ability.MultiHotkey('Burrow', 'btncryptfiendburrow', 'abu2', 'B', [], ['abu3']),
+            Ability.UnhotkeyAbility('Burrow', 'btncryptfiendburrow', 'abu2', 'B', false, ['abu3']),
         ])
     ] as Unit[]
 
