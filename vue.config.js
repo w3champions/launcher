@@ -12,7 +12,8 @@ module.exports = {
         'sudo-prompt',
         'fs-extra',
         'electron-log',
-        'electron-updater'
+        'electron-updater',
+        'vue-markdown'
       ],
       builderOptions: {
         afterSign: "notarize.js",

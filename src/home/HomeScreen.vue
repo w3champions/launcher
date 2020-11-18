@@ -1,9 +1,12 @@
 <template>
   <div class="home-container">
     <div class="modt">
-      <div class="w3font news-header">{{ news[0] ? news[0].date : "" }}</div>
+      <div class="w3font news-header">{{ news[selectedNews] ? news[selectedNews].date : "" }}</div>
       <br />
-      <div v-html='news[0] ? news[0].message : ""'></div>
+      <vue-markdown :source="news[selectedNews].message" />
+    </div>
+    <div style="bottom: 188px; display: flex; justify-content: center; position: absolute;">
+      <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="() => isSelected(index) ? 'selected-item' : ''"/>
     </div>
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <button @click="tryStartWc3" class="start-button w3font" :disabled="isDisabled" :content="playButton" :title="explanation">
@@ -19,22 +22,27 @@ import {MacLauncher} from "@/update-handling/MacLauncher";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 const { execSync } = window.require("child_process");
 const os = window.require('os');
+import VueMarkdown from "vue-markdown";
 
 @Component({
-  components: {LoadingSpinner}
+  components: {LoadingSpinner, VueMarkdown}
 })
 export default class HomeScreen extends Vue {
   private updateStrategy = HomeScreen.isWindows() ? new WindowsLauncher() : new MacLauncher();
   private disablePlayBtn = true;
   public playButton = "";
+  public selectedNews = 0;
 
   private static isWindows() {
     return os.platform() === "win32";
   }
 
+  public selectNews(index: number) {
+    this.selectedNews = index;
+  }
+
   async mounted() {
     this.turnOnButton();
-    await this.$store.direct.dispatch.loadNews();
     await this.updateStrategy.updateIfNeeded();
   }
 
@@ -54,6 +62,10 @@ export default class HomeScreen extends Vue {
     }
 
     return ""
+  }
+
+  public isSelected(index: number) {
+    return index === this.selectedNews;
   }
 
   get isDisabled() {
@@ -105,12 +117,12 @@ export default class HomeScreen extends Vue {
 .modt {
   background: url("~@/assets/images/home/W3Champion_Text_Frame.png") no-repeat center;
   background-size: cover;
-  margin-top: 80px;
-  margin-bottom: 140px;
-  padding: 30px;
+  margin-top: 60px;
+  margin-bottom: 15px;
+  padding: 50px;
   font-size: 14px;
-  width: 605px;
-  height: 278px;
+  width: 865px;
+  height: 390px;
 }
 
 .start-button:disabled {
@@ -123,6 +135,7 @@ export default class HomeScreen extends Vue {
   background-size: cover;
   border: none;
   outline: inherit;
+  cursor: pointer;
   height: 88px;
   width: 393px;
   text-align: center;
@@ -137,5 +150,20 @@ export default class HomeScreen extends Vue {
 
 .news-header {
   font-size: 20px;
+}
+
+.news-selector {
+  margin-right: 8px;
+  cursor: pointer;
+  margin-left: 8px;
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.selected-item {
+  background-color: #ffd528 !important;
 }
 </style>

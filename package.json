@@ -1,6 +1,6 @@
 {
   "name": "w3champions",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "private": true,
   "description": "Always stay up to date with this Launcher for the community Ladder Warcraft 3 Champions.",
   "author": "simonheiss87@gmail.com",
@@ -33,6 +33,7 @@
     "sudo-prompt": "^9.2.1",
     "vue": "^2.6.12",
     "vue-class-component": "^7.2.5",
+    "vue-markdown": "^2.2.4",
     "vue-property-decorator": "^9.0.0",
     "vue-router": "^3.4.3",
     "vuex": "^3.5.1",
@@ -43,6 +44,7 @@
     "@types/adm-zip": "^0.4.33",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/jest": "^26.0.10",
+    "@types/vue-markdown": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
     "@vue/cli-plugin-babel": "~4.5.4",
