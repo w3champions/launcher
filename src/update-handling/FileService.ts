@@ -120,7 +120,7 @@ export class FileService {
                 fileContent.push("Unhotkey=" + h.unHotkey);
             }
 
-            if (h.isResearchAbility && h.researchHotkey) {
+            if (h.researchHotkey) {
                 fileContent.push("Researchhotkey=" + h.researchHotkey);
 
                 if (h.grid) {

@@ -39,7 +39,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
                 a2.unHotkey = hotKey.unHotkey;
               }
 
-              if (a2.isResearchAbility && hotKey.researchHotkey){
+              if (hotKey.researchHotkey){
                 a2.researchHotkey = hotKey.researchHotkey;
               }
 
@@ -53,7 +53,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
                 a.unHotkey = hotKey.unHotkey;
               }
 
-              if (a.isResearchAbility && hotKey.researchHotkey){
+              if (hotKey.researchHotkey){
                 a.researchHotkey = hotKey.researchHotkey;
               }
 

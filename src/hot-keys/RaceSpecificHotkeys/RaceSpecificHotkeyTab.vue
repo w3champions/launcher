@@ -49,7 +49,7 @@
         </div>
       </div>
       <div style="margin-top: 25px" class="w3font"><div style="display:inline; ">hotkey location</div><div @click="resetGrid" style=" float: right; margin-right: 20px; cursor: pointer; color: aliceblue; display:inline; font-size: 14px">(Reset)</div></div>
-      <ItemSelectionContainer style="margin-top: 10px" :on-click="selectGridForAbility" :selection-items="selectionGrid"/>
+      <ItemSelectionContainer style="margin-top: 10px" :on-click="saveGridForAbility" :selection-items="selectionGrid"/>
     </div>
   </div>
 </template>
@@ -103,7 +103,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.unhotkeyPressed = "";
     this.researchHotkeyPressed = "";
     this.listenToUnhotkeyFunction = false;
-    this.selectGridForAbility(null);
+    this.setGridForAbility(null);
   }
 
   public parseHotkey(item: Ability) {
@@ -143,7 +143,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     return this.selectedAbility?.name ?? ""
   }
 
-  public async selectGridForAbility(selection: Grid | null) {
+  public setGridForAbility(selection: Grid | null) {
     this.selectedGrid = selection;
     this.selectionGrid.forEach(g => g.forEach(g2 => {
       if (g2.x === this.selectedGrid?.x && g2.y === this.selectedGrid?.y) {
@@ -154,7 +154,11 @@ export default class RaceSpecificHotkeyTab extends Vue {
     }));
 
     this.selectionGrid = [...this.selectionGrid]
-    await this.saveHotkey()
+  }
+
+  public async saveGridForAbility(selection: Grid | null) {
+    this.setGridForAbility(selection);
+    await this.saveHotkey();
   }
 
   public async saveHotkeys() {
@@ -187,7 +191,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
         {
           hotKey: this.hotkeyPressed,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
-          isResearchAbility: this.editAbility.isResearchAbility,
           grid: this.selectedGrid,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
@@ -209,7 +212,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
         {
           hotKey: this.editAbility.defaultHotkey,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
-          isResearchAbility: this.editAbility.isResearchAbility,
           grid: this.selectedGrid,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
@@ -227,7 +229,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
         {
           hotKey: this.editAbility.currentHotkey,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
-          isResearchAbility: this.editAbility.isResearchAbility,
           grid: null,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
@@ -238,7 +239,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
         });
 
     this.selectedGrid = null
-    this.selectGridForAbility(null);
+    this.setGridForAbility(null);
   }
 
   public toKey(units: Unit[]) {
@@ -290,7 +291,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.unhotkeyPressed = selection.unHotkey;
     this.researchHotkeyPressed = selection.researchHotkey;
     this.listenToUnhotkeyFunction = false;
-    this.selectGridForAbility(selection.currentGrid);
+    this.setGridForAbility(selection.currentGrid);
 
     window.document.onkeydown = this.convertKeyPress;
   }
