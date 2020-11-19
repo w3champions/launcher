@@ -140,6 +140,8 @@ const mod = {
       const filter = newHotkeys.filter(n => n.isW3cSupportedKey);
       logger.info(`only put ${filter.length} into state`)
       commit.SET_RACE_HOTKEYS(filter);
+      rootGetters.itemHotkeyService.saveRaceHotKeys(state.raceHotkeys);
+      await rootGetters.fileService.enableCustomHotkeys();
     },
     loadRaceHotkeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);

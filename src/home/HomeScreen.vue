@@ -3,7 +3,7 @@
     <div class="modt">
       <div class="w3font news-header">{{ news[selectedNews] ? news[selectedNews].date : "" }}</div>
       <br />
-      <vue-markdown :source="news[selectedNews].message" />
+      <vue-markdown :source="news[selectedNews] ? news[selectedNews].message : ''" />
     </div>
     <div style="bottom: 188px; display: flex; justify-content: center; position: absolute;">
       <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="() => isSelected(index) ? 'selected-item' : ''"/>
