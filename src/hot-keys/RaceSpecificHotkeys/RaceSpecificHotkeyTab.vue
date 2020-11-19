@@ -342,14 +342,13 @@ export default class RaceSpecificHotkeyTab extends Vue {
   private convertKeyPress(e: KeyboardEvent) {
     if (e.code === "Escape") {
       this.setHotkeyPressed("27");
-      this.setRaceHotkeyInState();
-      return;
+    } else {
+      if (!e.code.startsWith("Key")) return;
+
+      if (e.key.length != 1) return;
+
+      this.setHotkeyPressed(e.key.toUpperCase());
     }
-    if (!e.code.startsWith("Key")) return;
-
-    if (e.key.length != 1) return;
-
-    this.setHotkeyPressed(e.key.toUpperCase());
 
     this.setRaceHotkeyInState();
   }
