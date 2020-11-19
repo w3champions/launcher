@@ -47,7 +47,7 @@ const units =
         ]),
         new Unit('Gargoyle', 'btngargoyle', [
             ...defaultUnitAbilities,
-            Ability.Create('Prioritize', 'btnairattackon', 'aatp', 'R', []),
+            Ability.Unmovable('Prioritize', 'btnairattackon', 'aatp', 'R', []),
             ...Ability.Defaults(2),
             Ability.UnhotkeyAbility('Stone Form', 'btnstoneform', 'astn', 'F'),
         ]),

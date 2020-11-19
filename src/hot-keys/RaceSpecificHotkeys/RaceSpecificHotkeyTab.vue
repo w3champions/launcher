@@ -48,8 +48,15 @@
           <div class="w3font" style="color: aliceblue; font-size: 14px">Hotkey to Disable Ability</div>
         </div>
       </div>
-      <div style="margin-top: 25px" class="w3font"><div style="display:inline; ">hotkey location</div><div @click="resetGrid" style=" float: right; margin-right: 20px; cursor: pointer; color: aliceblue; display:inline; font-size: 14px">(Reset)</div></div>
-      <ItemSelectionContainer style="margin-top: 10px" :on-click="saveGridForAbility" :selection-items="selectionGrid"/>
+      <div v-if="editAbility.canNotBeMoved">
+        <div class="w3font" style="color: aliceblue; font-size: 14px; padding: 5px; margin-top: 20px">
+          reallocation of ability not supported by Blizzard
+        </div>
+      </div>
+      <div v-else>
+        <div style="margin-top: 25px" class="w3font"><div style="display:inline; ">hotkey location</div><div @click="resetGrid" style=" float: right; margin-right: 20px; cursor: pointer; color: aliceblue; display:inline; font-size: 14px">(Reset)</div></div>
+        <ItemSelectionContainer style="margin-top: 10px" :on-click="saveGridForAbility" :selection-items="selectionGrid"/>
+      </div>
     </div>
   </div>
 </template>
