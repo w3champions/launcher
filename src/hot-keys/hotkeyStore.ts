@@ -63,7 +63,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
           }
 
           const resultsInner = getDuplicateHotkeys(a.abilities);
-          a.abilities.forEach(a => {
+          a.abilities.filter(x => !x.isAura).forEach(a => {
             if (resultsInner.includes(a.currentHotkey)) {
               a.hasConflict = true;
             }
@@ -71,7 +71,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
         })
 
         const resultsOuter = getDuplicateHotkeys(h.abilities);
-        h.abilities.forEach(a => {
+        h.abilities.filter(x => !x.isAura).forEach(a => {
           if (resultsOuter.includes(a.currentHotkey)) {
             a.hasConflict = true;
           }
