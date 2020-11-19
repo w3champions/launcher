@@ -109,6 +109,11 @@ const mod = {
       await rootGetters.fileService.saveHotkeysToHotkeyFile(state.raceHotkeys);
       await rootGetters.fileService.enableCustomHotkeys();
     },
+    createBackupOfHotkeyFile(context: ActionContext<HotKeyModifierState, RootState>) {
+      const {rootGetters} = moduleActionContext(context, mod);
+
+      rootGetters.fileService.createBackupOfHotkeyFile();
+    },
     async importHotkeysFromFile(context: ActionContext<HotKeyModifierState, RootState>) {
       const {rootGetters, state, commit } = moduleActionContext(context, mod);
 
