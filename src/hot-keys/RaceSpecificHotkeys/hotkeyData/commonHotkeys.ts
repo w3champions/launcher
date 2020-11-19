@@ -1,7 +1,7 @@
 import {Ability} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
-export const cancel = Ability.Create('Cancel', 'btncancel', 'cmdcancel', '512', [])
-export const cancelBuild = Ability.Create('Cancel', 'btncancel', 'cmdcancelbuild', '512', [])
+export const cancel = Ability.Create('Cancel', 'btncancel', 'cmdcancel', '27', [])
+export const cancelBuild = Ability.Create('Cancel', 'btncancel', 'cmdcancelbuild', '27', [])
 export const rally = Ability.Create('Rally', 'btnrallypoint', 'cmdrally', 'Y', [])
 export const stop = Ability.Create("Stop", "btnstop", "cmdstop", "S", []);
 export const attack = Ability.Create("Attack", "btnattack", "cmdattack", "A", []);

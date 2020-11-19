@@ -124,7 +124,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
   }
 
   private parseWithEscape(item: string) {
-    return item ? item.replace("512", "ESC") : '';
+    return item ? item.replace("27", "ESC") : '';
   }
 
   get isNeutralUnitTab() {
@@ -341,7 +341,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
   private convertKeyPress(e: KeyboardEvent) {
     if (e.code === "Escape") {
-      this.setHotkeyPressed("512");
+      this.setHotkeyPressed("27");
       this.setRaceHotkeyInState();
       return;
     }
