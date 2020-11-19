@@ -19,7 +19,6 @@ export interface RaceHotKey {
   unHotkey: string;
   additionalHotkeyIdentifiers: string[];
   grid: Grid | null;
-  researchGrid: Grid | null;
 }
 
 export class Grid implements W3cIcon {
@@ -91,7 +90,6 @@ export class Ability implements W3cIcon {
     this.abilities = abilities;
     this.hasConflict = false;
     this.currentGrid = null;
-    this.currentResearchGrid = null;
     this.isAura = isAura;
     this.unHotkey = unHotkey;
     this.isUnhotkey = !!unHotkey;
@@ -160,6 +158,5 @@ export class Ability implements W3cIcon {
   public researchHotkey: string;
   public currentHotkey: string;
   public currentGrid: Grid | null;
-  public currentResearchGrid: Grid | null;
   public abilities: Ability[];
 }

@@ -84,7 +84,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
   public wasSkillSelectSelected = false;
   public editAbility = {} as Ability | null;
   public selectedGrid = {} as Grid | null;
-  public selectedResearchGrid = {} as Grid | null;
   public selectedAbility = {} as Ability | null;
   public selectedUnitExtendedAbility = {} as Ability | null;
   public selectedUnit = {} as Unit;
@@ -99,7 +98,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
   @Watch("race")
   public onRaceChanged() {
     this.selectedGrid = null;
-    this.selectedResearchGrid = null;
     this.wasSkillSelectSelected = false;
     this.isResearchAbilitySelected = false;
     this.selectedUnit = {} as Unit;
@@ -113,7 +111,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.researchHotkeyPressed = "";
     this.listenToUnhotkeyFunction = false;
     this.setGridForAbility(null);
-    this.setResearchGridForAbility(null);
   }
 
   public parseHotkey(item: Ability) {
@@ -166,26 +163,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.selectionGridUiModel = [...this.selectionGridUiModel]
   }
 
-  public setResearchGridForAbility(selection: Grid | null) {
-    this.selectedResearchGrid = selection;
-    this.selectionGridUiModel.forEach(g => g.forEach(g2 => {
-      if (g2.x === this.selectedResearchGrid?.x && g2.y === this.selectedResearchGrid?.y) {
-        g2.Select()
-      } else {
-        g2.UnSelect()
-      }
-    }));
-
-    this.selectionGridUiModel = [...this.selectionGridUiModel]
-  }
-
   public saveGridForAbility(selection: Grid) {
-    if (this.isResearchAbilitySelected) {
-      this.setResearchGridForAbility(selection);
-    } else {
-      this.setGridForAbility(selection);
-    }
-
+    this.setGridForAbility(selection);
     this.setRaceHotkeyInState();
   }
 
@@ -220,7 +199,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
           hotKey: this.hotkeyPressed,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
           grid: this.selectedGrid,
-          researchGrid: this.selectedResearchGrid,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.unhotkeyPressed,
@@ -242,7 +220,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
           hotKey: this.editAbility.defaultHotkey,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
           grid: this.selectedGrid,
-          researchGrid: this.selectedResearchGrid,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.editAbility.defaultHotkey,
@@ -255,14 +232,11 @@ export default class RaceSpecificHotkeyTab extends Vue {
   public resetGrid() {
     if (!this.editAbility) return;
 
-    let newSelectedGrid = this.editAbility.isResearchAbility ? this.selectedGrid : null;
-    let newSelectedResearchGrid = this.editAbility.isResearchAbility ? null : this.selectedResearchGrid;
     this.$store.direct.dispatch.hotKeys.setRaceHotkey(
         {
           hotKey: this.editAbility.currentHotkey,
           hotkeyCommand: this.editAbility.hotkeyIdentifier,
-          grid: newSelectedGrid,
-          researchGrid: newSelectedResearchGrid,
+          grid: null,
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.editAbility.unHotkey,
@@ -271,10 +245,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
           isW3cSupportedKey: true
         });
 
-    this.selectedGrid = newSelectedGrid;
-    this.selectedResearchGrid = newSelectedResearchGrid;
-    this.setGridForAbility(newSelectedGrid);
-    this.setResearchGridForAbility(newSelectedResearchGrid);
+    this.setGridForAbility(null);
   }
 
   public toKey(units: Unit[]) {
@@ -326,17 +297,9 @@ export default class RaceSpecificHotkeyTab extends Vue {
     this.unhotkeyPressed = selection.unHotkey;
     this.researchHotkeyPressed = selection.researchHotkey;
     this.listenToUnhotkeyFunction = false;
-    this.setCorrectGrid(selection);
+    this.setGridForAbility(selection.currentGrid);
 
     window.document.onkeydown = this.convertKeyPress;
-  }
-
-  private setCorrectGrid(selection: Ability) {
-    if (this.isResearchAbilitySelected) {
-      this.setResearchGridForAbility(selection.currentResearchGrid);
-    } else {
-      this.setGridForAbility(selection.currentGrid);
-    }
   }
 
   private convertKeyPress(e: KeyboardEvent) {
