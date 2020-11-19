@@ -47,7 +47,7 @@ export default class ItemSelectionContainer extends Vue {
   }
 
   private parseWithEscape(item: string) {
-    return item ? item.replace("512", "ESC") : '';
+    return item ? item.replace("27", "ESC") : '';
   }
 }
 

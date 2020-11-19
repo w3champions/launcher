@@ -23,7 +23,7 @@ const buildings =
         new Building('Barracks', 'btnbarracks',
             buildingWithCancel([
                 Ability.Create('Train Grunt', 'btngrunt', 'ogru', 'G', []),
-                Ability.Create('Train Troll Headhunter', 'btnheadhunter', 'ohun', 'T', []),
+                Ability.MultiHotkey('Train Troll Headhunter', 'btnheadhunter', 'ohun', 'T', [], ['otbk']),
                 Ability.Create('Train Demolisher', 'btndemolisher', 'ocat', 'D', []),
                 ...Ability.Defaults(2),
                 Ability.Create('Berserker Upgrade', 'btnberserkfortrolls', 'robk', 'E', []),

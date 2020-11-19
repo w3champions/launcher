@@ -61,7 +61,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
           }
 
           const resultsInner = getDuplicateHotkeys(a.abilities);
-          a.abilities.forEach(a => {
+          a.abilities.filter(x => !x.isAura).forEach(a => {
             if (resultsInner.includes(a.currentHotkey)) {
               a.hasConflict = true;
             }
@@ -69,7 +69,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
         })
 
         const resultsOuter = getDuplicateHotkeys(h.abilities);
-        h.abilities.forEach(a => {
+        h.abilities.filter(x => !x.isAura).forEach(a => {
           if (resultsOuter.includes(a.currentHotkey)) {
             a.hasConflict = true;
           }
@@ -108,6 +108,11 @@ const mod = {
       rootGetters.itemHotkeyService.saveRaceHotKeys(state.raceHotkeys);
       await rootGetters.fileService.saveHotkeysToHotkeyFile(state.raceHotkeys);
       await rootGetters.fileService.enableCustomHotkeys();
+    },
+    createBackupOfHotkeyFile(context: ActionContext<HotKeyModifierState, RootState>) {
+      const {rootGetters} = moduleActionContext(context, mod);
+
+      rootGetters.fileService.createBackupOfHotkeyFile();
     },
     async importHotkeysFromFile(context: ActionContext<HotKeyModifierState, RootState>) {
       const {rootGetters, state, commit } = moduleActionContext(context, mod);

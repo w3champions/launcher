@@ -42,6 +42,13 @@ export class FileService {
         }
     }
 
+    createBackupOfHotkeyFile() {
+        const hotkeyFile = this.updateStrategy.getWar3HotkeyFile();
+        const backupLocation = hotkeyFile.replace(".txt", "_BackupFromW3Champions.txt")
+        this.copyFile(hotkeyFile, backupLocation);
+        logger.info(`Create Backup file on ${backupLocation}`)
+    }
+
     async importHotkeys() {
         const hotkeyFile = this.updateStrategy.getWar3HotkeyFile();
         if (fse.existsSync(hotkeyFile)) {
@@ -94,8 +101,8 @@ export class FileService {
 
     private extractRightString(l: string) {
         const hotkeyText = l.split("=")[1];
-        if (hotkeyText === "512") {
-            return "512";
+        if (hotkeyText === "27") {
+            return "27";
         } else {
             const newHotkey = hotkeyText[0];
             if (newHotkey) {

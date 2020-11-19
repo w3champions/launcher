@@ -78,7 +78,8 @@ export class Ability implements W3cIcon {
       isAura: boolean = false,
       additionalHotkeyIdentifiers: string[] = [],
       isStagedUpgrade: boolean = false,
-      unHotkey: string = '') {
+      unHotkey: string = '',
+      canNotBeMoved: boolean = false) {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
     this.icon = icon;
@@ -94,6 +95,7 @@ export class Ability implements W3cIcon {
     this.isUnhotkey = !!unHotkey;
     this.isResearchAbility = isResearchAbility;
     this.isStagedUpgrade = isStagedUpgrade;
+    this.canNotBeMoved = canNotBeMoved;
   }
 
   public static Aura(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
@@ -102,6 +104,10 @@ export class Ability implements W3cIcon {
 
   public static Create(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
     return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities)
+  }
+
+  public static Unmovable(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, false, false, [], false, '', true)
   }
 
   public static MultiHotkey(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], additionalHotkeyIdentifiers: string[], isResearch: boolean = false) {
@@ -142,6 +148,7 @@ export class Ability implements W3cIcon {
   public isAura: boolean;
   public isResearchAbility: boolean;
   public isStagedUpgrade: boolean;
+  public canNotBeMoved: boolean;
   public isUnhotkey: boolean;
   public hotkeyIdentifier: string;
   public additionalHotkeyIdentifiers: string[];
