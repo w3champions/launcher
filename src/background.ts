@@ -1,14 +1,16 @@
 'use strict'
 
-import {app, protocol, globalShortcut, BrowserWindow, dialog} from 'electron'
+import {app, protocol, globalShortcut, screen, BrowserWindow, dialog} from 'electron'
 import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
+declare const __static: string;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null
+let fab: BrowserWindow | null
 
 const logger = require("electron-log")
 
@@ -77,7 +79,8 @@ function createWindow() {
   }
 
   win.on('closed', () => {
-    win = null
+    win = null;
+    fab = null;
   })
 }
 
@@ -95,6 +98,10 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow()
+  }
+
+  if (fab === null) {
+    createFab()
   }
 })
 
@@ -119,6 +126,7 @@ app.on('ready', async () => {
   }
 
   createWindow()
+  createFab()
 })
 
 // Exit cleanly on request from parent process in development mode.
@@ -134,4 +142,29 @@ if (isDevelopment) {
       app.quit()
     })
   }
+}
+
+function createFab() {
+  const display = screen.getPrimaryDisplay();
+  const width = display.bounds.width;
+
+  fab = new BrowserWindow({
+    width: 150,
+    height: 150,
+    // x: width - 60,
+    // y: 20,
+    resizable: false,
+    frame: true,
+    titleBarStyle: 'hidden',
+    transparent: true,
+    fullscreenable: false,
+    alwaysOnTop: true,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+      webSecurity: false
+    }
+  })
+
+  fab.loadURL(`${__static}/fab.html`);
 }
