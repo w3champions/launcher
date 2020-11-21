@@ -25,8 +25,8 @@ jobs:
     condition: 
       eq(variables['Build.Reason'], 'PullRequest')
 
-  - script: npm run build and sign
-    displayName: 'npm build'
+  - script: npm run buildAndPublish
+    displayName: 'npm build and sign'
     condition: 
       ne(variables['Build.Reason'], 'PullRequest')
     env:
@@ -67,7 +67,7 @@ jobs:
     condition: 
       eq(variables['Build.Reason'], 'PullRequest')
 
-  - script: npm run build
+  - script: npm run buildAndPublish
     displayName: 'npm build and sign'
     condition: 
       ne(variables['Build.Reason'], 'PullRequest')
