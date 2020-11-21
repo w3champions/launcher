@@ -203,6 +203,9 @@ export default class RaceSpecificHotkeyTab extends Vue {
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.unhotkeyPressed,
           researchHotkey: this.researchHotkeyPressed,
+          researchTip: this.editAbility.researchTip,
+          tip: this.editAbility.tip,
+          untip: this.editAbility.untip,
           hotkeyName: this.editAbility.name,
           isW3cSupportedKey: true
         });
@@ -224,6 +227,9 @@ export default class RaceSpecificHotkeyTab extends Vue {
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.editAbility.defaultHotkey,
           researchHotkey: this.editAbility.defaultHotkey,
+          researchTip: this.editAbility.researchTip,
+          tip: this.editAbility.tip,
+          untip: this.editAbility.untip,
           hotkeyName: this.editAbility.name,
           isW3cSupportedKey: true
         });
@@ -241,6 +247,9 @@ export default class RaceSpecificHotkeyTab extends Vue {
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.editAbility.unHotkey,
           researchHotkey: this.editAbility.researchHotkey,
+          researchTip: this.editAbility.researchTip,
+          tip: this.editAbility.tip,
+          untip: this.editAbility.untip,
           hotkeyName: this.editAbility.name,
           isW3cSupportedKey: true
         });

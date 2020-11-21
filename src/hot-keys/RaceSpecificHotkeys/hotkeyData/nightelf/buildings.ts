@@ -9,7 +9,9 @@ import {
     defaultFighterAbilities,
     defaultMainBuilding, rally, shop, stop
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
+
 const uproot = Ability.Create('Uproot', 'btnuproot', 'aro1', 'R', [])
+const root = Ability.Create('Root', 'btnroot', 'aroo', 'R', [])
 
 const buildings =
     [
@@ -22,6 +24,7 @@ const buildings =
             Ability.MultiHotkey('Upgrade to Tree of Ages/Eternity', 'btntreeofeternity', 'etoa', 'U', [], ['etoe']),
             Ability.Create('Entangle Gold Mine', 'btngoldmine', 'aent', 'G', []),
             uproot,
+            root,
             cancelBuild
         ]),
 
@@ -35,7 +38,8 @@ const buildings =
             ...defaultFighterAbilities,
             Ability.Create('Eat Tree', 'btneattree', 'aeat', 'E', []),
             ...Ability.Defaults(2),
-            uproot
+            uproot,
+            root
         ]),
 
         new Building('Ancient of War', 'btnancientoftheearth', [
@@ -50,7 +54,8 @@ const buildings =
             Ability.Create('Research Improved Bows', 'btnimprovedbows', 'reib', 'I', []),
             Ability.Create('Research Sentinel', 'btnsentinel', 'resc', 'S', []),
             Ability.Create('Research Vorpal Blades', 'btnvorpalblades', 'repb', 'P', []),
-            uproot
+            uproot,
+            root
         ]),
 
         new Building('Hunter’s Hall', 'btnhuntershall', [
@@ -70,7 +75,8 @@ const buildings =
             ...Ability.Defaults(1),
             attack,
             ...Ability.Defaults(7),
-            uproot
+            uproot,
+            root
         ]),
 
         new Building('Moon Well', 'btnmoonwell', [
@@ -100,6 +106,7 @@ const buildings =
             Ability.StagedUpgrade('Druid of the Claw Training', 'btndocadepttraining', 'redc', 'L', []),
             Ability.Create('Research Resistant Skin', 'btnhardenedskin', 'rers', 'T', []),
             uproot,
+            root
         ]),
 
         new Building('Ancient of Wind', 'btnancientofthemoon', [
@@ -110,10 +117,11 @@ const buildings =
             Ability.Create('Research Mark of the Talon', 'btnenchantedcrows', 'reec', 'M', []),
             ...Ability.Defaults(1),
             rally,
-            ...Ability.Defaults(1),
+            Ability.Create('Hippogryph Taming', 'btntamehippogriff', 'reht', 'I', []),
             Ability.StagedUpgrade('Druid of the Talon Training', 'btndotadepttraining', 'redt', 'A ', []),
             cancelBuild,
             uproot,
+            root
         ]),
 
         new Building('Chimaera Roost', 'btnchimaeraroost', [
@@ -131,11 +139,12 @@ const buildings =
                 Ability.Create('Purchase Lesser Clarity Potion', 'btnlesserclaritypotion', 'plcl', 'C', []),
                 Ability.Default(),
                 Ability.Create('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', []),
-            ],[
+            ], [
                 Ability.Create('Purchase Staff of Preservation', 'btnstaffofpreservation', 'spre', 'E', []),
                 Ability.Create('Purchase Orb of Venom', 'btnorbofvenom', 'oven', 'V', []),
                 Ability.Create('Purchase Anti-magic Potion', 'btnsnazzypotion', 'pams', 'A', []),
-                uproot
+                uproot,
+                root
             ])
         ])
     ] as Unit[]

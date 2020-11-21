@@ -13,10 +13,13 @@ export interface RaceHotKey {
   isW3cSupportedKey: boolean;
   hotkeyCommand: string;
   hotkeyName: string;
+  researchTip: string | null;
   researchHotkey: string;
   hotKey: string;
   isStagedUpgrade: boolean;
   unHotkey: string;
+  tip: string | null;
+  untip: string | null;
   additionalHotkeyIdentifiers: string[];
   grid: Grid | null;
 }
@@ -79,13 +82,17 @@ export class Ability implements W3cIcon {
       additionalHotkeyIdentifiers: string[] = [],
       isStagedUpgrade: boolean = false,
       unHotkey: string = '',
-      canNotBeMoved: boolean = false) {
+      canNotBeMoved: boolean = false,
+      researchTip: string = '',
+      tip: string = '',
+      untip: string = '') {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
     this.icon = icon;
     this.defaultHotkey = defaultHotkey;
     this.currentHotkey = defaultHotkey;
     this.researchHotkey = defaultHotkey;
+    this.researchTip = researchTip;
     this.additionalHotkeyIdentifiers = additionalHotkeyIdentifiers;
     this.abilities = abilities;
     this.hasConflict = false;
@@ -93,6 +100,8 @@ export class Ability implements W3cIcon {
     this.isAura = isAura;
     this.unHotkey = unHotkey;
     this.isUnhotkey = !!unHotkey;
+    this.tip = tip;
+    this.untip = untip;
     this.isResearchAbility = isResearchAbility;
     this.isStagedUpgrade = isStagedUpgrade;
     this.canNotBeMoved = canNotBeMoved;
@@ -118,8 +127,8 @@ export class Ability implements W3cIcon {
     return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, false, false, [], true)
   }
 
-  public static UnhotkeyAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, isResearch: boolean = false, extendedAbilities: string[] = []) {
-    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, [], isResearch, false, extendedAbilities, false, defaultHotkey)
+  public static UnhotkeyAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, unhotKey: string = '', isResearch: boolean = false, extendedAbilities: string[] = []) {
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, [], isResearch, false, extendedAbilities, false, unhotKey ? unhotKey : defaultHotkey)
   }
 
   public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
@@ -155,7 +164,10 @@ export class Ability implements W3cIcon {
   public icon: string;
   public defaultHotkey: string;
   public unHotkey: string;
+  public researchTip: string;
   public researchHotkey: string;
+  public tip: string;
+  public untip: string;
   public currentHotkey: string;
   public currentGrid: Grid | null;
   public abilities: Ability[];

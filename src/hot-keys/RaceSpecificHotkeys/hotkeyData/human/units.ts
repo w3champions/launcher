@@ -76,7 +76,7 @@ const units =
         ]),
         new Unit('Dragonhawk Rider', 'btndragonhawkrider', [
             ...defaultFighterAbilities,
-            Ability.Create('Aerial Shackles', 'btnmagiclariet', 'AMLS', 'E', []),
+            Ability.Create('Aerial Shackles', 'btnmagiclariet', 'amls', 'E', []),
             Ability.Create('Cloud', 'btncloudoffog', 'aclf', 'C', []),
         ]),
 

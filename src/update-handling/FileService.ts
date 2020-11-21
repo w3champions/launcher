@@ -6,7 +6,7 @@ import {Grid, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotke
 const os = window.require("os");
 const fse = window.require("fs-extra");
 const sudo = window.require("sudo-prompt");
-const { remote } = window.require("electron");
+const {remote} = window.require("electron");
 const Store = window.require("electron-store");
 
 declare const __static: string;
@@ -21,7 +21,7 @@ export class FileService {
 
     loadIsTeamColorsEnabled(): boolean {
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
-        if (fse.existsSync(settingsFile)){
+        if (fse.existsSync(settingsFile)) {
             const content = fse.readFileSync(settingsFile, 'utf8').toString().split("\n");
             const allyFilterSetting = content.find((l: string) => l.startsWith("allyFilter="));
             return (allyFilterSetting === "allyFilter=2")
@@ -56,8 +56,9 @@ export class FileService {
             const content = fse.readFileSync(hotkeyFile, 'utf8').toString().split("\n");
             let currentHotkey = {} as RaceHotKey;
             content.forEach((l: string) => {
+                const lowerCaseLine = l.toLowerCase();
                 if (l.startsWith("[")) {
-                    if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
+                    if ((currentHotkey.hotKey && currentHotkey.hotkeyCommand) || currentHotkey.researchHotkey) {
                         hotkeys.push(currentHotkey)
                     }
 
@@ -68,19 +69,31 @@ export class FileService {
                     }
                 }
 
-                if (l.startsWith("Hotkey=")) {
+                if (lowerCaseLine.startsWith("hotkey=")) {
                     currentHotkey.hotKey = this.extractRightString(l);
                 }
 
-                if (l.startsWith("Unhotkey=")) {
+                if (lowerCaseLine.startsWith("unhotkey=")) {
                     currentHotkey.unHotkey = this.extractRightString(l);
                 }
 
-                if (l.startsWith("Researchhotkey=")) {
+                if (lowerCaseLine.startsWith("researchtip=")) {
+                    currentHotkey.researchTip = this.extractRightString(l);
+                }
+
+                if (lowerCaseLine.startsWith("researchhotkey=")) {
                     currentHotkey.researchHotkey = this.extractRightString(l);
                 }
 
-                if (l.startsWith("Buttonpos=")) {
+                if (lowerCaseLine.startsWith("tip=")) {
+                    currentHotkey.tip = this.extractRightString(l);
+                }
+
+                if (lowerCaseLine.startsWith("untip=")) {
+                    currentHotkey.untip = this.extractRightString(l);
+                }
+
+                if (lowerCaseLine.startsWith("buttonpos=")) {
                     const positions = l.split("=")[1].split(",");
                     if (positions.length === 2) {
                         currentHotkey.grid = new Grid(parseInt(positions[0]), parseInt(positions[1]))
@@ -88,29 +101,13 @@ export class FileService {
                 }
             })
 
-            if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
-                hotkeys.push(currentHotkey)
-            }
+            hotkeys.push(currentHotkey)
 
             logger.info(`retrieved ${hotkeys.length} hotkeys from file`)
             return hotkeys
         }
 
         return [];
-    }
-
-    private extractRightString(l: string) {
-        const hotkeyText = l.split("=")[1];
-        if (hotkeyText === "27") {
-            return "27";
-        } else {
-            const newHotkey = hotkeyText[0];
-            if (newHotkey) {
-                return newHotkey;
-            }
-        }
-
-        return '';
     }
 
     async saveHotkeysToHotkeyFile(hotkeys: RaceHotKey[]) {
@@ -121,10 +118,26 @@ export class FileService {
             }
 
             fileContent.push("[" + h.hotkeyCommand + "]");
-            const hotKey = h.isStagedUpgrade ? `${h.hotKey},${h.hotKey},${h.hotKey}` : h.hotKey;
-            fileContent.push("Hotkey=" + hotKey);
+
+            if (h.tip) {
+                fileContent.push("Tip=" + h.tip);
+            }
+
+            if (h.hotKey) {
+                const hotKey = h.isStagedUpgrade ? `${h.hotKey},${h.hotKey},${h.hotKey}` : h.hotKey;
+                fileContent.push("Hotkey=" + hotKey)
+            }
+
+            if (h.untip) {
+                fileContent.push("Untip=" + h.untip);
+            }
+
             if (h.unHotkey) {
-                fileContent.push("Unhotkey=" + h.unHotkey);
+                fileContent.push("UnHotkey=" + h.unHotkey);
+            }
+
+            if (h.researchTip) {
+                fileContent.push("Researchtip=" + h.researchTip);
             }
 
             if (h.researchHotkey) {
@@ -144,7 +157,6 @@ export class FileService {
                 fileContent.push('\n');
                 fileContent.push("[" + additionalKey + "]");
                 fileContent.push("Hotkey=" + h.hotKey);
-
             })
 
             fileContent.push('\n');
@@ -156,7 +168,7 @@ export class FileService {
         logger.info("keys: " + hotkeys.length);
     }
 
-    public sudoCopyFromTo(from: string, to: string){
+    public sudoCopyFromTo(from: string, to: string) {
         const copyCommand = this.updateStrategy.getCopyCommand(from, to);
 
         logger.info("copy with: " + copyCommand);
@@ -185,18 +197,8 @@ export class FileService {
     }
 
     public resetTeamColorFiles(textureLocation: string) {
-        this.copyFile(`${__static}/replaceabletextures`,`${textureLocation}/replaceabletextures`);
+        this.copyFile(`${__static}/replaceabletextures`, `${textureLocation}/replaceabletextures`);
         logger.info('reset textures!');
-    }
-
-    private copyFile(from: string, to:string) {
-        try {
-            logger.info(`Copy from: ${from} to: ${to}`);
-            fse.copySync(from, to);
-        } catch (e) {
-            logger.info("Copy with sudo now")
-            this.sudoCopyFromTo(from, to);
-        }
     }
 
     async saveIsTeamColorsEnabled(value: boolean) {
@@ -210,6 +212,29 @@ export class FileService {
             content[index1 + index2 + index3 + 2] = `allyFilter=${value ? "2" : "0"}`;
             await this.writeArrayToFileForce(settingsFile, content, "War3Preferences.txt");
             logger.info("set w3 team color preferences to " + value)
+        }
+    }
+
+    private extractRightString(l: string) {
+        const hotkeyText = l.split("=")[1];
+        if (hotkeyText === "27") {
+            return "27";
+        } else {
+            if (hotkeyText) {
+                return hotkeyText;
+            }
+        }
+
+        return '';
+    }
+
+    private copyFile(from: string, to: string) {
+        try {
+            logger.info(`Copy from: ${from} to: ${to}`);
+            fse.copySync(from, to);
+        } catch (e) {
+            logger.info("Copy with sudo now")
+            this.sudoCopyFromTo(from, to);
         }
     }
 

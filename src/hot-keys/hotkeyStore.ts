@@ -126,13 +126,13 @@ const mod = {
         hotkeys.forEach(h => {
           h.units.forEach(u => {
             u.abilities.forEach(a => {
-              if (a.hotkeyIdentifier === hk.hotkeyCommand) {
+              if (a.hotkeyIdentifier === hk.hotkeyCommand || a.additionalHotkeyIdentifiers.some(hki => hki === hk.hotkeyCommand)) {
                 hk.isW3cSupportedKey = true;
                 hk.hotkeyName = a.name;
               }
 
               a.abilities.forEach(ea => {
-                if (ea.hotkeyIdentifier === hk.hotkeyCommand) {
+                if (ea.hotkeyIdentifier === hk.hotkeyCommand || a.additionalHotkeyIdentifiers.some(hki => hki === hk.hotkeyCommand)) {
                   hk.isW3cSupportedKey = true;
                   hk.hotkeyName = ea.name;
                 }
