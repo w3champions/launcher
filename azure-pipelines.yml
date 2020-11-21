@@ -38,7 +38,7 @@ jobs:
 
 - job: linux
   pool:
-    vmImage: 'ubuntu-latest'
+    vmImage: 'ubuntu-18.04'
   steps:
     - task: NodeTool@0
       inputs:

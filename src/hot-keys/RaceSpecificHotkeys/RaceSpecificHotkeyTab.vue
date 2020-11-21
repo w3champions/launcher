@@ -45,7 +45,7 @@
           </div>
         </div>
         <div style="margin-top: 15px">
-          <div class="w3font" style="color: aliceblue; font-size: 14px">Hotkey to Disable Ability</div>
+          <div class="w3font" style="color: aliceblue; font-size: 14px">Hotkey to disable ability</div>
         </div>
       </div>
       <div v-if="editAbility.canNotBeMoved">
@@ -54,11 +54,11 @@
         </div>
       </div>
       <div v-else-if="isResearchAbilitySelected">
-        <div style="margin-top: 25px" class="w3font"><div style="display:inline; ">research hotkey location</div><div @click="resetResearchGrid" style=" float: right; margin-right: 20px; cursor: pointer; color: aliceblue; display:inline; font-size: 14px">(Reset)</div></div>
+        <div style="margin-top: 25px" class="w3font"><div style="display:inline; ">Train hotkey location</div><div @click="resetResearchGrid" style=" float: right; margin-right: 20px; cursor: pointer; color: aliceblue; display:inline; font-size: 14px">(Reset)</div></div>
         <ItemSelectionContainer style="margin-top: 10px" :on-click="saveGridForAbility" :selection-items="selectionGridResearchUiModel"/>
       </div>
       <div v-else>
-        <div style="margin-top: 25px" class="w3font"><div style="display:inline; ">hotkey location</div><div @click="resetGrid" style=" float: right; margin-right: 20px; cursor: pointer; color: aliceblue; display:inline; font-size: 14px">(Reset)</div></div>
+        <div style="margin-top: 25px" class="w3font"><div style="display:inline; ">Hotkey location</div><div @click="resetGrid" style=" float: right; margin-right: 20px; cursor: pointer; color: aliceblue; display:inline; font-size: 14px">(Reset)</div></div>
         <ItemSelectionContainer style="margin-top: 10px" :on-click="saveGridForAbility" :selection-items="selectionGridUiModel"/>
       </div>
     </div>
