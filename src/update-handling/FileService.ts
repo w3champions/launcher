@@ -58,7 +58,7 @@ export class FileService {
             content.forEach((l: string) => {
                 const lowerCaseLine = l.toLowerCase();
                 if (lowerCaseLine.startsWith("[")) {
-                    if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
+                    if ((currentHotkey.hotKey || currentHotkey.researchHotkey) && currentHotkey.hotkeyCommand) {
                         hotkeys.push(currentHotkey)
                     }
 
@@ -129,13 +129,16 @@ export class FileService {
             }
 
             fileContent.push("[" + h.hotkeyCommand + "]");
-            const hotKey = h.isStagedUpgrade ? `${h.hotKey},${h.hotKey},${h.hotKey}` : h.hotKey;
-            fileContent.push("Hotkey=" + hotKey);
+            if (h.hotKey) {
+                const hotKey = h.isStagedUpgrade ? `${h.hotKey},${h.hotKey},${h.hotKey}` : h.hotKey;
+                fileContent.push("Hotkey=" + hotKey);
+            }
+
             if (h.isUnhotkey && h.unHotkey) {
                 fileContent.push("Unhotkey=" + h.unHotkey);
             }
 
-            if (h.isResearchAbility && h.researchHotkey) {
+            if (h.researchHotkey) {
                 fileContent.push("Researchhotkey=" + h.researchHotkey);
             }
 
