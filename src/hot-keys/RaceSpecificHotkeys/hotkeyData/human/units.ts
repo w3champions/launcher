@@ -30,7 +30,7 @@ const units =
                 Ability.Create('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', []),
                 cancel
             ]),
-            Ability.UnhotkeyAbility('Call to Arms', 'btncalltoarms', 'amil', 'C'),
+            Ability.UnhotkeyAbility('Call to Arms', 'btncalltoarms', 'amil', 'C', 'W'),
             Ability.Default(),
             cancel
         ]),
