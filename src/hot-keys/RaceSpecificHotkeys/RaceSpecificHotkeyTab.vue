@@ -246,6 +246,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.unhotkeyPressed,
+          isUnhotkey: this.editAbility.isUnhotkey,
+          isResearchAbility: this.editAbility.isResearchAbility,
           researchHotkey: this.editAbility.isResearchAbility ? this.researchHotkeyPressed : "",
           hotkeyName: this.editAbility.name,
         });
@@ -263,6 +265,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.editAbility.defaultHotkey,
+          isUnhotkey: this.editAbility.isUnhotkey,
+          isResearchAbility: this.editAbility.isResearchAbility,
           researchHotkey: this.editAbility.isResearchAbility ? this.editAbility.defaultHotkey : "",
           hotkeyName: this.editAbility.name,
         });
@@ -283,6 +287,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.editAbility.unHotkey,
+          isUnhotkey: this.editAbility.isUnhotkey,
+          isResearchAbility: this.editAbility.isResearchAbility,
           researchHotkey: this.editAbility.isResearchAbility ? this.researchHotkeyPressed : "",
           hotkeyName: this.editAbility.name,
         });
@@ -302,6 +308,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
           additionalHotkeyIdentifiers: this.editAbility.additionalHotkeyIdentifiers,
           isStagedUpgrade: this.editAbility.isStagedUpgrade,
           unHotkey: this.editAbility.unHotkey,
+          isUnhotkey: this.editAbility.isUnhotkey,
+          isResearchAbility: this.editAbility.isResearchAbility,
           researchHotkey: this.editAbility.isResearchAbility ? this.researchHotkeyPressed : "",
           hotkeyName: this.editAbility.name,
         });

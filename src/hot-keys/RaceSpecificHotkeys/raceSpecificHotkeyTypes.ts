@@ -15,6 +15,8 @@ export interface RaceHotKey {
   researchHotkey: string;
   hotKey: string;
   isStagedUpgrade: boolean;
+  isResearchAbility: boolean;
+  isUnhotkey: boolean;
   unHotkey: string;
   additionalHotkeyIdentifiers: string[];
   grid: Grid | null;

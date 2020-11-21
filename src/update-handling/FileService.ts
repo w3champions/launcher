@@ -131,11 +131,11 @@ export class FileService {
             fileContent.push("[" + h.hotkeyCommand + "]");
             const hotKey = h.isStagedUpgrade ? `${h.hotKey},${h.hotKey},${h.hotKey}` : h.hotKey;
             fileContent.push("Hotkey=" + hotKey);
-            if (h.unHotkey) {
+            if (h.isUnhotkey && h.unHotkey) {
                 fileContent.push("Unhotkey=" + h.unHotkey);
             }
 
-            if (h.researchHotkey) {
+            if (h.isResearchAbility && h.researchHotkey) {
                 fileContent.push("Researchhotkey=" + h.researchHotkey);
             }
 

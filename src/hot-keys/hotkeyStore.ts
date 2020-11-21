@@ -46,6 +46,8 @@ function mergeHotkeyDataAndSelectedHotkeys(
               a2.currentGrid = hotKey.grid;
               a2.currentResearchGrid = hotKey.researchGrid;
               hotKey.hotkeyName = a2.name;
+              hotKey.isResearchAbility = a2.isResearchAbility;
+              hotKey.isUnhotkey = a2.isUnhotkey;
             }
           })
 
@@ -62,6 +64,8 @@ function mergeHotkeyDataAndSelectedHotkeys(
               a.currentGrid = hotKey.grid;
               a.currentResearchGrid = hotKey.researchGrid;
               hotKey.hotkeyName = a.name;
+              hotKey.isResearchAbility = a.isResearchAbility;
+              hotKey.isUnhotkey = a.isUnhotkey;
           }
 
           const resultsInner = getDuplicateHotkeys(a.abilities);
