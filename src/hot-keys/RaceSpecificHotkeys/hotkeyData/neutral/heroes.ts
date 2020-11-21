@@ -10,7 +10,7 @@ const heroes =
         new Hero('Naga Sea Witch', 'btnnagaseawitch', [
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Forked Lightning', 'btnmonsoon', 'anfl', 'F', []),
-                Ability.HeroAbility('Frost Arrows', 'btncoldarrowsoff', 'anfa', 'R', []),
+                Ability.UnhotkeyAbility('Frost Arrows', 'btncoldarrowsoff', 'anfa', 'R', 'R', true),
                 Ability.UnhotkeyAbility('Mana Shield', 'btnneutralmanashield', 'anms', 'N', 'N', true),
                 Ability.HeroAbility('Tornado ', 'btntornado', 'anto', 'T', []),
             ])

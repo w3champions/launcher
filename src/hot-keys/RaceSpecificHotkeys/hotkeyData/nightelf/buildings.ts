@@ -74,7 +74,7 @@ const buildings =
         ]),
 
         new Building('Moon Well', 'btnmoonwell', [
-            Ability.Create('Replenish Mana and Life', 'btnmanarechargeoff', 'ambt', 'R', []),
+            Ability.UnhotkeyAbility('Replenish Mana and Life', 'btnmanarechargeoff', 'ambt', 'R'),
         ]),
 
         new Building('Altar of Elders', 'btnaltarofelders', [

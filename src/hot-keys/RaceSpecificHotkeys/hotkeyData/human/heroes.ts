@@ -10,7 +10,7 @@ const heroes =
         new Hero('Paladin', 'btnheropaladin', [
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Holy Light', 'btnholybolt', 'ahhb', 'T', []),
-                Ability.HeroAbility('Divine Shield', 'btndivineintervention', 'ahds', 'D', []),
+                Ability.UnhotkeyAbility('Divine Shield', 'btndivineintervention', 'ahds', 'D', 'D', true),
                 Ability.Aura('Devotion Aura', 'btndevotion', 'ahad', 'V', []),
                 Ability.HeroAbility('Resurrection', 'btnresurrection', 'ahre', 'R', []),
             ])
@@ -28,7 +28,7 @@ const heroes =
                 Ability.HeroAbility('Storm Bolt', 'btnstormbolt', 'ahtb', 'T', []),
                 Ability.HeroAbility('Thunder Clap', 'btnthunderclap', 'ahtc', 'C', []),
                 Ability.Aura('Bash', 'pasbtnbash', 'ahbh', 'B', []),
-                Ability.HeroAbility('Avatar', 'btnavatar', 'ahav', 'V', []),
+                Ability.UnhotkeyAbility('Avatar', 'btnavatar', 'ahav', 'V', 'V', true),
             ])
         ]),
         new Hero('Blood Mage', 'btnherobloodelfprince', [

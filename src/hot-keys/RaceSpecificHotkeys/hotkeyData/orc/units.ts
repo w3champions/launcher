@@ -12,9 +12,9 @@ const units =
     [
         new Unit('Peon', 'btnpeon', [
             ...defaultUnitAbilities,
-            Ability.Create('Repair', 'btnrepair', 'arep', 'R', []),
+            Ability.UnhotkeyAbility('Repair', 'btnrepair', 'arep', 'R'),
             Ability.Default(),
-            Ability.Create('Gather', 'btngathergold', 'ahar', 'G', []),
+            Ability.UnhotkeyAbility('Gather', 'btngathergold', 'ahar', 'G'),
             Ability.Create('Build Structure', 'btnhumanbuild', 'cmdbuildorc', 'B', [
                 Ability.Create('Build Great Hall', 'btngreathall', 'ogre', 'H', []),
                 Ability.Create('Build Barracks', 'btnbarracks', 'obar', 'B', []),
@@ -46,7 +46,7 @@ const units =
             ...defaultFighterAbilities,
             Ability.Create('Purge', 'btnpurge', 'aprg', 'G', []),
             Ability.Create('Lightning Shield', 'btnlightningshield', 'alsh', 'L', []),
-            Ability.Create('Bloodlust', 'btnbloodlustoff', 'ablo', 'B', []),
+            Ability.UnhotkeyAbility('Bloodlust', 'btnbloodlustoff', 'ablo', 'B'),
         ]),
         new Unit('Witch Doctor', 'btnwitchdoctor', [
             ...defaultFighterAbilities,
@@ -74,7 +74,7 @@ const units =
         ]),
         new Unit('Troll Batrider', 'btntrollbatrider', [
             ...defaultFighterAbilities,
-            Ability.Create('Unstable Concoction', 'btnunstableconcoction', 'auco', 'C', []),
+            Ability.UnhotkeyAbility('Unstable Concoction', 'btnunstableconcoction', 'auco', 'C'),
         ]),
         new Unit('Tauren', 'btntauren', [
             ...defaultFighterAbilities,
