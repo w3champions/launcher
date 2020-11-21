@@ -37,8 +37,8 @@ const heroes =
         new Hero('Crypt Lord', 'btnherocryptlord', [
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Impale', 'btnimpale', 'auim', 'E', []),
-                Ability.HeroAbility('Carrion Beetles', 'btncarrionscarabsoff', 'aucb', 'C', []),
                 Ability.Aura('Spiked Carapace', 'pasbtnthornshield', 'auts', 'S', []),
+                Ability.HeroAbility('Carrion Beetles', 'btncarrionscarabsoff', 'aucb', 'C', []),
                 Ability.HeroAbility('Locust Swarm', 'btnlocustswarm', 'auls', 'L', []),
             ])
         ]),

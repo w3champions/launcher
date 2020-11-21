@@ -57,7 +57,7 @@ const heroes =
                 Ability.MultiHotkey('Pocket Factory', 'btnpocketfactory', 'ansy', 'F', [], ['ans1','ans2','ans3'], true),
                 Ability.MultiHotkey('Cluster Rockets', 'btnclusterrockets', 'ancs', 'R', [], ['anc1','anc2','anc3'], true),
                 Ability.Aura('Engineering Upgrade', 'pasbtnengineeringupgrade', 'aneg', 'E', []),
-                Ability.HeroAbility('Robo-Goblin', 'btnrobogoblin', 'anrg', 'B', []),
+                Ability.HeroAbility('Robo-Goblin', 'btnrobogoblin', 'anrg', 'B', [], true),
             ])
         ]),
 

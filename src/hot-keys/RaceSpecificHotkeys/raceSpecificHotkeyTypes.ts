@@ -122,8 +122,8 @@ export class Ability implements W3cIcon {
     return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, [], isResearch, false, extendedAbilities, false, defaultHotkey)
   }
 
-  public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
-    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, true, false)
+  public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isHUnhotkey = false) {
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, true, false, [], false, defaultHotkey)
   }
 
   public static Default() {

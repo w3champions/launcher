@@ -38,7 +38,7 @@ const buildings =
             buildingWithCancel([
                 Ability.StagedUpgrade('Upgrade Melee Weapons', 'btnorcmeleeupone', 'rome', 'M', []),
                 Ability.StagedUpgrade('Upgrade Ranged Weapons', 'btnsteelranged', 'rora', 'R', []),
-                Ability.Create('Upgrade Barricades', 'btnspikedbarricades', 'rosp', 'S', []),
+                Ability.StagedUpgrade('Upgrade Barricades', 'btnspikedbarricades', 'rosp', 'S', []),
                 Ability.Default(),
                 Ability.StagedUpgrade('Upgrade Armor', 'btnsteelarmor', 'roar', 'A', []),
                 Ability.Default(),
