@@ -123,7 +123,7 @@ export class Ability implements W3cIcon {
   }
 
   public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isHUnhotkey = false) {
-    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, true, false, [], false, defaultHotkey)
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, true, false, [], false, isHUnhotkey ? defaultHotkey : "")
   }
 
   public static Default() {
