@@ -86,6 +86,13 @@ export class FileService {
                         currentHotkey.grid = new Grid(parseInt(positions[0]), parseInt(positions[1]))
                     }
                 }
+
+                if (l.startsWith("Researchbuttonpos=")) {
+                    const positions = l.split("=")[1].split(",");
+                    if (positions.length === 2) {
+                        currentHotkey.researchGrid = new Grid(parseInt(positions[0]), parseInt(positions[1]))
+                    }
+                }
             })
 
             if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
@@ -129,10 +136,10 @@ export class FileService {
 
             if (h.researchHotkey) {
                 fileContent.push("Researchhotkey=" + h.researchHotkey);
+            }
 
-                if (h.grid) {
-                    fileContent.push(`Researchbuttonpos=${h.grid.x},${h.grid.y}`);
-                }
+            if (h.researchGrid) {
+                fileContent.push(`Researchbuttonpos=${h.researchGrid.x},${h.researchGrid.y}`);
             }
 
             if (h.grid) {
