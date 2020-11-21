@@ -101,7 +101,7 @@ export class FileService {
 
     private extractRightString(l: string) {
         const hotkeyText = l.split("=")[1];
-        if (hotkeyText === "27") {
+        if (hotkeyText === "27" || hotkeyText === "512") {
             return "27";
         } else {
             const newHotkey = hotkeyText[0];

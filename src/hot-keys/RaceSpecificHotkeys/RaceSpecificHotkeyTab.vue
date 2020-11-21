@@ -121,7 +121,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
   }
 
   private parseWithEscape(item: string) {
-    return item ? item.replace("27", "ESC") : '';
+    return item ? item.replace("27", "ESC").replace("512", "ESC") : '';
   }
 
   get isNeutralUnitTab() {
