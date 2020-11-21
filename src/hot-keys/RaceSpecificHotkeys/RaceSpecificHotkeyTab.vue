@@ -402,8 +402,12 @@ export default class RaceSpecificHotkeyTab extends Vue {
       this.unhotkeyPressed = key;
     } else if (this.isResearchAbilitySelected) {
       this.researchHotkeyPressed = key;
-    }else {
+    } else {
       this.hotkeyPressed = key;
+    }
+
+    if (this.editAbility?.isResearchAbility && !this.isResearchAbilitySelected) {
+      this.researchHotkeyPressed = this.hotkeyPressed
     }
   }
 
@@ -417,7 +421,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
     return this.splitIn4s(elemsWithId) as Ability[][];
   }
 
-  private fillUp(elements: W3cIcon[], max: number, filler: (index: string) => W3cIcon) {
+  private fillUp(elements: W3cIcon[], max: number, filler: () => W3cIcon) {
     const envs = []
     elements.forEach(e => envs.push(e));
     for (let i = 0; i < max - elements.length; i++) {
