@@ -1,6 +1,9 @@
 trigger:
 - master
 
+pr:
+- master
+
 jobs:
 - job: macOS
   pool:
@@ -19,11 +22,19 @@ jobs:
 
   - script: npm run build
     displayName: 'npm build'
+    condition: 
+      eq(variables['Build.Reason'], 'PullRequest')
+
+  - script: npm run build and sign
+    displayName: 'npm build'
+    condition: 
+      ne(variables['Build.Reason'], 'PullRequest')
     env:
       CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_MAC)
       CSC_LINK: w3c-certs-mac.p12
       APP_PW: $(APP_PW)
       GH_TOKEN: $(GH_TOKEN)
+
 
   - task: CopyFiles@2
     inputs:
@@ -53,6 +64,13 @@ jobs:
 
   - script: npm run build
     displayName: 'npm build'
+    condition: 
+      eq(variables['Build.Reason'], 'PullRequest')
+
+  - script: npm run build
+    displayName: 'npm build and sign'
+    condition: 
+      ne(variables['Build.Reason'], 'PullRequest')
     env:
       CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_WIN)
       CSC_LINK: w3c-certs-win.pfx
