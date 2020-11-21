@@ -96,7 +96,7 @@ export class FileService {
                 }
             })
 
-            if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
+            if ((currentHotkey.hotKey || currentHotkey.researchHotkey) && currentHotkey.hotkeyCommand) {
                 hotkeys.push(currentHotkey)
             }
 
