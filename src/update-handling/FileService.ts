@@ -114,7 +114,7 @@ export class FileService {
         } else {
             const newHotkey = hotkeyText[0];
             if (newHotkey) {
-                return newHotkey;
+                return newHotkey.toUpperCase();
             }
         }
 
