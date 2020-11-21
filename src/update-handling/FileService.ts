@@ -56,39 +56,40 @@ export class FileService {
             const content = fse.readFileSync(hotkeyFile, 'utf8').toString().split("\n");
             let currentHotkey = {} as RaceHotKey;
             content.forEach((l: string) => {
-                if (l.startsWith("[")) {
+                const lowerCaseLine = l.toLowerCase();
+                if (lowerCaseLine.startsWith("[")) {
                     if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
                         hotkeys.push(currentHotkey)
                     }
 
                     currentHotkey = {} as RaceHotKey;
-                    const newCommand = l.split("[")[1].split("]")[0];
+                    const newCommand = lowerCaseLine.split("[")[1].split("]")[0];
                     if (newCommand) {
                         currentHotkey.hotkeyCommand = newCommand.toLowerCase();
                     }
                 }
 
-                if (l.startsWith("Hotkey=")) {
-                    currentHotkey.hotKey = this.extractRightString(l);
+                if (lowerCaseLine.startsWith("hotkey=")) {
+                    currentHotkey.hotKey = this.extractRightString(lowerCaseLine);
                 }
 
-                if (l.startsWith("Unhotkey=")) {
-                    currentHotkey.unHotkey = this.extractRightString(l);
+                if (lowerCaseLine.startsWith("unhotkey=")) {
+                    currentHotkey.unHotkey = this.extractRightString(lowerCaseLine);
                 }
 
-                if (l.startsWith("Researchhotkey=")) {
-                    currentHotkey.researchHotkey = this.extractRightString(l);
+                if (lowerCaseLine.startsWith("researchhotkey=")) {
+                    currentHotkey.researchHotkey = this.extractRightString(lowerCaseLine);
                 }
 
-                if (l.startsWith("Buttonpos=")) {
-                    const positions = l.split("=")[1].split(",");
+                if (lowerCaseLine.startsWith("buttonpos=")) {
+                    const positions = lowerCaseLine.split("=")[1].split(",");
                     if (positions.length === 2) {
                         currentHotkey.grid = new Grid(parseInt(positions[0]), parseInt(positions[1]))
                     }
                 }
 
-                if (l.startsWith("Researchbuttonpos=")) {
-                    const positions = l.split("=")[1].split(",");
+                if (lowerCaseLine.startsWith("researchbuttonpos=")) {
+                    const positions = lowerCaseLine.split("=")[1].split(",");
                     if (positions.length === 2) {
                         currentHotkey.researchGrid = new Grid(parseInt(positions[0]), parseInt(positions[1]))
                     }

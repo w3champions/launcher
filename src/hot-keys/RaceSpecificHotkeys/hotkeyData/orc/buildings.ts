@@ -16,7 +16,7 @@ const buildings =
         new Building('Great Hall', 'btngreathall',
             buildingWithCancel([
                 Ability.Create('Train Peon', 'btnpeon', 'opeo', 'P', []),
-                ...defaultMainBuilding(Ability.Create('Research Pillage', 'btnpillage', 'ropg', 'G', []), 'rupm'),
+                ...defaultMainBuilding(Ability.Create('Research Pillage', 'btnpillage', 'ropg', 'G', []), 'ropm'),
                 Ability.MultiHotkey('Upgrade to Stronghold/Fortress', 'btnfortress', 'ostr', 'U', [], ['ofrt']),
             ])),
 

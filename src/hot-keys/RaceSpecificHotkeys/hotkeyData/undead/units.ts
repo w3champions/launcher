@@ -92,7 +92,7 @@ const units =
         new Unit('Carrion Beetle', 'btncarrionscarabslv3', [
             ...defaultFighterAbilities,
             ...Ability.Defaults(3),
-            Ability.UnhotkeyAbility('Burrow', 'btncryptfiendburrow', 'abu2', 'B', false, ['abu3']),
+            Ability.UnhotkeyAbility('Burrow', 'btncryptfiendburrow', 'abu2', 'B', 'B', false, ['abu3']),
         ])
     ] as Unit[]
 

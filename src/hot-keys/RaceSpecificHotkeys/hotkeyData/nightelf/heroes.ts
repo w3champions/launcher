@@ -11,7 +11,7 @@ const heroes =
         new Hero('Demon Hunter', 'btnherodemonhunter', [
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Mana Burn', 'btnmanaburn', 'aemb', 'B', []),
-                Ability.UnhotkeyAbility('Immolation', 'btnimmolationon', 'aeim', 'L', true),
+                Ability.UnhotkeyAbility('Immolation', 'btnimmolationon', 'aeim', 'L', 'L', true),
                 Ability.Aura('Evasion', 'pasbtnevasion', 'aeev', 'E', []),
                 Ability.HeroAbility('Metamorphosis', 'btnmetamorphosis', 'aeme', 'T', []),
             ])
