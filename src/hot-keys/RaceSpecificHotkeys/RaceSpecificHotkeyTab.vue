@@ -405,6 +405,10 @@ export default class RaceSpecificHotkeyTab extends Vue {
     if (this.editAbility?.isResearchAbility && !this.isResearchAbilitySelected) {
       this.researchHotkeyPressed = this.hotkeyPressed
     }
+
+    if (this.editAbility?.isUnhotkey && !this.listenToUnhotkeyFunction) {
+      this.unhotkeyPressed = this.hotkeyPressed
+    }
   }
 
   private splitInArrayOf4Units(elements: Unit[]) {

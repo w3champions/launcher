@@ -79,7 +79,8 @@ export class Ability implements W3cIcon {
       additionalHotkeyIdentifiers: string[] = [],
       isStagedUpgrade: boolean = false,
       unHotkey: string = '',
-      canNotBeMoved: boolean = false) {
+      canNotBeMoved: boolean = false,
+      isUnhotkey: boolean = false) {
     this.name = name;
     this.hotkeyIdentifier = hotkeyIdentifier;
     this.icon = icon;
@@ -93,7 +94,7 @@ export class Ability implements W3cIcon {
     this.currentResearchGrid = null;
     this.isAura = isAura;
     this.unHotkey = unHotkey;
-    this.isUnhotkey = !!unHotkey;
+    this.isUnhotkey = isUnhotkey;
     this.isResearchAbility = isResearchAbility;
     this.isStagedUpgrade = isStagedUpgrade;
     this.canNotBeMoved = canNotBeMoved;
@@ -119,8 +120,8 @@ export class Ability implements W3cIcon {
     return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, false, false, [], true)
   }
 
-  public static UnhotkeyAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, unhotkey: string = "", isResearch: boolean = false, extendedAbilities: string[] = []) {
-    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, [], isResearch, false, extendedAbilities, false, unhotkey ?? defaultHotkey)
+  public static UnhotkeyAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, unhotkeyDifferentFromDefault: string = "", isResearch: boolean = false, extendedAbilities: string[] = []) {
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, [], isResearch, false, extendedAbilities, false, unhotkeyDifferentFromDefault ?? defaultHotkey, false, true)
   }
 
   public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isHUnhotkey = false) {
