@@ -85,7 +85,7 @@ export class Ability implements W3cIcon {
     this.icon = icon;
     this.defaultHotkey = defaultHotkey;
     this.currentHotkey = defaultHotkey;
-    this.researchHotkey = defaultHotkey;
+    this.researchHotkey = isResearchAbility ? defaultHotkey : '';
     this.additionalHotkeyIdentifiers = additionalHotkeyIdentifiers;
     this.abilities = abilities;
     this.hasConflict = false;
