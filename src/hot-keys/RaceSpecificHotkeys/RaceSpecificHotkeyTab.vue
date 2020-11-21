@@ -248,7 +248,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
           unHotkey: this.unhotkeyPressed,
           researchHotkey: this.editAbility.isResearchAbility ? this.researchHotkeyPressed : "",
           hotkeyName: this.editAbility.name,
-          isW3cSupportedKey: true
         });
   }
 
@@ -266,7 +265,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
           unHotkey: this.editAbility.defaultHotkey,
           researchHotkey: this.editAbility.isResearchAbility ? this.editAbility.defaultHotkey : "",
           hotkeyName: this.editAbility.name,
-          isW3cSupportedKey: true
         });
 
     this.setGridForAbility(null);
@@ -287,7 +285,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
           unHotkey: this.editAbility.unHotkey,
           researchHotkey: this.editAbility.isResearchAbility ? this.researchHotkeyPressed : "",
           hotkeyName: this.editAbility.name,
-          isW3cSupportedKey: true
         });
 
     this.setGridForAbility(null);
@@ -307,7 +304,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
           unHotkey: this.editAbility.unHotkey,
           researchHotkey: this.editAbility.isResearchAbility ? this.researchHotkeyPressed : "",
           hotkeyName: this.editAbility.name,
-          isW3cSupportedKey: true
         });
 
     this.setResearchGridForAbility(null);
@@ -421,7 +417,8 @@ export default class RaceSpecificHotkeyTab extends Vue {
     return this.splitIn4s(elemsWithId) as Ability[][];
   }
 
-  private fillUp(elements: W3cIcon[], max: number, filler: () => W3cIcon) {
+  // eslint-disable-next-line no-unused-vars
+  private fillUp(elements: W3cIcon[], max: number, filler: (index: string) => W3cIcon) {
     const envs = []
     elements.forEach(e => envs.push(e));
     for (let i = 0; i < max - elements.length; i++) {

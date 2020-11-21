@@ -122,31 +122,10 @@ const mod = {
       const newHotkeys = await rootGetters.fileService.importHotkeys();
 
       const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, newHotkeys);
+
       commit.SET_RACE_HOTKEY_DATA(hotkeys);
+      commit.SET_RACE_HOTKEYS(newHotkeys);
 
-      newHotkeys.forEach(hk => {
-        hotkeys.forEach(h => {
-          h.units.forEach(u => {
-            u.abilities.forEach(a => {
-              if (a.hotkeyIdentifier === hk.hotkeyCommand) {
-                hk.isW3cSupportedKey = true;
-                hk.hotkeyName = a.name;
-              }
-
-              a.abilities.forEach(ea => {
-                if (ea.hotkeyIdentifier === hk.hotkeyCommand) {
-                  hk.isW3cSupportedKey = true;
-                  hk.hotkeyName = ea.name;
-                }
-              })
-            })
-          })
-        })
-      })
-
-      const filter = newHotkeys.filter(n => n.isW3cSupportedKey);
-      logger.info(`only put ${filter.length} into state`)
-      commit.SET_RACE_HOTKEYS(filter);
       rootGetters.itemHotkeyService.saveRaceHotKeys(state.raceHotkeys);
       await rootGetters.fileService.enableCustomHotkeys();
     },
