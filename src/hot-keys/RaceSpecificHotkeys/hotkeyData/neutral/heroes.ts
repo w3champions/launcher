@@ -11,7 +11,7 @@ const heroes =
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Forked Lightning', 'btnmonsoon', 'anfl', 'F', []),
                 Ability.HeroAbility('Frost Arrows', 'btncoldarrowsoff', 'anfa', 'R', []),
-                Ability.UnhotkeyAbility('Mana Shield', 'btnneutralmanashield', 'anms', 'N', true),
+                Ability.UnhotkeyAbility('Mana Shield', 'btnneutralmanashield', 'anms', 'N', 'N', true),
                 Ability.HeroAbility('Tornado ', 'btntornado', 'anto', 'T', []),
             ])
         ]),
