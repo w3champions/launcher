@@ -28,7 +28,7 @@
     </div>
     <div style="position:absolute; right: 133px; top: 193px" :class="editAbility.icon ? 'visible' : 'hidden'" class="current-selection-container">
       <div style="display: flex; flex-direction: row">
-        <div style="height: 64px; width: 64px; margin: 10px; display: flex" class="w3font" :class="editAbility.icon">
+        <div style="height: 64px; width: 64px; margin: 10px; display: flex; cursor: pointer" class="w3font" :class="editAbility.icon"  @click="() => listenToUnhotkeyFunction = false">
           <div style="padding-top: 45px; position: absolute; right: 222px">
              {{ parseHotkey(editAbility) }}
           </div>
@@ -39,7 +39,7 @@
         </div>
       </div>
       <div v-if="editAbility.unHotkey" style="display: flex; flex-direction: row">
-        <div style="height: 64px; width: 64px; margin: 10px; display: flex; cursor: pointer" class="w3font btncancel" @click="setListenerToUnhotkey">
+        <div style="height: 64px; width: 64px; margin: 10px; display: flex; cursor: pointer" class="w3font btncancel" @click="() => listenToUnhotkeyFunction = true">
           <div style="padding-top: 45px; position: absolute; right: 222px">
             {{ parseWithEscape(editAbility.unHotkey) }}
           </div>
@@ -206,10 +206,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
           hotkeyName: this.editAbility.name,
           isW3cSupportedKey: true
         });
-  }
-
-  public setListenerToUnhotkey() {
-    this.listenToUnhotkeyFunction = true
   }
 
   public resetKey() {
