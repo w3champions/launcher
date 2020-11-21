@@ -35,11 +35,11 @@ function mergeHotkeyDataAndSelectedHotkeys(
 
             if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
               a2.currentHotkey = hotKey.hotKey;
-              if (a2.isUnhotkey && hotKey.unHotkey){
+              if (a2.isUnhotkey || hotKey.unHotkey){
                 a2.unHotkey = hotKey.unHotkey;
               }
 
-              if (hotKey.researchHotkey){
+              if (a2.isResearchAbility || hotKey.researchHotkey){
                 a2.researchHotkey = hotKey.researchHotkey;
               }
 
@@ -53,16 +53,17 @@ function mergeHotkeyDataAndSelectedHotkeys(
 
           if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
               a.currentHotkey = hotKey.hotKey;
-              if (a.isUnhotkey && hotKey.unHotkey) {
+              if (a.isUnhotkey || hotKey.unHotkey) {
                 a.unHotkey = hotKey.unHotkey;
               }
 
-              if (hotKey.researchHotkey){
+              if (a.isResearchAbility || hotKey.researchHotkey){
                 a.researchHotkey = hotKey.researchHotkey;
               }
 
               a.currentGrid = hotKey.grid;
               a.currentResearchGrid = hotKey.researchGrid;
+
               hotKey.hotkeyName = a.name;
               hotKey.isResearchAbility = a.isResearchAbility;
               hotKey.isUnhotkey = a.isUnhotkey;
