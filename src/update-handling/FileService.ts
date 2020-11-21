@@ -144,6 +144,9 @@ export class FileService {
                 fileContent.push('\n');
                 fileContent.push("[" + additionalKey + "]");
                 fileContent.push("Hotkey=" + h.hotKey);
+                if (h.unHotkey) {
+                    fileContent.push("Unhotkey=" + h.unHotkey);
+                }
 
             })
 
