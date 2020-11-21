@@ -9,7 +9,7 @@ import {
     defaultFighterAbilities,
     defaultMainBuilding, rally, shop, stop
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
-const uproot = Ability.Create('Uproot', 'btnuproot', 'aro1', 'R', [])
+const uproot = Ability.UnhotkeyAbility('Uproot', 'btnuproot', 'aro1', 'R')
 
 const buildings =
     [
@@ -26,7 +26,7 @@ const buildings =
         ]),
 
         new Building('Entangled Gold Mine', 'btngoldmine', [
-            ...Ability.Defaults(9),
+            ...Ability.Defaults(8),
             Ability.Create('Load Wisp', 'btnload', 'slo2', 'L', []),
             Ability.Create('Unload All', 'btnunload', 'adri', 'U', [])
         ]),
@@ -74,7 +74,6 @@ const buildings =
         ]),
 
         new Building('Moon Well', 'btnmoonwell', [
-            ...Ability.Defaults(1),
             Ability.Create('Replenish Mana and Life', 'btnmanarechargeoff', 'ambt', 'R', []),
         ]),
 

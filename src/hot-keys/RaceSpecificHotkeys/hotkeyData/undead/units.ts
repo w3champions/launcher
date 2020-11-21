@@ -36,7 +36,7 @@ const units =
         new Unit('Ghoul', 'btnghoul', [
             ...defaultUnitAbilities,
             ...Ability.Defaults(2),
-            Ability.Create('Gather', 'btngathergold', 'ahrl', 'G', []),
+            Ability.UnhotkeyAbility('Gather', 'btngathergold', 'ahrl', 'G'),
             Ability.Create('Cannibalize', 'btncannibalize', 'acan', 'C', []),
         ]),
         new Unit('Crypt Fiend', 'btncryptfiend', [
@@ -47,7 +47,7 @@ const units =
         ]),
         new Unit('Gargoyle', 'btngargoyle', [
             ...defaultUnitAbilities,
-            Ability.Unmovable('Prioritize', 'btnairattackon', 'aatp', 'R', []),
+            Ability.UnhotkeyAbility('Prioritize', 'btnairattackon', 'aatp', 'R'),
             ...Ability.Defaults(2),
             Ability.UnhotkeyAbility('Stone Form', 'btnstoneform', 'astn', 'F'),
         ]),
@@ -63,8 +63,8 @@ const units =
         new Unit('Necromancer', 'btnnecromancer', [
             ...defaultFighterAbilities,
             Ability.Create('Raise Dead', 'btnraisedeadoff', 'arai', 'R', []),
-            Ability.Create('Cripple ', 'btncripple', 'acri', 'C', []),
             Ability.Create('Unholy Frenzy', 'btnunholyfrenzy', 'auhf', 'U', []),
+            Ability.Create('Cripple ', 'btncripple', 'acri', 'C', []),
         ]),
         new Unit('Banshee', 'btnbanshee', [
             ...defaultFighterAbilities,

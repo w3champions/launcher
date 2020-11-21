@@ -44,6 +44,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
               }
 
               a2.currentGrid = hotKey.grid;
+              a2.currentResearchGrid = hotKey.researchGrid;
             }
           })
 
@@ -58,6 +59,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
               }
 
               a.currentGrid = hotKey.grid;
+              a.currentResearchGrid = hotKey.researchGrid;
           }
 
           const resultsInner = getDuplicateHotkeys(a.abilities);

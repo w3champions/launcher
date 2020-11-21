@@ -31,12 +31,13 @@ const units =
         ]),
         new Unit('Storm (Pandaren Ultimate)', 'btnearthbrewmaster', [
             ...defaultFighterAbilities,
-            Ability.Create('Wind Walk', 'btnwindwalkon', 'anwk', 'W', []),
-            Ability.Create('Cyclone', 'btncyclone', 'accy', 'C', []),
             Ability.Create('Dispel Magic', 'btndispelmagic', 'adsm', 'D', []),
+            Ability.Create('Cyclone', 'btncyclone', 'accy', 'C', []),
+            Ability.Create('Wind Walk', 'btnwindwalkon', 'anwk', 'W', []),
         ]),
         new Unit('Earth (Pandaren Ultimate)', 'btnstormbrewmaster', [
             ...defaultFighterAbilities,
+            Ability.Default(),
             Ability.Create('TaunT', 'btnpandataunt', 'anta', 'T', []),
         ]),
         new Unit('Spirit Bear (Level 3)', 'btnspiritbear', [

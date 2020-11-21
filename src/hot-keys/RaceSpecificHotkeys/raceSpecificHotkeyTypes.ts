@@ -19,6 +19,7 @@ export interface RaceHotKey {
   unHotkey: string;
   additionalHotkeyIdentifiers: string[];
   grid: Grid | null;
+  researchGrid: Grid | null;
 }
 
 export class Grid implements W3cIcon {
@@ -85,11 +86,12 @@ export class Ability implements W3cIcon {
     this.icon = icon;
     this.defaultHotkey = defaultHotkey;
     this.currentHotkey = defaultHotkey;
-    this.researchHotkey = defaultHotkey;
+    this.researchHotkey = isResearchAbility ? defaultHotkey : '';
     this.additionalHotkeyIdentifiers = additionalHotkeyIdentifiers;
     this.abilities = abilities;
     this.hasConflict = false;
     this.currentGrid = null;
+    this.currentResearchGrid = null;
     this.isAura = isAura;
     this.unHotkey = unHotkey;
     this.isUnhotkey = !!unHotkey;
@@ -122,8 +124,8 @@ export class Ability implements W3cIcon {
     return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, [], isResearch, false, extendedAbilities, false, defaultHotkey)
   }
 
-  public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[]) {
-    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, true, false)
+  public static HeroAbility(name: string, icon: string, hotkeyIdentifier: string, defaultHotkey: string, abilities: Ability[], isHUnhotkey = false) {
+    return new Ability(name, icon, hotkeyIdentifier, defaultHotkey, abilities, true, false, [], false, isHUnhotkey ? defaultHotkey : "")
   }
 
   public static Default() {
@@ -158,5 +160,6 @@ export class Ability implements W3cIcon {
   public researchHotkey: string;
   public currentHotkey: string;
   public currentGrid: Grid | null;
+  public currentResearchGrid: Grid | null;
   public abilities: Ability[];
 }
