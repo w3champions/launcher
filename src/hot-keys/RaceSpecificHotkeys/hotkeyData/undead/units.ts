@@ -12,9 +12,9 @@ const units =
     [
         new Unit('Acolyte', 'btnacolyte', [
             ...defaultUnitAbilities,
-            Ability.Create('Restore', 'btnrepair', 'arst', 'R', []),
+            Ability.UnhotkeyAbility('Restore', 'btnrepair', 'arst', 'R'),
             Ability.Default(),
-            Ability.Create('Gather', 'btngathergold', 'aaha', 'G', []),
+            Ability.UnhotkeyAbility('Gather', 'btngathergold', 'aaha', 'G'),
             Ability.Create('Summon Building', 'btnscourgebuild', 'cmdbuildundead', 'B', [
                 Ability.Create('Summon Necropolis', 'btnnecropolis', 'unpl', 'N', []),
                 Ability.Create('Summon Crypt', 'btncrypt', 'usep', 'C', []),
@@ -41,7 +41,7 @@ const units =
         ]),
         new Unit('Crypt Fiend', 'btncryptfiend', [
             ...defaultFighterAbilities,
-            Ability.Create('Web', 'btnweboff', 'aweb', 'W', []),
+            Ability.UnhotkeyAbility('Web', 'btnweboff', 'aweb', 'W'),
             ...Ability.Defaults(2),
             Ability.UnhotkeyAbility('Burrow', 'btncryptfiendburrow', 'abur', 'B'),
         ]),
@@ -57,18 +57,18 @@ const units =
         ]),
         new Unit('Meat Wagon', 'btnmeatwagon', [
             ...defaultSiegeAbilities,
-            Ability.Create('Load Corpse', 'btnundeadloadoff', 'amel', 'C', []),
+            Ability.UnhotkeyAbility('Load Corpse', 'btnundeadloadoff', 'amel', 'C'),
             Ability.Create('Drop All Corpses', 'btnundeadunload', 'amed', 'D', []),
         ]),
         new Unit('Necromancer', 'btnnecromancer', [
             ...defaultFighterAbilities,
-            Ability.Create('Raise Dead', 'btnraisedeadoff', 'arai', 'R', []),
+            Ability.UnhotkeyAbility('Raise Dead', 'btnraisedeadoff', 'arai', 'R'),
             Ability.Create('Unholy Frenzy', 'btnunholyfrenzy', 'auhf', 'U', []),
             Ability.Create('Cripple ', 'btncripple', 'acri', 'C', []),
         ]),
         new Unit('Banshee', 'btnbanshee', [
             ...defaultFighterAbilities,
-            Ability.Create('Curse', 'btncurseoff', 'acrs', 'C', []),
+            Ability.UnhotkeyAbility('Curse', 'btncurseoff', 'acrs', 'C'),
             Ability.Create('Anti-magic Shell', 'btnantimagicshell', 'aam2', 'N', []),
             Ability.Create('Possession ', 'btnpossession', 'aps2', 'O', []),
         ]),
@@ -77,15 +77,15 @@ const units =
         ]),
         new Unit('Obsidian Statue', 'btnobsidianstatue', [
             ...defaultFighterAbilities,
-            Ability.Create('Essence of Blight', 'btnreplenishhealthoff', 'arpl', 'B', []),
-            Ability.Create('Spirit Touch', 'btnreplenishmanaoff', 'arpm', 'C', []),
+            Ability.UnhotkeyAbility('Essence of Blight', 'btnreplenishhealthoff', 'arpl', 'B'),
+            Ability.UnhotkeyAbility('Spirit Touch', 'btnreplenishmanaoff', 'arpm', 'C'),
             Ability.Default(),
             Ability.Create('Morph into Destroyer', 'btndestroyer', 'ubsp', 'T', []),
         ]),
         new Unit('Destroyer', 'btndestroyer', [
             ...defaultFighterAbilities,
             Ability.Create('Devour Magic', 'btnreplenishhealthoff', 'advm', 'D', []),
-            Ability.Create('Orb of Annihilation', 'btnorbofdeathoff', 'afak', 'O', []),
+            Ability.UnhotkeyAbility('Orb of Annihilation', 'btnorbofdeathoff', 'afak', 'O'),
             Ability.Default(),
             Ability.Create('Absorb Mana', 'btnabsorbmagic', 'aabs', 'B', []),
         ]),
