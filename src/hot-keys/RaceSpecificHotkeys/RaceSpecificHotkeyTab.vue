@@ -40,8 +40,10 @@
       </div>
       <div v-if="editAbility.unHotkey" style="display: flex; flex-direction: row">
         <div style="height: 64px; width: 64px; margin: 10px; display: flex; cursor: pointer" class="w3font btncancel" @click="() => listenToUnhotkeyFunction = true">
-          <div style="padding-top: 45px; position: absolute; right: 222px">
-            {{ parseWithEscape(editAbility.unHotkey) }}
+          <div style="width: 100%; height: 100%" :class="listenToUnhotkeyFunction ? 'selected-item' : ''">
+            <div style="padding-top: 45px; position: absolute; right: 222px">
+              {{ parseWithEscape(editAbility.unHotkey) }}
+            </div>
           </div>
         </div>
         <div style="margin-top: 15px">
