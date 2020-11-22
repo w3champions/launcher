@@ -149,14 +149,14 @@ async function createFab() {
   const width = display.bounds.width;
 
   fab = new BrowserWindow({
-    width: 50,
-    height: 50,
-    x: width - 60,
-    y: 20,
+    width: 150,
+    height: 150,
+    // x: width - 60,
+    // y: 20,
     resizable: false,
-    frame: false,
+    frame: true,
     titleBarStyle: 'hidden',
-    transparent: true,
+    transparent: false,
     fullscreenable: false,
     alwaysOnTop: true,
     webPreferences: {
