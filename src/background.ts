@@ -93,7 +93,7 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('activate', () => {
+app.on('activate', async () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
@@ -101,7 +101,7 @@ app.on('activate', () => {
   }
 
   if (fab === null) {
-    createFab()
+    await createFab()
   }
 })
 
@@ -126,7 +126,7 @@ app.on('ready', async () => {
   }
 
   createWindow()
-  createFab()
+  await createFab()
 })
 
 // Exit cleanly on request from parent process in development mode.
@@ -144,17 +144,17 @@ if (isDevelopment) {
   }
 }
 
-function createFab() {
+async function createFab() {
   const display = screen.getPrimaryDisplay();
   const width = display.bounds.width;
 
   fab = new BrowserWindow({
-    width: 150,
-    height: 150,
-    // x: width - 60,
-    // y: 20,
+    width: 50,
+    height: 50,
+    x: width - 60,
+    y: 20,
     resizable: false,
-    frame: true,
+    frame: false,
     titleBarStyle: 'hidden',
     transparent: true,
     fullscreenable: false,
@@ -166,5 +166,5 @@ function createFab() {
     }
   })
 
-  fab.loadURL(`${__static}/fab.html`);
+  await fab.loadURL(`${__static}/fab.html`);
 }

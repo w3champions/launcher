@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
     <style>
       .hotkeys-active {
@@ -15,11 +14,25 @@
           cursor: pointer
       }
     </style>
-    <body>
+    <script>
+        const { ipcRenderer } = require('electron')
 
-    <div class="hotkeys-inactive fab"></div>
-    <div id="fab">
-        hallo
-    </div>
+        // const fab = document.getElementById("fabApp");
+
+        ipcRenderer.on('fab-clicks', (event, arg) => {
+            if (arg === "on") {
+                console.log("turn ON")
+            } else {
+                console.log("turn OFF")
+            }
+        })
+
+        function sendToMain() {
+            ipcRenderer.send('fab-clicks', 'clicked');
+            console.log(`sent`)
+        }
+    </script>
+    <body>
+        <div id="fabApp" class="hotkeys-inactive fab" onclick="sendToMain();"></div>
     </body>
 </html>
