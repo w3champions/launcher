@@ -35,33 +35,42 @@ function mergeHotkeyDataAndSelectedHotkeys(
 
             if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
               a2.currentHotkey = hotKey.hotKey;
-              if (a2.isUnhotkey && hotKey.unHotkey){
+              if (a2.isUnhotkey || hotKey.unHotkey){
                 a2.unHotkey = hotKey.unHotkey;
               }
 
-              if (hotKey.researchHotkey){
+              if (a2.isResearchAbility || hotKey.researchHotkey){
                 a2.researchHotkey = hotKey.researchHotkey;
               }
 
               a2.currentGrid = hotKey.grid;
+              a2.currentResearchGrid = hotKey.researchGrid;
+              hotKey.hotkeyName = a2.name;
+              hotKey.isResearchAbility = a2.isResearchAbility;
+              hotKey.isUnhotkey = a2.isUnhotkey;
             }
           })
 
           if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
               a.currentHotkey = hotKey.hotKey;
-              if (a.isUnhotkey && hotKey.unHotkey) {
+              if (a.isUnhotkey || hotKey.unHotkey) {
                 a.unHotkey = hotKey.unHotkey;
               }
 
-              if (hotKey.researchHotkey){
+              if (a.isResearchAbility || hotKey.researchHotkey){
                 a.researchHotkey = hotKey.researchHotkey;
               }
 
               a.currentGrid = hotKey.grid;
+              a.currentResearchGrid = hotKey.researchGrid;
+
+              hotKey.hotkeyName = a.name;
+              hotKey.isResearchAbility = a.isResearchAbility;
+              hotKey.isUnhotkey = a.isUnhotkey;
           }
 
           const resultsInner = getDuplicateHotkeys(a.abilities);
-          a.abilities.forEach(a => {
+          a.abilities.filter(x => !x.isAura).forEach(a => {
             if (resultsInner.includes(a.currentHotkey)) {
               a.hasConflict = true;
             }
@@ -69,7 +78,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
         })
 
         const resultsOuter = getDuplicateHotkeys(h.abilities);
-        h.abilities.forEach(a => {
+        h.abilities.filter(x => !x.isAura).forEach(a => {
           if (resultsOuter.includes(a.currentHotkey)) {
             a.hasConflict = true;
           }
@@ -109,37 +118,21 @@ const mod = {
       await rootGetters.fileService.saveHotkeysToHotkeyFile(state.raceHotkeys);
       await rootGetters.fileService.enableCustomHotkeys();
     },
+    createBackupOfHotkeyFile(context: ActionContext<HotKeyModifierState, RootState>) {
+      const {rootGetters} = moduleActionContext(context, mod);
+
+      rootGetters.fileService.createBackupOfHotkeyFile();
+    },
     async importHotkeysFromFile(context: ActionContext<HotKeyModifierState, RootState>) {
       const {rootGetters, state, commit } = moduleActionContext(context, mod);
 
       const newHotkeys = await rootGetters.fileService.importHotkeys();
 
       const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, newHotkeys);
+
       commit.SET_RACE_HOTKEY_DATA(hotkeys);
+      commit.SET_RACE_HOTKEYS(newHotkeys);
 
-      newHotkeys.forEach(hk => {
-        hotkeys.forEach(h => {
-          h.units.forEach(u => {
-            u.abilities.forEach(a => {
-              if (a.hotkeyIdentifier === hk.hotkeyCommand) {
-                hk.isW3cSupportedKey = true;
-                hk.hotkeyName = a.name;
-              }
-
-              a.abilities.forEach(ea => {
-                if (ea.hotkeyIdentifier === hk.hotkeyCommand) {
-                  hk.isW3cSupportedKey = true;
-                  hk.hotkeyName = ea.name;
-                }
-              })
-            })
-          })
-        })
-      })
-
-      const filter = newHotkeys.filter(n => n.isW3cSupportedKey);
-      logger.info(`only put ${filter.length} into state`)
-      commit.SET_RACE_HOTKEYS(filter);
       rootGetters.itemHotkeyService.saveRaceHotKeys(state.raceHotkeys);
       await rootGetters.fileService.enableCustomHotkeys();
     },

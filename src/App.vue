@@ -40,7 +40,7 @@ export default class App extends Vue {
     if (this.$store.direct.state.hotKeys.raceHotkeys.length === 0) {
       logger.info('No hotkeys set yet, importing from file to not overwrite anything')
       await this.$store.direct.dispatch.hotKeys.importHotkeysFromFile();
-      await this.$store.direct.dispatch.hotKeys.saveRaceHotkeyToFile();
+      this.$store.direct.dispatch.hotKeys.createBackupOfHotkeyFile();
     }
 
     this.$store.direct.dispatch.hotKeys.setToggleKey(this.$store.direct.state.hotKeys.toggleButton);

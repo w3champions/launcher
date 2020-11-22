@@ -10,8 +10,8 @@ const heroes =
         new Hero('Naga Sea Witch', 'btnnagaseawitch', [
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Forked Lightning', 'btnmonsoon', 'anfl', 'F', []),
-                Ability.HeroAbility('Frost Arrows', 'btncoldarrowsoff', 'anfa', 'R', []),
-                Ability.UnhotkeyAbility('Mana Shield', 'btnneutralmanashield', 'anms', 'N', true),
+                Ability.UnhotkeyAbility('Frost Arrows', 'btncoldarrowsoff', 'anfa', 'R', 'R', true),
+                Ability.UnhotkeyAbility('Mana Shield', 'btnneutralmanashield', 'anms', 'N', 'N', true),
                 Ability.HeroAbility('Tornado ', 'btntornado', 'anto', 'T', []),
             ])
         ]),
@@ -54,10 +54,10 @@ const heroes =
 
         new Hero('Goblin Tinker', 'btnherotinker', [
             ...defaultHeroAbilities([
-                Ability.MultiHotkey('Pocket Factory', 'btnpocketfactory', 'ansy', 'F', [], ['ans1','ans2','ans2'], true),
-                Ability.MultiHotkey('Cluster Rockets', 'btnclusterrockets', 'ancs', 'R', [], ['anc1','anc2','anc2'], true),
+                Ability.MultiHotkey('Pocket Factory', 'btnpocketfactory', 'ansy', 'F', [], ['ans1','ans2','ans3'], true),
+                Ability.MultiHotkey('Cluster Rockets', 'btnclusterrockets', 'ancs', 'R', [], ['anc1','anc2','anc3'], true),
                 Ability.Aura('Engineering Upgrade', 'pasbtnengineeringupgrade', 'aneg', 'E', []),
-                Ability.HeroAbility('Robo-Goblin', 'btnrobogoblin', 'anrg', 'B', []),
+                Ability.HeroAbility('Robo-Goblin', 'btnrobogoblin', 'anrg', 'B', [], true),
             ])
         ]),
 

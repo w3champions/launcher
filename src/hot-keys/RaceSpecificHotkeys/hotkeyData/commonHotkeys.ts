@@ -1,7 +1,7 @@
 import {Ability} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
-export const cancel = Ability.Create('Cancel', 'btncancel', 'cmdcancel', '512', [])
-export const cancelBuild = Ability.Create('Cancel', 'btncancel', 'cmdcancelbuild', '512', [])
+export const cancel = Ability.Create('Cancel', 'btncancel', 'cmdcancel', '27', [])
+export const cancelBuild = Ability.Create('Cancel Build', 'btncancel', 'cmdcancelbuild', '27', [])
 export const rally = Ability.Create('Rally', 'btnrallypoint', 'cmdrally', 'Y', [])
 export const stop = Ability.Create("Stop", "btnstop", "cmdstop", "S", []);
 export const attack = Ability.Create("Attack", "btnattack", "cmdattack", "A", []);
@@ -37,7 +37,7 @@ export const defaultHeroAbilities = (learningSkills: Ability[], middleAbilities:
     return [
         ...defaultUnitAbilities,
         ...middleAbilities,
-        Ability.Create('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', learningSkills),
+        Ability.Create('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', [...learningSkills, ...Ability.Defaults(7), cancel]),
         ...notAuras,
         ...Ability.Defaults(learningSkills.length - ammountAuras),
         ultimate

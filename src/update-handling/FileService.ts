@@ -42,6 +42,13 @@ export class FileService {
         }
     }
 
+    createBackupOfHotkeyFile() {
+        const hotkeyFile = this.updateStrategy.getWar3HotkeyFile();
+        const backupLocation = hotkeyFile.replace(".txt", "_BackupFromW3Champions.txt")
+        this.copyFile(hotkeyFile, backupLocation);
+        logger.info(`Create Backup file on ${backupLocation}`)
+    }
+
     async importHotkeys() {
         const hotkeyFile = this.updateStrategy.getWar3HotkeyFile();
         if (fse.existsSync(hotkeyFile)) {
@@ -49,39 +56,47 @@ export class FileService {
             const content = fse.readFileSync(hotkeyFile, 'utf8').toString().split("\n");
             let currentHotkey = {} as RaceHotKey;
             content.forEach((l: string) => {
-                if (l.startsWith("[")) {
-                    if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
+                const lowerCaseLine = l.toLowerCase();
+                if (lowerCaseLine.startsWith("[")) {
+                    if ((currentHotkey.hotKey || currentHotkey.researchHotkey) && currentHotkey.hotkeyCommand) {
                         hotkeys.push(currentHotkey)
                     }
 
                     currentHotkey = {} as RaceHotKey;
-                    const newCommand = l.split("[")[1].split("]")[0];
+                    const newCommand = lowerCaseLine.split("[")[1].split("]")[0];
                     if (newCommand) {
                         currentHotkey.hotkeyCommand = newCommand.toLowerCase();
                     }
                 }
 
-                if (l.startsWith("Hotkey=")) {
-                    currentHotkey.hotKey = this.extractRightString(l);
+                if (lowerCaseLine.startsWith("hotkey=")) {
+                    currentHotkey.hotKey = this.extractRightString(lowerCaseLine);
                 }
 
-                if (l.startsWith("Unhotkey=")) {
-                    currentHotkey.unHotkey = this.extractRightString(l);
+                if (lowerCaseLine.startsWith("unhotkey=")) {
+                    currentHotkey.unHotkey = this.extractRightString(lowerCaseLine);
                 }
 
-                if (l.startsWith("Researchhotkey=")) {
-                    currentHotkey.researchHotkey = this.extractRightString(l);
+                if (lowerCaseLine.startsWith("researchhotkey=")) {
+                    currentHotkey.researchHotkey = this.extractRightString(lowerCaseLine);
                 }
 
-                if (l.startsWith("Buttonpos=")) {
-                    const positions = l.split("=")[1].split(",");
+                if (lowerCaseLine.startsWith("buttonpos=")) {
+                    const positions = lowerCaseLine.split("=")[1].split(",");
                     if (positions.length === 2) {
                         currentHotkey.grid = new Grid(parseInt(positions[0]), parseInt(positions[1]))
                     }
                 }
+
+                if (lowerCaseLine.startsWith("researchbuttonpos=")) {
+                    const positions = lowerCaseLine.split("=")[1].split(",");
+                    if (positions.length === 2) {
+                        currentHotkey.researchGrid = new Grid(parseInt(positions[0]), parseInt(positions[1]))
+                    }
+                }
             })
 
-            if (currentHotkey.hotKey && currentHotkey.hotkeyCommand) {
+            if ((currentHotkey.hotKey || currentHotkey.researchHotkey) && currentHotkey.hotkeyCommand) {
                 hotkeys.push(currentHotkey)
             }
 
@@ -94,12 +109,12 @@ export class FileService {
 
     private extractRightString(l: string) {
         const hotkeyText = l.split("=")[1];
-        if (hotkeyText === "512") {
-            return "512";
+        if (hotkeyText === "27" || hotkeyText === "512") {
+            return "27";
         } else {
             const newHotkey = hotkeyText[0];
             if (newHotkey) {
-                return newHotkey;
+                return newHotkey.toUpperCase();
             }
         }
 
@@ -114,18 +129,21 @@ export class FileService {
             }
 
             fileContent.push("[" + h.hotkeyCommand + "]");
-            const hotKey = h.isStagedUpgrade ? `${h.hotKey},${h.hotKey},${h.hotKey}` : h.hotKey;
-            fileContent.push("Hotkey=" + hotKey);
-            if (h.unHotkey) {
+            if (h.hotKey) {
+                const hotKey = h.isStagedUpgrade ? `${h.hotKey},${h.hotKey},${h.hotKey}` : h.hotKey;
+                fileContent.push("Hotkey=" + hotKey);
+            }
+
+            if (h.isUnhotkey && h.unHotkey) {
                 fileContent.push("Unhotkey=" + h.unHotkey);
             }
 
             if (h.researchHotkey) {
                 fileContent.push("Researchhotkey=" + h.researchHotkey);
+            }
 
-                if (h.grid) {
-                    fileContent.push(`Researchbuttonpos=${h.grid.x},${h.grid.y}`);
-                }
+            if (h.researchGrid) {
+                fileContent.push(`Researchbuttonpos=${h.researchGrid.x},${h.researchGrid.y}`);
             }
 
             if (h.grid) {
@@ -137,6 +155,9 @@ export class FileService {
                 fileContent.push('\n');
                 fileContent.push("[" + additionalKey + "]");
                 fileContent.push("Hotkey=" + h.hotKey);
+                if (h.unHotkey) {
+                    fileContent.push("Unhotkey=" + h.unHotkey);
+                }
 
             })
 

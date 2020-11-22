@@ -16,14 +16,14 @@ const buildings =
         new Building('Great Hall', 'btngreathall',
             buildingWithCancel([
                 Ability.Create('Train Peon', 'btnpeon', 'opeo', 'P', []),
-                ...defaultMainBuilding(Ability.Create('Research Pillage', 'btnpillage', 'ropg', 'G', []), 'rupm'),
+                ...defaultMainBuilding(Ability.Create('Research Pillage', 'btnpillage', 'ropg', 'G', []), 'ropm'),
                 Ability.MultiHotkey('Upgrade to Stronghold/Fortress', 'btnfortress', 'ostr', 'U', [], ['ofrt']),
             ])),
 
         new Building('Barracks', 'btnbarracks',
             buildingWithCancel([
                 Ability.Create('Train Grunt', 'btngrunt', 'ogru', 'G', []),
-                Ability.Create('Train Troll Headhunter', 'btnheadhunter', 'ohun', 'T', []),
+                Ability.MultiHotkey('Train Troll Headhunter', 'btnheadhunter', 'ohun', 'T', [], ['otbk']),
                 Ability.Create('Train Demolisher', 'btndemolisher', 'ocat', 'D', []),
                 ...Ability.Defaults(2),
                 Ability.Create('Berserker Upgrade', 'btnberserkfortrolls', 'robk', 'E', []),
@@ -38,7 +38,7 @@ const buildings =
             buildingWithCancel([
                 Ability.StagedUpgrade('Upgrade Melee Weapons', 'btnorcmeleeupone', 'rome', 'M', []),
                 Ability.StagedUpgrade('Upgrade Ranged Weapons', 'btnsteelranged', 'rora', 'R', []),
-                Ability.Create('Upgrade Barricades', 'btnspikedbarricades', 'rosp', 'S', []),
+                Ability.StagedUpgrade('Upgrade Barricades', 'btnspikedbarricades', 'rosp', 'S', []),
                 Ability.Default(),
                 Ability.StagedUpgrade('Upgrade Armor', 'btnsteelarmor', 'roar', 'A', []),
                 Ability.Default(),

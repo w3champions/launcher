@@ -19,7 +19,8 @@ import {Component, Prop, Vue} from "vue-property-decorator";
 export default class ColorPicker extends Vue {
   @Prop() public text!: string;
   @Prop() public color!: string;
-  @Prop() public onSwitchColor!: (newColor: string) => {};
+  // eslint-disable-next-line no-unused-vars
+  @Prop() public onSwitchColor!: (newColor: string) => void;
   modalOpen = false;
 
   public switchColor(color: string) {

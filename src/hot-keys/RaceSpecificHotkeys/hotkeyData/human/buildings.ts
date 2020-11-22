@@ -17,7 +17,7 @@ const buildings =
             Ability.Create('Train Peasant', 'btnpeasant', 'hpea', 'P', []),
             ...defaultMainBuilding(Ability.Default(), 'rhpm'),
             Ability.MultiHotkey('Upgrade to Keep/Castle', 'btncastle', 'hkee', 'U', [], ['hcas']),
-            Ability.Create('Call to Arms', 'btncalltoarms', 'amil', 'C', []),
+            Ability.UnhotkeyAbility('Call to Arms', 'btncalltoarms', 'amic', 'C', 'W'),
             Ability.Default()
             ])),
         new Building('Barracks', 'btnhumanbarracks',

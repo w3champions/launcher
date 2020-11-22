@@ -25,7 +25,7 @@ const units =
             Ability.Create("Hold", "btnholdposition", "cmdholdpos", "H", []),
             Ability.Default(),
             Ability.Create("Patrol", "btnpatrol", "cmdpatrol", "P", []),
-            Ability.Create('Renew ', 'btnwisphealoff', 'aren', 'R', []),
+            Ability.UnhotkeyAbility('Renew ', 'btnwisphealoff', 'aren', 'R'),
             Ability.Default(),
             Ability.Create('Gather', 'btngathergold', 'awha', 'G', []),
             Ability.Create('Create Building', 'btnnightelfbuild', 'cmdbuildnightelf', 'B', [
@@ -63,7 +63,7 @@ const units =
 
         new Unit('Dryad', 'btndryad', [
             ...defaultFighterAbilities,
-            Ability.Create("Abolish Magic", "btndryaddispelmagicoff", "aadm", "B", []),
+            Ability.UnhotkeyAbility("Abolish Magic", "btndryaddispelmagicoff", "aadm", "B"),
         ]),
 
         new Unit('Druid of the Claw', 'btndruidoftheclaw', [
@@ -92,7 +92,7 @@ const units =
 
         new Unit('Druid of the Talon', 'btndruidofthetalon', [
             ...defaultFighterAbilities,
-            Ability.MultiHotkey("Faerie Fire", "btnfaeriefireoff", "afae", "R", [], ["afa2"]),
+            Ability.UnhotkeyAbility("Faerie Fire", "btnfaeriefireoff", "afae", "R", "R", false,["afa2"]),
             Ability.Create("Cyclone", "btncyclone", "acyc", "C", []),
             Ability.Default(),
             Ability.UnhotkeyAbility("Storm Crow Form", "btnravenform", "arav", "F")
@@ -100,7 +100,7 @@ const units =
 
         new Unit('Faerie Dragon', 'btnfaeriedragon', [
             ...defaultFighterAbilities,
-            Ability.Create("Phase Shift", "btnphaseshiftoff", "apsh", "E", []),
+            Ability.UnhotkeyAbility("Phase Shift", "btnphaseshiftoff", "apsh", "E"),
             Ability.UnhotkeyAbility("Mana Flare", "btnmanaflare", "amfl", "F")
         ]),
 

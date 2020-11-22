@@ -29,8 +29,8 @@ const buildings =
         new Building('Mercenary Camp', 'btnmercenarycamp', [
             Ability.Create('Hire Forest Troll Shadow Priest', 'btnforesttrollshadowpriest', 'nfsp', 'P', []),
             Ability.Create('Hire Forest Troll Berserker', 'btnforesttrollberserker', 'nftb', 'B', []),
-            Ability.Create('Summon Mud Golemr', 'btnmudgolem', 'ngrk', 'U', []),
             Ability.Create('Hire Ogre Mauler', 'btnogremauler', 'nogm', 'M', []),
+            Ability.Create('Summon Mud Golemr', 'btnmudgolem', 'ngrk', 'U', []),
         ]),
 
         new Building('Goblin Merchant', 'btnmerchant', [

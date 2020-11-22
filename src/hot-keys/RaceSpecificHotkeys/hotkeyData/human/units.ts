@@ -30,7 +30,7 @@ const units =
                 Ability.Create('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', []),
                 cancel
             ]),
-            Ability.UnhotkeyAbility('Call to Arms', 'btncalltoarms', 'amil', 'C'),
+            Ability.UnhotkeyAbility('Call to Arms', 'btncalltoarms', 'amil', 'C', 'W'),
             Ability.Default(),
             cancel
         ]),
@@ -46,19 +46,19 @@ const units =
         ]),
         new Unit('Priest', 'btnpriest', [
             ...defaultFighterAbilities,
-            Ability.Create('Heal', 'btnhealoff', 'ahea', 'E', []),
+            Ability.UnhotkeyAbility('Heal', 'btnhealoff', 'ahea', 'E'),
             Ability.Create('Dispel Magic', 'btndispelmagic', 'adis', 'D', []),
-            Ability.Create('Inner Fire', 'btninnerfireoff', 'ainf', 'F', []),
+            Ability.UnhotkeyAbility('Inner Fire', 'btninnerfireoff', 'ainf', 'F'),
         ]),
         new Unit('Sorceress', 'btnsorceress', [
             ...defaultFighterAbilities,
-            Ability.Create('Slow', 'btnslowoff', 'aslo', 'W', []),
+            Ability.UnhotkeyAbility('Slow', 'btnslowoff', 'aslo', 'W'),
             Ability.Create('Invisibility', 'btninvisibility', 'aivs', 'I', []),
             Ability.Create('Polymorph', 'btnpolymorph', 'aply', 'O', []),
         ]),
         new Unit('Spell Breaker', 'btnspellbreaker', [
             ...defaultFighterAbilities,
-            Ability.Create('Spell Steal', 'btnspellstealoff', 'asps', 'T', []),
+            Ability.UnhotkeyAbility('Spell Steal', 'btnspellstealoff', 'asps', 'T'),
             Ability.Create('Control Magic', 'btncontrolmagic', 'acmg', 'C', []),
         ]),
         new Unit('Flying Machine', 'btnflyingmachine', [
@@ -76,7 +76,7 @@ const units =
         ]),
         new Unit('Dragonhawk Rider', 'btndragonhawkrider', [
             ...defaultFighterAbilities,
-            Ability.Create('Aerial Shackles', 'btnmagiclariet', 'AMLS', 'E', []),
+            Ability.Create('Aerial Shackles', 'btnmagiclariet', 'amls', 'E', []),
             Ability.Create('Cloud', 'btncloudoffog', 'aclf', 'C', []),
         ]),
 

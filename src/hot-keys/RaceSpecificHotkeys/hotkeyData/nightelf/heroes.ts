@@ -11,7 +11,7 @@ const heroes =
         new Hero('Demon Hunter', 'btnherodemonhunter', [
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Mana Burn', 'btnmanaburn', 'aemb', 'B', []),
-                Ability.UnhotkeyAbility('Immolation', 'btnimmolationon', 'aeim', 'L', true),
+                Ability.UnhotkeyAbility('Immolation', 'btnimmolationon', 'aeim', 'L', 'L', true),
                 Ability.Aura('Evasion', 'pasbtnevasion', 'aeev', 'E', []),
                 Ability.HeroAbility('Metamorphosis', 'btnmetamorphosis', 'aeme', 'T', []),
             ])
@@ -29,7 +29,7 @@ const heroes =
         new Hero('Priestess of the Moon', 'btnpriestessofthemoon', [
             ...defaultHeroAbilities([
                 Ability.HeroAbility('Scout', 'btnscout', 'aest', 'C', []),
-                Ability.HeroAbility('Searing Arrows', 'btnsearingarrowsoff', 'ahfa', 'R', []),
+                Ability.UnhotkeyAbility('Searing Arrows', 'btnsearingarrowsoff', 'ahfa', 'R', 'R', true),
                 Ability.Aura('Trueshot Aura', 'pasbtntrueshot', 'aear', 'T', []),
                 Ability.HeroAbility('Starfall ', 'btnstarfall', 'aesf', 'F', []),
             ],[

@@ -38,7 +38,8 @@ const buildings =
             )),
 
         new Building('Graveyard', 'btngraveyard',
-            buildingWithCancel([Ability.Create('Upgrade Unholy Strength', 'btnunholystrength', 'rume', 'S', []),
+            buildingWithCancel([
+                Ability.StagedUpgrade('Upgrade Unholy Strength', 'btnunholystrength', 'rume', 'S', []),
                 Ability.StagedUpgrade('Upgrade Creature Attack', 'btncreatureattack', 'rura', 'A', []),
                 ...Ability.Defaults(2),
 

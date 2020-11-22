@@ -25,7 +25,6 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
-// eslint-disable-next-line no-unused-vars
 import {Ability, W3cIcon} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 @Component
@@ -33,7 +32,8 @@ export default class ItemSelectionContainer extends Vue {
   @Prop() public selectionItems!: W3cIcon[][];
   @Prop() public singleRow!: boolean;
   @Prop() public isResearchAbilitySelected!: boolean;
-  @Prop() public onClick!: (icon: W3cIcon) => {};
+  // eslint-disable-next-line no-unused-vars
+  @Prop() public onClick!: (icon: W3cIcon) => void;
 
   public toKey(units: W3cIcon[]) {
     return units.map(u => u.icon).join("_");
@@ -47,7 +47,7 @@ export default class ItemSelectionContainer extends Vue {
   }
 
   private parseWithEscape(item: string) {
-    return item ? item.replace("512", "ESC") : '';
+    return item ? item.replace("27", "ESC").replace("512", "ESC") : '';
   }
 }
 
