@@ -1,10 +1,5 @@
 import store from '../../globalState/vuex-store'
 import logger from "@/logger";
-const { ipcRenderer } = window.require('electron');
-
-ipcRenderer.on('fab-clicked-forward', () => {
-    store.commit.hotKeys.TOGGLE_HOTKEYS();
-})
 
 export abstract class HotKeyState {
     abstract enterGame(): HotKeyState;
