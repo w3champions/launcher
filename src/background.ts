@@ -146,19 +146,18 @@ if (isDevelopment) {
 
 async function createFab() {
   const display = screen.getPrimaryDisplay();
-  const width = display.bounds.width;
+  const height = display.bounds.height;
 
   fab = new BrowserWindow({
-    width: 150,
-    height: 150,
-    x: width - 60,
-    y: 20,
+    width: 50,
+    height: 50,
+    x: 0,
+    y: height - 45,
     resizable: false,
     frame: false,
     titleBarStyle: 'hidden',
     transparent: true,
     fullscreenable: false,
-    alwaysOnTop: true,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
@@ -166,14 +165,9 @@ async function createFab() {
     }
   })
 
+  fab.setAlwaysOnTop(true, "status", 50);
   await fab.loadURL(`${__static}/fab.html`);
 }
-
-ipcMain.on('fab-clicked', () => {
-  if (win) {
-    win.webContents.send('fab-clicked-forward');
-  }
-})
 
 ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
   if (fab) {
