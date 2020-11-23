@@ -25,7 +25,7 @@
         const fab = document.getElementById("fabApp");
 
         console.log(fab);
-        ipcRenderer.on('fab-clicks', (event, arg) => {
+        ipcRenderer.on('fab-clicks-response', (event, arg) => {
             if (arg === "on") {
                 fab.classList.remove("hotkeys-inactive")
                 fab.classList.add("hotkeys-active")
