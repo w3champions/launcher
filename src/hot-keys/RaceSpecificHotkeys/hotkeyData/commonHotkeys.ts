@@ -2,6 +2,8 @@ import {Ability} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 export const cancel = Ability.Create('Cancel', 'btncancel', 'cmdcancel', '27', [])
 export const cancelBuild = Ability.Create('Cancel Build', 'btncancel', 'cmdcancelbuild', '27', [])
+export const cancelTrain = Ability.Create('Cancel Learn', 'btncancel', 'cmdcanceltrain', '27', [])
+export const cancelRevive = Ability.Create('Cancel Revive', 'btncancel', 'cmdcancelrevive', '27', [])
 export const rally = Ability.Create('Rally', 'btnrallypoint', 'cmdrally', 'Y', [])
 export const stop = Ability.Create("Stop", "btnstop", "cmdstop", "S", []);
 export const attack = Ability.Create("Attack", "btnattack", "cmdattack", "A", []);
@@ -37,7 +39,7 @@ export const defaultHeroAbilities = (learningSkills: Ability[], middleAbilities:
     return [
         ...defaultUnitAbilities,
         ...middleAbilities,
-        Ability.Create('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', [...learningSkills, ...Ability.Defaults(7), cancel]),
+        Ability.Create('Hero Abilities', 'btnskillz', 'cmdselectskill', 'O', [...learningSkills, ...Ability.Defaults(7), cancelTrain]),
         ...notAuras,
         ...Ability.Defaults(learningSkills.length - ammountAuras),
         ultimate
@@ -63,7 +65,7 @@ export const tier2ITems = [
     Ability.Create('Purchase Scroll of Town Portal', 'btnscrolluber', 'stwp', 'T', [])
 ]
 
-export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([
+export const defaultAltar = (heroes: Ability[]) => [
     ...Ability.Defaults(4),
 
     heroes[0],
@@ -72,8 +74,10 @@ export const defaultAltar = (heroes: Ability[]) => buildingWithCancel([
 
     heroes[1],
     heroes[2],
-    heroes[3]]
-)
+    heroes[3],
+    cancelRevive
+]
+
 
 export const defaultMainBuilding = (abilityBeforeBackpack: Ability, backpackCommand: string) => [
     Ability.Default(),
