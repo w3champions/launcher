@@ -189,13 +189,13 @@ const mod = {
     },
       enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
         const { rootGetters, state } = moduleActionContext(context, mod);
-        ipcRenderer.send('manual-hotkey', 'on');
+        ipcRenderer.send('manual-hotkey', true);
 
         rootGetters.itemHotkeyService.enableHotKeys(state.itemHotKeys);
       },
       disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
         const { rootGetters, state  } = moduleActionContext(context, mod);
-        ipcRenderer.send('manual-hotkey', 'off');
+        ipcRenderer.send('manual-hotkey', false);
 
         rootGetters.itemHotkeyService.disableHotKeys(state.itemHotKeys);
       },
