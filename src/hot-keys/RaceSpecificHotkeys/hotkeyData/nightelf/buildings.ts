@@ -9,7 +9,7 @@ import {
     defaultFighterAbilities,
     defaultMainBuilding, rally, shop, stop
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
-const uproot = Ability.UnhotkeyAbility('Uproot', 'btnuproot', 'aroo', 'R')
+const uproot = Ability.UnhotkeyAbility('Uproot', 'btnuproot', 'aro1', 'R', 'R', false, ['aro2'])
 
 const buildings =
     [

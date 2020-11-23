@@ -152,7 +152,6 @@ export class FileService {
             }
 
             h.additionalHotkeyIdentifiers?.forEach(additionalKey => {
-                fileContent.push('\n');
                 fileContent.push("[" + additionalKey + "]");
                 fileContent.push("Hotkey=" + h.hotKey);
                 if (h.unHotkey) {
