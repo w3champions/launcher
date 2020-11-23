@@ -23,6 +23,7 @@ export abstract class HotKeyState {
     protected turnOffHotkeys() {
         logger.info("turn Off HotKeys manually")
         ipcRenderer.send('fab-clicks-response', 'off');
+
         const audio = new Audio('/sound/PeonDeath.mp3');
         audio.currentTime = 0;
         audio.volume = 0.5;
