@@ -2,8 +2,8 @@ import store from '../../globalState/vuex-store'
 import logger from "@/logger";
 const { ipcRenderer } = window.require('electron');
 
-ipcRenderer.on('fab-clicks', () => {
-    logger.info("received");
+ipcRenderer.on('fab-clicked-forward', () => {
+    store.commit.hotKeys.TOGGLE_HOTKEYS();
 })
 
 export abstract class HotKeyState {
@@ -22,7 +22,6 @@ export abstract class HotKeyState {
 
     protected turnOffHotkeys() {
         logger.info("turn Off HotKeys manually")
-        ipcRenderer.send('fab-clicks-response', 'off');
 
         const audio = new Audio('/sound/PeonDeath.mp3');
         audio.currentTime = 0;
@@ -33,7 +32,6 @@ export abstract class HotKeyState {
 
     protected turnOnHotKeys() {
         const audio = new Audio('/sound/PeonReady1.mp3');
-        ipcRenderer.send('fab-clicks-response', 'on');
 
         audio.currentTime = 0.3;
         audio.volume = 0.5;

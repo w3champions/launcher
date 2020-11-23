@@ -6,8 +6,7 @@ import defaultHotkeyData from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/default
 import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import {HotKeyModifierState} from "@/hot-keys/hotkeyState";
 import {Ability, HotkeyMappingPerRace, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
-import logger from "@/logger";
-
+const { ipcRenderer } = window.require('electron')
 function getDuplicateHotkeys(abilities: Ability[]) {
   const allBilitiesSorted = abilities.map(a => a.currentHotkey).sort();
   const results = [] as string[];
@@ -189,11 +188,13 @@ const mod = {
     },
       enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
         const { rootGetters, state } = moduleActionContext(context, mod);
+        ipcRenderer.send('manual-hotkey', 'on');
 
         rootGetters.itemHotkeyService.enableHotKeys(state.itemHotKeys);
       },
       disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
         const { rootGetters, state  } = moduleActionContext(context, mod);
+        ipcRenderer.send('manual-hotkey', 'off');
 
         rootGetters.itemHotkeyService.disableHotKeys(state.itemHotKeys);
       },

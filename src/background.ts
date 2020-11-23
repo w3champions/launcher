@@ -1,6 +1,6 @@
 'use strict'
 
-import {app, protocol, globalShortcut, screen, BrowserWindow, dialog} from 'electron'
+import {app, protocol, globalShortcut, screen, BrowserWindow, dialog, ipcMain, IpcMainEvent} from 'electron'
 import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
@@ -151,12 +151,12 @@ async function createFab() {
   fab = new BrowserWindow({
     width: 150,
     height: 150,
-    // x: width - 60,
-    // y: 20,
+    x: width - 60,
+    y: 20,
     resizable: false,
-    frame: true,
+    frame: false,
     titleBarStyle: 'hidden',
-    transparent: false,
+    transparent: true,
     fullscreenable: false,
     alwaysOnTop: true,
     webPreferences: {
@@ -168,3 +168,15 @@ async function createFab() {
 
   await fab.loadURL(`${__static}/fab.html`);
 }
+
+ipcMain.on('fab-clicked', () => {
+  if (win) {
+    win.webContents.send('fab-clicked-forward');
+  }
+})
+
+ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
+  if (fab) {
+    fab.webContents.send('manual-hotkey-forward', arg);
+  }
+})

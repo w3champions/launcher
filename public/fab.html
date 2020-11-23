@@ -25,22 +25,18 @@
         const fab = document.getElementById("fabApp");
 
         console.log(fab);
-        ipcRenderer.on('fab-clicks-response', (event, arg) => {
+        ipcRenderer.on('manual-hotkey-forward', (event, arg) => {
             if (arg === "on") {
                 fab.classList.remove("hotkeys-inactive")
                 fab.classList.add("hotkeys-active")
-                console.log("turn ON")
             } else {
                 fab.classList.add("hotkeys-inactive")
                 fab.classList.remove("hotkeys-active")
-                console.log("turn OFF")
             }
         })
 
         function sendToMain() {
-            ipcRenderer.send('fab-clicks', 'clicked');
-            console.log(`sent`)
+            ipcRenderer.send('fab-clicked');
         }
     </script>
-
 </html>
