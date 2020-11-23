@@ -152,7 +152,7 @@ async function createFab() {
     width: 50,
     height: 50,
     x: 0,
-    y: height - 45,
+    y: height - Math.floor(height * 0.08),
     resizable: false,
     frame: false,
     titleBarStyle: 'hidden',
@@ -165,6 +165,15 @@ async function createFab() {
     }
   })
 
+  fab.on("moved", async (e:any) => {
+    if (win) {
+      const bounds = await e.sender.getBounds();
+      logger.info(`b: ${bounds.x}`)
+      logger.info(`b: ${bounds.y}`)
+      win.webContents.send('fab-dragged-forward', `${bounds.x}_${bounds.y}`);
+    }
+  });
+
   fab.setAlwaysOnTop(true, "status", 50);
   await fab.loadURL(`${__static}/fab.html`);
 }
@@ -174,3 +183,15 @@ ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
     fab.webContents.send('manual-hotkey-forward', arg);
   }
 })
+
+ipcMain.on('fab-position-loaded', (ev: IpcMainEvent, args) => {
+  if (fab) {
+    if (args?.x || args?.y) {
+      logger.info(`set position of fab to ${args.x}, ${args.y}`)
+      fab.setPosition(args.x, args.y);
+    }
+
+    logger.info(`no position saved, fab on default now`)
+  }
+})
+

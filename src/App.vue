@@ -34,6 +34,7 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.loadNews();
 
     logger.info(remote.app.getPath('userData'))
+    this.$store.direct.dispatch.hotKeys.loadHotkeyButtonPosition();
     this.$store.direct.dispatch.hotKeys.loadToggleKey();
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
     this.$store.direct.dispatch.hotKeys.loadRaceHotkeys();

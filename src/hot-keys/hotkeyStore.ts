@@ -1,12 +1,18 @@
-import {moduleActionContext} from "@/globalState/vuex-store";
+import store, {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
 import {NotInGameState} from "@/hot-keys/ItemHotkeys/HotKeyStateMachine";
 import defaultHotkeyData from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/defaultHotkeyData";
-import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
+import {ClickCombination, HotKey, HotkeyButtonPosition, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import {HotKeyModifierState} from "@/hot-keys/hotkeyState";
 import {Ability, HotkeyMappingPerRace, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+
 const { ipcRenderer } = window.require('electron')
+
+ipcRenderer.on('fab-dragged-forward', (wht: any, args: string) => {
+  const strings = args.split("_");
+  store.dispatch.hotKeys.saveHotkeyButtonPosition({x: parseInt(strings[0]), y: parseInt(strings[1])});
+})
 
 function getDuplicateHotkeys(abilities: Ability[]) {
   const allBilitiesSorted = abilities.map(a => a.currentHotkey).sort();
@@ -189,18 +195,30 @@ const mod = {
       });
       commit.SET_TOGGLE_KEY(combo);
     },
-      enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
-        const { rootGetters, state } = moduleActionContext(context, mod);
-        ipcRenderer.send('manual-hotkey', true);
+    enableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { rootGetters, state } = moduleActionContext(context, mod);
+      ipcRenderer.send('manual-hotkey', true);
 
-        rootGetters.itemHotkeyService.enableHotKeys(state.itemHotKeys);
-      },
-      disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
-        const { rootGetters, state  } = moduleActionContext(context, mod);
-        ipcRenderer.send('manual-hotkey', false);
+      rootGetters.itemHotkeyService.enableHotKeys(state.itemHotKeys);
+    },
+    disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { rootGetters, state  } = moduleActionContext(context, mod);
+      ipcRenderer.send('manual-hotkey', false);
 
-        rootGetters.itemHotkeyService.disableHotKeys(state.itemHotKeys);
-      },
+      rootGetters.itemHotkeyService.disableHotKeys(state.itemHotKeys);
+    },
+    saveHotkeyButtonPosition(context: ActionContext<HotKeyModifierState, RootState>, position: HotkeyButtonPosition) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      const hotKeys = rootGetters.itemHotkeyService.saveHotkeyButtonPosition(position)
+      commit.SET_HOTKEYS(hotKeys);
+    },
+    loadHotkeyButtonPosition(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { rootGetters } = moduleActionContext(context, mod);
+
+      const position = rootGetters.itemHotkeyService.loadHotkeyButtonPosition();
+      ipcRenderer.send('fab-position-loaded', position);
+    },
     loadHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 

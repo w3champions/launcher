@@ -21,3 +21,8 @@ export interface KeyDto {
   uiDisplay: string,
 }
 
+export interface HotkeyButtonPosition {
+  x: number,
+  y: number,
+}
+

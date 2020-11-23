@@ -12,7 +12,7 @@ import {
     ITEM_TOP_RIGHT
 } from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
 import logger from "@/logger";
-import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
+import {ClickCombination, HotKey, HotkeyButtonPosition, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import {RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 const { globalShortcut } = window.require("electron").remote;
@@ -57,9 +57,20 @@ export class ItemHotkeyRegistrationService {
     private hotKeyStoreRaceKey = "hotKeyStoreRaceKey"
     private hotKeyToggleKey = "hotKeyToggleKey"
     private hotKeyManualMode = "hotKeyManualModeKey"
+    private hotKeyButtonPosition = "hotKeyButtonPosition"
 
     public saveManualMode(manualMode: boolean) {
         this.keyValueStore.set(this.hotKeyManualMode, manualMode);
+    }
+
+    public loadHotkeyButtonPosition() {
+        return this.keyValueStore.get(this.hotKeyButtonPosition);
+    }
+
+    public saveHotkeyButtonPosition(position: HotkeyButtonPosition) {
+        logger.info(`saved hotkey x ${position.x}`);
+        logger.info(`saved hotkey y ${position.y}`);
+        return this.keyValueStore.set(this.hotKeyButtonPosition, position);
     }
 
     public loadManualMode() {
