@@ -159,6 +159,11 @@ export class FileService {
                     fileContent.push("Unhotkey=" + h.unHotkey);
                 }
 
+                if (h.grid) {
+                    fileContent.push(`Buttonpos=${h.grid.x},${h.grid.y}`);
+                    fileContent.push(`UnButtonpos=${h.grid.x},${h.grid.y}`);
+                }
+
             })
 
             fileContent.push('\n');
