@@ -29,6 +29,7 @@ export abstract class HotKeyState {
     }
 
     protected turnOnHotKeys() {
+        logger.info("turn on HotKeys manually")
 
         if (!store.state.isWindows) {
             const audio = new Audio('/sound/PeonReady1.mp3');
@@ -37,7 +38,6 @@ export abstract class HotKeyState {
             audio.play();
         }
 
-        logger.info("turn on HotKeys manually")
         return new InGameState();
     }
 }
