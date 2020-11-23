@@ -18,20 +18,24 @@ export abstract class HotKeyState {
     protected turnOffHotkeys() {
         logger.info("turn Off HotKeys manually")
 
-        const audio = new Audio('/sound/PeonDeath.mp3');
-        audio.currentTime = 0;
-        audio.volume = 0.5;
-        audio.play();
+        if (!store.state.isWindows) {
+            const audio = new Audio('/sound/PeonDeath.mp3');
+            audio.currentTime = 0;
+            audio.volume = 0.5;
+            audio.play();
+        }
+
         return new NotInGameState();
     }
 
     protected turnOnHotKeys() {
-        const audio = new Audio('/sound/PeonReady1.mp3');
 
-        audio.currentTime = 0.3;
-        audio.volume = 0.5;
-        audio.play();
-
+        if (!store.state.isWindows) {
+            const audio = new Audio('/sound/PeonReady1.mp3');
+            audio.currentTime = 0.3;
+            audio.volume = 0.5;
+            audio.play();
+        }
 
         logger.info("turn on HotKeys manually")
         return new InGameState();
@@ -86,14 +90,10 @@ export class ManualHotkeyMode extends HotKeyState {
     public keysActivatedInManualMode = false;
 
     enterGame(): HotKeyState {
-        store.dispatch.hotKeys.enableHotKeys();
-        this.keysActivatedInManualMode = true;
         return this;
     }
 
     exitGame(): HotKeyState {
-        store.dispatch.hotKeys.disbleHotKeys();
-        this.keysActivatedInManualMode = false;
         return this;
     }
 
