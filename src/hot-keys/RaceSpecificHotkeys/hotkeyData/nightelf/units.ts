@@ -28,7 +28,7 @@ const units =
             Ability.UnhotkeyAbility('Renew ', 'btnwisphealoff', 'aren', 'R'),
             Ability.Default(),
             Ability.Create('Gather', 'btngathergold', 'awha', 'G', []),
-            Ability.Create('Create Building', 'btnnightelfbuild', 'cmdbuildnightelf', 'B', [
+            Ability.Unmovable('Create Building', 'btnnightelfbuild', 'cmdbuildnightelf', 'B', [
                 Ability.Create('Create Tree of Life', 'btntreeoflife', 'etol', 'T', []),
                 Ability.Create('Create Ancient of War', 'btnancientoftheearth', 'eaom', 'R', []),
                 Ability.Create('Create Hunter’s Hall', 'btnhuntershall', 'edob', 'H', []),

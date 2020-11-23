@@ -15,7 +15,7 @@ const units =
             Ability.UnhotkeyAbility('Restore', 'btnrepair', 'arst', 'R'),
             Ability.Default(),
             Ability.UnhotkeyAbility('Gather', 'btngathergold', 'aaha', 'G'),
-            Ability.Create('Summon Building', 'btnscourgebuild', 'cmdbuildundead', 'B', [
+            Ability.Unmovable('Summon Building', 'btnscourgebuild', 'cmdbuildundead', 'B', [
                 Ability.Create('Summon Necropolis', 'btnnecropolis', 'unpl', 'N', []),
                 Ability.Create('Summon Crypt', 'btncrypt', 'usep', 'C', []),
                 Ability.Create('Haunt Gold Mine', 'btnhauntedmine', 'ugol', 'G', []),
@@ -47,7 +47,7 @@ const units =
         ]),
         new Unit('Gargoyle', 'btngargoyle', [
             ...defaultUnitAbilities,
-            Ability.UnhotkeyAbility('Prioritize', 'btnairattackon', 'aatp', 'R'),
+            Ability.Unmovable('Prioritize', 'btnairattackon', 'aatp', 'R', []),
             ...Ability.Defaults(2),
             Ability.UnhotkeyAbility('Stone Form', 'btnstoneform', 'astn', 'F'),
         ]),
