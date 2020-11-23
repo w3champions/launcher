@@ -1,14 +1,16 @@
 'use strict'
 
-import {app, protocol, globalShortcut, BrowserWindow, dialog} from 'electron'
+import {app, protocol, globalShortcut, screen, BrowserWindow, dialog, ipcMain, IpcMainEvent} from 'electron'
 import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
+declare const __static: string;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null
+let fab: BrowserWindow | null
 
 const logger = require("electron-log")
 
@@ -77,7 +79,8 @@ function createWindow() {
   }
 
   win.on('closed', () => {
-    win = null
+    win = null;
+    fab = null;
   })
 }
 
@@ -90,11 +93,15 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('activate', () => {
+app.on('activate', async () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow()
+  }
+
+  if (fab === null) {
+    await createFab()
   }
 })
 
@@ -119,6 +126,7 @@ app.on('ready', async () => {
   }
 
   createWindow()
+  await createFab()
 })
 
 // Exit cleanly on request from parent process in development mode.
@@ -135,3 +143,34 @@ if (isDevelopment) {
     })
   }
 }
+
+async function createFab() {
+  const display = screen.getPrimaryDisplay();
+  const height = display.bounds.height;
+
+  fab = new BrowserWindow({
+    width: 50,
+    height: 50,
+    x: 0,
+    y: height - 45,
+    resizable: false,
+    frame: false,
+    titleBarStyle: 'hidden',
+    transparent: true,
+    fullscreenable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+      webSecurity: false
+    }
+  })
+
+  fab.setAlwaysOnTop(true, "status", 50);
+  await fab.loadURL(`${__static}/fab.html`);
+}
+
+ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
+  if (fab) {
+    fab.webContents.send('manual-hotkey-forward', arg);
+  }
+})

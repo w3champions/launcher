@@ -1,0 +1,37 @@
+<html lang="en">
+    <style>
+      .hotkeys-active {
+          background: url("Hotkeys_Inventory_On.png") no-repeat center;
+          background-size: cover;
+      }
+      .hotkeys-inactive {
+          background: url("Hotkeys_Inventory_Off.png") no-repeat center;
+          background-size: cover;
+      }
+      .fab {
+          width: 33px;
+          height: 33px;
+      }
+    </style>
+
+    <body>
+        <div id="fabApp" class="hotkeys-inactive fab"></div>
+    </body>
+
+    <script>
+        const { ipcRenderer } = require('electron')
+
+        const fab = document.getElementById("fabApp");
+
+        console.log(fab);
+        ipcRenderer.on('manual-hotkey-forward', (event, isEnabled) => {
+            if (isEnabled) {
+                fab.classList.remove("hotkeys-inactive")
+                fab.classList.add("hotkeys-active")
+            } else {
+                fab.classList.add("hotkeys-inactive")
+                fab.classList.remove("hotkeys-active")
+            }
+        })
+    </script>
+</html>

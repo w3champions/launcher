@@ -16,7 +16,7 @@ const units =
             Ability.Create('Repair', 'btnrepair', 'ahrp', 'R', []),
             Ability.Default(),
             Ability.UnhotkeyAbility('Gather', 'btngathergold', 'ahar', 'G'),
-            Ability.Unmovable('Build Structure', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
+            Ability.MultiHotkey('Build Structure', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
                 Ability.Create('Build Townhall', 'btntownhall', 'htow', 'H', []),
                 Ability.Create('Build Barracks', 'btnhumanbarracks', 'hbar', 'B', []),
                 Ability.Create('Build Lumber Mill', 'btnhumanlumbermill', 'hlum', 'L', []),
@@ -29,7 +29,7 @@ const units =
                 Ability.Create('Build Gryphon Aviary', 'btngryphonaviary', 'hgra', 'V', []),
                 Ability.Create('Build Arcane Vault', 'btnarcanevault', 'hvlt', 'V', []),
                 cancel
-            ]),
+            ], ["ahbu"]),
             Ability.UnhotkeyAbility('Call to Arms', 'btncalltoarms', 'amil', 'C', 'W'),
             Ability.Default(),
             cancel

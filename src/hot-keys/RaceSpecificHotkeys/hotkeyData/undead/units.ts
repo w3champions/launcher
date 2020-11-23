@@ -15,7 +15,7 @@ const units =
             Ability.UnhotkeyAbility('Restore', 'btnrepair', 'arst', 'R'),
             Ability.Default(),
             Ability.UnhotkeyAbility('Gather', 'btngathergold', 'aaha', 'G'),
-            Ability.Unmovable('Summon Building', 'btnscourgebuild', 'cmdbuildundead', 'B', [
+            Ability.MultiHotkey('Summon Building', 'btnscourgebuild', 'cmdbuildundead', 'B', [
                 Ability.Create('Summon Necropolis', 'btnnecropolis', 'unpl', 'N', []),
                 Ability.Create('Summon Crypt', 'btncrypt', 'usep', 'C', []),
                 Ability.Create('Haunt Gold Mine', 'btnhauntedmine', 'ugol', 'G', []),
@@ -28,7 +28,7 @@ const units =
                 Ability.Create('Summon Boneyard', 'btnboneyard', 'ubon', 'B', []),
                 Ability.Create('Summon Tomb of Relics', 'btntombofrelics', 'utom', 'R', []),
                 cancel
-            ]),
+            ], ['aubu']),
             Ability.Create('Unsummon Building', 'btnunsummonbuilding', 'auns', 'U', []),
             Ability.Default(),
             Ability.Create('Sacrifice ', 'btnsacrifice', 'alam', 'C', []),

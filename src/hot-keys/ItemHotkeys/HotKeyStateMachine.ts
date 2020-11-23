@@ -17,6 +17,7 @@ export abstract class HotKeyState {
 
     protected turnOffHotkeys() {
         logger.info("turn Off HotKeys manually")
+
         const audio = new Audio('/sound/PeonDeath.mp3');
         audio.currentTime = 0;
         audio.volume = 0.5;
@@ -26,9 +27,11 @@ export abstract class HotKeyState {
 
     protected turnOnHotKeys() {
         const audio = new Audio('/sound/PeonReady1.mp3');
+
         audio.currentTime = 0.3;
         audio.volume = 0.5;
         audio.play();
+
 
         logger.info("turn on HotKeys manually")
         return new InGameState();
