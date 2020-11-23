@@ -48,6 +48,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
               hotKey.hotkeyName = a2.name;
               hotKey.isResearchAbility = a2.isResearchAbility;
               hotKey.isUnhotkey = a2.isUnhotkey;
+              hotKey.isStagedUpgrade = a2.isStagedUpgrade;
             }
           })
 
@@ -67,6 +68,7 @@ function mergeHotkeyDataAndSelectedHotkeys(
               hotKey.hotkeyName = a.name;
               hotKey.isResearchAbility = a.isResearchAbility;
               hotKey.isUnhotkey = a.isUnhotkey;
+              hotKey.isStagedUpgrade = a.isStagedUpgrade;
           }
 
           const resultsInner = getDuplicateHotkeys(a.abilities);
