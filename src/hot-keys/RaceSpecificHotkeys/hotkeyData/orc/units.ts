@@ -3,8 +3,9 @@ import {
     Unit,
 } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 import {
-    cancel, cancelBuild,
-    defaultFighterAbilities, defaultSiegeAbilities,
+    cancel,
+    defaultFighterAbilities,
+    defaultSiegeAbilities,
     defaultUnitAbilities
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
@@ -15,7 +16,7 @@ const units =
             Ability.UnhotkeyAbility('Repair', 'btnrepair', 'arep', 'R'),
             Ability.Default(),
             Ability.UnhotkeyAbility('Gather', 'btngathergold', 'ahar', 'G'),
-            Ability.MultiHotkey('Build Structure', 'btnhumanbuild', 'cmdbuildorc', 'B', [
+            Ability.MultiHotkey('Build Structure', 'btnbasicstruct', 'cmdbuildorc', 'B', [
                 Ability.Create('Build Great Hall', 'btngreathall', 'ogre', 'H', []),
                 Ability.Create('Build Barracks', 'btnbarracks', 'obar', 'B', []),
                 Ability.Create('Build War Mill', 'btnforge', 'ofor', 'M', []),
