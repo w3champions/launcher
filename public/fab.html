@@ -11,12 +11,11 @@
       .fab {
           width: 33px;
           height: 33px;
-          cursor: pointer
       }
     </style>
 
     <body>
-        <div id="fabApp" class="hotkeys-inactive fab" onclick="sendToMain();"></div>
+        <div id="fabApp" class="hotkeys-inactive fab"></div>
     </body>
 
     <script>
@@ -34,9 +33,5 @@
                 fab.classList.remove("hotkeys-active")
             }
         })
-
-        function sendToMain() {
-            ipcRenderer.send('fab-clicked');
-        }
     </script>
 </html>

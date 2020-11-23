@@ -1,4 +1,4 @@
-import store, {moduleActionContext} from "@/globalState/vuex-store";
+import {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
 import {NotInGameState} from "@/hot-keys/ItemHotkeys/HotKeyStateMachine";
@@ -7,10 +7,6 @@ import {ClickCombination, HotKey, ModifierKey} from "@/hot-keys/ItemHotkeys/hotk
 import {HotKeyModifierState} from "@/hot-keys/hotkeyState";
 import {Ability, HotkeyMappingPerRace, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 const { ipcRenderer } = window.require('electron')
-
-ipcRenderer.on('fab-clicked-forward', () => {
-  store.commit.hotKeys.TOGGLE_HOTKEYS();
-})
 
 function getDuplicateHotkeys(abilities: Ability[]) {
   const allBilitiesSorted = abilities.map(a => a.currentHotkey).sort();
