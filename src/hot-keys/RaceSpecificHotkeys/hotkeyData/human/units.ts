@@ -16,7 +16,7 @@ const units =
             Ability.Create('Repair', 'btnrepair', 'ahrp', 'R', []),
             Ability.Default(),
             Ability.UnhotkeyAbility('Gather', 'btngathergold', 'ahar', 'G'),
-            Ability.Create('Build Structure', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
+            Ability.Unmovable('Build Structure', 'btnhumanbuild', 'cmdbuildhuman', 'B', [
                 Ability.Create('Build Townhall', 'btntownhall', 'htow', 'H', []),
                 Ability.Create('Build Barracks', 'btnhumanbarracks', 'hbar', 'B', []),
                 Ability.Create('Build Lumber Mill', 'btnhumanlumbermill', 'hlum', 'L', []),
