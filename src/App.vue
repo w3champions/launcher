@@ -20,13 +20,16 @@ import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
 import logger from "@/logger";
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
-const { remote } = window.require("electron")
+const { remote } = window.require("electron");
+import { floWorkserService } from './flo-integration/flo-worker.service';
 
 @Component({
   components: {HeadLine}
 })
 export default class App extends Vue {
   async mounted() {
+    floWorkserService.initialize(this.isWindows);
+
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
     this.makeSureNumpadIsEnabled()
