@@ -1,13 +1,20 @@
 import { environment } from '@/environment';
+import store from "@/globalState/vuex-store";
+import { IngameBridge } from '@/hot-keys/ItemHotkeys/IngameBridge';
 
 const { remote } = window.require("electron");
 const { spawn } = window.require("child_process");
 const path = require('path');
 
-class FloWorkerService {
-    public initialize(isWindows: boolean) {
-        debugger
-        const floExecutable = (isWindows || environment.isDev) ? 'flo-worker.exe' : 'flo-worker'
+export class FloWorkerService {
+    private store = store;
+
+    constructor(ingameBridge: IngameBridge) {
+        this.startWorker();
+    }
+
+    private startWorker() {
+        const floExecutable = (this.store.state.isWindows || environment.isDev) ? 'flo-worker.exe' : 'flo-worker';
 
         let floWorkerPath: string;
         if (environment.isDev) {
@@ -30,5 +37,3 @@ class FloWorkerService {
         });
     }
 }
-
-export const floWorkserService = new FloWorkerService();
