@@ -13,27 +13,32 @@ export enum ELauncherMessageType {
     FLO_CONNECTED = 'FLO_CONNECTED'
 }
 
-export interface ILauncherMessage {
+export interface ILauncherGameMessage {
     type: ELauncherMessageType;
     data?: any;
+}
+
+export interface IIngameBridgeEvent extends ILauncherGameMessage {
+    gameSocket: WebSocket;
 }
 
 export class IngameBridge extends EventEmitter {
     private server = http.createServer();
     private wss = new WebSocket.Server({ server: this.server });
-    private ws?: WebSocket;
 
     public initialize() {
         this.wss.on("connection", (ws: WebSocket) => {
-            this.ws = ws;
-
             ws.onmessage = (message: MessageEvent) => {
                 logger.info(message);
 
                 try {
-                    const parsed = JSON.parse(message.data) as ILauncherMessage;
-
-                    this.emit(parsed.type, parsed.data);
+                    const parsed = JSON.parse(message.data) as ILauncherGameMessage;
+                    const event: IIngameBridgeEvent = {
+                        gameSocket: ws,
+                        type: parsed.type,
+                        data: parsed.data
+                    }
+                    this.emit(parsed.type, event);
                 }
                 catch (e) {
                     logger.error(e)
@@ -48,18 +53,16 @@ export class IngameBridge extends EventEmitter {
         this.server.listen(38123);
     }
 
-    public sendFloConnected() {
-        const message: ILauncherMessage = {
+    public sendFloConnected(socket: WebSocket) {
+        const message: ILauncherGameMessage = {
             type: ELauncherMessageType.FLO_CONNECTED
         };
 
-        this.sendMessage(message);
+        this.sendMessage(socket, message);
     }
 
-    public sendMessage(message: ILauncherMessage) {
-        if (this.ws) {
-            this.ws.send(JSON.stringify(message));
-        }
+    public sendMessage(socket: WebSocket, message: ILauncherGameMessage) {
+        socket.send(JSON.stringify(message));
     }
 }
 
