@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './globalState/vuex-store'
 import router from "./router";
-import {ingameBridge} from "@/ingame-bridge";
+import {ingameBridge} from "@/game/ingame-bridge";
 import { floWorkerService } from './flo-integration/flo-worker.service';
 
 Vue.config.productionTip = false

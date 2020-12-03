@@ -6,7 +6,7 @@ import defaultHotkeyData from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/default
 import {ClickCombination, HotKey, HotkeyButtonPosition, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import {HotKeyModifierState} from "@/hot-keys/hotkeyState";
 import {Ability, HotkeyMappingPerRace, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
-import { ELauncherMessageType, ingameBridge } from '@/ingame-bridge';
+import { ELauncherMessageType, ingameBridge } from '@/game/ingame-bridge';
 import logger from '@/logger';
 
 const { ipcRenderer } = window.require('electron')
