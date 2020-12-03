@@ -6,6 +6,8 @@ import defaultHotkeyData from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/default
 import {ClickCombination, HotKey, HotkeyButtonPosition, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import {HotKeyModifierState} from "@/hot-keys/hotkeyState";
 import {Ability, HotkeyMappingPerRace, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import { ELauncherMessageType, ingameBridge } from '@/game/ingame-bridge';
+import logger from '@/logger';
 
 const { ipcRenderer } = window.require('electron')
 
@@ -13,6 +15,16 @@ ipcRenderer.on('fab-dragged-forward', (wht: any, args: string) => {
   const strings = args.split("_");
   store.dispatch.hotKeys.saveHotkeyButtonPosition({x: parseInt(strings[0]), y: parseInt(strings[1])});
 })
+
+ingameBridge.on(ELauncherMessageType.START_GAME, () => {
+  logger.info("User ENTERED game, turn on hotkeys");
+  store.dispatch.hotKeys.enterGame();
+});
+
+ingameBridge.on(ELauncherMessageType.EXIT_GAME, () => {
+  logger.info("User exited game, turn off hotkeys")
+  store.dispatch.hotKeys.exitGame();
+});
 
 function getDuplicateHotkeys(abilities: Ability[]) {
   const allBilitiesSorted = abilities.map(a => a.currentHotkey).sort();

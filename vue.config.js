@@ -16,6 +16,16 @@ module.exports = {
         'vue-markdown'
       ],
       builderOptions: {
+        extraFiles: [
+          {
+            from: 'libs/flo-worker.exe',
+            to: './resources/app.asar.unpacked/flo-worker.exe',
+          },
+          {
+            from: 'libs/flo-worker',
+            to: './resources/app.asar.unpacked/flo-worker',
+          }
+        ],
         afterSign: "notarize.js",
         mac: {
           hardenedRuntime : true,

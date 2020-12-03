@@ -20,7 +20,7 @@ import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
 import logger from "@/logger";
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
-const { remote } = window.require("electron")
+const { remote } = window.require("electron");
 
 @Component({
   components: {HeadLine}

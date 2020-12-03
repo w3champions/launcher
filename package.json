@@ -5,7 +5,7 @@
   "description": "Always stay up to date with this Launcher for the community Ladder Warcraft 3 Champions.",
   "author": "simonheiss87@gmail.com",
   "scripts": {
-    "serve": "vue-cli-service electron:serve --publish=never",
+    "serve": "vue-cli-service electron:serve --publish=never --dev",
     "buildAndPublish": "vue-cli-service electron:build --publish always",
     "build": "vue-cli-service electron:build",
     "lint": "vue-cli-service lint",
@@ -85,7 +85,9 @@
     "parserOptions": {
       "parser": "@typescript-eslint/parser"
     },
-    "rules": {}
+    "rules": {
+      "no-debugger": "off"
+    }
   },
   "browserslist": [
     "> 1%",
