@@ -1,13 +1,8 @@
-import { environment } from '@/environment';
 import { IPlayerInstance } from '@/game/game.types';
 import { ingameBridge } from '@/game/ingame-bridge';
 import logger from '@/logger';
-
-const { remote } = window.require("electron");
 const { spawn } = window.require("child_process");
-const path = require('path');
 const WebSocketClass = window.require("ws");
-const fs = window.require("fs");
 
 interface IFloWorkerStartupData {
     port: number;
@@ -39,9 +34,14 @@ interface IFloWorkerPlayer {
     name: string;
 }
 
+export interface IFloWorkerInstanceSettings {
+    floWorkerFolderPath: string;
+    floWorkerExePath: string;
+    wc3FolderPath: string;
+}
+
 export class FloWorkerInstance {
-    private isWindows: boolean;
-    private pathToWc3: string;
+    private settings: IFloWorkerInstanceSettings
     private floWorkerProcess?: any;
     private workerInfo?: IFloWorkerStartupData;
     private isWorkerStarted: boolean = false;
@@ -51,9 +51,8 @@ export class FloWorkerInstance {
 
     public playerInstance?: IPlayerInstance;
 
-    constructor(isWindows: boolean, pathToWc3: string) {
-        this.isWindows = isWindows;
-        this.pathToWc3 = pathToWc3;
+    constructor(settings: IFloWorkerInstanceSettings) {
+        this.settings = settings;
     }
 
     public async connect(playerInstance: IPlayerInstance, token: string) {
@@ -89,26 +88,7 @@ export class FloWorkerInstance {
 
     public async startWorker() {
         const promise = new Promise<void>((res) => {
-            const floExecutable = (this.isWindows) ? 'flo-worker.exe' : 'flo-worker';
-            let floWorkerFolder: string;
-            if (environment.isDev) {
-                floWorkerFolder =  path.join(remote.app.getAppPath(), `libs`);
-            } else {
-                floWorkerFolder = path.join(`${remote.app.getAppPath()}.unpacked`);
-            }
-
-            const floWorkerPath = path.join(floWorkerFolder, floExecutable);
-            const floLogsFolder = path.join(floWorkerFolder, 'flo-logs');
-
-            if (!fs.existsSync(floLogsFolder)){
-                fs.mkdirSync(floLogsFolder);
-            }
-    
-            fs.chmodSync(floLogsFolder, '755');
-            fs.chmodSync(floWorkerFolder, '755');
-            fs.chmodSync(floWorkerPath, '755');
-
-            this.floWorkerProcess = spawn(floWorkerPath, {cwd: floWorkerFolder});
+            this.floWorkerProcess = spawn(this.settings.floWorkerExePath, ['--installation-path', this.settings.wc3FolderPath], {cwd: this.settings.floWorkerFolderPath});
             this.floWorkerProcess.stdout.on('data', async (data: Buffer) => {
                 if (!this.workerInfo && data) {
                     const dataString = data.toString();
