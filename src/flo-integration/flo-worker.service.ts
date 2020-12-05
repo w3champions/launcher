@@ -1,7 +1,12 @@
 import store from "@/globalState/vuex-store";
+import { environment } from '@/environment';
 import { ELauncherMessageType, IIngameBridgeEvent, ingameBridge } from '@/game/ingame-bridge';
-import { FloWorkerInstance, IFloAuthData } from './flo-worker.instance';
+import { FloWorkerInstance, IFloAuthData, IFloWorkerInstanceSettings } from './flo-worker.instance';
 import { IPlayerInstance } from '@/game/game.types';
+
+const { remote } = window.require("electron");
+const path = require('path');
+const fs = window.require("fs");
 
 export class FloWorkerService {
     private store = store;
@@ -10,18 +15,14 @@ export class FloWorkerService {
     private workers: FloWorkerInstance[] = [];
 
     public initialize() {
-        let pathToWc3 = this.store.getters.updateService.loadW3Path();
-        if (pathToWc3 && pathToWc3.toLowerCase().includes('_retail_')) {
-            pathToWc3 = pathToWc3.replace('/_retail_', '');
-            pathToWc3 = pathToWc3.replace('\\_retail_', '');
-        }
+        const settings = this.createWorkerSettings();
         
         // Start one worker by default
-        this.primaryWorker = new FloWorkerInstance(this.store.state.isWindows, pathToWc3);
+        this.primaryWorker = new FloWorkerInstance(settings);
         this.primaryWorker.startWorker();
 
         // Create second worker used to connect second Warcraft 3 to the launcher
-        this.secondaryWorker = new FloWorkerInstance(this.store.state.isWindows, pathToWc3);
+        this.secondaryWorker = new FloWorkerInstance(settings);
 
         this.workers.push(this.primaryWorker);
         this.workers.push(this.secondaryWorker);
@@ -48,6 +49,47 @@ export class FloWorkerService {
 
         ingameBridge.on(ELauncherMessageType.DISCONNECTED, (playerInstnace: IPlayerInstance) => {
         });
+    }
+
+    private createWorkerSettings() {
+        const isWindows = this.store.state.isWindows;
+        const floExecutable = (isWindows) ? 'flo-worker.exe' : 'flo-worker';
+        let floWorkerFolderPath: string;
+        if (environment.isDev) {
+            const appPath = remote.app.getAppPath();
+            let rootFolder = appPath.replace('\\dist_electron', ''); 
+            rootFolder = rootFolder.replace('/dist_electron', '');
+            floWorkerFolderPath =  path.join(rootFolder, `libs`);
+        } else {
+            floWorkerFolderPath = path.join(`${remote.app.getAppPath()}.unpacked`);
+        }
+
+        const floWorkerExePath = path.join(floWorkerFolderPath, floExecutable);
+        const floLogsFolder = path.join(floWorkerFolderPath, 'flo-logs');
+
+        if (!fs.existsSync(floLogsFolder)){
+            fs.mkdirSync(floLogsFolder);
+        }
+
+        if (!isWindows) {
+            fs.chmodSync(floLogsFolder, '755');
+            fs.chmodSync(floWorkerFolderPath, '755');
+            fs.chmodSync(floWorkerExePath, '755');
+        }
+
+        let wc3FolderPath = this.store.getters.updateService.loadW3Path();
+        if (wc3FolderPath && wc3FolderPath.toLowerCase().includes('_retail_')) {
+            wc3FolderPath = wc3FolderPath.replace('/_retail_', '');
+            wc3FolderPath = wc3FolderPath.replace('\\_retail_', '');
+        }
+
+        const result: IFloWorkerInstanceSettings = {
+            floWorkerFolderPath,
+            floWorkerExePath,
+            wc3FolderPath 
+        };
+
+        return result;
     }
 }
 

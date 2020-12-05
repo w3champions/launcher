@@ -1,11 +1,7 @@
-import { environment } from '@/environment';
 import { IPlayerInstance } from '@/game/game.types';
 import { ingameBridge } from '@/game/ingame-bridge';
 import logger from '@/logger';
-
-const { remote } = window.require("electron");
 const { spawn } = window.require("child_process");
-const path = require('path');
 const WebSocketClass = window.require("ws");
 
 interface IFloWorkerStartupData {
@@ -38,9 +34,14 @@ interface IFloWorkerPlayer {
     name: string;
 }
 
+export interface IFloWorkerInstanceSettings {
+    floWorkerFolderPath: string;
+    floWorkerExePath: string;
+    wc3FolderPath: string;
+}
+
 export class FloWorkerInstance {
-    private isWindows: boolean;
-    private pathToWc3: string;
+    private settings: IFloWorkerInstanceSettings
     private floWorkerProcess?: any;
     private workerInfo?: IFloWorkerStartupData;
     private isWorkerStarted: boolean = false;
@@ -50,9 +51,8 @@ export class FloWorkerInstance {
 
     public playerInstance?: IPlayerInstance;
 
-    constructor(isWindows: boolean, pathToWc3: string) {
-        this.isWindows = isWindows;
-        this.pathToWc3 = pathToWc3;
+    constructor(settings: IFloWorkerInstanceSettings) {
+        this.settings = settings;
     }
 
     public async connect(playerInstance: IPlayerInstance, token: string) {
@@ -88,14 +88,7 @@ export class FloWorkerInstance {
 
     public async startWorker() {
         const promise = new Promise<void>((res) => {
-            const floExecutable = (this.isWindows || environment.isDev) ? 'flo-worker.exe' : 'flo-worker';
-            let floWorkerPath: string;
-            if (environment.isDev) {
-                floWorkerPath = path.join(`libs`, floExecutable);
-            } else {
-                floWorkerPath = path.join(`${remote.app.getAppPath()}.unpacked`, floExecutable);
-            }
-            this.floWorkerProcess = spawn(floWorkerPath, ['--installation-path', this.pathToWc3]);
+            this.floWorkerProcess = spawn(this.settings.floWorkerExePath, ['--installation-path', this.settings.wc3FolderPath], {cwd: this.settings.floWorkerFolderPath});
             this.floWorkerProcess.stdout.on('data', async (data: Buffer) => {
                 if (!this.workerInfo && data) {
                     const dataString = data.toString();
@@ -111,16 +104,20 @@ export class FloWorkerInstance {
                     }
                 }
             });
+
+            this.floWorkerProcess.on('error', function (startErr: any) {
+                logger.error('start error' + startErr);
+            });
     
             this.floWorkerProcess.stderr.on('data', (data: any) => {
-                console.error(`stderr: ${data}`);
+                logger.error(`stderr: ${data}`);
             });
     
             this.floWorkerProcess.on('close', (code: any) => {
                 this.floWorkerProcess = null;
                 this.workerInfo = undefined;
                 this.isWorkerStarted = false;
-                console.log(`child process exited with code ${code}`);
+                logger.info(`child process exited with code ${code}`);
             });
         });
         
@@ -168,12 +165,13 @@ export class FloWorkerInstance {
             });
     
             ws.on("close", function close() {
-                console.log("disconnected");
+                logger.info("disconnected");
             });
     
             ws.on("message", (data: any) => {
                 const parsed = JSON.parse(data) as IFloWorkerEvent;
                 this.processFloWorkerMessage(parsed);
+                logger.info('mes '+ data);
             });
         });
 
