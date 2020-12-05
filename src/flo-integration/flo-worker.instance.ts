@@ -7,6 +7,7 @@ const { remote } = window.require("electron");
 const { spawn } = window.require("child_process");
 const path = require('path');
 const WebSocketClass = window.require("ws");
+const fs = window.require("fs");
 
 interface IFloWorkerStartupData {
     port: number;
@@ -88,14 +89,26 @@ export class FloWorkerInstance {
 
     public async startWorker() {
         const promise = new Promise<void>((res) => {
-            const floExecutable = (this.isWindows || environment.isDev) ? 'flo-worker.exe' : 'flo-worker';
-            let floWorkerPath: string;
+            const floExecutable = (this.isWindows) ? 'flo-worker.exe' : 'flo-worker';
+            let floWorkerFolder: string;
             if (environment.isDev) {
-                floWorkerPath = path.join(`libs`, floExecutable);
+                floWorkerFolder =  path.join(remote.app.getAppPath(), `libs`);
             } else {
-                floWorkerPath = path.join(`${remote.app.getAppPath()}.unpacked`, floExecutable);
+                floWorkerFolder = path.join(`${remote.app.getAppPath()}.unpacked`);
             }
-            this.floWorkerProcess = spawn(floWorkerPath, ['--installation-path', this.pathToWc3]);
+
+            const floWorkerPath = path.join(floWorkerFolder, floExecutable);
+            const floLogsFolder = path.join(floWorkerFolder, 'flo-logs');
+
+            if (!fs.existsSync(floLogsFolder)){
+                fs.mkdirSync(floLogsFolder);
+            }
+    
+            fs.chmodSync(floLogsFolder, '755');
+            fs.chmodSync(floWorkerFolder, '755');
+            fs.chmodSync(floWorkerPath, '755');
+
+            this.floWorkerProcess = spawn(floWorkerPath, {cwd: floWorkerFolder});
             this.floWorkerProcess.stdout.on('data', async (data: Buffer) => {
                 if (!this.workerInfo && data) {
                     const dataString = data.toString();
@@ -111,16 +124,20 @@ export class FloWorkerInstance {
                     }
                 }
             });
+
+            this.floWorkerProcess.on('error', function (startErr: any) {
+                logger.error('start error' + startErr);
+            });
     
             this.floWorkerProcess.stderr.on('data', (data: any) => {
-                console.error(`stderr: ${data}`);
+                logger.error(`stderr: ${data}`);
             });
     
             this.floWorkerProcess.on('close', (code: any) => {
                 this.floWorkerProcess = null;
                 this.workerInfo = undefined;
                 this.isWorkerStarted = false;
-                console.log(`child process exited with code ${code}`);
+                logger.info(`child process exited with code ${code}`);
             });
         });
         
@@ -168,12 +185,13 @@ export class FloWorkerInstance {
             });
     
             ws.on("close", function close() {
-                console.log("disconnected");
+                logger.info("disconnected");
             });
     
             ws.on("message", (data: any) => {
                 const parsed = JSON.parse(data) as IFloWorkerEvent;
                 this.processFloWorkerMessage(parsed);
+                logger.info('mes '+ data);
             });
         });
 
