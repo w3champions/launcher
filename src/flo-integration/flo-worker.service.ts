@@ -69,11 +69,13 @@ export class FloWorkerService {
 
         if (!fs.existsSync(floLogsFolder)){
             fs.mkdirSync(floLogsFolder);
-        } 
+        }
 
-        fs.chmodSync(floLogsFolder, '755');
-        fs.chmodSync(floWorkerFolderPath, '755');
-        fs.chmodSync(floWorkerExePath, '755');
+        if (!isWindows) {
+            fs.chmodSync(floLogsFolder, '755');
+            fs.chmodSync(floWorkerFolderPath, '755');
+            fs.chmodSync(floWorkerExePath, '755');
+        }
 
         let wc3FolderPath = this.store.getters.updateService.loadW3Path();
         if (wc3FolderPath && wc3FolderPath.toLowerCase().includes('_retail_')) {
