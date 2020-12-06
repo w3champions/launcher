@@ -104,7 +104,7 @@ export default class App extends Vue {
   }
 
   private triggerAuthenticationFlow() {
-    location.href = `https://eu.battle.net/oauth/authorize?region=eu&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost`;
+    location.href = `https://eu.battle.net/oauth/authorize?region=eu&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login`;
   }
 }
 </script>

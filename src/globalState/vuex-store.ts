@@ -9,7 +9,7 @@ import hotKeys from "../hot-keys/hotkeyStore";
 import {UpdateService} from "@/update-handling/UpdateService";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
 import {VersionService} from "@/globalState/VersionService";
-import {NEWS_URL_PROD, NEWS_URL_TEST, UPDATE_URL_PROD, UPDATE_URL_TEST} from "@/constants";
+import {IDENTIFICATION_URL_PROD, NEWS_URL_PROD, NEWS_URL_TEST, UPDATE_URL_PROD, UPDATE_URL_TEST} from "@/constants";
 import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
 import {FileService} from "@/update-handling/FileService";
 import {AuthenticationService} from "@/globalState/AuthenticationService";
@@ -34,6 +34,7 @@ const mod = {
     isTest: false,
     updateUrl: UPDATE_URL_PROD,
     newsUrl: NEWS_URL_PROD,
+    identificationUrl: IDENTIFICATION_URL_PROD,
     news: [] as News[],
     isWindows: false,
     blizzardKey: '',
@@ -73,6 +74,25 @@ const mod = {
 
       commit.SET_W3CAUTH_TOKEN(rootGetters.authService.loadAuthToken());
     }
+    , async authorizeWithCode(
+        context: ActionContext<UpdateHandlingState, RootState>,
+        code: string
+    ) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      const bearer = await rootGetters.authService.authorize(code);
+      commit.SET_BEARER(bearer.token);
+
+      const profile = await rootGetters.authService.getProfile(
+          bearer.token
+      );
+
+      if (profile) {
+        commit.SET_PROFILE_NAME(profile.battleTag);
+        commit.SET_IS_ADMIN(profile.isAdmin);
+        await rootGetters.authService.saveAuthToken(bearer);
+      }
+    },
   },
   mutations: {
     SET_IS_TEST(state: RootState, test: boolean) {
@@ -89,9 +109,15 @@ const mod = {
     SET_W3CAUTH_TOKEN(state: RootState, w3cToken: string) {
       state.w3cToken = w3cToken;
     },
-    SET_BLIZZARD_CODE(state: RootState, blizzardKey: string) {
-      state.blizzardKey = blizzardKey;
-    }
+    SET_BEARER(state: RootState, token: string) {
+      state.w3cToken = token;
+    },
+    SET_PROFILE_NAME(state: RootState, btag: string) {
+      state.blizzardVerifiedBtag = btag;
+    },
+    SET_IS_ADMIN(state: RootState, isAdmin: boolean) {
+      state.isAdmin = isAdmin;
+    },
   },
   getters: {
     updateService() {

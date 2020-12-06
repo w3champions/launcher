@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-property-decorator";
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
@@ -32,6 +32,7 @@ export default class HomeScreen extends Vue {
   private disablePlayBtn = true;
   public playButton = "";
   public selectedNews = 0;
+  @Prop() public code!: string;
 
   private static isWindows() {
     return os.platform() === "win32";
