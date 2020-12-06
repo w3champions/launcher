@@ -3,7 +3,6 @@ import VueRouter, {Route} from "vue-router";
 import UpdateSettingsScreen from "@/update-handling/UpdateSettingsScreen.vue";
 import HotKeySetupScreen from "@/hot-keys/HotKeySetupScreen.vue";
 import HomeScreen from "@/home/HomeScreen.vue";
-import LoginScreen from "@/home/LoginScreen.vue";
 
 Vue.use(VueRouter);
 
@@ -12,12 +11,6 @@ const routes = [
         path: "/",
         name: "Home",
         component: HomeScreen
-    },
-    {
-        path: "/login",
-        name: "Login",
-        component: LoginScreen,
-        props: (route: { query: { code: string } }) => ({ code: route.query.code }),
     },
     {
         path: "/HotKeys/:tab",

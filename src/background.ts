@@ -4,6 +4,7 @@ import {app, protocol, globalShortcut, screen, BrowserWindow, dialog, ipcMain, I
 import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import ipcRenderer = Electron.Renderer.ipcRenderer;
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -178,12 +179,6 @@ async function createFab() {
   await fab.loadURL(`${__static}/fab.html`);
 }
 
-ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
-  if (fab) {
-    fab.webContents.send('manual-hotkey-forward', arg);
-  }
-})
-
 ipcMain.on('fab-position-loaded', (ev: IpcMainEvent, args) => {
   if (fab) {
     if (args?.x || args?.y) {
@@ -195,3 +190,37 @@ ipcMain.on('fab-position-loaded', (ev: IpcMainEvent, args) => {
   }
 })
 
+ipcMain.on('oauth-requested', (ev: IpcMainEvent, args) => {
+  let authWindow: BrowserWindow | null = new BrowserWindow({
+    width: 800,
+    height: 800,
+    show: false,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: false,
+      webSecurity: false
+    }
+  });
+  const authUrl = 'https://eu.battle.net/oauth/authorize?region=eu&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
+
+  authWindow.loadURL(authUrl);
+  authWindow.show();
+
+  authWindow.webContents.on('will-redirect', async (event, newUrl) => {
+    if (authWindow) {
+      if (newUrl.startsWith("http://localhost:8080/login")) {
+        logger.info(newUrl);
+        const strings = newUrl.split("=");
+        logger.info(strings[1]);
+        win?.webContents.send('blizzard-code-received', strings[1]);
+        authWindow.close();
+      }
+    }
+  });
+
+
+  authWindow.on('closed', function() {
+    authWindow = null;
+  });
+})

@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="app-container">
     <HeadLine />
+    <LoadingSpinner v-if="!isLoggedIn" text="Logging you in..."/>
     <div class="content-modal-wrapper">
       <div class="static-bg">
       </div>
@@ -19,19 +20,22 @@
 import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
 import logger from "@/logger";
+import LoadingSpinner from "@/home/LoadingSpinner.vue";
+import store from "@/globalState/vuex-store";
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
-const { remote } = window.require("electron");
+const { remote, ipcRenderer } = window.require("electron");
 
 @Component({
-  components: {HeadLine}
+  components: {LoadingSpinner, HeadLine}
 })
 export default class App extends Vue {
+
   async mounted() {
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
     this.$store.direct.dispatch.loadAuthToken();
 
-    if (!this.$store.direct.state.w3cToken) {
+    if (!this.isLoggedIn) {
       this.triggerAuthenticationFlow();
     }
 
@@ -59,6 +63,10 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
     await this.$store.direct.dispatch.colorPicker.loadIsTeamColorsEnabled();
     await this.$store.direct.dispatch.colorPicker.loadColors();
+  }
+
+  get isLoggedIn() {
+    return this.$store.direct.state.w3cToken
   }
 
   public closeApp() {
@@ -104,7 +112,11 @@ export default class App extends Vue {
   }
 
   private triggerAuthenticationFlow() {
-    location.href = `https://eu.battle.net/oauth/authorize?region=eu&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login`;
+    ipcRenderer.send('oauth-requested');
+    ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {
+      logger.info(`token: ${args}`);
+      store.dispatch.authorizeWithCode(args);
+    })
   }
 }
 </script>
