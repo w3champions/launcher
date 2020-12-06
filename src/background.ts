@@ -219,7 +219,6 @@ ipcMain.on('oauth-requested', (ev: IpcMainEvent, args) => {
     }
   });
 
-
   authWindow.on('closed', function() {
     authWindow = null;
   });

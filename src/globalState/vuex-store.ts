@@ -9,10 +9,18 @@ import hotKeys from "../hot-keys/hotkeyStore";
 import {UpdateService} from "@/update-handling/UpdateService";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
 import {VersionService} from "@/globalState/VersionService";
-import {IDENTIFICATION_URL_PROD, NEWS_URL_PROD, NEWS_URL_TEST, UPDATE_URL_PROD, UPDATE_URL_TEST} from "@/constants";
+import {
+  IDENTIFICATION_URL_PROD,
+  IDENTIFICATION_URL_TEST,
+  NEWS_URL_PROD,
+  NEWS_URL_TEST,
+  UPDATE_URL_PROD,
+  UPDATE_URL_TEST
+} from "@/constants";
 import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
 import {FileService} from "@/update-handling/FileService";
 import {AuthenticationService} from "@/globalState/AuthenticationService";
+const { ipcRenderer } = window.require("electron");
 
 Vue.use(Vuex);
 
@@ -37,7 +45,8 @@ const mod = {
     identificationUrl: IDENTIFICATION_URL_PROD,
     news: [] as News[],
     isWindows: false,
-    blizzardKey: '',
+    blizzardVerifiedName: '',
+    blizzardVerifiedBtag: '',
     w3cToken: ''
   } as RootState,
   actions: {
@@ -73,24 +82,48 @@ const mod = {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       commit.SET_W3CAUTH_TOKEN(rootGetters.authService.loadAuthToken());
-    }
-    , async authorizeWithCode(
+    },
+    async authorizeWithCode(
         context: ActionContext<UpdateHandlingState, RootState>,
         code: string
     ) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       const bearer = await rootGetters.authService.authorize(code);
-      commit.SET_BEARER(bearer.token);
+      if (bearer) {
+        commit.SET_BEARER(bearer.token);
+
+        const profile = await rootGetters.authService.getProfile(
+            bearer.token
+        );
+
+        if (profile) {
+          commit.SET_PROFILE_NAME(profile.battleTag);
+          commit.SET_IS_ADMIN(profile.isAdmin);
+          await rootGetters.authService.saveAuthToken(bearer);
+        }
+      }
+      else {
+        ipcRenderer.send('oauth-requested');
+      }
+    },
+    async loadProfile(
+        context: ActionContext<UpdateHandlingState, RootState>
+    ) {
+      const { commit, rootState, rootGetters } = moduleActionContext(context, mod);
 
       const profile = await rootGetters.authService.getProfile(
-          bearer.token
+          rootState.w3cToken
       );
 
       if (profile) {
-        commit.SET_PROFILE_NAME(profile.battleTag);
+        commit.SET_PROFILE_NAME(profile.name);
+        commit.SET_PROFILE_BTAG(profile.battleTag);
         commit.SET_IS_ADMIN(profile.isAdmin);
-        await rootGetters.authService.saveAuthToken(bearer);
+      } else {
+        commit.LOGOUT();
+        await rootGetters.authService.deleteAuthToken();
+        ipcRenderer.send('oauth-requested');
       }
     },
   },
@@ -99,6 +132,7 @@ const mod = {
       state.isTest = test;
       state.updateUrl = test ? UPDATE_URL_TEST : UPDATE_URL_PROD;
       state.newsUrl = test ? NEWS_URL_TEST : NEWS_URL_PROD;
+      state.identificationUrl = test ? IDENTIFICATION_URL_TEST : IDENTIFICATION_URL_PROD;
     },
     SET_NEWS(state: RootState, news: News[]) {
       state.news = news;
@@ -112,11 +146,20 @@ const mod = {
     SET_BEARER(state: RootState, token: string) {
       state.w3cToken = token;
     },
-    SET_PROFILE_NAME(state: RootState, btag: string) {
+    SET_PROFILE_NAME(state: RootState, name: string) {
+      state.blizzardVerifiedName = name;
+    },
+    SET_PROFILE_BTAG(state: RootState, btag: string) {
       state.blizzardVerifiedBtag = btag;
     },
     SET_IS_ADMIN(state: RootState, isAdmin: boolean) {
       state.isAdmin = isAdmin;
+    },
+    LOGOUT(state: RootState) {
+      state.isAdmin = false;
+      state.w3cToken = '';
+      state.blizzardVerifiedBtag = '';
+      state.blizzardVerifiedName = '';
     },
   },
   getters: {

@@ -5,9 +5,9 @@ export interface RootState {
     updateUrl: string,
     identificationUrl: string,
     news: News[],
-    blizzardKey: string,
     w3cToken: string,
     blizzardVerifiedBtag: string,
+    blizzardVerifiedName: string,
     isAdmin: boolean,
 }
 
@@ -19,5 +19,6 @@ export interface News {
 export type W3cToken = {
     token: string;
     battleTag: string;
+    name: string;
     isAdmin: boolean;
 };

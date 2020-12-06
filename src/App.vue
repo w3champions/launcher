@@ -29,14 +29,19 @@ const { remote, ipcRenderer } = window.require("electron");
   components: {LoadingSpinner, HeadLine}
 })
 export default class App extends Vue {
-
   async mounted() {
+    ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {
+      store.dispatch.authorizeWithCode(args);
+    })
+
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
     this.$store.direct.dispatch.loadAuthToken();
 
     if (!this.isLoggedIn) {
       this.triggerAuthenticationFlow();
+    } else {
+      await this.$store.direct.dispatch.loadProfile();
     }
 
     this.makeSureNumpadIsEnabled()
@@ -113,10 +118,6 @@ export default class App extends Vue {
 
   private triggerAuthenticationFlow() {
     ipcRenderer.send('oauth-requested');
-    ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {
-      logger.info(`token: ${args}`);
-      store.dispatch.authorizeWithCode(args);
-    })
   }
 }
 </script>
