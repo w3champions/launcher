@@ -17,8 +17,8 @@ export class AuthenticationService {
         this.store.delete(this.w3cAuthenticationCode);
     }
 
-    public loadAuthToken() {
-        return this.store.get(this.w3cAuthenticationCode) ?? '';
+    public loadAuthToken(): W3cToken | null {
+        return this.store.get(this.w3cAuthenticationCode) ?? null;
     }
 
     public async authorize(code: string): Promise<W3cToken | null> {

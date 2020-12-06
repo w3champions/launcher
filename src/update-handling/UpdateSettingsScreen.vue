@@ -47,6 +47,9 @@
         <div>
           Launcher Version: {{ currentLauncherVersion }}
         </div>
+        <div>
+          Account: {{ currentUser }}
+        </div>
       </div>
     </div>
   </div>
@@ -162,7 +165,11 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   get currentLauncherVersion(): string {
-    return this.$store.direct.state.updateHandling.localLauncherVersion
+    return this.$store.direct.state.updateHandling.localLauncherVersion;
+  }
+
+  get currentUser(): string {
+    return this.$store.direct.state.blizzardVerifiedBtag;
   }
 
   get w3Path(): string {

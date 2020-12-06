@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex, {ActionContext} from "vuex";
 import {createDirectStore} from "direct-vuex";
-import {News, RootState} from "@/globalState/rootTypings";
+import {News, RootState, W3cToken} from "@/globalState/rootTypings";
 
 import updateHandling from "../update-handling/updateStore";
 import colorPicker from "../color-picker/colorSetStore";
@@ -20,6 +20,7 @@ import {
 import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
 import {FileService} from "@/update-handling/FileService";
 import {AuthenticationService} from "@/globalState/AuthenticationService";
+import logger from "@/logger";
 const { ipcRenderer } = window.require("electron");
 
 Vue.use(Vuex);
@@ -65,6 +66,7 @@ const mod = {
       rootGetters.versionService.switchToMode(mode);
 
       commit.SET_IS_TEST(mode);
+      commit.LOGOUT();
 
       ipcRenderer.send('oauth-requested');
     },
@@ -83,7 +85,7 @@ const mod = {
     loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
-      commit.SET_W3CAUTH_TOKEN(rootGetters.authService.loadAuthToken());
+      commit.SET_W3CAUTH_TOKEN(rootGetters.authService.loadAuthToken()?.token ?? '');
     },
     async authorizeWithCode(
         context: ActionContext<UpdateHandlingState, RootState>,
@@ -100,8 +102,8 @@ const mod = {
         );
 
         if (profile) {
-          commit.SET_PROFILE_NAME(profile.battleTag);
-          commit.SET_IS_ADMIN(profile.isAdmin);
+          logger.info(`logged in as ${profile.battleTag}`)
+          commit.SET_PROFILE(profile);
           await rootGetters.authService.saveAuthToken(bearer);
         }
       }
@@ -119,9 +121,8 @@ const mod = {
       );
 
       if (profile) {
-        commit.SET_PROFILE_NAME(profile.name);
-        commit.SET_PROFILE_BTAG(profile.battleTag);
-        commit.SET_IS_ADMIN(profile.isAdmin);
+        logger.info(`logged in as ${profile.battleTag}`)
+        commit.SET_PROFILE(profile);
       } else {
         commit.LOGOUT();
         await rootGetters.authService.deleteAuthToken();
@@ -148,14 +149,10 @@ const mod = {
     SET_BEARER(state: RootState, token: string) {
       state.w3cToken = token;
     },
-    SET_PROFILE_NAME(state: RootState, name: string) {
-      state.blizzardVerifiedName = name;
-    },
-    SET_PROFILE_BTAG(state: RootState, btag: string) {
-      state.blizzardVerifiedBtag = btag;
-    },
-    SET_IS_ADMIN(state: RootState, isAdmin: boolean) {
-      state.isAdmin = isAdmin;
+    SET_PROFILE(state: RootState, token: W3cToken) {
+      state.blizzardVerifiedName = token.battleTag;
+      state.blizzardVerifiedName = token.name;
+      state.isAdmin = token.isAdmin;
     },
     LOGOUT(state: RootState) {
       state.isAdmin = false;
