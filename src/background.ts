@@ -190,7 +190,7 @@ ipcMain.on('fab-position-loaded', (ev: IpcMainEvent, args) => {
   }
 })
 
-ipcMain.on('oauth-requested', (ev: IpcMainEvent, args) => {
+ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
   let authWindow: BrowserWindow | null = new BrowserWindow({
     width: 800,
     height: 800,
@@ -204,6 +204,7 @@ ipcMain.on('oauth-requested', (ev: IpcMainEvent, args) => {
   });
   const authUrl = 'https://eu.battle.net/oauth/authorize?region=eu&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
 
+  await authWindow.loadURL("https://battle.net/login/logout");
   authWindow.loadURL(authUrl);
   authWindow.show();
 
