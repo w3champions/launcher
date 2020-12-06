@@ -65,6 +65,8 @@ const mod = {
       rootGetters.versionService.switchToMode(mode);
 
       commit.SET_IS_TEST(mode);
+
+      ipcRenderer.send('oauth-requested');
     },
     loadIsTestMode(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);

@@ -46,6 +46,6 @@ export class AuthenticationService {
             },
         });
 
-        return response.status === 204 ? null : await response.json();
+        return response.status !== 200 ? null : await response.json();
     }
 }
