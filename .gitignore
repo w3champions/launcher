@@ -29,7 +29,7 @@ libs/flo-logs/*
 /dist_electron
 
 yarn.lock
-package.lock.json
+package.lock.npm i -g npm-check-updatesnpm i -g npm-check-updatesjson
 
 # Native module files
 Debug
