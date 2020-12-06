@@ -85,7 +85,11 @@ const mod = {
     loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
-      commit.SET_W3CAUTH_TOKEN(rootGetters.authService.loadAuthToken()?.token ?? '');
+      const token = rootGetters.authService.loadAuthToken();
+      if (token) {
+        commit.SET_W3CAUTH_TOKEN(token.token);
+        commit.SET_PROFILE(token);
+      }
     },
     async authorizeWithCode(
         context: ActionContext<UpdateHandlingState, RootState>,
@@ -150,7 +154,7 @@ const mod = {
       state.w3cToken = token;
     },
     SET_PROFILE(state: RootState, token: W3cToken) {
-      state.blizzardVerifiedName = token.battleTag;
+      state.blizzardVerifiedBtag = token.battleTag;
       state.blizzardVerifiedName = token.name;
       state.isAdmin = token.isAdmin;
     },
