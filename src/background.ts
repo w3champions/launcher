@@ -225,12 +225,13 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
   authWindow.loadURL(authUrl);
   authWindow.show();
 
+  let token = '';
+
   authWindow.webContents.on('will-redirect', async (event, newUrl) => {
     if (authWindow) {
       if (newUrl.startsWith("http://localhost:8080/login")) {
-        logger.info(newUrl);
-        const strings = newUrl.split("=");
-        logger.info(strings[1]);
+        const strings = newUrl.split("?code=");
+        token = strings[1];
         win?.webContents.send('blizzard-code-received', strings[1]);
         authWindow.close();
       }
@@ -238,6 +239,10 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
   });
 
   authWindow.on('closed', function() {
+    if (!token) {
+      win?.webContents.send('blizzard-code-received', '');
+    }
+
     authWindow = null;
   });
 })
