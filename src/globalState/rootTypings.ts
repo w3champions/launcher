@@ -3,7 +3,9 @@ export interface RootState {
     isWindows: boolean,
     newsUrl: string,
     updateUrl: string,
-    news: News[]
+    news: News[],
+    blizzardKey: string,
+    w3cToken: string
 }
 
 export interface News {

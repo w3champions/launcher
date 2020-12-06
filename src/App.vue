@@ -29,6 +29,12 @@ export default class App extends Vue {
   async mounted() {
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
+    this.$store.direct.dispatch.loadAuthToken();
+
+    if (!this.$store.direct.state.w3cToken) {
+      this.triggerAuthenticationFlow();
+    }
+
     this.makeSureNumpadIsEnabled()
 
     await this.$store.direct.dispatch.loadNews();
@@ -95,6 +101,10 @@ export default class App extends Vue {
         keyboard.pressSpace();
       }
     }
+  }
+
+  private triggerAuthenticationFlow() {
+    location.href = `https://eu.battle.net/oauth/authorize?region=eu&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost`;
   }
 }
 </script>

@@ -12,6 +12,7 @@ import {VersionService} from "@/globalState/VersionService";
 import {NEWS_URL_PROD, NEWS_URL_TEST, UPDATE_URL_PROD, UPDATE_URL_TEST} from "@/constants";
 import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
 import {FileService} from "@/update-handling/FileService";
+import {AuthenticationService} from "@/globalState/AuthenticationService";
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ const services = {
   versionService: new VersionService(),
   fileService: new FileService(),
   itemHotkeyService: new ItemHotkeyRegistrationService(),
+  authService: new AuthenticationService(),
 };
 
 const mod = {
@@ -34,6 +36,8 @@ const mod = {
     newsUrl: NEWS_URL_PROD,
     news: [] as News[],
     isWindows: false,
+    blizzardKey: '',
+    w3cToken: ''
   } as RootState,
   actions: {
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -63,6 +67,11 @@ const mod = {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       commit.SET_OS(rootGetters.fileService.isWindows());
+    },
+    loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      commit.SET_W3CAUTH_TOKEN(rootGetters.authService.loadAuthToken());
     }
   },
   mutations: {
@@ -76,6 +85,12 @@ const mod = {
     },
     SET_OS(state: RootState, isWindows: boolean) {
       state.isWindows = isWindows;
+    },
+    SET_W3CAUTH_TOKEN(state: RootState, w3cToken: string) {
+      state.w3cToken = w3cToken;
+    },
+    SET_BLIZZARD_CODE(state: RootState, blizzardKey: string) {
+      state.blizzardKey = blizzardKey;
     }
   },
   getters: {
@@ -90,6 +105,9 @@ const mod = {
     },
     fileService() {
       return services.fileService;
+    },
+    authService() {
+      return services.authService;
     },
   },
 } as const;
