@@ -22,7 +22,7 @@ export class AuthenticationService {
     }
 
     public async authorize(code: string): Promise<W3cToken | null> {
-        logger.info(`get auth from ${store.state.identificationUrl}`)
+        logger.info(`get token from code ${store.state.identificationUrl}`)
         const url = `${store.state.identificationUrl}api/oauth/token?code=${code}&redirectUri=http://localhost:8080/login`;
         const response = await fetch(url, {
             method: "GET",
@@ -36,7 +36,7 @@ export class AuthenticationService {
     }
 
     public async getProfile(bearer: string): Promise<W3cToken | null> {
-        logger.info(`get auth from ${store.state.identificationUrl}`)
+        logger.info(`get profile from token ${store.state.identificationUrl}`)
         const url = `${store.state.identificationUrl}api/oauth/battleTag?bearer=${bearer}`;
         const response = await fetch(url, {
             method: "GET",

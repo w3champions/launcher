@@ -5,10 +5,7 @@ export interface RootState {
     updateUrl: string,
     identificationUrl: string,
     news: News[],
-    w3cToken: string,
-    blizzardVerifiedBtag: string,
-    blizzardVerifiedName: string,
-    isAdmin: boolean,
+    w3cToken: W3cToken | null
 }
 
 export interface News {

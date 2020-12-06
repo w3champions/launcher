@@ -169,7 +169,7 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   get currentUser(): string {
-    return this.$store.direct.state.blizzardVerifiedBtag;
+    return this.$store.direct.state.w3cToken?.battleTag ?? '';
   }
 
   get w3Path(): string {

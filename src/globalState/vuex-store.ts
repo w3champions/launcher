@@ -45,10 +45,7 @@ const mod = {
     newsUrl: NEWS_URL_PROD,
     identificationUrl: IDENTIFICATION_URL_PROD,
     news: [] as News[],
-    isWindows: false,
-    blizzardVerifiedName: '',
-    blizzardVerifiedBtag: '',
-    w3cToken: ''
+    w3cToken: null
   } as RootState,
   actions: {
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -87,8 +84,7 @@ const mod = {
 
       const token = rootGetters.authService.loadAuthToken();
       if (token) {
-        commit.SET_W3CAUTH_TOKEN(token.token);
-        commit.SET_PROFILE(token);
+        commit.SET_W3CAUTH_TOKEN(token);
       }
     },
     async authorizeWithCode(
@@ -97,19 +93,11 @@ const mod = {
     ) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
-      const bearer = await rootGetters.authService.authorize(code);
-      if (bearer) {
-        commit.SET_BEARER(bearer.token);
-
-        const profile = await rootGetters.authService.getProfile(
-            bearer.token
-        );
-
-        if (profile) {
-          logger.info(`logged in as ${profile.battleTag}`)
-          commit.SET_PROFILE(profile);
-          await rootGetters.authService.saveAuthToken(bearer);
-        }
+      const token = await rootGetters.authService.authorize(code);
+      if (token) {
+        logger.info(`logged in as ${token.battleTag}`)
+        commit.SET_W3CAUTH_TOKEN(token);
+        await rootGetters.authService.saveAuthToken(token);
       }
       else {
         ipcRenderer.send('oauth-requested');
@@ -121,12 +109,12 @@ const mod = {
       const { commit, rootState, rootGetters } = moduleActionContext(context, mod);
 
       const profile = await rootGetters.authService.getProfile(
-          rootState.w3cToken
+          rootState.w3cToken?.token ?? ''
       );
 
       if (profile) {
         logger.info(`logged in as ${profile.battleTag}`)
-        commit.SET_PROFILE(profile);
+        commit.SET_W3CAUTH_TOKEN(profile);
       } else {
         commit.LOGOUT();
         await rootGetters.authService.deleteAuthToken();
@@ -147,22 +135,11 @@ const mod = {
     SET_OS(state: RootState, isWindows: boolean) {
       state.isWindows = isWindows;
     },
-    SET_W3CAUTH_TOKEN(state: RootState, w3cToken: string) {
+    SET_W3CAUTH_TOKEN(state: RootState, w3cToken: W3cToken | null) {
       state.w3cToken = w3cToken;
     },
-    SET_BEARER(state: RootState, token: string) {
-      state.w3cToken = token;
-    },
-    SET_PROFILE(state: RootState, token: W3cToken) {
-      state.blizzardVerifiedBtag = token.battleTag;
-      state.blizzardVerifiedName = token.name;
-      state.isAdmin = token.isAdmin;
-    },
     LOGOUT(state: RootState) {
-      state.isAdmin = false;
-      state.w3cToken = '';
-      state.blizzardVerifiedBtag = '';
-      state.blizzardVerifiedName = '';
+      state.w3cToken = null;
     },
   },
   getters: {
