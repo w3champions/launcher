@@ -171,7 +171,7 @@ export class FloWorkerInstance {
             ws.on("message", (data: any) => {
                 const parsed = JSON.parse(data) as IFloWorkerEvent;
                 this.processFloWorkerMessage(parsed);
-                logger.info('mes '+ data);
+                logger.info(data);
             });
         });
 

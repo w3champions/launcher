@@ -3,10 +3,12 @@ import { environment } from '@/environment';
 import { ELauncherMessageType, IIngameBridgeEvent, ingameBridge } from '@/game/ingame-bridge';
 import { FloWorkerInstance, IFloAuthData, IFloWorkerInstanceSettings } from './flo-worker.instance';
 import { IPlayerInstance } from '@/game/game.types';
+import logger from '@/logger';
 
 const { remote } = window.require("electron");
 const path = require('path');
 const fs = window.require("fs");
+const { exec } = window.require("child_process");
 
 export class FloWorkerService {
     private store = store;
@@ -16,7 +18,7 @@ export class FloWorkerService {
 
     public initialize() {
         const settings = this.createWorkerSettings();
-        
+ 
         // Start one worker by default
         this.primaryWorker = new FloWorkerInstance(settings);
         this.primaryWorker.startWorker();
@@ -49,8 +51,37 @@ export class FloWorkerService {
 
         ingameBridge.on(ELauncherMessageType.DISCONNECTED, (playerInstnace: IPlayerInstance) => {
         });
+
+        ingameBridge.on(ELauncherMessageType.FLO_CHECK_BONJOUR, async (event: IIngameBridgeEvent) => {
+            try {
+                const isBonjourRuning = await this.isRunning('mDNSResponder.exe', 'mDNSResponder', 'mDNSResponder');
+                ingameBridge.sendFloBonjourCheckResult(event.playerInstance, isBonjourRuning);
+            }
+            catch (err) {
+                logger.error('Unable to execute get bonjour process:' + err);
+            }
+        });
     }
 
+    private isRunning(win: string, mac: string, linux: string){
+        return new Promise<boolean>(function(resolve, reject){
+            const plat = remote.process.platform;
+            const cmd = plat == 'win32' ? 'tasklist' : (plat == 'darwin' ? 'ps -ax | grep ' + mac : (plat == 'linux' ? 'ps -A' : ''))
+            const proc = plat == 'win32' ? win : (plat == 'darwin' ? mac : (plat == 'linux' ? linux : ''))
+            if(cmd === '' || proc === ''){
+                resolve(false)
+            }
+            exec(cmd, function(err: any, stdout: any, stderr: any) {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve(stdout.toLowerCase().indexOf(proc.toLowerCase()) > -1)
+            });
+        })
+    }
+    
     private createWorkerSettings() {
         const isWindows = this.store.state.isWindows;
         const floExecutable = (isWindows) ? 'flo-worker.exe' : 'flo-worker';
