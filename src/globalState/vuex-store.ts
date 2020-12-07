@@ -51,11 +51,16 @@ const mod = {
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, state } = moduleActionContext(context, mod);
 
-      const news = await (
-          await fetch(`${state.newsUrl}api/admin/news`)
-      ).json();
+      try {
+        const news = await (
+            await fetch(`${state.newsUrl}api/admin/news`)
+        ).json();
 
-      commit.SET_NEWS(news);
+        commit.SET_NEWS(news);
+      } catch (e) {
+        commit.SET_NEWS([]);
+        logger.error(e);
+      }
     },
     async setTestMode(context: ActionContext<UpdateHandlingState, RootState>, mode: boolean) {
       const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
