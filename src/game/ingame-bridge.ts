@@ -1,3 +1,4 @@
+import { IFloNode } from '@/flo-integration/flo-worker.instance';
 import logger from "@/logger";
 
 const http = window.require("http");
@@ -16,6 +17,7 @@ export enum ELauncherMessageType {
     FLO_DISCONNECTED = 'FLO_DISCONNECTED',
     FLO_CHECK_BONJOUR = 'FLO_CHECK_BONJOUR',
     FLO_CHECK_BONJOUR_RESULT = 'FLO_CHECK_BONJOUR_RESULT',
+    FLO_PING_UPDATE = 'FLO_PING_UPDATE'
 }
 
 export interface ILauncherGameMessage {
@@ -79,6 +81,15 @@ export class IngameBridge extends EventEmitter {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.FLO_CHECK_BONJOUR_RESULT,
             data: { isRunning }
+        };
+
+        playerInstance.sendMessage(message);
+    }
+
+    public sendPingUpdates(playerInstance: IPlayerInstance, nodePings: IFloNode[]) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.FLO_PING_UPDATE,
+            data: nodePings
         };
 
         playerInstance.sendMessage(message);

@@ -21,17 +21,32 @@ interface IFloWorkerEvent {
     type: EFloWorkerEventTypes;
 }
 
-interface IPlayerSessionEvent extends IFloWorkerEvent {
-    player: IFloWorkerPlayer;
+export interface IFloPing {
+    min: number;
+    max: number;
+    avg: number;
+    current: number;
+    loss_rate: number;
+}
+
+export interface IFloNode {
+    id: string;
+    name: string;
+    location: string;
+	country_id: string;
+	ping: IFloPing;
 }
 
 export interface IFloAuthData {
     token: string;
 }
 
-interface IFloWorkerPlayer {
-    id: number;
-    name: string;
+export interface IListNodesEvent extends IFloWorkerEvent {
+    nodes: IFloNode[];
+}
+
+export interface IPingUpdate extends IFloWorkerEvent {
+    ping_map: {[id: string]: IFloPing};
 }
 
 export interface IFloWorkerInstanceSettings {
@@ -48,6 +63,7 @@ export class FloWorkerInstance {
     private floWorkerWs?: WebSocket;
     private lastConnectToken?: string;
     private reconnectInterValHandle?: any;
+    private nodePings: IFloNode[] = [];
 
     public playerInstance?: IPlayerInstance;
 
@@ -64,7 +80,7 @@ export class FloWorkerInstance {
         this.playerInstance = playerInstance;
         this.floWorkerWs?.send(
             JSON.stringify({
-                type: "Connect",
+                type: 'Connect',
                 token: token,
             })
         );
@@ -73,7 +89,25 @@ export class FloWorkerInstance {
     public disconnect() {
         this.floWorkerWs?.send(
             JSON.stringify({
-                type: "Disconnect"
+                type: 'Disconnect'
+            })
+        );
+    }
+
+    public startTestGame() {
+        this.floWorkerWs?.send(
+            JSON.stringify({
+                type: 'StartTestGame',
+                name: 'w3c-test'
+            })
+        );
+    }
+
+    public killTestGame() {
+        this.floWorkerWs?.send(
+            JSON.stringify({
+                type: 'KillTestGame',
+                name: 'w3c-test'
             })
         );
     }
@@ -129,6 +163,9 @@ export class FloWorkerInstance {
             clearInterval(this.reconnectInterValHandle);
         }
         ingameBridge.sendFloConnected(this.playerInstance as any);
+
+        this.startTestGame();
+        setTimeout(()=> this.killTestGame() , 1000);
     }
 
     private onDisconnectRecieved() {
@@ -190,6 +227,29 @@ export class FloWorkerInstance {
                     this.onDisconnectRecieved();
                     break;
                 }
+            case EFloWorkerEventTypes.ListNodes: {
+                this.nodePings = (parsed as any)?.nodes || [];
+                break;
+            }
+            case EFloWorkerEventTypes.PingUpdate: {
+                const pingMap = (parsed as IPingUpdate)?.ping_map;
+
+                if (pingMap) {
+                    for (const node of this.nodePings) {
+                        const ping = pingMap[node.id];
+
+                        if (ping) {
+                            node.ping.avg = ping.avg;
+                            node.ping.current = ping.current;
+                            node.ping.max = ping.max;
+                            node.ping.min = ping.min;
+                            node.ping.loss_rate = ping.loss_rate;
+                        }
+                    }
+
+                    ingameBridge.sendPingUpdates(this.playerInstance as any, this.nodePings)
+                }
+            }
         }
     }
 }
