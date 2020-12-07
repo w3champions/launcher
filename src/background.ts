@@ -94,15 +94,11 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('activate', async () => {
+app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow()
-  }
-
-  if (fab === null) {
-    await createFab()
   }
 })
 
@@ -127,7 +123,6 @@ app.on('ready', async () => {
   }
 
   createWindow()
-  await createFab()
 })
 
 // Exit cleanly on request from parent process in development mode.
@@ -179,15 +174,25 @@ async function createFab() {
   await fab.loadURL(`${__static}/fab.html`);
 }
 
-ipcMain.on('fab-position-loaded', (ev: IpcMainEvent, args) => {
+ipcMain.on('fab-options-loaded', async (ev: IpcMainEvent, args) => {
+  await createFab();
   if (fab) {
     if (args?.x || args?.y) {
       logger.info(`set position of fab to ${args.x}, ${args.y}`)
       fab.setPosition(args.x, args.y);
+      fab.show();
     }
 
     logger.info(`no position saved, fab on default now`)
   }
+})
+
+ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
+  if (fab) {
+    fab.close();
+  }
+
+  fab = null;
 })
 
 ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {

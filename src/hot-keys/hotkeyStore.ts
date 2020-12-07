@@ -116,6 +116,7 @@ const mod = {
     raceHotkeyData: defaultHotkeyData,
     raceHotkeys: [] as RaceHotKey[],
     lastW3cPort: "",
+    isShowHotkeyIndicator: true,
     toggleButton: { modifier: ModifierKey.Shift, hotKey: {key: "f4", uiDisplay: "f4"}}
   } as HotKeyModifierState,
   actions: {
@@ -178,6 +179,13 @@ const mod = {
       commit.TOGGLE_HOTKEYS_MANUAL_MODE();
       rootGetters.itemHotkeyService.saveManualMode(state.hotKeyStateMachine.isManual());
     },
+    toggleShowHotkeyIndicator(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit, rootGetters, state, dispatch } = moduleActionContext(context, mod);
+
+      commit.TOGGLE_HOTKEY_INDICATOR(!state.isShowHotkeyIndicator);
+      rootGetters.itemHotkeyService.saveShowHotkeyIndicator(state.isShowHotkeyIndicator);
+      dispatch.loadHotkeyFabSettings();
+    },
     loadManualMode(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
 
@@ -225,11 +233,17 @@ const mod = {
       const hotKeys = rootGetters.itemHotkeyService.saveHotkeyButtonPosition(position)
       commit.SET_HOTKEYS(hotKeys);
     },
-    loadHotkeyButtonPosition(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { rootGetters } = moduleActionContext(context, mod);
+    loadHotkeyFabSettings(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { rootGetters, commit } = moduleActionContext(context, mod);
 
       const position = rootGetters.itemHotkeyService.loadHotkeyButtonPosition();
-      ipcRenderer.send('fab-position-loaded', position);
+      const show = rootGetters.itemHotkeyService.loadShowHotkeyIndicator();
+      commit.TOGGLE_HOTKEY_INDICATOR(show);
+      if (show) {
+        ipcRenderer.send('fab-options-loaded', position);
+      } else {
+        ipcRenderer.send('fab-disabled', position);
+      }
     },
     loadHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
@@ -278,6 +292,9 @@ const mod = {
     },
     TOGGLE_HOTKEYS_MANUAL_MODE(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.toggleManualMode();
+    },
+    TOGGLE_HOTKEY_INDICATOR(state: HotKeyModifierState, isEnabled: boolean) {
+      state.isShowHotkeyIndicator = isEnabled;
     },
     TOGGLE_HOTKEYS(state: HotKeyModifierState) {
       state.hotKeyStateMachine = state.hotKeyStateMachine.toggle();

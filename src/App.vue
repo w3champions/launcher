@@ -49,10 +49,11 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.loadNews();
 
     logger.info(remote.app.getPath('userData'))
-    this.$store.direct.dispatch.hotKeys.loadHotkeyButtonPosition();
+    this.$store.direct.dispatch.hotKeys.loadHotkeyFabSettings();
     this.$store.direct.dispatch.hotKeys.loadToggleKey();
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
     this.$store.direct.dispatch.hotKeys.loadRaceHotkeys();
+
     if (this.$store.direct.state.hotKeys.raceHotkeys.length === 0) {
       logger.info('No hotkeys set yet, importing from file to not overwrite anything')
       await this.$store.direct.dispatch.hotKeys.importHotkeysFromFile();

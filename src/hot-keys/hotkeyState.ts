@@ -9,4 +9,5 @@ export interface HotKeyModifierState {
   hotKeyStateMachine: HotKeyState,
   toggleButton: ClickCombination,
   lastW3cPort: string,
+  isShowHotkeyIndicator: boolean,
 }
