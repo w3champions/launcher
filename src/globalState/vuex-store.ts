@@ -57,15 +57,14 @@ const mod = {
 
       commit.SET_NEWS(news);
     },
-    setTestMode(context: ActionContext<UpdateHandlingState, RootState>, mode: boolean) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
+    async setTestMode(context: ActionContext<UpdateHandlingState, RootState>, mode: boolean) {
+      const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
 
       rootGetters.versionService.switchToMode(mode);
-
       commit.SET_IS_TEST(mode);
-      commit.LOGOUT();
 
-      ipcRenderer.send('oauth-requested');
+      await dispatch.resetAuthentication();
+
     },
     loadIsTestMode(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
@@ -91,7 +90,7 @@ const mod = {
         context: ActionContext<UpdateHandlingState, RootState>,
         code: string
     ) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
+      const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
 
       const token = await rootGetters.authService.authorize(code);
       if (token) {
@@ -100,13 +99,13 @@ const mod = {
         await rootGetters.authService.saveAuthToken(token);
       }
       else {
-        ipcRenderer.send('oauth-requested');
+        await dispatch.resetAuthentication();
       }
     },
     async loadProfile(
         context: ActionContext<UpdateHandlingState, RootState>
     ) {
-      const { commit, rootState, rootGetters } = moduleActionContext(context, mod);
+      const { commit, rootState, rootGetters, dispatch } = moduleActionContext(context, mod);
 
       const profile = await rootGetters.authService.getProfile(
           rootState.w3cToken?.token ?? ''
@@ -116,10 +115,17 @@ const mod = {
         logger.info(`logged in as ${profile.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(profile);
       } else {
-        commit.LOGOUT();
-        await rootGetters.authService.deleteAuthToken();
-        ipcRenderer.send('oauth-requested');
+        await dispatch.resetAuthentication();
       }
+    },
+    async resetAuthentication(
+        context: ActionContext<UpdateHandlingState, RootState>
+    ) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      commit.LOGOUT();
+      rootGetters.authService.deleteAuthToken();
+      ipcRenderer.send('oauth-requested');
     },
   },
   mutations: {

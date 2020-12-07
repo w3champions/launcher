@@ -39,7 +39,7 @@ export default class App extends Vue {
     this.$store.direct.dispatch.loadAuthToken();
 
     if (!this.isLoggedIn) {
-      this.triggerAuthenticationFlow();
+      await this.$store.direct.dispatch.resetAuthentication();
     } else {
       await this.$store.direct.dispatch.loadProfile();
     }
@@ -114,10 +114,6 @@ export default class App extends Vue {
         keyboard.pressSpace();
       }
     }
-  }
-
-  private triggerAuthenticationFlow() {
-    ipcRenderer.send('oauth-requested');
   }
 }
 </script>

@@ -39,16 +39,14 @@
       </div>
       <div class="version-wrapper">
         <div>
-          {{ isTest ? "PTR" : "LIVE" }}
-        </div>
-        <div>
           Warcraft 3 Champions Version: {{w3cVersion}}
         </div>
         <div>
           Launcher Version: {{ currentLauncherVersion }}
         </div>
         <div>
-          Account: {{ currentUser }}
+          <span>{{ currentUser }}</span>
+          <span style="cursor: pointer;" @click="resetAuthentication"> (Logout)</span>
         </div>
       </div>
     </div>
@@ -90,6 +88,10 @@ export default class UpdateSettingsScreen extends Vue {
 
   public switchOwnColor(newColor: string) {
     this.$store.direct.dispatch.colorPicker.switchOwnColor(newColor);
+  }
+
+  public async resetAuthentication() {
+    await this.$store.direct.dispatch.resetAuthentication();
   }
 
   public switchEnemyColor(newColor: string) {

@@ -218,9 +218,14 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
   const authUrl = 'https://eu.battle.net/oauth/authorize?region=eu&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
   const logoutUrl = "https://eu.battle.net/login/logout";
 
-  await logoutWindow.loadURL(logoutUrl);
-  logoutWindow.close();
-  logoutWindow = null;
+  try {
+    await logoutWindow.loadURL(logoutUrl);
+    logoutWindow.close();
+    logoutWindow = null;
+  } catch (e) {
+    logger.error(e)
+  }
+
 
   authWindow.loadURL(authUrl);
   authWindow.show();
