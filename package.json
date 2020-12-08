@@ -7,7 +7,7 @@
   "scripts": {
     "serve": "vue-cli-service electron:serve --publish=never --dev",
     "buildAndPublish": "vue-cli-service electron:build --publish always",
-    "build": "vue-cli-service electron:build",
+    "build": "vue-cli-service electron:build --publish never",
     "lint": "vue-cli-service lint",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
