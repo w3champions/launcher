@@ -21,7 +21,6 @@ import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 const { execSync } = window.require("child_process");
-const os = window.require('os');
 import VueMarkdown from "vue-markdown";
 
 @Component({
@@ -34,21 +33,16 @@ export default class HomeScreen extends Vue {
   public selectedNews = 0;
   @Prop() public code!: string;
 
-  private static isWindows() {
-    return os.platform() === "win32";
-  }
-
   public selectNews(index: number) {
     this.selectedNews = index;
   }
 
   async mounted() {
     this.turnOnButton();
-    await this.updateStrategy.updateIfNeeded();
   }
 
   private turnOnButton() {
-    if (HomeScreen.isWindows() && this.isBnetOff) {
+    if (this.$store.direct.state.isWindows && this.isBnetOff) {
       this.playButton = "Please open Bnet"
       this.disablePlayBtn = true;
     } else {
@@ -93,6 +87,11 @@ export default class HomeScreen extends Vue {
 
     await this.updateStrategy.updateIfNeeded();
     this.updateStrategy.startWc3();
+  }
+
+  private static isWindows() {
+    const os = window.require('os');
+    return os.platform() === "win32";
   }
 
   get isLoading() {

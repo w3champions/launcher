@@ -23,6 +23,8 @@ import HeadLine from "@/home/HeadLine.vue";
 import logger from "@/logger";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 import store from "@/globalState/vuex-store";
+import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
+import {MacLauncher} from "@/update-handling/MacLauncher";
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
 const { remote } = window.require("electron");
 const { ipcRenderer } = window.require('electron')
@@ -31,6 +33,8 @@ const { ipcRenderer } = window.require('electron')
   components: {LoadingSpinner, HeadLine}
 })
 export default class App extends Vue {
+  private updateStrategy = App.isWindows() ? new WindowsLauncher() : new MacLauncher();
+
   async mounted() {
     ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {
       store.dispatch.authorizeWithCode(args);
@@ -71,6 +75,8 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
     await this.$store.direct.dispatch.colorPicker.loadIsTeamColorsEnabled();
     await this.$store.direct.dispatch.colorPicker.loadColors();
+
+    await this.updateStrategy.updateIfNeeded();
   }
 
   get isLoggedIn() {
@@ -81,12 +87,13 @@ export default class App extends Vue {
     ipcRenderer.send('close-window');
   }
 
-  get isWindows() {
-    return this.$store.state.isWindows;
+  private static isWindows() {
+    const os = window.require('os');
+    return os.platform() === "win32";
   }
 
   private makeSureNumpadIsEnabled() {
-    if (!this.isWindows) {
+    if (!App.isWindows) {
       return
     }
 
