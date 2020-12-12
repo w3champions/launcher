@@ -1,4 +1,5 @@
 import { IFloNode } from '@/flo-integration/flo-worker.instance';
+import store from '@/globalState/vuex-store';
 import logger from "@/logger";
 
 const http = window.require("http");
@@ -6,11 +7,13 @@ const WebSocket = window.require("ws");
 import { EventEmitter } from 'events';
 import { ICurrentPlayer, IPlayerInstance } from './game.types';
 import { GameUtils } from './game.utils';
+import {W3cToken} from "@/globalState/rootTypings";
 
 export enum ELauncherMessageType {
     CONNECTED = 'CONNECTED',
     DISCONNECTED = 'DISCONNECTED',
     START_GAME = 'START_GAME',
+    W3C_AUTHENTICATION = 'W3C_AUTHENTICATION',
     EXIT_GAME = 'EXIT_GAME',
     FLO_AUTH = 'FLO_AUTH',
     FLO_CONNECTED = 'FLO_CONNECTED',
@@ -32,9 +35,11 @@ export interface IIngameBridgeEvent extends ILauncherGameMessage {
 export class IngameBridge extends EventEmitter {
     private server = http.createServer();
     private wss = new WebSocket.Server({ server: this.server });
+    private wsToIngame!: WebSocket;
 
     public initialize() {
         this.wss.on("connection", (ws: WebSocket, req: any) => {
+            this.wsToIngame = ws;
             const pi = this.createPlayerInstance(ws, req.url);
             pi.onmessage = (message: MessageEvent) => {
                 logger.info(message);
@@ -59,6 +64,10 @@ export class IngameBridge extends EventEmitter {
         });
 
         this.server.listen(38123);
+    }
+
+    public sendW3cAuthToken(token: W3cToken) {
+        this.wsToIngame.send(JSON.stringify({ type: ELauncherMessageType.W3C_AUTHENTICATION, data: token }))
     }
 
     public sendFloConnected(playerInstance: IPlayerInstance) {

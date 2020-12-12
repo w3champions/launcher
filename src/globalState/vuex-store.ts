@@ -21,6 +21,7 @@ import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationSe
 import {FileService} from "@/update-handling/FileService";
 import {AuthenticationService} from "@/globalState/AuthenticationService";
 import logger from "@/logger";
+import {ingameBridge} from "@/game/ingame-bridge";
 const { ipcRenderer } = window.require("electron");
 
 Vue.use(Vuex);
@@ -119,6 +120,7 @@ const mod = {
       if (profile) {
         logger.info(`logged in as ${profile.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(profile);
+        ingameBridge.sendW3cAuthToken(profile);
       } else {
         await dispatch.resetAuthentication();
       }
