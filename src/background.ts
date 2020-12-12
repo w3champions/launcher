@@ -281,6 +281,7 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     logger.error(e)
   }
 
+
   authWindow.loadURL(authUrl);
   authWindow.show();
 
@@ -304,4 +305,4 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
 
     authWindow = null;
   });
-});
+})
