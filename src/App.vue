@@ -23,7 +23,8 @@ import logger from "@/logger";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 import store from "@/globalState/vuex-store";
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
-const { remote, ipcRenderer } = window.require("electron");
+const { remote } = window.require("electron");
+const { ipcRenderer } = window.require('electron')
 
 @Component({
   components: {LoadingSpinner, HeadLine}
@@ -76,7 +77,7 @@ export default class App extends Vue {
   }
 
   public closeApp() {
-    remote.app.quit();
+    ipcRenderer.send('close-window');
   }
 
   get isWindows() {

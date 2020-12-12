@@ -1,10 +1,10 @@
 'use strict'
 
-import {app, protocol, globalShortcut, screen, BrowserWindow, dialog, ipcMain, IpcMainEvent} from 'electron'
+import {app, protocol, globalShortcut, screen, BrowserWindow, dialog, ipcMain, IpcMainEvent, Tray, Menu, nativeImage } from 'electron'
 import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import ipcRenderer = Electron.Renderer.ipcRenderer;
+import path from 'path';
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -12,6 +12,7 @@ declare const __static: string;
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null
 let fab: BrowserWindow | null
+let tray: Tray | null;
 
 const logger = require("electron-log")
 
@@ -49,11 +50,10 @@ app.allowRendererProcessReuse = false;
 
 app.on('will-quit', () => {
   globalShortcut.unregisterAll()
-})
+});
 
 function createWindow() {
   // Create the browser window.
-
   win = new BrowserWindow({
     width: 1275,
     height: 830,
@@ -82,7 +82,29 @@ function createWindow() {
   win.on('closed', () => {
     win = null;
     fab = null;
-  })
+  });
+}
+
+function createTray() {
+  const iconPath = path.join(__dirname, isDevelopment ? '../build/icon.png' : 'favicon.ico');
+  tray = new Tray(nativeImage.createFromPath(iconPath));
+
+  tray.on('click', ()=> {
+    win?.show();
+  });
+
+  tray.setContextMenu(Menu.buildFromTemplate([
+    {
+      label: 'Show App', click: function () {
+        win?.show();
+      }
+    },
+    {
+      label: 'Quit', click: function () {
+        app.quit();
+      }
+    }
+  ]));
 }
 
 // Quit when all windows are closed.
@@ -94,35 +116,52 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (win === null) {
-    createWindow()
-  }
-})
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    try {
-      await installExtension(VUEJS_DEVTOOLS)
-    } catch (e) {
-      logger.error('Vue Devtools failed to install:', e.toString())
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (win) {
+      win.show();
+      win.focus()
     }
-  }
+  })
 
-  try {
-    await autoUpdater.checkForUpdatesAndNotify();
-  } catch (e) {
-    logger.error("Updating failed horribly, starting without check for new version");
-    logger.error(e);
-  }
+  // This method will be called when Electron has finished
+  // initialization and is ready to create browser windows.
+  // Some APIs can only be used after this event occurs.
+  app.on('ready', async () => {
+    if (isDevelopment && !process.env.IS_TEST) {
+      // Install Vue Devtools
+      try {
+        await installExtension(VUEJS_DEVTOOLS)
+      } catch (e) {
+        logger.error('Vue Devtools failed to install:', e.toString())
+      }
+    }
 
-  createWindow()
+    try {
+      await autoUpdater.checkForUpdatesAndNotify();
+    } catch (e) {
+      logger.error("Updating failed horribly, starting without check for new version");
+      logger.error(e);
+    }
+    createWindow();
+    createTray();
+    await createFab();
+  });
+
+  app.on('activate', async () => {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (win === null) {
+      createWindow()
+    }
+
+    if (fab === null) {
+      await createFab()
+    }
 })
 
 // Exit cleanly on request from parent process in development mode.
@@ -173,6 +212,16 @@ async function createFab() {
   fab.setAlwaysOnTop(true, "status", 50);
   await fab.loadURL(`${__static}/fab.html`);
 }
+
+ipcMain.on('close-window', () => {
+  win?.hide();
+});
+
+ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
+  if (fab) {
+    fab.webContents.send('manual-hotkey-forward', arg);
+  }
+})
 
 ipcMain.on('fab-options-loaded', async (ev: IpcMainEvent, args) => {
   await createFab();
