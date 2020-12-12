@@ -129,10 +129,11 @@ const mod = {
         context: ActionContext<UpdateHandlingState, RootState>
     ) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
+      logger.info("reset auth token")
 
       commit.LOGOUT();
       rootGetters.authService.deleteAuthToken();
-      ipcRenderer.send('oauth-requested');
+      // ipcRenderer.send('oauth-requested');
     },
   },
   mutations: {
