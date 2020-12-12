@@ -2,6 +2,7 @@ import {moduleActionContext} from "@/globalState/vuex-store";
 import {ActionContext} from "vuex";
 import {RootState} from "@/globalState/rootTypings";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
+import logger from "@/logger";
 
 const { remote } = window.require("electron");
 
@@ -66,9 +67,14 @@ const mod = {
     async loadOnlineW3CVersion(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootState } = moduleActionContext(context, mod);
 
-      const result = await fetch(`${rootState.updateUrl}api/client-version`);
-      const version = await result.json();
-      commit.SET_ONLINE_W3C_VERSION(version.version);
+      try {
+        const result = await fetch(`${rootState.updateUrl}api/client-version`);
+        const version = await result.json();
+        commit.SET_ONLINE_W3C_VERSION(version.version);
+      } catch (e) {
+        commit.SET_ONLINE_W3C_VERSION('');
+        logger.error(e);
+      }
     },
     loadAllPaths(context: ActionContext<UpdateHandlingState, RootState>) {
       const { rootGetters, commit } = moduleActionContext(context, mod);

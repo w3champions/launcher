@@ -149,7 +149,6 @@ export abstract class LauncherStrategy {
     }
 
     private updateDownloadProgress(progress: number) {
-        logger.info("Download: " + progress);
         store.commit.updateHandling.DOWNLOAD_PROGRESS(progress);
     }
 

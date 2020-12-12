@@ -112,7 +112,7 @@ app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    app.quit();
+    app.quit()
   }
 })
 
@@ -158,11 +158,11 @@ if (!gotTheLock) {
     if (win === null) {
       createWindow()
     }
-  
+
     if (fab === null) {
       await createFab()
     }
-  });
+  })
 }
 
 // Exit cleanly on request from parent process in development mode.
@@ -224,14 +224,85 @@ ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
   }
 })
 
-ipcMain.on('fab-position-loaded', (ev: IpcMainEvent, args) => {
+ipcMain.on('fab-options-loaded', async (ev: IpcMainEvent, args) => {
+  await createFab();
   if (fab) {
     if (args?.x || args?.y) {
       logger.info(`set position of fab to ${args.x}, ${args.y}`)
       fab.setPosition(args.x, args.y);
+      fab.show();
     }
 
     logger.info(`no position saved, fab on default now`)
   }
 })
 
+ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
+  if (fab) {
+    fab.close();
+  }
+
+  fab = null;
+})
+
+ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
+  let authWindow: BrowserWindow | null = new BrowserWindow({
+    width: 800,
+    height: 800,
+    show: false,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: false,
+      webSecurity: false
+    }
+  });
+
+  let logoutWindow: BrowserWindow | null = new BrowserWindow({
+    width: 800,
+    height: 800,
+    show: false,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: false,
+      webSecurity: false
+    }
+  });
+
+  const authUrl = 'https://eu.battle.net/oauth/authorize?region=eu&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
+  const logoutUrl = "https://eu.battle.net/login/logout";
+
+  try {
+    await logoutWindow.loadURL(logoutUrl);
+    logoutWindow.close();
+    logoutWindow = null;
+  } catch (e) {
+    logger.error(e)
+  }
+
+
+  authWindow.loadURL(authUrl);
+  authWindow.show();
+
+  let token = '';
+
+  authWindow.webContents.on('will-redirect', async (event, newUrl) => {
+    if (authWindow) {
+      if (newUrl.startsWith("http://localhost:8080/login")) {
+        const strings = newUrl.split("?code=");
+        token = strings[1];
+        win?.webContents.send('blizzard-code-received', strings[1]);
+        authWindow.close();
+      }
+    }
+  });
+
+  authWindow.on('closed', function() {
+    if (!token) {
+      win?.webContents.send('blizzard-code-received', '');
+    }
+
+    authWindow = null;
+  });
+})

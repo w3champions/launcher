@@ -10,7 +10,7 @@ const routes = [
     {
         path: "/",
         name: "Home",
-        component: HomeScreen,
+        component: HomeScreen
     },
     {
         path: "/HotKeys/:tab",

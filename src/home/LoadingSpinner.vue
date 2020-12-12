@@ -2,15 +2,18 @@
   <div class="loading-wrapper">
     <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
     <br />
-    <span>Updating Warcraft 3 Champions ({{ progress }}%)</span>
+    <span v-if="!text">Updating Warcraft 3 Champions ({{ progress }}%)</span>
+    <span v-else>{{ text }}</span>
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-property-decorator";
 
 @Component({})
 export default class LoadingSpinner extends Vue {
+  @Prop() public text!: string;
+
   get progress() {
     return this.$store.direct.state.updateHandling.downloadProgress;
   }

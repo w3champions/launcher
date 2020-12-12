@@ -64,6 +64,10 @@
           <div class="text-spacer">turn on hotkeys manually</div>
         </div>
         <div class="just-a-row">
+          <div :class="isShowHotkeyIndicator ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleShowHotkeyIndicator" />
+          <div class="text-spacer">show hotkey indicator</div>
+        </div>
+        <div class="just-a-row">
           <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
           <div class="text-spacer">Inventory hotkeys are {{hotkeyState ? 'ON' : 'OFF'}}</div>
         </div>
@@ -137,6 +141,10 @@ export default class ItemHotkeyTab extends Vue {
     return this.$store.direct.state.hotKeys.hotKeyStateMachine.isManual();
   }
 
+  get isShowHotkeyIndicator() {
+    return this.$store.direct.state.hotKeys.isShowHotkeyIndicator;
+  }
+
   get hotKeyCombo() {
     const forDisplay = combiAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit});
     return forDisplay === "" ? "none" : forDisplay;
@@ -152,6 +160,10 @@ export default class ItemHotkeyTab extends Vue {
 
   public toggleHotkeyManualMode() {
     this.$store.direct.dispatch.hotKeys.toggleManualMode();
+  }
+
+  public toggleShowHotkeyIndicator() {
+    this.$store.direct.dispatch.hotKeys.toggleShowHotkeyIndicator();
   }
 
   public openChangeHotkeyModal(hotKey: string) {

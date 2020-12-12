@@ -58,9 +58,22 @@ export class ItemHotkeyRegistrationService {
     private hotKeyToggleKey = "hotKeyToggleKey"
     private hotKeyManualMode = "hotKeyManualModeKey"
     private hotKeyButtonPosition = "hotKeyButtonPosition"
+    private keyShowHotkeyIndicator = "keyShowHotkeyIndicator"
 
     public saveManualMode(manualMode: boolean) {
         this.keyValueStore.set(this.hotKeyManualMode, manualMode);
+    }
+
+    public saveShowHotkeyIndicator(showIndicator: boolean) {
+        this.keyValueStore.set(this.keyShowHotkeyIndicator, showIndicator);
+    }
+
+    public loadShowHotkeyIndicator(): boolean {
+        const newVar = this.keyValueStore.get(this.keyShowHotkeyIndicator);
+        if (newVar === undefined) {
+            return true;
+        }
+        return newVar;
     }
 
     public loadHotkeyButtonPosition() {

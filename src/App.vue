@@ -1,6 +1,8 @@
 <template>
   <div id="app" class="app-container">
     <HeadLine />
+<!--    Comment in a gain when auth is all done-->
+<!--    <LoadingSpinner v-if="!isLoggedIn" text="Logging you in..."/>-->
     <div class="content-modal-wrapper">
       <div class="static-bg">
       </div>
@@ -19,26 +21,41 @@
 import {Component, Vue} from "vue-property-decorator";
 import HeadLine from "@/home/HeadLine.vue";
 import logger from "@/logger";
+import LoadingSpinner from "@/home/LoadingSpinner.vue";
+import store from "@/globalState/vuex-store";
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
 const { remote } = window.require("electron");
 const { ipcRenderer } = window.require('electron')
 
 @Component({
-  components: {HeadLine}
+  components: {LoadingSpinner, HeadLine}
 })
 export default class App extends Vue {
   async mounted() {
+    ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {
+      store.dispatch.authorizeWithCode(args);
+    })
+
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
+    this.$store.direct.dispatch.loadAuthToken();
+
+    if (!this.isLoggedIn) {
+      await this.$store.direct.dispatch.resetAuthentication();
+    } else {
+      await this.$store.direct.dispatch.loadProfile();
+    }
+
     this.makeSureNumpadIsEnabled()
 
     await this.$store.direct.dispatch.loadNews();
 
     logger.info(remote.app.getPath('userData'))
-    this.$store.direct.dispatch.hotKeys.loadHotkeyButtonPosition();
+    this.$store.direct.dispatch.hotKeys.loadHotkeyFabSettings();
     this.$store.direct.dispatch.hotKeys.loadToggleKey();
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
     this.$store.direct.dispatch.hotKeys.loadRaceHotkeys();
+
     if (this.$store.direct.state.hotKeys.raceHotkeys.length === 0) {
       logger.info('No hotkeys set yet, importing from file to not overwrite anything')
       await this.$store.direct.dispatch.hotKeys.importHotkeysFromFile();
@@ -54,6 +71,10 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
     await this.$store.direct.dispatch.colorPicker.loadIsTeamColorsEnabled();
     await this.$store.direct.dispatch.colorPicker.loadColors();
+  }
+
+  get isLoggedIn() {
+    return this.$store.direct.state.w3cToken
   }
 
   public closeApp() {

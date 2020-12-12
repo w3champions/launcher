@@ -29,6 +29,7 @@ libs/flo-logs/*
 /dist_electron
 
 yarn.lock
+package-lock.json
 
 # Native module files
 Debug
