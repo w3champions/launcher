@@ -4,6 +4,7 @@ import { ELauncherMessageType, IIngameBridgeEvent, ingameBridge } from '@/game/i
 import { FloWorkerInstance, IFloAuthData, IFloWorkerInstanceSettings } from './flo-worker.instance';
 import { IPlayerInstance } from '@/game/game.types';
 import logger from '@/logger';
+import { netshService } from "./netsh.service";
 
 const { remote } = window.require("electron");
 const path = require('path');
@@ -18,6 +19,7 @@ export class FloWorkerService {
 
     public initialize() {
         const settings = this.createWorkerSettings();
+        this.tryAddFirewallRulesForWindows(settings);
  
         // Start one worker by default
         this.primaryWorker = new FloWorkerInstance(settings);
@@ -79,9 +81,53 @@ export class FloWorkerService {
 
                 resolve(stdout.toLowerCase().indexOf(proc.toLowerCase()) > -1)
             });
-        })
+        });
+    }
+
+    private async tryAddFirewallRulesForWindows(settings: IFloWorkerInstanceSettings) {
+        const isWindows = this.store.state.isWindows;
+        if (!isWindows) {
+            return;
+        }
+        debugger
+        await this.ensureDisabledRulesAreDeleted();
+
+        const inboundRules = await netshService.getInboundRules();
+        const bonjourRules = inboundRules.filter(x => x.name?.toLowerCase().includes('bonjour'));
+
+        if (!bonjourRules || bonjourRules.length == 0) {
+            console.log('bonjour empty');
+        }
+
+        const floWorkerRules = inboundRules.filter(x => x.name?.toLowerCase().includes('flo-worker'));
+        if (!floWorkerRules || floWorkerRules.length == 0) {
+            await netshService.addRule('flo-worker.exe', settings.floWorkerExePath);
+        }
     }
     
+    private async ensureDisabledRulesAreDeleted() {
+        debugger
+        const inboundRules = await netshService.getInboundRules();
+
+        const bonjourRules = inboundRules.filter(x => x.name?.toLowerCase().includes('bonjour'));
+        if (bonjourRules && bonjourRules.length > 0) {
+            for (const bonjourRule of bonjourRules) {
+                if (!netshService.isRuleEnabled(bonjourRule)) {
+                    await netshService.deleteRule(bonjourRule.name);
+                }
+            }
+        }
+
+        const floWorkerRules = inboundRules.filter(x => x.name?.toLowerCase().includes('flo-worker'));
+        if (floWorkerRules && floWorkerRules.length > 0) {
+            for (const floWorkerRule of floWorkerRules) {
+                if (!netshService.isRuleEnabled(floWorkerRule)) {
+                    await netshService.deleteRule(floWorkerRule.name);
+                }
+            }
+        }
+    }
+
     private createWorkerSettings() {
         const isWindows = this.store.state.isWindows;
         const floExecutable = (isWindows) ? 'flo-worker.exe' : 'flo-worker';
