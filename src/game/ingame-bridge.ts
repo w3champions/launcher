@@ -1,5 +1,6 @@
 import { IFloNode } from '@/flo-integration/flo-worker.instance';
 import logger from "@/logger";
+import store from "@/globalState/vuex-store";
 
 const http = window.require("http");
 const WebSocket = window.require("ws");
@@ -10,6 +11,7 @@ import { GameUtils } from './game.utils';
 export enum ELauncherMessageType {
     CONNECTED = 'CONNECTED',
     DISCONNECTED = 'DISCONNECTED',
+    LAUNCHER_VERSION = 'LAUNCHER_VERSION',
     START_GAME = 'START_GAME',
     EXIT_GAME = 'EXIT_GAME',
     FLO_AUTH = 'FLO_AUTH',
@@ -56,9 +58,20 @@ export class IngameBridge extends EventEmitter {
             pi.onclose = () => {
                 this.emit(ELauncherMessageType.DISCONNECTED, pi);
             };
+
+            this.sendLauncherVersion(pi);
         });
 
         this.server.listen(38123);
+    }
+
+    public sendLauncherVersion(playerInstance: IPlayerInstance) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.LAUNCHER_VERSION,
+            data: { launcherVersion: store.state.updateHandling.localLauncherVersion }
+        };
+
+        playerInstance.sendMessage(message);
     }
 
     public sendFloConnected(playerInstance: IPlayerInstance) {
