@@ -19,7 +19,10 @@ export enum ELauncherMessageType {
     FLO_DISCONNECTED = 'FLO_DISCONNECTED',
     FLO_CHECK_BONJOUR = 'FLO_CHECK_BONJOUR',
     FLO_CHECK_BONJOUR_RESULT = 'FLO_CHECK_BONJOUR_RESULT',
-    FLO_PING_UPDATE = 'FLO_PING_UPDATE'
+    FLO_PING_UPDATE = 'FLO_PING_UPDATE',
+
+    FLO_CREATE_TEST_GAME = 'FLO_CREATE_TEST_GAME',
+    FLO_KILL_TEST_GAME = 'FLO_KILL_TEST_GAME',
 }
 
 export interface ILauncherGameMessage {
@@ -74,9 +77,12 @@ export class IngameBridge extends EventEmitter {
         playerInstance.sendMessage(message);
     }
 
-    public sendFloConnected(playerInstance: IPlayerInstance) {
+    public sendFloConnected(playerInstance: IPlayerInstance, workerVersion: string) {
         const message: ILauncherGameMessage = {
-            type: ELauncherMessageType.FLO_CONNECTED
+            type: ELauncherMessageType.FLO_CONNECTED,
+            data: {
+                workerVersion
+            }
         };
 
         playerInstance.sendMessage(message);

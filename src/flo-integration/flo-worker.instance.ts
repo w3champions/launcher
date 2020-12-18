@@ -162,7 +162,7 @@ export class FloWorkerInstance {
         if (this.reconnectInterValHandle) {
             clearInterval(this.reconnectInterValHandle);
         }
-        ingameBridge.sendFloConnected(this.playerInstance as any);
+        ingameBridge.sendFloConnected(this.playerInstance as any, this.workerInfo?.version as string);
 
         this.startTestGame();
         setTimeout(()=> this.killTestGame() , 1000);

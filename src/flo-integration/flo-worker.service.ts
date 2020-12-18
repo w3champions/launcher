@@ -33,20 +33,8 @@ export class FloWorkerService {
             const data = event.data as IFloAuthData;
             const pi = event.playerInstance;
 
-            let workerInstance = this.workers.find(x => x.isUsedBy(pi.player.battleTag));
-
-            if (workerInstance) {
-                workerInstance.connect(pi, data.token);
-                return;
-            }
-
-            workerInstance = this.workers.find(x => !x.isConnected());
-            if (workerInstance) {
-                workerInstance.connect(pi, data.token);
-                return;
-            }
-
-            this.primaryWorker?.connect(pi, data.token);
+            const workerInstance = this.getWorkerInstance(pi);
+            workerInstance?.connect(pi, data.token);
         });
 
         ingameBridge.on(ELauncherMessageType.DISCONNECTED, (playerInstnace: IPlayerInstance) => {
@@ -61,6 +49,32 @@ export class FloWorkerService {
                 logger.error('Unable to execute get bonjour process:' + err);
             }
         });
+
+        ingameBridge.on(ELauncherMessageType.FLO_CREATE_TEST_GAME,  (event: IIngameBridgeEvent)  => {
+            const workerInstance = this.getWorkerInstance(event.playerInstance);
+            workerInstance?.startTestGame();
+        });
+
+        ingameBridge.on(ELauncherMessageType.FLO_KILL_TEST_GAME, (event: IIngameBridgeEvent) => {
+            const workerInstance = this.getWorkerInstance(event.playerInstance);
+            workerInstance?.killTestGame();
+        });
+    }
+
+    private getWorkerInstance(pi: IPlayerInstance) {
+
+        let workerInstance = this.workers.find(x => x.isUsedBy(pi.player.battleTag));
+
+        if (workerInstance) {
+            return workerInstance;
+        }
+
+        workerInstance = this.workers.find(x => !x.isConnected());
+        if (workerInstance) {
+            return workerInstance;
+        }
+
+        return this.primaryWorker;
     }
 
     private isRunning(win: string, mac: string, linux: string){
