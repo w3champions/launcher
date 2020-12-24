@@ -59,7 +59,7 @@ export class FileService {
             const content = fse.readFileSync(hotkeyFile, 'utf8').toString().split("\n");
             let currentHotkey = {} as RaceHotKey;
             content.forEach((l: string) => {
-                const lowerCaseLine = l.toLowerCase();
+                const lowerCaseLine = l.toLowerCase()?.trim();
                 if (lowerCaseLine.startsWith("[")) {
                     if ((currentHotkey.hotKey || currentHotkey.researchHotkey) && currentHotkey.hotkeyCommand) {
                         hotkeys.push(currentHotkey)
