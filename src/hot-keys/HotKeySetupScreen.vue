@@ -11,6 +11,7 @@
         <RaceSpecificHotkeyTab :race="tab"/>
       </div>
     </div>
+    <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" :text="'Loading hotkeys...'" />
   </div>
 </template>
 
@@ -21,13 +22,27 @@ import logger from "@/logger";
 import RaceSpecificHotkeyTab from "@/hot-keys/RaceSpecificHotkeys/RaceSpecificHotkeyTab.vue";
 import ItemHotkeyTab from "@/hot-keys/ItemHotkeys/ItemHotkeyTab.vue";
 import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
+import LoadingSpinner from "@/home/LoadingSpinner.vue";
 @Component({
-  components: {ItemHotkeyTab, RaceSpecificHotkeyTab}
+  components: {ItemHotkeyTab, RaceSpecificHotkeyTab, LoadingSpinner}
 })
 export default class HotKeySetupScreen extends Vue {
   public races = HotkeyType;
   public racesValues = [ HotkeyType.items, HotkeyType.human, HotkeyType.orc, HotkeyType.undead, HotkeyType.nightelf, HotkeyType.neutral ];
   @Prop() public tab!: HotkeyType;
+
+  isLoading = false;
+
+  async mounted() {
+    this.$store.direct.dispatch.hotKeys.createBackupOfHotkeyFile();
+
+    this.isLoading = true;
+    
+    setTimeout(async () => {
+        await this.$store.direct.dispatch.hotKeys.importHotkeysFromFile();
+        this.isLoading = false;
+    }, 200);
+  }
 
   public navigateTo(tab: HotkeyType) {
     const path = `/HotKeys/${tab}`;

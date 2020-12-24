@@ -54,7 +54,6 @@ export class ItemHotkeyRegistrationService {
     private lastPortKey = "lastPortKey";
 
     private hotKeyStoreKey = "hotKeyStoreKey"
-    private hotKeyStoreRaceKey = "hotKeyStoreRaceKey"
     private hotKeyToggleKey = "hotKeyToggleKey"
     private hotKeyManualMode = "hotKeyManualModeKey"
     private hotKeyButtonPosition = "hotKeyButtonPosition"
@@ -71,7 +70,7 @@ export class ItemHotkeyRegistrationService {
     public loadShowHotkeyIndicator(): boolean {
         const newVar = this.keyValueStore.get(this.keyShowHotkeyIndicator);
         if (newVar === undefined) {
-            return true;
+            return false;
         }
         return newVar;
     }
@@ -96,14 +95,6 @@ export class ItemHotkeyRegistrationService {
 
     public loadHotKeys() {
         return this.keyValueStore.get(this.hotKeyStoreKey) ?? [];
-    }
-
-    public saveRaceHotKeys(hotKeys: RaceHotKey[]) {
-        this.keyValueStore.set(this.hotKeyStoreRaceKey, hotKeys);
-    }
-
-    public loadRaceHotKeys(): RaceHotKey[] {
-        return this.keyValueStore.get(this.hotKeyStoreRaceKey) ?? [];
     }
 
     public loadToggleKey() {

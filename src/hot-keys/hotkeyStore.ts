@@ -26,15 +26,43 @@ ingameBridge.on(ELauncherMessageType.EXIT_GAME, () => {
   store.dispatch.hotKeys.exitGame();
 });
 
-function getDuplicateHotkeys(abilities: Ability[]) {
-  const allBilitiesSorted = abilities.map(a => a.currentHotkey).sort();
-  const results = [] as string[];
-  for (let i = 0; i < allBilitiesSorted.length - 1; i++) {
-    if (allBilitiesSorted[i + 1] == allBilitiesSorted[i]) {
-      results.push(allBilitiesSorted[i]);
+function setConflicts(abilities: Ability[]) {
+  const hotkeysCounts: {key: string, count: number}[] = []
+
+  for (const ability of abilities) {
+    let hotkeyCount = hotkeysCounts.find(x => x.key == ability.currentHotkey);
+    if (!hotkeyCount) {
+      hotkeyCount = { key: ability.currentHotkey, count: 0 };
+      hotkeysCounts.push(hotkeyCount);
     }
+    hotkeyCount.count++;
   }
-  return results;
+
+  const conflicts = hotkeysCounts.filter(x => x.count > 1);
+  const conflictingAbilities = abilities.filter(a => conflicts.find(c => a.currentHotkey == c.key));
+  for (const conflictingAbility of conflictingAbilities) {
+    conflictingAbility.hasConflict = true;
+  }
+}
+
+function setHotkey(ability: Ability, hotKey: RaceHotKey) {
+  if (ability.hotkeyIdentifier === hotKey.hotkeyCommand) {
+    ability.currentHotkey = hotKey.hotKey;
+    if (ability.isUnhotkey || hotKey.unHotkey) {
+      ability.unHotkey = hotKey.unHotkey;
+    }
+
+    if (ability.isResearchAbility || hotKey.researchHotkey) {
+      ability.researchHotkey = hotKey.researchHotkey;
+    }
+
+    ability.currentGrid = hotKey.grid;
+    ability.currentResearchGrid = hotKey.researchGrid;
+    hotKey.hotkeyName = ability.name;
+    hotKey.isResearchAbility = ability.isResearchAbility;
+    hotKey.isUnhotkey = ability.isUnhotkey;
+    hotKey.isStagedUpgrade = ability.isStagedUpgrade;
+  }
 }
 
 function mergeHotkeyDataAndSelectedHotkeys(
@@ -44,65 +72,14 @@ function mergeHotkeyDataAndSelectedHotkeys(
   const hotkeys = [...raceHotkeyData]
   hotkeysLoaded.forEach(hotKey =>
     hotkeys.forEach(h =>
-      h.units.forEach(h => {
-        h.abilities.forEach(a => {
+      h.units.forEach(u => {
+        u.abilities.forEach(a => {
           a.hasConflict = false;
 
-          a.abilities.forEach(a2 => {
-            a2.hasConflict = false;
+          setHotkey(a, hotKey);
+        });
 
-            if (a2.hotkeyIdentifier === hotKey.hotkeyCommand) {
-              a2.currentHotkey = hotKey.hotKey;
-              if (a2.isUnhotkey || hotKey.unHotkey){
-                a2.unHotkey = hotKey.unHotkey;
-              }
-
-              if (a2.isResearchAbility || hotKey.researchHotkey){
-                a2.researchHotkey = hotKey.researchHotkey;
-              }
-
-              a2.currentGrid = hotKey.grid;
-              a2.currentResearchGrid = hotKey.researchGrid;
-              hotKey.hotkeyName = a2.name;
-              hotKey.isResearchAbility = a2.isResearchAbility;
-              hotKey.isUnhotkey = a2.isUnhotkey;
-              hotKey.isStagedUpgrade = a2.isStagedUpgrade;
-            }
-          })
-
-          if (a.hotkeyIdentifier === hotKey.hotkeyCommand) {
-              a.currentHotkey = hotKey.hotKey;
-              if (a.isUnhotkey || hotKey.unHotkey) {
-                a.unHotkey = hotKey.unHotkey;
-              }
-
-              if (a.isResearchAbility || hotKey.researchHotkey){
-                a.researchHotkey = hotKey.researchHotkey;
-              }
-
-              a.currentGrid = hotKey.grid;
-              a.currentResearchGrid = hotKey.researchGrid;
-
-              hotKey.hotkeyName = a.name;
-              hotKey.isResearchAbility = a.isResearchAbility;
-              hotKey.isUnhotkey = a.isUnhotkey;
-              hotKey.isStagedUpgrade = a.isStagedUpgrade;
-          }
-
-          const resultsInner = getDuplicateHotkeys(a.abilities);
-          a.abilities.filter(x => !x.isAura).forEach(a => {
-            if (resultsInner.includes(a.currentHotkey)) {
-              a.hasConflict = true;
-            }
-          })
-        })
-
-        const resultsOuter = getDuplicateHotkeys(h.abilities);
-        h.abilities.filter(x => !x.isAura).forEach(a => {
-          if (resultsOuter.includes(a.currentHotkey)) {
-            a.hasConflict = true;
-          }
-        })
+        setConflicts(u.abilities.filter(x => !x.isAura));
       })
     ))
   return hotkeys;
@@ -116,26 +93,24 @@ const mod = {
     raceHotkeyData: defaultHotkeyData,
     raceHotkeys: [] as RaceHotKey[],
     lastW3cPort: "",
-    isShowHotkeyIndicator: true,
+    isShowHotkeyIndicator: false,
     toggleButton: { modifier: ModifierKey.Shift, hotKey: {key: "f4", uiDisplay: "f4"}}
   } as HotKeyModifierState,
   actions: {
     setRaceHotkey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: RaceHotKey) {
       const {commit, state} = moduleActionContext(context, mod);
 
-      const newHotkeys = [...state.raceHotkeys.filter(r =>
-          r.hotkeyCommand !== hotKey.hotkeyCommand
-      ), hotKey]
+      const hotkeysData = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, [hotKey]);
 
-      const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, newHotkeys);
+      commit.SET_RACE_HOTKEY_DATA(hotkeysData);
 
-      commit.SET_RACE_HOTKEY_DATA(hotkeys);
-      commit.SET_RACE_HOTKEYS(newHotkeys);
+      const existingHotkeys = state.raceHotkeys.filter(r => r.hotkeyCommand !== hotKey.hotkeyCommand);
+
+      commit.SET_RACE_HOTKEYS([...existingHotkeys, hotKey]);
     },
     async saveRaceHotkeyToFile(context: ActionContext<HotKeyModifierState, RootState>) {
       const {rootGetters, state} = moduleActionContext(context, mod);
 
-      rootGetters.itemHotkeyService.saveRaceHotKeys(state.raceHotkeys);
       await rootGetters.fileService.saveHotkeysToHotkeyFile(state.raceHotkeys);
       await rootGetters.fileService.enableCustomHotkeys();
     },
@@ -154,16 +129,7 @@ const mod = {
       commit.SET_RACE_HOTKEY_DATA(hotkeys);
       commit.SET_RACE_HOTKEYS(newHotkeys);
 
-      rootGetters.itemHotkeyService.saveRaceHotKeys(state.raceHotkeys);
       await rootGetters.fileService.enableCustomHotkeys();
-    },
-    loadRaceHotkeys(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { commit, rootGetters, state } = moduleActionContext(context, mod);
-
-      const hotkeysLoaded = rootGetters.itemHotkeyService.loadRaceHotKeys();
-      const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, hotkeysLoaded);
-      commit.SET_RACE_HOTKEY_DATA(hotkeys);
-      commit.SET_RACE_HOTKEYS(hotkeysLoaded);
     },
     addHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
@@ -235,7 +201,6 @@ const mod = {
     },
     loadHotkeyFabSettings(context: ActionContext<HotKeyModifierState, RootState>) {
       const { rootGetters, commit } = moduleActionContext(context, mod);
-
       const position = rootGetters.itemHotkeyService.loadHotkeyButtonPosition();
       const show = rootGetters.itemHotkeyService.loadShowHotkeyIndicator();
       commit.TOGGLE_HOTKEY_INDICATOR(show);

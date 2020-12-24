@@ -35,7 +35,7 @@ const { ipcRenderer } = window.require('electron')
 export default class App extends Vue {
   private updateStrategy = App.isWindows() ? new WindowsLauncher() : new MacLauncher();
 
-  async mounted() {
+  async created() {
     ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {
       store.dispatch.authorizeWithCode(args);
     })
@@ -58,13 +58,6 @@ export default class App extends Vue {
     this.$store.direct.dispatch.hotKeys.loadHotkeyFabSettings();
     this.$store.direct.dispatch.hotKeys.loadToggleKey();
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
-    this.$store.direct.dispatch.hotKeys.loadRaceHotkeys();
-
-    if (this.$store.direct.state.hotKeys.raceHotkeys.length === 0) {
-      logger.info('No hotkeys set yet, importing from file to not overwrite anything')
-      await this.$store.direct.dispatch.hotKeys.importHotkeysFromFile();
-      this.$store.direct.dispatch.hotKeys.createBackupOfHotkeyFile();
-    }
 
     this.$store.direct.dispatch.hotKeys.setToggleKey(this.$store.direct.state.hotKeys.toggleButton);
     this.$store.direct.dispatch.hotKeys.loadManualMode();

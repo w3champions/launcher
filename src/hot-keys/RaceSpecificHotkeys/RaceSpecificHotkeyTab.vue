@@ -238,7 +238,6 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
   public setRaceHotkeyInState() {
     if (!this.editAbility) return;
-
     this.$store.direct.dispatch.hotKeys.setRaceHotkey(
         {
           hotKey: this.hotkeyPressed,

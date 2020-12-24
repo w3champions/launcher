@@ -44,9 +44,12 @@ export class FileService {
 
     createBackupOfHotkeyFile() {
         const hotkeyFile = this.updateStrategy.getWar3HotkeyFile();
-        const backupLocation = hotkeyFile.replace(".txt", "_BackupFromW3Champions.txt")
-        this.copyFile(hotkeyFile, backupLocation);
-        logger.info(`Create Backup file on ${backupLocation}`)
+        const backupLocation = hotkeyFile.replace(".txt", "_BackupFromW3Champions.txt");
+
+        if (!fse.existsSync(backupLocation)) {
+            this.copyFile(hotkeyFile, backupLocation);
+            logger.info(`Create Backup file on ${backupLocation}`)
+        }
     }
 
     async importHotkeys() {
