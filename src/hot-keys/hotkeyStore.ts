@@ -26,32 +26,34 @@ ingameBridge.on(ELauncherMessageType.EXIT_GAME, () => {
   store.dispatch.hotKeys.exitGame();
 });
 
-function setConflicts(abilities: Ability[]) {
+function setConflicts(abilities: Ability[], keyFunc: (a: Ability) => string) {
   const hotkeysCounts: {key: string, count: number}[] = []
 
   for (const ability of abilities) {
-    let hotkeyCount = hotkeysCounts.find(x => x.key == ability.currentHotkey);
+    let hotkeyCount = hotkeysCounts.find(x => x.key && x.key == keyFunc(ability));
     if (!hotkeyCount) {
-      hotkeyCount = { key: ability.currentHotkey, count: 0 };
+      hotkeyCount = { key: keyFunc(ability), count: 0 };
       hotkeysCounts.push(hotkeyCount);
     }
     hotkeyCount.count++;
   }
 
   const conflicts = hotkeysCounts.filter(x => x.count > 1);
-  const conflictingAbilities = abilities.filter(a => conflicts.find(c => a.currentHotkey == c.key));
+  const conflictingAbilities = abilities.filter(a => conflicts.find(c => keyFunc(a) == c.key));
   for (const conflictingAbility of conflictingAbilities) {
     conflictingAbility.hasConflict = true;
   }
 }
 
 function setHotkey(ability: Ability, hotKey: RaceHotKey) {
+  ability.hasConflict = false;
+
   if (ability.hotkeyIdentifier === hotKey.hotkeyCommand) {
     ability.currentHotkey = hotKey.hotKey;
+
     if (ability.isUnhotkey || hotKey.unHotkey) {
       ability.unHotkey = hotKey.unHotkey;
     }
-
     if (ability.isResearchAbility || hotKey.researchHotkey) {
       ability.researchHotkey = hotKey.researchHotkey;
     }
@@ -74,12 +76,16 @@ function mergeHotkeyDataAndSelectedHotkeys(
     hotkeys.forEach(h =>
       h.units.forEach(u => {
         u.abilities.forEach(a => {
-          a.hasConflict = false;
-
+        
           setHotkey(a, hotKey);
+          // If ability opens another abilities e.g. research skills
+          a.abilities.forEach(aInner => {
+            setHotkey(aInner, hotKey);
+          });
+          setConflicts(a.abilities, (x) => x.researchHotkey);
         });
 
-        setConflicts(u.abilities.filter(x => !x.isAura));
+        setConflicts(u.abilities.filter(x => !x.isAura), (x) => x.currentHotkey);
       })
     ))
   return hotkeys;

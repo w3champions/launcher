@@ -63,6 +63,7 @@ export class FloWorkerInstance {
     private floWorkerWs?: WebSocket;
     private lastConnectToken?: string;
     private reconnectInterValHandle?: any;
+    private isReconnecting = false;
     private nodePings: IFloNode[] = [];
 
     public playerInstance?: IPlayerInstance;
@@ -158,6 +159,13 @@ export class FloWorkerInstance {
         return promise;
     }
 
+    public stopWorker() {
+        logger.info('Stopping worker');
+        this.floWorkerWs?.close();
+        this.floWorkerProcess?.kill();
+        this.isWorkerStarted = false;
+    }
+
     private onPlayerSessionReceived() {
         if (this.reconnectInterValHandle) {
             clearInterval(this.reconnectInterValHandle);
@@ -176,8 +184,17 @@ export class FloWorkerInstance {
         }
 
         this.reconnectInterValHandle = setInterval(() => {
+            if (this.isReconnecting) {
+                return;
+            }
+            this.isReconnecting = true;
             logger.info('Reconnecting to flo server');
-            this.connect(this.playerInstance as any, this.lastConnectToken as string);
+            this.stopWorker();
+
+            setTimeout(async () => {
+                await this.connect(this.playerInstance as any, this.lastConnectToken as string);
+                this.isReconnecting = false;
+            }, 1000);
         }, 2000);
     }
 
@@ -202,7 +219,7 @@ export class FloWorkerInstance {
             });
     
             ws.on("close", function close() {
-                logger.info("disconnected");
+                logger.info("ws disconnected");
             });
     
             ws.on("message", (data: any) => {
