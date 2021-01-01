@@ -119,7 +119,6 @@ const mod = {
       const {rootGetters, state} = moduleActionContext(context, mod);
 
       await rootGetters.fileService.saveHotkeysToHotkeyFile(state.raceHotkeys);
-      await rootGetters.fileService.enableCustomHotkeys();
     },
     createBackupOfHotkeyFile(context: ActionContext<HotKeyModifierState, RootState>) {
       const {rootGetters} = moduleActionContext(context, mod);
@@ -135,8 +134,6 @@ const mod = {
 
       commit.SET_RACE_HOTKEY_DATA(hotkeys);
       commit.SET_RACE_HOTKEYS(newHotkeys);
-
-      await rootGetters.fileService.enableCustomHotkeys();
     },
     // Sets Grid or Custom based on store value
     async updateHotkeyMode(context: ActionContext<HotKeyModifierState, RootState>) {
