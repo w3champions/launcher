@@ -42,6 +42,17 @@ export class FileService {
         }
     }
 
+    async enableGridHotkeys(){
+        const settingsFile = this.updateStrategy.getWar3PreferencesFile();
+        if (fse.existsSync(settingsFile)) {
+            const content = fse.readFileSync(settingsFile, 'utf8').toString().split("\n");
+            const index1 = content.indexOf("customkeys=0");
+            const index2 = content.indexOf("customkeys=1");
+            const index3 = content.indexOf("customkeys=2");
+            content[index1 + index2 + index3 + 2] = `customkeys=2`;
+            await this.writeArrayToFileForce(settingsFile, content, "War3Preferences.txt");
+        }
+    }
     createBackupOfHotkeyFile() {
         const hotkeyFile = this.updateStrategy.getWar3HotkeyFile();
         const backupLocation = hotkeyFile.replace(".txt", "_BackupFromW3Champions.txt");

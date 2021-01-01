@@ -64,6 +64,10 @@
           <div class="text-spacer">turn on hotkeys manually</div>
         </div>
         <div class="just-a-row">
+          <div :class="isGridMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleGridMode" />
+          <div class="text-spacer"> Grid Mode </div>
+        </div>
+        <div class="just-a-row">
           <div :class="isShowHotkeyIndicator ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleShowHotkeyIndicator" />
           <div class="text-spacer">show hotkey indicator</div>
         </div>
@@ -141,6 +145,11 @@ export default class ItemHotkeyTab extends Vue {
     return this.$store.direct.state.hotKeys.hotKeyStateMachine.isManual();
   }
 
+  get isGridMode() {
+    console.log(this.$store.direct.state.hotKeys.gridMode)
+    return this.$store.direct.state.hotKeys.gridMode;
+  }
+
   get isShowHotkeyIndicator() {
     return this.$store.direct.state.hotKeys.isShowHotkeyIndicator;
   }
@@ -161,7 +170,11 @@ export default class ItemHotkeyTab extends Vue {
   public toggleHotkeyManualMode() {
     this.$store.direct.dispatch.hotKeys.toggleManualMode();
   }
-
+  public toggleGridMode() {
+    let cur = this.$store.direct.state.hotKeys.gridMode;
+    this.$store.direct.dispatch.hotKeys.saveGridMode(!cur);
+    this.$store.direct.dispatch.hotKeys.updateHotkeyMode();
+  }
   public toggleShowHotkeyIndicator() {
     this.$store.direct.dispatch.hotKeys.toggleShowHotkeyIndicator();
   }

@@ -52,7 +52,7 @@ export class ItemHotkeyRegistrationService {
 
     private keyValueStore = new Store();
     private lastPortKey = "lastPortKey";
-
+    private gridMode = "gridMode";
     private hotKeyStoreKey = "hotKeyStoreKey"
     private hotKeyToggleKey = "hotKeyToggleKey"
     private hotKeyManualMode = "hotKeyManualModeKey"
@@ -182,6 +182,14 @@ export class ItemHotkeyRegistrationService {
         return this.keyValueStore.get(this.lastPortKey);
     }
 
+    public saveGridMode(gm: boolean){
+        this.keyValueStore.set(this.gridMode, gm);
+        logger.info(this.keyValueStore.get(this.gridMode))
+    }
+
+    public loadGridMode(){
+        return this.keyValueStore.get(this.gridMode);
+    }
     private register(combo: ClickCombination, fkt: () => void) {
         try {
             const keyCode = combiAsString(combo);
