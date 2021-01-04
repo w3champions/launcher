@@ -77,7 +77,7 @@
             <div class="text-spacer"> grid mode </div>          
             <div class="text-spacer" style="color:red;font-style:italic" v-if="hover.grid"> {{gridToolTip}} </div>
           </div>
-      </div>5
+      </div>
     </div>
   </div>
 </template>
