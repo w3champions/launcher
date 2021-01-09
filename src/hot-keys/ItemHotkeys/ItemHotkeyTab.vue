@@ -70,7 +70,7 @@
         <div class="just-a-row" @mouseover="hover.grid = true" @mouseleave="hover.grid = false">
           <div :class="isGridMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleGridMode" />
           <div class="text-spacer"> grid mode </div>          
-          <div class="text-spacer" style="color:red;font-style:italic" v-if="hover.grid"> {{gridToolTip}} </div>
+          <div class="text-spacer" style="color:#bfaa36;" v-if="hover.grid"> {{gridToolTip}} </div>
         </div>
         <div class="just-a-row">
           <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
