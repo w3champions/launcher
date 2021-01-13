@@ -42,6 +42,8 @@ export default class HotKeySetupScreen extends Vue {
         await this.$store.direct.dispatch.hotKeys.importHotkeysFromFile();
         this.isLoading = false;
     }, 200);
+    
+    await this.$store.direct.dispatch.hotKeys.updateHotkeyMode();
   }
 
   public navigateTo(tab: HotkeyType) {

@@ -99,6 +99,7 @@ const mod = {
     raceHotkeyData: defaultHotkeyData,
     raceHotkeys: [] as RaceHotKey[],
     lastW3cPort: "",
+    gridMode: false,
     isShowHotkeyIndicator: false,
     toggleButton: { modifier: ModifierKey.Shift, hotKey: {key: "f4", uiDisplay: "f4"}}
   } as HotKeyModifierState,
@@ -118,7 +119,6 @@ const mod = {
       const {rootGetters, state} = moduleActionContext(context, mod);
 
       await rootGetters.fileService.saveHotkeysToHotkeyFile(state.raceHotkeys);
-      await rootGetters.fileService.enableCustomHotkeys();
     },
     createBackupOfHotkeyFile(context: ActionContext<HotKeyModifierState, RootState>) {
       const {rootGetters} = moduleActionContext(context, mod);
@@ -134,8 +134,17 @@ const mod = {
 
       commit.SET_RACE_HOTKEY_DATA(hotkeys);
       commit.SET_RACE_HOTKEYS(newHotkeys);
-
-      await rootGetters.fileService.enableCustomHotkeys();
+    },
+    // Sets Grid or Custom based on store value
+    async updateHotkeyMode(context: ActionContext<HotKeyModifierState, RootState>) {
+      const {rootGetters, state, commit } = moduleActionContext(context, mod);
+      if(state.gridMode)
+      {
+        await rootGetters.fileService.enableGridHotkeys();
+      }
+      else{
+        await rootGetters.fileService.enableCustomHotkeys();
+      }
     },
     addHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
@@ -240,6 +249,19 @@ const mod = {
       const port = rootGetters.itemHotkeyService.loadLastW3cPort()
       commit.SET_LAST_W3C_PORT(port);
     },
+    saveGridMode(context: ActionContext<HotKeyModifierState, RootState>, gm: boolean) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+      
+      rootGetters.itemHotkeyService.saveGridMode(gm)
+      commit.SET_GRID_MODE(gm); //
+    },
+    loadGridMode(context: ActionContext<HotKeyModifierState, RootState>) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+      
+      logger.info("HotkeySetupScreen")
+      const gm = rootGetters.itemHotkeyService.loadGridMode()
+      commit.SET_GRID_MODE(gm); //
+    },
     exitGame(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit } = moduleActionContext(context, mod);
 
@@ -295,6 +317,10 @@ const mod = {
     },
     SET_LAST_W3C_PORT(state: HotKeyModifierState, port: string) {
       state.lastW3cPort = port;
+    }
+    ,
+    SET_GRID_MODE(state: HotKeyModifierState, b: boolean) {
+      state.gridMode = b;
     }
   },
 } as const;
