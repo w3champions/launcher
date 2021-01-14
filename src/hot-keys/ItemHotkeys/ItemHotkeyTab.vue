@@ -98,6 +98,7 @@ import {InGameState, ManualHotkeyMode} from "@/hot-keys/ItemHotkeys/HotKeyStateM
 import {combiAsStringForDisplay} from "@/hot-keys/ItemHotkeys/utilsFunctions";
 // eslint-disable-next-line no-unused-vars
 import {KeyDto, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
+import {tooltips} from  "@/hot-keys/Tooltips";
 
 @Component
 export default class ItemHotkeyTab extends Vue {
@@ -139,6 +140,10 @@ export default class ItemHotkeyTab extends Vue {
     }
 
     this.closeModal();
+  }
+
+  get gridToolTip(){
+    return tooltips.gridmode;
   }
 
   get isHotkeyManualMode() {
