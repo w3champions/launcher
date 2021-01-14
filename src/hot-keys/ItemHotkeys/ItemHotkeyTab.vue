@@ -67,10 +67,9 @@
           <div :class="isShowHotkeyIndicator ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleShowHotkeyIndicator" />
           <div class="text-spacer">show hotkey indicator</div>
         </div>
-        <div class="just-a-row" @mouseover="hover.grid = true" @mouseleave="hover.grid = false">
+        <div class="just-a-row" >
           <div :class="isGridMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleGridMode" />
-          <div class="text-spacer"> grid mode </div>          
-          <div class="text-spacer" style="color:#bfaa36;" v-if="hover.grid"> {{gridToolTip}} </div>
+          <div class="text-spacer"> Wc3 Reforged grid mode </div>          
         </div>
         <div class="just-a-row">
           <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
@@ -99,7 +98,6 @@ import {InGameState, ManualHotkeyMode} from "@/hot-keys/ItemHotkeys/HotKeyStateM
 import {combiAsStringForDisplay} from "@/hot-keys/ItemHotkeys/utilsFunctions";
 // eslint-disable-next-line no-unused-vars
 import {KeyDto, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
-import {tooltips} from  "@/hot-keys/Tooltips";
 
 @Component
 export default class ItemHotkeyTab extends Vue {
@@ -108,8 +106,6 @@ export default class ItemHotkeyTab extends Vue {
   public selectedHotKey = "";
   public hotkeyModifierToEdit = ModifierKey.None;
   
-  public hover = {grid:false}; 
-
   @Prop() public tab!: string;
 
   public closeModal() {
@@ -143,10 +139,6 @@ export default class ItemHotkeyTab extends Vue {
     }
 
     this.closeModal();
-  }
-
-  get gridToolTip(){
-    return tooltips.gridmode;
   }
 
   get isHotkeyManualMode() {
@@ -439,5 +431,10 @@ export default class ItemHotkeyTab extends Vue {
 .text-spacer {
   line-height: 33px;
   margin-left: 20px
+}
+
+.tool-tip{
+  font-size:.8em;
+  color:#bfaa36;
 }
 </style>
