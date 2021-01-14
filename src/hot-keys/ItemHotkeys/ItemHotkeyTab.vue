@@ -438,8 +438,4 @@ export default class ItemHotkeyTab extends Vue {
   margin-left: 20px
 }
 
-.tool-tip{
-  font-size:.8em;
-  color:#bfaa36;
-}
 </style>
