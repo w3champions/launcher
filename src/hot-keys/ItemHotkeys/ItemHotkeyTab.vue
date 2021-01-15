@@ -67,10 +67,9 @@
           <div :class="isShowHotkeyIndicator ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleShowHotkeyIndicator" />
           <div class="text-spacer">show hotkey indicator</div>
         </div>
-        <div class="just-a-row" @mouseover="hover.grid = true" @mouseleave="hover.grid = false">
+        <div class="just-a-row" >
           <div :class="isGridMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleGridMode" />
-          <div class="text-spacer"> grid mode </div>          
-          <div class="text-spacer" style="color:#bfaa36;" v-if="hover.grid"> {{gridToolTip}} </div>
+          <div class="text-spacer"> Wc3 Reforged grid mode </div>          
         </div>
         <div class="just-a-row">
           <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
@@ -108,8 +107,6 @@ export default class ItemHotkeyTab extends Vue {
   public selectedHotKey = "";
   public hotkeyModifierToEdit = ModifierKey.None;
   
-  public hover = {grid:false}; 
-
   @Prop() public tab!: string;
 
   public closeModal() {
@@ -440,4 +437,5 @@ export default class ItemHotkeyTab extends Vue {
   line-height: 33px;
   margin-left: 20px
 }
+
 </style>
