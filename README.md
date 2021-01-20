@@ -1,6 +1,14 @@
 # w3c-launcher
 There is a private submodule that is needed for color switch and skins, you need to be in the w3c org to see that. All other stuff can be built normally.
 
+After you clone this repo, to also clone the submodule run.
+
+```
+git submodule init
+git submodule update
+
+```
+
 ## Project setup
 Install Visual Studio 2017 and the C++ Desktop Tools, as we need them for our native module. Also this command helps
 ```
