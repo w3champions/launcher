@@ -83,12 +83,14 @@ const mod = {
 
       commit.SET_OS(rootGetters.fileService.isWindows());
     },
-    loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
+    async loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
+      const { commit, rootGetters, state } = moduleActionContext(context, mod);
 
-      const token = rootGetters.authService.loadAuthToken();
-      if (token) {
-        commit.SET_W3CAUTH_TOKEN(token);
+      const token = rootGetters.fileService.loadAuthToken(state.updateHandling.w3Path);
+      const userInfo = await rootGetters.authService.getProfile(token)
+      if (userInfo) {
+        logger.info(`logged in as ${userInfo.battleTag}`)
+        commit.SET_W3CAUTH_TOKEN(userInfo);
       }
     },
     async authorizeWithCode(
@@ -102,25 +104,8 @@ const mod = {
         logger.info(`logged in as ${token.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(token);
         await rootGetters.fileService.saveKeyFile(state.updateHandling.w3Path, token.token);
-        await rootGetters.authService.saveAuthToken(token);
       }
       else {
-        await dispatch.resetAuthentication();
-      }
-    },
-    async loadProfile(
-        context: ActionContext<UpdateHandlingState, RootState>
-    ) {
-      const { commit, rootState, rootGetters, dispatch } = moduleActionContext(context, mod);
-
-      const profile = await rootGetters.authService.getProfile(
-          rootState.w3cToken?.token ?? ''
-      );
-
-      if (profile) {
-        logger.info(`logged in as ${profile.battleTag}`)
-        commit.SET_W3CAUTH_TOKEN(profile);
-      } else {
         await dispatch.resetAuthentication();
       }
     },
@@ -131,7 +116,6 @@ const mod = {
       logger.info("reset auth token")
 
       commit.LOGOUT();
-      rootGetters.authService.deleteAuthToken();
       await rootGetters.fileService.deleteKeyFile(state.updateHandling.w3Path);
       ipcRenderer.send('oauth-requested');
     },

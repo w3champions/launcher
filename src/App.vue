@@ -41,13 +41,6 @@ export default class App extends Vue {
 
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
-    this.$store.direct.dispatch.loadAuthToken();
-
-    if (!this.isLoggedIn) {
-      await this.$store.direct.dispatch.resetAuthentication();
-    } else {
-      await this.$store.direct.dispatch.loadProfile();
-    }
 
     this.makeSureNumpadIsEnabled()
 
@@ -69,6 +62,11 @@ export default class App extends Vue {
     await this.$store.direct.dispatch.colorPicker.loadColors();
 
     await this.updateStrategy.updateIfNeeded();
+
+    await this.$store.direct.dispatch.loadAuthToken();
+    if (!this.isLoggedIn) {
+      await this.$store.direct.dispatch.resetAuthentication();
+    }
   }
 
   get isLoggedIn() {
