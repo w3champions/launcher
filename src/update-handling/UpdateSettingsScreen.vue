@@ -44,10 +44,10 @@
         <div>
           Launcher Version: {{ currentLauncherVersion }}
         </div>
-<!--        <div>-->
-<!--          <span>{{ currentUser }}</span>-->
-<!--          <span style="cursor: pointer;" @click="resetAuthentication"> (Logout)</span>-->
-<!--        </div>-->
+        <div>
+          <span>{{ currentUser }}</span>
+          <span style="cursor: pointer;" @click="resetAuthentication"> (Logout)</span>
+        </div>
       </div>
     </div>
   </div>

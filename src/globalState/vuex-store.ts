@@ -101,6 +101,7 @@ const mod = {
       if (token) {
         logger.info(`logged in as ${token.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(token);
+        await rootGetters.fileService.saveKeyFile(token.token);
         await rootGetters.authService.saveAuthToken(token);
       }
       else {
@@ -131,7 +132,7 @@ const mod = {
 
       commit.LOGOUT();
       rootGetters.authService.deleteAuthToken();
-      // ipcRenderer.send('oauth-requested');
+      ipcRenderer.send('oauth-requested');
     },
   },
   mutations: {

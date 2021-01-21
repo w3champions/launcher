@@ -1,8 +1,7 @@
 <template>
   <div id="app" class="app-container">
     <HeadLine />
-<!--    Comment in a gain when auth is all done-->
-<!--    <LoadingSpinner v-if="!isLoggedIn" text="Logging you in..."/>-->
+    <LoadingSpinner v-if="!isLoggedIn" text="Logging in..."/>
     <div class="content-modal-wrapper">
       <div class="static-bg">
       </div>

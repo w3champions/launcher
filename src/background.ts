@@ -49,7 +49,11 @@ protocol.registerSchemesAsPrivileged([
 app.allowRendererProcessReuse = false;
 
 app.on('will-quit', () => {
-  globalShortcut.unregisterAll()
+  try {
+    globalShortcut.unregisterAll()
+    // eslint-disable-next-line no-empty
+  } catch(e) {
+  }
 });
 
 function createWindow() {
@@ -243,7 +247,7 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
 ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
   let authWindow: BrowserWindow | null = new BrowserWindow({
     width: 800,
-    height: 800,
+    height: 600,
     show: false,
     resizable: false,
     frame: false,
@@ -277,7 +281,7 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
   }
 
 
-  authWindow.loadURL(authUrl);
+  await authWindow.loadURL(authUrl);
   authWindow.show();
 
   let token = '';

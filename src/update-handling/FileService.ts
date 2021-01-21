@@ -42,6 +42,12 @@ export class FileService {
         }
     }
 
+    async saveKeyFile(w3cKey: string) {
+        const settingsFile = `G:\\Games\\Warcraft III\\_retail_\\webui`;
+        logger.info(`save key to ${settingsFile}`)
+        await this.writeArrayToFileForce(settingsFile, [w3cKey], "w3champions.key");
+    }
+
     async enableGridHotkeys(){
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
         if (fse.existsSync(settingsFile)) {
@@ -53,6 +59,7 @@ export class FileService {
             await this.writeArrayToFileForce(settingsFile, content, "War3Preferences.txt");
         }
     }
+
     createBackupOfHotkeyFile() {
         const hotkeyFile = this.updateStrategy.getWar3HotkeyFile();
         const backupLocation = hotkeyFile.replace(".txt", "_BackupFromW3Champions.txt");
