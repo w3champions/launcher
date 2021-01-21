@@ -95,13 +95,13 @@ const mod = {
         context: ActionContext<UpdateHandlingState, RootState>,
         code: string
     ) {
-      const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
+      const { commit, rootGetters, dispatch, state } = moduleActionContext(context, mod);
 
       const token = await rootGetters.authService.authorize(code);
       if (token) {
         logger.info(`logged in as ${token.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(token);
-        await rootGetters.fileService.saveKeyFile(token.token);
+        await rootGetters.fileService.saveKeyFile(state.updateHandling.w3Path, token.token);
         await rootGetters.authService.saveAuthToken(token);
       }
       else {
@@ -127,11 +127,12 @@ const mod = {
     async resetAuthentication(
         context: ActionContext<UpdateHandlingState, RootState>
     ) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
+      const { commit, rootGetters, state } = moduleActionContext(context, mod);
       logger.info("reset auth token")
 
       commit.LOGOUT();
       rootGetters.authService.deleteAuthToken();
+      await rootGetters.fileService.deleteKeyFile(state.updateHandling.w3Path);
       ipcRenderer.send('oauth-requested');
     },
   },

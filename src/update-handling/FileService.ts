@@ -42,10 +42,20 @@ export class FileService {
         }
     }
 
-    async saveKeyFile(w3cKey: string) {
-        const settingsFile = `G:\\Games\\Warcraft III\\_retail_\\webui`;
-        logger.info(`save key to ${settingsFile}`)
-        await this.writeArrayToFileForce(settingsFile, [w3cKey], "w3champions.key");
+    async saveKeyFile(currentWebuiFolder: string, w3cKey: string) {
+        if (currentWebuiFolder) {
+            const settingsFile = `${currentWebuiFolder}\\webui\\w3champions.key`;
+            logger.info(`save key to ${settingsFile}`)
+            await this.writeArrayToFileForce(settingsFile, [w3cKey], "w3champions.key");
+        }
+    }
+
+    async deleteKeyFile(currentWebuiFolder: string) {
+        if (currentWebuiFolder) {
+            const settingsFile = `${currentWebuiFolder}\\webui\\w3champions.key`;
+            logger.info(`save nothing to ${settingsFile}`)
+            await this.writeArrayToFileForce(settingsFile, [], "w3champions.key");
+        }
     }
 
     async enableGridHotkeys(){
