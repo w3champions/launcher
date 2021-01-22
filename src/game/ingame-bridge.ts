@@ -55,13 +55,9 @@ export class IngameBridge extends EventEmitter {
                     }
 
                     if(parsed.type === ELauncherMessageType.REQUEST_AUTHENTICATION_TOKEN) {
-                        const token = {
-                            token: "968dfea5-d4ff-4b1d-bd64-19c82ce8fb97",
-                            battleTag: "modmoto#2809",
-                        };
                         const message: ILauncherGameMessage = {
                             type: ELauncherMessageType.RECEIVED_AUTHENTICATION_TOKEN_FROM_LAUNCHER,
-                            data: token
+                            data: store.state.w3cToken
                         };
                         pi.sendMessage(message);
                     }
