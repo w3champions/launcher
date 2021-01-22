@@ -84,26 +84,28 @@ const mod = {
       commit.SET_OS(rootGetters.fileService.isWindows());
     },
     async loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit, rootGetters, state } = moduleActionContext(context, mod);
+      const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
 
-      const token = rootGetters.fileService.loadAuthToken(state.updateHandling.w3Path);
-      const userInfo = await rootGetters.authService.getProfile(token)
+      const token = rootGetters.authService.loadAuthToken();
+      const userInfo = await rootGetters.authService.getProfile(token?.token ?? '')
       if (userInfo) {
         logger.info(`logged in as ${userInfo.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(userInfo);
+      } else {
+        await dispatch.resetAuthentication();
       }
     },
     async authorizeWithCode(
         context: ActionContext<UpdateHandlingState, RootState>,
         code: string
     ) {
-      const { commit, rootGetters, dispatch, state } = moduleActionContext(context, mod);
+      const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
 
       const token = await rootGetters.authService.authorize(code);
       if (token) {
         logger.info(`logged in as ${token.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(token);
-        await rootGetters.fileService.saveKeyFile(state.updateHandling.w3Path, token.token);
+        await rootGetters.authService.saveAuthToken(token);
       }
       else {
         await dispatch.resetAuthentication();
@@ -112,11 +114,11 @@ const mod = {
     async resetAuthentication(
         context: ActionContext<UpdateHandlingState, RootState>
     ) {
-      const { commit, rootGetters, state } = moduleActionContext(context, mod);
+      const { commit, rootGetters } = moduleActionContext(context, mod);
       logger.info("reset auth token")
 
       commit.LOGOUT();
-      await rootGetters.fileService.deleteKeyFile(state.updateHandling.w3Path);
+      await rootGetters.authService.deleteAuthToken();
       ipcRenderer.send('oauth-requested');
     },
   },

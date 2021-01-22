@@ -42,31 +42,6 @@ export class FileService {
         }
     }
 
-    async saveKeyFile(currentWebuiFolder: string, w3cKey: string) {
-        if (currentWebuiFolder) {
-            const settingsFile = `${currentWebuiFolder}\\webui\\w3champions.key`;
-            logger.info(`save key to ${settingsFile}`)
-            await this.writeArrayToFileForce(settingsFile, [w3cKey], "w3champions.key");
-        }
-    }
-
-    loadAuthToken(currentWebuiFolder: string): string {
-        if (currentWebuiFolder) {
-            const settingsFile = `${currentWebuiFolder}\\webui\\w3champions.key`;
-            return fse.readFileSync(settingsFile, 'utf8').toString().split("\n")[0];
-        }
-
-        return '';
-    }
-
-    async deleteKeyFile(currentWebuiFolder: string) {
-        if (currentWebuiFolder) {
-            const settingsFile = `${currentWebuiFolder}\\webui\\w3champions.key`;
-            logger.info(`save nothing to ${settingsFile}`)
-            await this.writeArrayToFileForce(settingsFile, [], "w3champions.key");
-        }
-    }
-
     async enableGridHotkeys(){
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
         if (fse.existsSync(settingsFile)) {
