@@ -3,7 +3,7 @@
     <HeadLine />
     <div v-if="!isLoggedIn" >
       <LoadingSpinner text="Choose your region to login"/>
-      <div class="gw-selection-wrapper">
+      <div class="gw-selection-wrapper" v-if="!regionChoosen">
         <div class="gw-selection" v-for="gateway in loginGateways" :key="gateway.toString()" :class="`gw-select-${gateway}`" @click="() => loginAt(gateway)"/>
       </div>
     </div>
@@ -34,6 +34,7 @@ const { ipcRenderer } = window.require('electron')
 })
 export default class App extends Vue {
   private updateStrategy = App.isWindows() ? new WindowsLauncher() : new MacLauncher();
+  public regionChoosen = false;
 
   async created() {
     ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {
@@ -67,7 +68,7 @@ export default class App extends Vue {
   }
 
   get loginGateways() {
-    return ["eu", "us", "kr", "cn"]
+    return ["eu", "us", "kr", "tw", "cn"]
   }
 
   get isLoggedIn() {
@@ -75,8 +76,10 @@ export default class App extends Vue {
   }
 
   public async loginAt(gateway: string) {
+    this.regionChoosen = true;
     this.$store.direct.commit.SET_LOGIN_GW(gateway);
     await this.$store.direct.dispatch.resetAuthentication();
+    this.regionChoosen = false;
   }
 
   public closeApp() {
@@ -208,6 +211,11 @@ a {
   width: 60px;
   height: 60px;
   cursor: pointer;
+}
+
+.gw-select-tw {
+  background: url("~@/assets/images/countryFlags/tw.svg") center no-repeat;
+  background-size: cover;
 }
 
 .gw-select-kr {
