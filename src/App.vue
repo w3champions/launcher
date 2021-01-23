@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="app-container">
     <HeadLine />
-    <LoadingSpinner v-if="!isLoggedIn" text="Logging in..."/>
+    <LoadingSpinner v-if="!isLoggedIn" text="Logging in... Close login window to switch to china."/>
     <div class="content-modal-wrapper">
       <div class="static-bg">
       </div>
@@ -42,10 +42,6 @@ export default class App extends Vue {
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
     await this.$store.direct.dispatch.loadAuthToken();
-
-    if (!this.isLoggedIn) {
-      await this.$store.direct.dispatch.resetAuthentication();
-    }
 
     this.makeSureNumpadIsEnabled()
 
@@ -132,21 +128,6 @@ body {
   user-select: none;
 }
 
-.loading-wrapper {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100vh;
-
-  background: rgba(0,0,0, 0.9);
-}
-
 a {
   color: inherit;
 }
@@ -212,5 +193,4 @@ a {
   top: 65px;
   right: 55px;
 }
-
 </style>

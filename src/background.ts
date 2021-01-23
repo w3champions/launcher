@@ -244,13 +244,19 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
   fab = null;
 })
 
+const authUrlEuAndRest = 'https://eu.battle.net/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
+const authUrlChina = 'https://www.battlenet.com.cn/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
+const logoutUrlEuAndRest = 'https://eu.battle.net/login/logout';
+const logoutUrlChina = 'https://www.battlenet.com.cn/login/logout';
+
+let authUrl = authUrlEuAndRest;
+let logoutUrl = logoutUrlEuAndRest;
+
 ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
   let authWindow: BrowserWindow | null = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 800,
     show: false,
-    resizable: false,
-    frame: false,
     webPreferences: {
       nodeIntegration: false,
       webSecurity: false
@@ -261,16 +267,11 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     width: 800,
     height: 800,
     show: false,
-    resizable: false,
-    frame: false,
     webPreferences: {
       nodeIntegration: false,
       webSecurity: false
     }
   });
-
-  const authUrl = 'https://eu.battle.net/oauth/authorize?region=eu&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
-  const logoutUrl = "https://eu.battle.net/login/logout";
 
   try {
     await logoutWindow.loadURL(logoutUrl);
@@ -279,7 +280,6 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
   } catch (e) {
     logger.error(e)
   }
-
 
   await authWindow.loadURL(authUrl);
   authWindow.show();
@@ -299,6 +299,14 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
 
   authWindow.on('closed', function() {
     if (!token) {
+      if (authUrl === authUrlEuAndRest) {
+        authUrl = authUrlChina;
+        logoutUrl = logoutUrlChina;
+      } else {
+        authUrl = authUrlEuAndRest;
+        logoutUrl = logoutUrlEuAndRest;
+      }
+
       win?.webContents.send('blizzard-code-received', '');
     }
 
