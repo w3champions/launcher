@@ -2,7 +2,7 @@
   <div id="app" class="app-container">
     <HeadLine />
     <div v-if="!isLoggedIn" >
-      <LoadingSpinner text="Choose your region to login (this does not affect where you are actually playing)"/>
+      <LoadingSpinner text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
       <div class="gw-selection-wrapper" v-if="!regionChoosen">
         <div class="gw-selection" v-for="gateway in loginGateways" :key="gateway.toString()" :class="`gw-select-${gateway}`" @click="() => loginAt(gateway)"/>
       </div>
