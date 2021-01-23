@@ -244,18 +244,35 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
   fab = null;
 })
 
-const authUrlEuAndRest = 'https://eu.battle.net/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
 const authUrlChina = 'https://www.battlenet.com.cn/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
-const logoutUrlEuAndRest = 'https://eu.battle.net/login/logout';
 const logoutUrlChina = 'https://www.battlenet.com.cn/login/logout';
 
-let authUrl = authUrlEuAndRest;
-let logoutUrl = logoutUrlEuAndRest;
+let authUrl = getAuthUrl("eu");
+let logoutUrl = getLogoutUrl("eu");
+
+function getAuthUrl(gw: string) {
+  return `https://${gw}.battle.net/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login`
+}
+
+function getLogoutUrl(gw: string) {
+  return `https://${gw}.battle.net/login/logout`
+}
 
 ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
+
+  if (args === "cn") {
+    authUrl = authUrlChina;
+    logoutUrl = logoutUrlChina;
+  } else {
+    authUrl = getAuthUrl(args);
+    logoutUrl = getLogoutUrl(args);
+  }
+
+  logger.info(`logging into ${authUrl}`)
+
   let authWindow: BrowserWindow | null = new BrowserWindow({
     width: 800,
-    height: 800,
+    height: 600,
     show: false,
     webPreferences: {
       nodeIntegration: false,
@@ -267,6 +284,7 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     width: 800,
     height: 800,
     show: false,
+    frame: false,
     webPreferences: {
       nodeIntegration: false,
       webSecurity: false
@@ -274,9 +292,11 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
   });
 
   try {
+    logger.info(`logging out from ${logoutUrl}`)
     await logoutWindow.loadURL(logoutUrl);
     logoutWindow.close();
     logoutWindow = null;
+    logger.info(`logged out`)
   } catch (e) {
     logger.error(e)
   }
@@ -293,20 +313,13 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
         token = strings[1];
         win?.webContents.send('blizzard-code-received', strings[1]);
         authWindow.close();
+        authWindow = null
       }
     }
   });
 
   authWindow.on('closed', function() {
     if (!token) {
-      if (authUrl === authUrlEuAndRest) {
-        authUrl = authUrlChina;
-        logoutUrl = logoutUrlChina;
-      } else {
-        authUrl = authUrlEuAndRest;
-        logoutUrl = logoutUrlEuAndRest;
-      }
-
       win?.webContents.send('blizzard-code-received', '');
     }
 

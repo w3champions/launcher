@@ -84,15 +84,13 @@ const mod = {
       commit.SET_OS(rootGetters.fileService.isWindows());
     },
     async loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
+      const { commit, rootGetters } = moduleActionContext(context, mod);
 
       const token = rootGetters.authService.loadAuthToken();
       const userInfo = await rootGetters.authService.getProfile(token?.token ?? '')
       if (userInfo) {
         logger.info(`logged in as ${userInfo.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(userInfo);
-      } else {
-        await dispatch.resetAuthentication();
       }
     },
     async authorizeWithCode(
@@ -114,12 +112,12 @@ const mod = {
     async resetAuthentication(
         context: ActionContext<UpdateHandlingState, RootState>
     ) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
+      const { commit, rootGetters, state } = moduleActionContext(context, mod);
       logger.info("reset auth token")
 
       commit.LOGOUT();
       await rootGetters.authService.deleteAuthToken();
-      ipcRenderer.send('oauth-requested');
+      ipcRenderer.send('oauth-requested', state.selectedLoginGateway);
     },
   },
   mutations: {
@@ -137,6 +135,9 @@ const mod = {
     },
     SET_W3CAUTH_TOKEN(state: RootState, w3cToken: W3cToken | null) {
       state.w3cToken = w3cToken;
+    },
+    SET_LOGIN_GW(state: RootState, loginGateway: string) {
+      state.selectedLoginGateway = loginGateway;
     },
     LOGOUT(state: RootState) {
       state.w3cToken = null;

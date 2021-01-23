@@ -1,13 +1,14 @@
 <template>
   <div id="app" class="app-container">
     <HeadLine />
-    <LoadingSpinner v-if="!isLoggedIn" text="Logging in... Close login window to switch to china."/>
-    <div class="content-modal-wrapper">
-      <div class="static-bg">
+    <div v-if="!isLoggedIn" >
+      <LoadingSpinner text="Choose your region to login"/>
+      <div class="gw-selection-wrapper">
+        <div class="gw-selection" v-for="gateway in loginGateways" :key="gateway.toString()" :class="`gw-select-${gateway}`" @click="() => loginAt(gateway)"/>
       </div>
-<!--      <video loop muted autoplay poster="assets/images/home/Static_Background.png" class="fullscreen-bg__video">-->
-<!--        <source src="assets/images/home/Animated_Background-webm.webm" type="video/webm">-->
-<!--      </video>-->
+    </div>
+    <div class="content-modal-wrapper">
+      <div class="static-bg" />
       <div class="content-modal">
         <router-view />
       </div>
@@ -65,8 +66,17 @@ export default class App extends Vue {
     await this.updateStrategy.updateIfNeeded();
   }
 
+  get loginGateways() {
+    return ["eu", "us", "kr", "cn"]
+  }
+
   get isLoggedIn() {
     return this.$store.direct.state.w3cToken
+  }
+
+  public async loginAt(gateway: string) {
+    this.$store.direct.commit.SET_LOGIN_GW(gateway);
+    await this.$store.direct.dispatch.resetAuthentication();
   }
 
   public closeApp() {
@@ -192,5 +202,42 @@ a {
   cursor: pointer;
   top: 65px;
   right: 55px;
+}
+
+.gw-selection {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.gw-select-kr {
+  background: url("~@/assets/images/countryFlags/kr.svg") center no-repeat;
+  background-size: cover;
+}
+
+.gw-select-eu {
+  background: url("~@/assets/images/countryFlags/eu.svg") center no-repeat;
+  background-size: cover;
+}
+
+.gw-select-us {
+  background: url("~@/assets/images/countryFlags/us.svg") center no-repeat;
+  background-size: cover;
+}
+
+.gw-select-cn {
+  background: url("~@/assets/images/countryFlags/cn.svg") center no-repeat;
+  background-size: cover;
+}
+
+.gw-selection-wrapper {
+  position: absolute;
+  z-index: 400;
+  display: flex;
+  width: 50%;
+  top: 550px;
+  justify-content: space-around;
+  padding-left: 25%;
+  padding-right: 25%;
 }
 </style>

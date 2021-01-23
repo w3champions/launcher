@@ -3,6 +3,7 @@ export interface RootState {
     isWindows: boolean,
     newsUrl: string,
     updateUrl: string,
+    selectedLoginGateway: string,
     identificationUrl: string,
     news: News[],
     w3cToken: W3cToken | null
