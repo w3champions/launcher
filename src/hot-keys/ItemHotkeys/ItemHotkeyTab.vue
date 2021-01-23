@@ -69,7 +69,7 @@
         </div>
         <div class="just-a-row" >
           <div :class="isGridMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleGridMode" />
-          <div class="text-spacer"> Wc3 Reforged grid mode </div>          
+          <div class="text-spacer"> WC3 Reforged grid mode </div>
         </div>
         <div class="just-a-row">
           <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
@@ -106,7 +106,7 @@ export default class ItemHotkeyTab extends Vue {
   public hotkeyToEdit = {} as KeyDto;
   public selectedHotKey = "";
   public hotkeyModifierToEdit = ModifierKey.None;
-  
+
   @Prop() public tab!: string;
 
   public closeModal() {
