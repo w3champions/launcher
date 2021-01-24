@@ -34,7 +34,6 @@ const { ipcRenderer } = window.require('electron')
 })
 export default class App extends Vue {
   private updateStrategy = App.isWindows() ? new WindowsLauncher() : new MacLauncher();
-  public regionChoosen = false;
 
   async created() {
     ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {
@@ -66,6 +65,10 @@ export default class App extends Vue {
     await this.updateStrategy.updateIfNeeded();
   }
 
+  get regionChoosen() {
+    return this.$store.direct.state.selectedLoginGateway;
+  }
+
   get loginGateways() {
     return ["eu", "us", "kr", "tw", "cn"]
   }
@@ -75,10 +78,8 @@ export default class App extends Vue {
   }
 
   public async loginAt(gateway: string) {
-    this.regionChoosen = true;
-    this.$store.direct.commit.SET_LOGIN_GW(gateway);
+    this.$store.direct.dispatch.setLoginGateway(gateway);
     await this.$store.direct.dispatch.resetAuthentication();
-    this.regionChoosen = false;
   }
 
   public closeApp() {

@@ -91,7 +91,9 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   public async resetAuthentication() {
-    await this.$store.direct.dispatch.resetAuthentication();
+    this.$store.direct.dispatch.setLoginGateway('');
+    await this.$router.push("/");
+    await this.$store.direct.dispatch.resetAuthentication(false);
   }
 
   public switchEnemyColor(newColor: string) {

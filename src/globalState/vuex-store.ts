@@ -45,7 +45,8 @@ const mod = {
     newsUrl: NEWS_URL_PROD,
     identificationUrl: IDENTIFICATION_URL_PROD,
     news: [] as News[],
-    w3cToken: null
+    w3cToken: null,
+    selectedLoginGateway: '',
   } as RootState,
   actions: {
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -109,15 +110,26 @@ const mod = {
         await dispatch.resetAuthentication();
       }
     },
+    setLoginGateway(
+        context: ActionContext<UpdateHandlingState, RootState>,
+        selectdGateway: string
+    ) {
+      const { commit } = moduleActionContext(context, mod);
+
+      commit.SET_LOGIN_GW(selectdGateway);
+    },
     async resetAuthentication(
-        context: ActionContext<UpdateHandlingState, RootState>
+        context: ActionContext<UpdateHandlingState, RootState>,
+        requestRelogin: boolean = true
     ) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
       logger.info("reset auth token")
 
       commit.LOGOUT();
       await rootGetters.authService.deleteAuthToken();
-      ipcRenderer.send('oauth-requested', state.selectedLoginGateway);
+      if (requestRelogin) {
+        ipcRenderer.send('oauth-requested', state.selectedLoginGateway);
+      }
     },
   },
   mutations: {
