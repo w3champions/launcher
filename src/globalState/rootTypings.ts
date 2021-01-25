@@ -15,7 +15,7 @@ export interface News {
 }
 
 export type W3cToken = {
-    token: string;
+    jwt: string;
     battleTag: string;
     name: string;
     isAdmin: boolean;

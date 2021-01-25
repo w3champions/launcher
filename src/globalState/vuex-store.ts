@@ -88,7 +88,7 @@ const mod = {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       const token = rootGetters.authService.loadAuthToken();
-      const userInfo = await rootGetters.authService.getProfile(token?.token ?? '')
+      const userInfo = await rootGetters.authService.getProfile(token?.jwt ?? '')
       if (userInfo) {
         logger.info(`logged in as ${userInfo.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(userInfo);
