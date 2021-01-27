@@ -246,17 +246,11 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
 
 const authUrlChina = 'https://www.battlenet.com.cn/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
 const logoutUrlChina = 'https://www.battlenet.com.cn/login/logout';
+const authUrlEu = 'https://eu.battle.net/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login';
+const logoutUrlEu = 'https://eu.battle.net/login/logout';
 
-let authUrl = getAuthUrl("eu");
-let logoutUrl = getLogoutUrl("eu");
-
-function getAuthUrl(gw: string) {
-  return `https://${gw}.battle.net/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login`
-}
-
-function getLogoutUrl(gw: string) {
-  return `https://${gw}.battle.net/login/logout`
-}
+let authUrl = authUrlEu;
+let logoutUrl = logoutUrlEu;
 
 ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
 
@@ -264,8 +258,8 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     authUrl = authUrlChina;
     logoutUrl = logoutUrlChina;
   } else {
-    authUrl = getAuthUrl(args);
-    logoutUrl = getLogoutUrl(args);
+    authUrl = authUrlEu;
+    logoutUrl = logoutUrlEu;
   }
 
   logger.info(`logging into ${authUrl}`)
@@ -320,7 +314,7 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
 
   authWindow.on('closed', function() {
     if (!token) {
-      win?.webContents.send('blizzard-code-received', '');
+      win?.webContents.send('blizzard-window-closed-without-auth');
     }
 
     authWindow = null;

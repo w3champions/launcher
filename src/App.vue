@@ -4,7 +4,12 @@
     <div v-if="!isLoggedIn" >
       <LoadingSpinner text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
       <div class="gw-selection-wrapper" v-if="!regionChoosen">
-        <div class="gw-selection" v-for="gateway in loginGateways" :key="gateway.toString()" :class="`gw-select-${gateway}`" @click="() => loginAt(gateway)"/>
+        <div style="display: flex; flex-direction: row; cursor: pointer" @click="() => loginAt('eu')">
+          <div class="gw-selection gw-select-eu"/>
+          <div style="font-size: 40px; line-height: 60px; padding-left: 10px; padding-right: 10px"> / </div>
+          <div class="gw-selection gw-select-us"/>
+        </div>
+        <div class="gw-selection gw-select-cn" @click="() => loginAt('cn')"/>
       </div>
     </div>
     <div class="content-modal-wrapper">
@@ -40,6 +45,10 @@ export default class App extends Vue {
       store.dispatch.authorizeWithCode(args);
     })
 
+    ipcRenderer.on('blizzard-window-closed-without-auth', () => {
+      store.dispatch.setLoginGateway('');
+    })
+
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
     await this.$store.direct.dispatch.loadAuthToken();
@@ -70,7 +79,7 @@ export default class App extends Vue {
   }
 
   get loginGateways() {
-    return ["eu", "us", "kr", "tw", "cn"]
+    return ["eu", "cn"]
   }
 
   get isLoggedIn() {
