@@ -3,6 +3,7 @@ export interface RootState {
     isWindows: boolean,
     newsUrl: string,
     updateUrl: string,
+    selectedLoginGateway: string,
     identificationUrl: string,
     news: News[],
     w3cToken: W3cToken | null
@@ -14,7 +15,7 @@ export interface News {
 }
 
 export type W3cToken = {
-    token: string;
+    jwt: string;
     battleTag: string;
     name: string;
     isAdmin: boolean;

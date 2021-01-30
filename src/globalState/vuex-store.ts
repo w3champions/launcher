@@ -45,7 +45,8 @@ const mod = {
     newsUrl: NEWS_URL_PROD,
     identificationUrl: IDENTIFICATION_URL_PROD,
     news: [] as News[],
-    w3cToken: null
+    w3cToken: null,
+    selectedLoginGateway: '',
   } as RootState,
   actions: {
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -83,12 +84,14 @@ const mod = {
 
       commit.SET_OS(rootGetters.fileService.isWindows());
     },
-    loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
+    async loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       const token = rootGetters.authService.loadAuthToken();
-      if (token) {
-        commit.SET_W3CAUTH_TOKEN(token);
+      const userInfo = await rootGetters.authService.getProfile(token?.jwt ?? '')
+      if (userInfo) {
+        logger.info(`logged in as ${userInfo.battleTag}`)
+        commit.SET_W3CAUTH_TOKEN(userInfo);
       }
     },
     async authorizeWithCode(
@@ -107,31 +110,26 @@ const mod = {
         await dispatch.resetAuthentication();
       }
     },
-    async loadProfile(
-        context: ActionContext<UpdateHandlingState, RootState>
+    setLoginGateway(
+        context: ActionContext<UpdateHandlingState, RootState>,
+        selectdGateway: string
     ) {
-      const { commit, rootState, rootGetters, dispatch } = moduleActionContext(context, mod);
+      const { commit } = moduleActionContext(context, mod);
 
-      const profile = await rootGetters.authService.getProfile(
-          rootState.w3cToken?.token ?? ''
-      );
-
-      if (profile) {
-        logger.info(`logged in as ${profile.battleTag}`)
-        commit.SET_W3CAUTH_TOKEN(profile);
-      } else {
-        await dispatch.resetAuthentication();
-      }
+      commit.SET_LOGIN_GW(selectdGateway);
     },
     async resetAuthentication(
-        context: ActionContext<UpdateHandlingState, RootState>
+        context: ActionContext<UpdateHandlingState, RootState>,
+        requestRelogin: boolean = true
     ) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
+      const { commit, rootGetters, state } = moduleActionContext(context, mod);
       logger.info("reset auth token")
 
       commit.LOGOUT();
-      rootGetters.authService.deleteAuthToken();
-      // ipcRenderer.send('oauth-requested');
+      await rootGetters.authService.deleteAuthToken();
+      if (requestRelogin) {
+        ipcRenderer.send('oauth-requested', state.selectedLoginGateway);
+      }
     },
   },
   mutations: {
@@ -149,6 +147,9 @@ const mod = {
     },
     SET_W3CAUTH_TOKEN(state: RootState, w3cToken: W3cToken | null) {
       state.w3cToken = w3cToken;
+    },
+    SET_LOGIN_GW(state: RootState, loginGateway: string) {
+      state.selectedLoginGateway = loginGateway;
     },
     LOGOUT(state: RootState) {
       state.w3cToken = null;

@@ -1,14 +1,19 @@
 <template>
   <div id="app" class="app-container">
     <HeadLine />
-<!--    Comment in a gain when auth is all done-->
-<!--    <LoadingSpinner v-if="!isLoggedIn" text="Logging you in..."/>-->
-    <div class="content-modal-wrapper">
-      <div class="static-bg">
+    <div v-if="!isLoggedIn" >
+      <LoadingSpinner text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
+      <div class="gw-selection-wrapper" v-if="!regionChoosen">
+        <div style="display: flex; flex-direction: row; cursor: pointer" @click="() => loginAt('eu')">
+          <div class="gw-selection gw-select-eu"/>
+          <div style="font-size: 40px; line-height: 60px; padding-left: 10px; padding-right: 10px"> / </div>
+          <div class="gw-selection gw-select-us"/>
+        </div>
+        <div class="gw-selection gw-select-cn" @click="() => loginAt('cn')"/>
       </div>
-<!--      <video loop muted autoplay poster="assets/images/home/Static_Background.png" class="fullscreen-bg__video">-->
-<!--        <source src="assets/images/home/Animated_Background-webm.webm" type="video/webm">-->
-<!--      </video>-->
+    </div>
+    <div class="content-modal-wrapper">
+      <div class="static-bg" />
       <div class="content-modal">
         <router-view />
       </div>
@@ -40,15 +45,13 @@ export default class App extends Vue {
       store.dispatch.authorizeWithCode(args);
     })
 
+    ipcRenderer.on('blizzard-window-closed-without-auth', () => {
+      store.dispatch.setLoginGateway('');
+    })
+
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
-    this.$store.direct.dispatch.loadAuthToken();
-
-    if (!this.isLoggedIn) {
-      await this.$store.direct.dispatch.resetAuthentication();
-    } else {
-      await this.$store.direct.dispatch.loadProfile();
-    }
+    await this.$store.direct.dispatch.loadAuthToken();
 
     this.makeSureNumpadIsEnabled()
 
@@ -58,7 +61,6 @@ export default class App extends Vue {
     this.$store.direct.dispatch.hotKeys.loadHotkeyFabSettings();
     this.$store.direct.dispatch.hotKeys.loadToggleKey();
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
-
     this.$store.direct.dispatch.hotKeys.setToggleKey(this.$store.direct.state.hotKeys.toggleButton);
     this.$store.direct.dispatch.hotKeys.loadManualMode();
 
@@ -72,8 +74,21 @@ export default class App extends Vue {
     await this.updateStrategy.updateIfNeeded();
   }
 
+  get regionChoosen() {
+    return this.$store.direct.state.selectedLoginGateway;
+  }
+
+  get loginGateways() {
+    return ["eu", "cn"]
+  }
+
   get isLoggedIn() {
     return this.$store.direct.state.w3cToken
+  }
+
+  public async loginAt(gateway: string) {
+    this.$store.direct.dispatch.setLoginGateway(gateway);
+    await this.$store.direct.dispatch.resetAuthentication();
   }
 
   public closeApp() {
@@ -133,21 +148,6 @@ body {
   font-family: "Inter";
   color: antiquewhite;
   user-select: none;
-}
-
-.loading-wrapper {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100vh;
-
-  background: rgba(0,0,0, 0.9);
 }
 
 a {
@@ -216,4 +216,45 @@ a {
   right: 55px;
 }
 
+.gw-selection {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.gw-select-tw {
+  background: url("~@/assets/images/countryFlags/tw.svg") center no-repeat;
+  background-size: cover;
+}
+
+.gw-select-kr {
+  background: url("~@/assets/images/countryFlags/kr.svg") center no-repeat;
+  background-size: cover;
+}
+
+.gw-select-eu {
+  background: url("~@/assets/images/countryFlags/eu.svg") center no-repeat;
+  background-size: cover;
+}
+
+.gw-select-us {
+  background: url("~@/assets/images/countryFlags/us.svg") center no-repeat;
+  background-size: cover;
+}
+
+.gw-select-cn {
+  background: url("~@/assets/images/countryFlags/cn.svg") center no-repeat;
+  background-size: cover;
+}
+
+.gw-selection-wrapper {
+  position: absolute;
+  z-index: 400;
+  display: flex;
+  width: 50%;
+  top: 550px;
+  justify-content: space-around;
+  padding-left: 25%;
+  padding-right: 25%;
+}
 </style>

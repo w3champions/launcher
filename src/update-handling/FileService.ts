@@ -53,6 +53,7 @@ export class FileService {
             await this.writeArrayToFileForce(settingsFile, content, "War3Preferences.txt");
         }
     }
+
     createBackupOfHotkeyFile() {
         const hotkeyFile = this.updateStrategy.getWar3HotkeyFile();
         const backupLocation = hotkeyFile.replace(".txt", "_BackupFromW3Champions.txt");

@@ -44,10 +44,10 @@
         <div>
           Launcher Version: {{ currentLauncherVersion }}
         </div>
-<!--        <div>-->
-<!--          <span>{{ currentUser }}</span>-->
-<!--          <span style="cursor: pointer;" @click="resetAuthentication"> (Logout)</span>-->
-<!--        </div>-->
+        <div>
+          <span>{{ currentUser }}</span>
+          <span style="cursor: pointer;" @click="resetAuthentication"> (Logout)</span>
+        </div>
       </div>
     </div>
   </div>
@@ -91,7 +91,9 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   public async resetAuthentication() {
-    await this.$store.direct.dispatch.resetAuthentication();
+    this.$store.direct.dispatch.setLoginGateway('');
+    await this.$router.push("/");
+    await this.$store.direct.dispatch.resetAuthentication(false);
   }
 
   public switchEnemyColor(newColor: string) {

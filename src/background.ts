@@ -49,7 +49,11 @@ protocol.registerSchemesAsPrivileged([
 app.allowRendererProcessReuse = false;
 
 app.on('will-quit', () => {
-  globalShortcut.unregisterAll()
+  try {
+    globalShortcut.unregisterAll()
+    // eslint-disable-next-line no-empty
+  } catch(e) {
+  }
 });
 
 function createWindow() {
@@ -240,13 +244,30 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
   fab = null;
 })
 
+const authUrlChina = 'https://www.battlenet.com.cn/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
+const logoutUrlChina = 'https://www.battlenet.com.cn/login/logout';
+const authUrlEu = 'https://eu.battle.net/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login';
+const logoutUrlEu = 'https://eu.battle.net/login/logout';
+
+let authUrl = authUrlEu;
+let logoutUrl = logoutUrlEu;
+
 ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
+
+  if (args === "cn") {
+    authUrl = authUrlChina;
+    logoutUrl = logoutUrlChina;
+  } else {
+    authUrl = authUrlEu;
+    logoutUrl = logoutUrlEu;
+  }
+
+  logger.info(`logging into ${authUrl}`)
+
   let authWindow: BrowserWindow | null = new BrowserWindow({
     width: 800,
-    height: 800,
+    height: 600,
     show: false,
-    resizable: false,
-    frame: false,
     webPreferences: {
       nodeIntegration: false,
       webSecurity: false
@@ -257,7 +278,6 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     width: 800,
     height: 800,
     show: false,
-    resizable: false,
     frame: false,
     webPreferences: {
       nodeIntegration: false,
@@ -265,19 +285,17 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     }
   });
 
-  const authUrl = 'https://eu.battle.net/oauth/authorize?region=eu&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
-  const logoutUrl = "https://eu.battle.net/login/logout";
-
   try {
+    logger.info(`logging out from ${logoutUrl}`)
     await logoutWindow.loadURL(logoutUrl);
     logoutWindow.close();
     logoutWindow = null;
+    logger.info(`logged out`)
   } catch (e) {
     logger.error(e)
   }
 
-
-  authWindow.loadURL(authUrl);
+  await authWindow.loadURL(authUrl);
   authWindow.show();
 
   let token = '';
@@ -289,13 +307,14 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
         token = strings[1];
         win?.webContents.send('blizzard-code-received', strings[1]);
         authWindow.close();
+        authWindow = null
       }
     }
   });
 
   authWindow.on('closed', function() {
     if (!token) {
-      win?.webContents.send('blizzard-code-received', '');
+      win?.webContents.send('blizzard-window-closed-without-auth');
     }
 
     authWindow = null;
