@@ -3,7 +3,8 @@
     <div class="modt">
       <div class="w3font news-header">{{ news[selectedNews] ? news[selectedNews].date : "" }}</div>
       <br />
-      <vue-markdown :source="news[selectedNews] ? news[selectedNews].message : ''" />
+      <div v-if="isNewsHtml" v-html="news[selectedNews].message"></div>
+      <vue-markdown v-else :source="news[selectedNews] ? news[selectedNews].message : ''" />
     </div>
     <div style="bottom: 188px; display: flex; justify-content: center; position: absolute;">
       <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="() => isSelected(index) ? 'selected-item' : ''"/>
@@ -49,6 +50,19 @@ export default class HomeScreen extends Vue {
       this.playButton = "Play";
       this.disablePlayBtn = false;
     }
+  }
+
+  get isNewsHtml() {
+    let isHtml = false;
+    const newsItem = this.news[this.selectedNews];
+
+    if (newsItem) {
+      // Check that it starts with '<' and ends with '>'
+      isHtml = newsItem.message.trim().charAt(0) === '<'
+        && newsItem.message.trim().charAt(newsItem.message.length - 1) === '>';
+    }
+
+    return isHtml;
   }
 
   get explanation() {
