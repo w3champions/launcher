@@ -45,7 +45,7 @@ const units =
         ]),
         new Unit('Shaman', 'btnshaman', [
             ...defaultFighterAbilities,
-            Ability.Create('Purge', 'btnpurge', 'aprg', 'G', []),
+            Ability.Create('Purge', 'btnpurge', 'apg2', 'G', []),
             Ability.Create('Lightning Shield', 'btnlightningshield', 'alsh', 'L', []),
             Ability.UnhotkeyAbility('Bloodlust', 'btnbloodlustoff', 'ablo', 'B'),
         ]),
