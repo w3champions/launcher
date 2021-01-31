@@ -30,7 +30,7 @@ const buildings =
             Ability.Create('Hire Forest Troll Shadow Priest', 'btnforesttrollshadowpriest', 'nfsp', 'P', []),
             Ability.Create('Hire Forest Troll Berserker', 'btnforesttrollberserker', 'nftb', 'B', []),
             Ability.Create('Hire Ogre Mauler', 'btnogremauler', 'nogm', 'M', []),
-            Ability.Create('Summon Mud Golemr', 'btnmudgolem', 'ngrk', 'U', []),
+            Ability.Create('Summon Mud Golem', 'btnmudgolem', 'ngrk', 'U', []),
         ]),
 
         new Building('Goblin Merchant', 'btnmerchant', [
@@ -42,7 +42,7 @@ const buildings =
             Ability.Create('Purchase Scroll of Protection', 'btnscroll', 'spro', 'R', []),
             Ability.Create('Purchase Potion of Invisibility', 'btnlesserinvisibility', 'pinv', 'I', []),
             Ability.Create('Purchase Scroll of Town Portal', 'btnscrolluber', 'stwp', 'T', []),
-            Ability.Create('Purchase Staff of Teleportationd', 'btnstaffofteleportation', 'stel', 'E', []),
+            Ability.Create('Purchase Staff of Teleportation', 'btnstaffofteleportation', 'stel', 'E', []),
 
             Ability.Create('Purchase Tome of Retraining', 'btntomeofretraining', 'tret', 'O', []),
             Ability.Create('Purchase Scroll of Healing', 'btnscrolloftownportal', 'shea', 'H', []),
