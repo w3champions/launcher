@@ -63,6 +63,7 @@ export default class App extends Vue {
     this.$store.direct.dispatch.hotKeys.loadHotKeys();
     this.$store.direct.dispatch.hotKeys.setToggleKey(this.$store.direct.state.hotKeys.toggleButton);
     this.$store.direct.dispatch.hotKeys.loadManualMode();
+    this.$store.direct.dispatch.hotKeys.loadIsClassicIcons();
 
     this.$store.direct.dispatch.updateHandling.loadAllPaths();
     await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
