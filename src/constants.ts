@@ -6,3 +6,5 @@ export const NEWS_URL_TEST = "https://statistic-service.test.w3champions.com/"
 
 export const IDENTIFICATION_URL_PROD = "https://identification-service.w3champions.com/"
 export const IDENTIFICATION_URL_TEST = "https://identification-service.test.w3champions.com/"
+
+export const OAUTH_ENABLED = false;
