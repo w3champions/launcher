@@ -20,6 +20,7 @@
         <ItemSelectionContainer style="visibility: hidden" :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
       </div>
       <div class="hero-wrapper" />
+      <ButtonWarcraft style="position: absolute; bottom: 198px; right: 150px" :on-click="setClassicMode" :text="isClassic" />
       <ButtonWarcraft style="position: absolute; bottom: 128px; right: 150px" :on-click="importHotkeys" text="Import" />
       <ButtonWarcraft style="position: absolute; bottom: 58px; right: 150px" :on-click="saveHotkeys" text="Save" />
     </div>
@@ -137,6 +138,18 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
   private parseWithEscape(item: string) {
     return item ? item.replace("27", "ESC").replace("512", "ESC") : '';
+  }
+
+  get isClassic() {
+    return this.$store.direct.state.hotKeys.isClassicMode ? "To Reforged" : "To Classic"
+  }
+
+  public setClassicMode() {
+    if (this.isClassic === "To Classic") {
+      this.$store.direct.dispatch.hotKeys.setIsClassicIcons(true);
+    } else {
+      this.$store.direct.dispatch.hotKeys.setIsClassicIcons(false);
+    }
   }
 
   get isNeutralUnitTab() {

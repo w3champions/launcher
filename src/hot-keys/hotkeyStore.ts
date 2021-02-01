@@ -100,6 +100,7 @@ const mod = {
     raceHotkeys: [] as RaceHotKey[],
     gridMode: false,
     isShowHotkeyIndicator: false,
+    isClassicMode: false,
     toggleButton: { modifier: ModifierKey.Shift, hotKey: {key: "f4", uiDisplay: "f4"}}
   } as HotKeyModifierState,
   actions: {
@@ -113,6 +114,18 @@ const mod = {
       const existingHotkeys = state.raceHotkeys.filter(r => r.hotkeyCommand !== hotKey.hotkeyCommand);
 
       commit.SET_RACE_HOTKEYS([...existingHotkeys, hotKey]);
+    },
+    setIsClassicIcons(context: ActionContext<HotKeyModifierState, RootState>, isClassic: boolean) {
+      const {commit, rootGetters} = moduleActionContext(context, mod);
+
+      rootGetters.updateService.saveIsClassicIcons(isClassic);
+      commit.SET_IS_CLASSIC_MODE(isClassic);
+    },
+    loadIsClassicIcons(context: ActionContext<HotKeyModifierState, RootState>) {
+      const {commit, rootGetters} = moduleActionContext(context, mod);
+
+      const isClassic = rootGetters.updateService.loadIsClassicIcons();
+      commit.SET_IS_CLASSIC_MODE(isClassic);
     },
     async saveRaceHotkeyToFile(context: ActionContext<HotKeyModifierState, RootState>) {
       const {rootGetters, state} = moduleActionContext(context, mod);
@@ -261,6 +274,9 @@ const mod = {
     }
   },
   mutations: {
+    SET_IS_CLASSIC_MODE(state: HotKeyModifierState, isClassic: boolean) {
+      state.isClassicMode = isClassic;
+    },
     SET_RACE_HOTKEY_DATA(state: HotKeyModifierState, hotKeys: HotkeyMappingPerRace[]) {
       state.raceHotkeyData = hotKeys;
     },

@@ -11,4 +11,5 @@ export interface HotKeyModifierState {
   lastW3cPort: string,
   gridMode: boolean,
   isShowHotkeyIndicator: boolean,
+  isClassicMode: boolean,
 }

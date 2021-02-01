@@ -3,35 +3,49 @@ const Store = window.require("electron-store");
 export class UpdateService {
     private store = new Store();
 
+    private wc3PathKey = "wc3PathKey";
+    private wc3MapKey = "wc3MapKey";
+    private bnetKey = "bnetKey";
+    private currentVersionKey = "currentVersionKey";
+    private isClassicIconKey = "isClassicIconKey";
+
     loadMapsPath(): string {
-        return this.store.get("wc3MapKey")
+        return this.store.get(this.wc3MapKey)
     }
 
     saveMapPath(value: string) {
-        this.store.set("wc3MapKey", value);
+        this.store.set(this.wc3MapKey, value);
     }
 
     loadBnetPath(): string {
-        return this.store.get("bnetKey")
+        return this.store.get(this.bnetKey)
     }
 
     saveBnetPath(value: string) {
-        this.store.set("bnetKey", value);
+        this.store.set(this.bnetKey, value);
     }
 
     loadW3CVersion(): string {
-        return this.store.get("currentVersionKey")
+        return this.store.get(this.currentVersionKey)
     }
 
     saveLocalW3CVersion(value: string) {
-        this.store.set("currentVersionKey", value);
+        this.store.set(this.currentVersionKey, value);
     }
 
     loadW3Path(): string {
-        return this.store.get("wc3PathKey");
+        return this.store.get(this.wc3PathKey);
     }
 
     saveW3Path(value: string) {
-        this.store.set("wc3PathKey", value);
+        this.store.set(this.wc3PathKey, value);
+    }
+
+    loadIsClassicIcons(): boolean {
+        return this.store.get(this.isClassicIconKey);
+    }
+
+    saveIsClassicIcons(value: boolean) {
+        this.store.set(this.isClassicIconKey, value);
     }
 }
