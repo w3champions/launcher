@@ -3870,6 +3870,11 @@
     background-size: cover;
 }
 
+.btnvengeanceincarnate-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnvengeanceincarnate.png') no-repeat center;
+    background-size: cover;
+}
+
 .btnspiritofvengeance-classic {
     background: url('~@/assets/images/hotkeys/icons/classic/btnspiritofvengeance.png') no-repeat center;
     background-size: cover;
