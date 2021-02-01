@@ -1,5 +1,7 @@
 import store from '../globalState/vuex-store'
 import logger from "@/logger";
+import { ELauncherMessageType, IIngameBridgeEvent, ingameBridge } from '@/game/ingame-bridge';
+import { IDownloadMapData } from '@/game/game.types';
 
 const { remote } = window.require("electron");
 const fs = window.require("fs");
@@ -23,6 +25,30 @@ export abstract class LauncherStrategy {
     abstract getBnetPathFromAgentLogs(): string;
     abstract getWc3PathFromAgentLogs(): string;
 
+    constructor() {
+        ingameBridge.on(ELauncherMessageType.MAP_DOWNLOAD, async (event: IIngameBridgeEvent) => {
+            if (!this.store) {
+                return;
+            }
+            
+            const pi = event.playerInstance;
+            const progressFunc = (progressPercent: number) => {
+                ingameBridge.sendMapDownloadProgress(pi, progressPercent);
+            };
+            const eventData = event.data as IDownloadMapData;
+            const isSuccess = await this.downloadMap(eventData.mapFile, progressFunc);
+
+            if (isSuccess) {
+                setTimeout(() => {
+                    ingameBridge.sendMapDownloadComplete(pi);
+                }, 1000);
+            }
+            else {
+                ingameBridge.sendMapDownloadFailed(pi);
+            }
+        });
+    }
+
     unsetLoading() {
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
         this.store.commit.updateHandling.FINISH_MAPS_DL();
@@ -31,6 +57,39 @@ export abstract class LauncherStrategy {
     public startWc3() {
         this.makeSureJoinBugFilesAreGone();
         this.startWc3Process(this.bnetPath);
+    }
+
+    public async downloadMap(fileName: string, onProgress?: (percentage: number) => void) {
+        const to = `${this.mapsPath}/${fileName}`;
+        logger.info(`Download ${fileName} to: ${to}`)
+        const url = `${this.updateUrl}api/maps/download?mapPath=${fileName}`;
+
+        try {
+            const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);
+            const buffer = arrayBufferToBuffer(fileBytesArray);
+
+            try {
+                const lastSlash = to.lastIndexOf('/');
+                const mapDir = to.substr(0, lastSlash);
+                fs.mkdirSync(mapDir,  { recursive: true });
+                fs.writeFile(to, buffer, (err: any) => {
+                    if (err) {
+                        logger.error(err);
+                    }
+                });
+            } catch (e) {
+                logger.info(`normal download threw exception: ${e}`)
+                const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
+                fs.writeFile(temPath, buffer, () =>{})
+                logger.info(`try as sudo now from: ${temPath} to: ${to}`)
+                this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to })
+            }
+
+            return true;
+        } catch (e) {
+            logger.error(e);
+            return false;
+        }
     }
 
     get w3PathIsValid() {
@@ -146,8 +205,6 @@ export abstract class LauncherStrategy {
 
     private downloadMaps() {
       return this.downloadAndWriteFile("maps", this.mapsPath, this.updateDownloadProgress);
-        // const mapFile = "W3Champions/Custom/TavernBrawl/Dalaran_Garden_1.7_TB.w3x";
-        // return this.downloadMap(mapFile, `${this.mapsPath}/${mapFile}`, this.updateDownloadProgress);
     }
 
     private updateDownloadProgress(progress: number) {
@@ -182,35 +239,6 @@ export abstract class LauncherStrategy {
                 logger.info(`normal download threw exception: ${e}`)
                 const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
                 zip.extractAllTo(temPath, true);
-                logger.info(`try as sudo now from: ${temPath} to: ${to}`)
-                this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to })
-            }
-
-            return "";
-        } catch (e) {
-            logger.error(e);
-        }
-    }
-
-    private async downloadMap(fileName: string, to: string, onProgress?: (percentage: number) => void) {
-        logger.info(`Download ${fileName} to: ${to}`)
-        const url = `${this.updateUrl}api/maps/download?mapPath=${fileName}`;
-
-        try {
-            const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);
-            const buffer = arrayBufferToBuffer(fileBytesArray);
-
-            try {
-                const lastSlash = to.lastIndexOf('/');
-                const mapDir = to.substr(0, lastSlash);
-                fs.mkdirSync(mapDir,  { recursive: true });
-                fs.writeFile(to, buffer, (err: any) =>{
-                    logger.error(err);
-                });
-            } catch (e) {
-                logger.info(`normal download threw exception: ${e}`)
-                const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
-                fs.writeFile(temPath, buffer, () =>{})
                 logger.info(`try as sudo now from: ${temPath} to: ${to}`)
                 this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to })
             }

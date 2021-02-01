@@ -21,3 +21,7 @@ export interface IPlayerInstance extends WebSocket {
     sendMessage: (message: ILauncherGameMessage) => void;
     isDisconnected(): boolean;
 }
+
+export interface IDownloadMapData {
+    mapFile: string;
+}

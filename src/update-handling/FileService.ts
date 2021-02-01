@@ -1,7 +1,7 @@
 import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import logger from "@/logger";
-import {Grid, RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import { Grid, RaceHotKey } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 const os = window.require("os");
 const fse = window.require("fs-extra");

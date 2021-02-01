@@ -25,6 +25,11 @@ export enum ELauncherMessageType {
 
     FLO_CREATE_TEST_GAME = 'FLO_CREATE_TEST_GAME',
     FLO_KILL_TEST_GAME = 'FLO_KILL_TEST_GAME',
+
+    MAP_DOWNLOAD = 'MAP_DOWNLOAD',
+    MAP_DOWNLOAD_PROGRESS = 'MAP_DOWNLOAD_PROGRESS',
+    MAP_DOWNLOAD_COMPLETE = 'MAP_DOWNLOAD_COMPLETE',
+    MAP_DOWNLOAD_FAILED = 'MAP_DOWNLOAD_FAILED'
 }
 
 export interface ILauncherGameMessage {
@@ -120,6 +125,31 @@ export class IngameBridge extends EventEmitter {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.FLO_PING_UPDATE,
             data: nodePings
+        };
+
+        playerInstance.sendMessage(message);
+    }
+
+    public sendMapDownloadProgress(playerInstance: IPlayerInstance, percent: number) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.MAP_DOWNLOAD_PROGRESS,
+            data: { percent }
+        };
+
+        playerInstance.sendMessage(message);
+    }
+
+    public sendMapDownloadComplete(playerInstance: IPlayerInstance) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.MAP_DOWNLOAD_COMPLETE,
+        };
+
+        playerInstance.sendMessage(message);
+    }
+
+    public sendMapDownloadFailed(playerInstance: IPlayerInstance) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.MAP_DOWNLOAD_FAILED,
         };
 
         playerInstance.sendMessage(message);
