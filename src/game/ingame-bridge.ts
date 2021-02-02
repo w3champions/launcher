@@ -6,6 +6,7 @@ const http = window.require("http");
 const WebSocket = window.require("ws");
 import { EventEmitter } from 'events';
 import {EGateway, ICurrentPlayer, IDownloadMapData, IDownloadMapProgressData, IPlayerInstance} from './game.types';
+import { GameUtils } from './game-utils';
 
 export enum ELauncherMessageType {
     REQUEST_AUTHENTICATION_TOKEN = 'REQUEST_AUTHENTICATION_TOKEN',
@@ -46,8 +47,8 @@ export class IngameBridge extends EventEmitter {
     private wss = new WebSocket.Server({ server: this.server });
 
     public initialize() {
-        this.wss.on("connection", (ws: WebSocket) => {
-            const pi = this.createPlayerInstance(ws);
+        this.wss.on("connection", (ws: WebSocket, req: any) => {
+            const pi = this.createPlayerInstance(ws, req.url);
             pi.onmessage = (message: MessageEvent) => {
                 logger.info(message);
 
@@ -161,16 +162,8 @@ export class IngameBridge extends EventEmitter {
         playerInstance.sendMessage(message);
     }
 
-    private createPlayerInstance(ws: WebSocket) {
-        //tbd get this from token/identity
-        const player = {
-            battleTag: "modmoto#2809",
-            toonName: "modmoto#2809",
-            gateway: EGateway.Europe,
-            gatewayPing: 30,
-            token: "test",
-            country: "DE",
-        } as ICurrentPlayer;
+    private createPlayerInstance(ws: WebSocket, urlParams: string) {
+        const player = GameUtils.getPlayerFromUrl(urlParams)
 
         const pi = ws as IPlayerInstance;
 
