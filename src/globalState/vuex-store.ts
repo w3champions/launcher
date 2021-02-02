@@ -14,6 +14,7 @@ import {
   IDENTIFICATION_URL_TEST,
   NEWS_URL_PROD,
   NEWS_URL_TEST,
+  OAUTH_ENABLED,
   UPDATE_URL_PROD,
   UPDATE_URL_TEST
 } from "@/constants";
@@ -126,7 +127,7 @@ const mod = {
 
       commit.LOGOUT();
       await rootGetters.authService.deleteAuthToken();
-      if (requestRelogin) {
+      if (requestRelogin && OAUTH_ENABLED) {
         ipcRenderer.send('oauth-requested', state.selectedLoginGateway);
       }
     },

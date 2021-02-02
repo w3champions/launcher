@@ -28,6 +28,7 @@ import HeadLine from "@/home/HeadLine.vue";
 import logger from "@/logger";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 import store from "@/globalState/vuex-store";
+import {OAUTH_ENABLED} from "@/constants";
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
 const { remote } = window.require("electron");
 const { ipcRenderer } = window.require('electron')
@@ -82,6 +83,7 @@ export default class App extends Vue {
   }
 
   get isLoggedIn() {
+    if (!OAUTH_ENABLED) return true;
     return this.$store.direct.state.w3cToken
   }
 

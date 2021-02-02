@@ -44,7 +44,7 @@
         <div>
           Launcher Version: {{ currentLauncherVersion }}
         </div>
-        <div>
+        <div v-if="currentUser">
           <span>{{ currentUser }}</span>
           <span style="cursor: pointer;" @click="resetAuthentication"> (Logout)</span>
         </div>
@@ -58,6 +58,7 @@ import {Component, Vue} from "vue-property-decorator";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 import ColorPicker from "@/color-picker/ColorPicker.vue";
 import store from "@/globalState/vuex-store";
+import {OAUTH_ENABLED} from "@/constants";
 
 @Component({
   components: {ColorPicker, LoadingSpinner}
@@ -90,9 +91,11 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   public async resetAuthentication() {
-    this.$store.direct.dispatch.setLoginGateway('');
-    await this.$router.push("/");
-    await this.$store.direct.dispatch.resetAuthentication(false);
+    if (OAUTH_ENABLED) {
+      this.$store.direct.dispatch.setLoginGateway('');
+      await this.$router.push("/");
+      await this.$store.direct.dispatch.resetAuthentication(false);
+    }
   }
 
   public switchEnemyColor(newColor: string) {

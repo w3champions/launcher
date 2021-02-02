@@ -1,0 +1,4951 @@
+/*This is hacky AF, but I did not get the dynamic styling to work with webpack and all that electron fuck....*/
+
+.btnabomination-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnabomination.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnabsorbmagic-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnabsorbmagic.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnacidbomb-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnacidbomb.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnacolyte-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnacolyte.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedcreatureattack-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedcreatureattack.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedcreaturecarapace-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedcreaturecarapace.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvanceddeathtower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvanceddeathtower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedenergytower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedenergytower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedflametower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedflametower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedfrosttower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedfrosttower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedmoonarmor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedmoonarmor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedreinforcedhides-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedreinforcedhides.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedrocktower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedrocktower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedspikedbarricades-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedspikedbarricades.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedstrengthofthemoon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedstrengthofthemoon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedstrengthofthewild-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedstrengthofthewild.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedunholyarmor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedunholyarmor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvancedunholystrength-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvancedunholystrength.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnadvstruct-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnadvstruct.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnairattackoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnairattackoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnairattackon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnairattackon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnakama-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnakama.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnalleriaflute-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnalleriaflute.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnaltarofdarkness-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnaltarofdarkness.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnaltarofdepths-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnaltarofdepths.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnaltarofelders-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnaltarofelders.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnaltarofkings-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnaltarofkings.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnaltarofstorms-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnaltarofstorms.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnambush-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnambush.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnambushday-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnambushday.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnammodump-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnammodump.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnancestralspirit-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnancestralspirit.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnancientoflore-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnancientoflore.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnancientoftheearth-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnancientoftheearth.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnancientofthemoon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnancientofthemoon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnancientofwonders-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnancientofwonders.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnanimalwartraining-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnanimalwartraining.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnanimatedead-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnanimatedead.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnankh-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnankh.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnantimagicshell-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnantimagicshell.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarachnathid-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarachnathid.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarachnathidgreen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarachnathidgreen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarachnathidpurple-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarachnathidpurple.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarcanesanctum-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarcanesanctum.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarcanevault-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarcanevault.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarcanitearchitecture-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarcanitearchitecture.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarcanitearmor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarcanitearmor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarcanitemelee-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarcanitemelee.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarcaniteranged-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarcaniteranged.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarcher-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarcher.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarchimonde-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarchimonde.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarmoredogre-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarmoredogre.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarmorgolem-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarmorgolem.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnarthas-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnarthas.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnassassin-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnassassin.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnattack-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnattack.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnattackground-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnattackground.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnauraofdarkness-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnauraofdarkness.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnavatar-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnavatar.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnavataroff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnavataroff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnavengingassassin-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnavengingassassin.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnavengingwatcher-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnavengingwatcher.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnavengingwatcheroff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnavengingwatcheroff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnazuredragon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnazuredragon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbacktowork-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbacktowork.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnballista-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnballista.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbandit-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbandit.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbanditlord-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbanditlord.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbanditmage-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbanditmage.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbanditspearthrower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbanditspearthrower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbanish-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbanish.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbanshee-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbanshee.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbansheeadept-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbansheeadept.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbansheemaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbansheemaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbansheeranger-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbansheeranger.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbarracks-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbarracks.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbarrel-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbarrel.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbash-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbash.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbasicstruct-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbasicstruct.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbattleroar-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbattleroar.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbattlestations-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbattlestations.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbearblink-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbearblink.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbearden-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbearden.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbearform-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbearform.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbeastiary-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbeastiary.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbeastmaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbeastmaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbelt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbelt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnberserk-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnberserk.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnberserkfortrolls-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnberserkfortrolls.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbigbadvoodoospell-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbigbadvoodoospell.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnblackcitadel-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnblackcitadel.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnblackdragon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnblackdragon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnblackdragonroost-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnblackdragonroost.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnblackmammoth-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnblackmammoth.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnblackmarket-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnblackmarket.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnblacksmith-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnblacksmith.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnblink-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnblink.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnblizzard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnblizzard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbloodelfpeasant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbloodelfpeasant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbloodlust-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbloodlust.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbloodlustoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbloodlustoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbloodmage2-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbloodmage2.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbluedemoness-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbluedemoness.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbluedragonroost-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbluedragonroost.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbluedragonspawn-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbluedragonspawn.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbluemagnataur-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbluemagnataur.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbonechimes-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbonechimes.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnboneyard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnboneyard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbookofthedead-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbookofthedead.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnboots-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnboots.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbootsofspeed-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbootsofspeed.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbreathoffire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbreathoffire.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbreathoffrost-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbreathoffrost.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbrilliance-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbrilliance.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbronzedragon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbronzedragon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnbundleoflumber-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnbundleoflumber.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncalltoarms-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncalltoarms.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncancel-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncancel.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncannibalize-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncannibalize.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncannontower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncannontower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncarrionscarabslv3-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncarrionscarabs.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncarrionscarabsoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncarrionscarabsoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncarrionswarm-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncarrionswarm.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncastle-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncastle.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncatapult-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncatapult.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncentaur-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncentaur.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncentaurarcher-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncentaurarcher.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncentaurkhan-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncentaurkhan.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchainlightning-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchainlightning.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchaosblademaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchaosblademaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchaosgrom-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchaosgrom.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchaosgrunt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchaosgrunt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchaoskodobeast-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchaoskodobeast.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchaospeon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchaospeon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchaoswarlock-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchaoswarlock.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchaoswarlockgreen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchaoswarlockgreen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchaoswarlord-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchaoswarlord.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchaoswolfrider-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchaoswolfrider.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncharm-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncharm.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchemicalrage-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchemicalrage.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchestofgold-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchestofgold.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchimaera-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchimaera.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchimaeraroost-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchimaeraroost.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnchime-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnchime.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncirclet-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncirclet.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnclawsofattack-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnclawsofattack.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnclayfigurine-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnclayfigurine.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncleavingattack-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncleavingattack.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncloak-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncloak.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncloakofflames-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncloakofflames.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnclockwerkgoblin-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnclockwerkgoblin.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncloudoffog-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncloudoffog.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnclusterrockets-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnclusterrockets.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncoldarrows-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncoldarrows.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncoldarrowsoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncoldarrowsoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncoldtower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncoldtower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncommand-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncommand.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncontrolmagic-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncontrolmagic.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncoralbed-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncoralbed.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncorpseexplode-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncorpseexplode.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncorrosivebreath-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncorrosivebreath.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncorruptedancientofwar-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncorruptedancientofwar.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncorruptedancientprotector-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncorruptedancientprotector.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncorruptedent-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncorruptedent.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncorruptedmoonwell-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncorruptedmoonwell.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncorruptedtreeoflife-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncorruptedtreeoflife.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncreatureattack-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncreatureattack.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncreaturecarapace-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncreaturecarapace.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncripple-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncripple.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncriticalstrike-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncriticalstrike.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncrushingwave-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncrushingwave.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncrypt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncrypt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncryptfiend-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncryptfiend.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncryptfiendburrow-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncryptfiendburrow.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncryptfiendunburrow-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncryptfiendunburrow.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncrystalball-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncrystalball.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncurse-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncurse.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncurseoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncurseoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btncyclone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btncyclone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndaggerofescape-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndaggerofescape.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndalaranguardtower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndalaranguardtower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndalaranmutant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndalaranmutant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndalaranreject-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndalaranreject.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndarkritual-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndarkritual.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndarksummoning-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndarksummoning.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndarktroll-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndarktroll.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndarktrollshadowpriest-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndarktrollshadowpriest.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndarktrolltrapper-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndarktrolltrapper.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndeathanddecay-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndeathanddecay.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndeathcoil-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndeathcoil.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndeathpact-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndeathpact.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndeathtower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndeathtower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndeeplordrevenant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndeeplordrevenant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndefend-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndefend.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndefendstop-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndefendstop.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndemolish-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndemolish.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndemolisher-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndemolisher.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndemoness-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndemoness.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndenofwonders-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndenofwonders.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndestroyer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndestroyer.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndevotion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndevotion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndevour-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndevour.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndevourmagic-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndevourmagic.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndirewolf-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndirewolf.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndisenchant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndisenchant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndispelmagic-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndispelmagic.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndivineintervention-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndivineintervention.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndivineshieldoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndivineshieldoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndizzy-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndizzy.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndocadepttraining-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndocadepttraining.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndocmastertraining-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndocmastertraining.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndoom-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndoom.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndoomguard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndoomguard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndotadepttraining-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndotadepttraining.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndotmastertraining-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndotmastertraining.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndragonhawkrider-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndragonhawk.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndragonroost-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndragonroost.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndrain-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndrain.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndranai-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndranai.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndranaiakama-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndranaiakama.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndranaichiefhut-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndranaichiefhut.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndranaihut-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndranaihut.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndranaimage-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndranaimage.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndruidoftheclaw-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndruidoftheclaw.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndruidofthetalon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndruidofthetalon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndrum-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndrum.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndrunkendodge-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndrunkendodge.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndryad-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndryad.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndryaddispelmagic-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndryaddispelmagic.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndryaddispelmagicoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndryaddispelmagicoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndustofappearance-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndustofappearance.png') no-repeat center;
+    background-size: cover;
+}
+
+.btndwarvenlongrifle-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btndwarvenlongrifle.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnearthbrewmaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnearthbrewmaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnearthquake-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnearthquake.png') no-repeat center;
+    background-size: cover;
+}
+
+.btneattree-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btneattree.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnelfvillager-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnelfvillager.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnelunesblessing-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnelunesblessing.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnelvenfarm-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnelvenfarm.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnelvenguardtower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnelvenguardtower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnenchantedbears-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnenchantedbears.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnenchantedcrows-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnenchantedcrows.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnenergytower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnenergytower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnengineeringupgrade-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnengineeringupgrade.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnensnare-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnensnare.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnent-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnent.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnentanglemine-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnentanglemine.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnentanglingroots-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnentanglingroots.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnenvenomedspear-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnenvenomedspear.png') no-repeat center;
+    background-size: cover;
+}
+
+.btneredarred-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btneredarred.png') no-repeat center;
+    background-size: cover;
+}
+
+.btneredarwarlockpurple-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btneredarwarlockpurple.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnetherealformon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnetherealformon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnevasion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnevasion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnevilillidan-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnevilillidan.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnexhumecorpses-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnexhumecorpses.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfacelessone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfacelessone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfaeriedragon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfaeriedragon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfaeriefire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfaeriefire.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfaeriefireoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfaeriefireoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfanofknives-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfanofknives.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfarm-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfarm.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfarsight-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfarsight.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfeedback-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfeedback.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfelboar-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfelboar.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfelguard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfelguard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfelguardblue-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfelguardblue.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfelhound-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfelhound.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfire.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfirebolt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfirebolt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfirebrewmaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfirebrewmaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfirerocks-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfirerocks.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnflakcannons-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnflakcannons.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnflametower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnflametower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnflamingarrows-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnflamingarrows.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnflare-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnflare.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfleshgolem-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfleshgolem.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnflyingmachine-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnflyingmachine.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfootman-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfootman.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnforesttroll-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnforesttroll.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnforesttrollshadowpriest-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnforesttrollshadowpriest.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnforesttrolltrapper-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnforesttrolltrapper.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnforge-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnforge.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfortress-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfortress.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfragmentationbombs-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfragmentationbombs.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfreezingbreath-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfreezingbreath.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfrost-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfrost.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfrostarmor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfrostarmor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfrostarmoroff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfrostarmoroff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfrostbear-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfrostbear.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfrostbolt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfrostbolt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfrosttower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfrosttower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfrostwyrm-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfrostwyrm.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfurbolg-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfurbolg.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfurbolgelder-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfurbolgelder.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfurbolgpanda-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfurbolgpanda.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfurbolgshaman-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfurbolgshaman.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfurbolgtracker-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfurbolgtracker.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnfurion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnfurion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngargoyle-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngargoyle.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngarithos-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngarithos.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngathergold-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngathergold.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngauntletsofogrepower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngauntletsofogrepower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngem-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngem.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngenericspellimmunity-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngenericspellimmunity.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnghost-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnghost.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnghoul-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnghoul.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnghoulfrenzy-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnghoulfrenzy.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnglacier-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnglacier.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnglaivethrower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnglaivethrower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnglove-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnglove.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngnoll-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngnoll.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngnollarcher-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngnollarcher.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngnollcommandaura-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngnollcommandaura.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngnollking-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngnollking.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngnollwarden-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngnollwarden.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngoblinsapper-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngoblinsapper.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngoblinshipyard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngoblinshipyard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngoblinzeppelin-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngoblinzeppelin.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngoldmine-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngoldmine.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngolemstormbolt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngolemstormbolt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngolemthunderclap-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngolemthunderclap.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngrabtree-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngrabtree.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngraveyard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngraveyard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngreaterinvisibility-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngreaterinvisibility.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngreaterinvulneralbility-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngreaterinvulneralbility.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngreaterrejuvpotion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngreaterrejuvpotion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngreaterrejuvscroll-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngreaterrejuvscroll.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngreathall-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngreathall.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngreendragon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngreendragon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngreendragonroost-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngreendragonroost.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngreendragonspawn-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngreendragonspawn.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngreenhydra-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngreenhydra.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngrimward-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngrimward.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiritbear-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiritbear.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngrunt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngrunt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngryphonaviary-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngryphonaviary.png') no-repeat center;
+    background-size: cover;
+}
+
+.btngryphonrider-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btngryphonrider.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnguardtower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnguardtower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnguldan-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnguldan.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnguldanskull-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnguldanskull.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhallofthedead-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhallofthedead.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhammer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhammer.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhardenedskin-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhardenedskin.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnharpy-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnharpy.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnharpyqueen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnharpyqueen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnharpywitch-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnharpywitch.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhauntedmine-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhauntedmine.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheadhunter-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheadhunter.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheadhunterberserker-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheadhunterberserker.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheal-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheal.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhealingsalve-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhealingsalve.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhealingspray-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhealingspray.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhealingward-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhealingward.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhealingwave-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhealingwave.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhealoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhealoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhealthstone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhealthstone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheartofaszune-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheartofaszune.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheartofsearinox-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheartofsearinox.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhellscream-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhellscream.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhelmofvalor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhelmofvalor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhelmutpurple-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhelmutpurple.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheroalchemist-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheroalchemist.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheroarchmage-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheroarchmage.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheroavatarofflame-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheroavatarofflame.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheroblademaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheroblademaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnherobloodelfprince-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnherobloodelfprince.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnherocryptlord-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnherocryptlord.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnherodeathknight-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnherodeathknight.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnherodemonhunter-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnherodemonhunter.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnherodreadlord-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnherodreadlord.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnherofarseer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnherofarseer.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnherolich-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnherolich.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheromountainking-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheromountainking.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnheropaladin-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnheropaladin.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnherotaurenchieftain-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnherotaurenchieftain.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnherotinker-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnherotinker.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnherowarden-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnherowarden.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhex-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhex.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhighelvenarcher-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhighelvenarcher.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhippogriff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhippogriff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhippogriffrider-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhippogriffrider.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnholdposition-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnholdposition.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnholybolt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnholybolt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnholywater-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnholywater.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhoodofcunning-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhoodofcunning.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhornofcenarius-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhornofcenarius.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhornofdoom-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhornofdoom.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhornoffog-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhornoffog.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhowlofterror-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhowlofterror.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanarcanetower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanarcanetower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanarmorupone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanarmorupone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanarmorupthree-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanarmorupthree.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanarmoruptwo-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanarmoruptwo.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanartilleryupone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanartilleryupone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanbarracks-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanbarracks.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanbattleship-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanbattleship.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanbuild-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanbuild.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumandestroyer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumandestroyer.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanlumbermill-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanlumbermill.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanlumberupgrade1-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanlumberupgrade1.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanlumberupgrade2-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanlumberupgrade2.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanmissileupone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanmissileupone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanmissileupthree-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanmissileupthree.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanmissileuptwo-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanmissileuptwo.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanshipyard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanshipyard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumantransport-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumantransport.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhumanwatchtower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhumanwatchtower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhuntershall-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhuntershall.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhuntress-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhuntress.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhydra-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhydra.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhydralisk-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhydralisk.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnhydrawarstomp-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnhydrawarstomp.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnicetroll-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnicetroll.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnicetrollberserker-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnicetrollberserker.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnicetrollshadowpriest-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnicetrollshadowpriest.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnicetrollshaman-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnicetrollshaman.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimbuedmasonry-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimbuedmasonry.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimmolationoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimmolationoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimmolationon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimmolationon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimpale-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimpale.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimpalingbolt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimpalingbolt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimprovedbows-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimprovedbows.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimprovedcreatureattack-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimprovedcreatureattack.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimprovedcreaturecarapace-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimprovedcreaturecarapace.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimprovedmoonarmor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimprovedmoonarmor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimprovedreinforcedhides-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimprovedreinforcedhides.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimprovedspikedbarricades-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimprovedspikedbarricades.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimprovedstrengthofthemoon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimprovedstrengthofthemoon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimprovedstrengthofthewild-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimprovedstrengthofthewild.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimprovedunholyarmor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimprovedunholyarmor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnimprovedunholystrength-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnimprovedunholystrength.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnincinerate-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnincinerate.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnincinerateoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnincinerateoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btninfernal-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btninfernal.png') no-repeat center;
+    background-size: cover;
+}
+
+.btninfernalcannon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btninfernalcannon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btninfernalflamecannon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btninfernalflamecannon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btninfernalstone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btninfernalstone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btninnerfire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btninnerfire.png') no-repeat center;
+    background-size: cover;
+}
+
+.btninnerfireoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btninnerfireoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btninvisibility-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btninvisibility.png') no-repeat center;
+    background-size: cover;
+}
+
+.btninvulnerable-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btninvulnerable.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnjaina-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnjaina.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnjanggo-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnjanggo.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnjuggernaut-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnjuggernaut.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnjunglebeast-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnjunglebeast.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnjunkgolem-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnjunkgolem.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnkeep-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnkeep.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnkeeperofthegrove-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnkeeperofthegrove.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnkelthuzad-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnkelthuzad.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnknight-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnknight.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnkobold-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnkobold.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnkoboldgeomancer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnkoboldgeomancer.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnkodobeast-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnkodobeast.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlavaspawn-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlavaspawn.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnleatherupgradeone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnleatherupgradeone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnleatherupgradethree-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnleatherupgradethree.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnleatherupgradetwo-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnleatherupgradetwo.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlesserclaritypotion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlesserclaritypotion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlesserinvisibility-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlesserinvisibility.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlesserinvulneralbility-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlesserinvulneralbility.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlesserrejuvpotion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlesserrejuvpotion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlesserrejuvscroll-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlesserrejuvscroll.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlichversion2-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlichversion2.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlifedrain-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlifedrain.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlightningshield-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlightningshield.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlionhorn-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlionhorn.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnliquidfire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnliquidfire.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnload-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnload.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnloaddwarf-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnloaddwarf.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnloadpeon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnloadpeon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlobstrokkblue-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlobstrokkblue.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlobstrokkgreen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlobstrokkgreen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlobstrokkred-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlobstrokkred.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnlocustswarm-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnlocustswarm.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmagetower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmagetower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmagicalsentry-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmagicalsentry.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmagicimmunity-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmagicimmunity.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmagiclariet-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmagiclariet.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmagnataur-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmagnataur.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmagnataurbrown-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmagnataurbrown.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmammoth-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmammoth.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanaburn-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanaburn.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanadrain-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanadrain.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanaflare-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanaflare.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanaflareoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanaflareoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanarecharge-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanarecharge.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanarechargeoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanarechargeoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanashield-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanashield.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanastone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanastone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmannoroth-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmannoroth.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmantleofintelligence-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmantleofintelligence.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanual-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanual.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanual2-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanual2.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmanual3-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmanual3.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmarketplace-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmarketplace.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmarkoffire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmarkoffire.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmarksmanship-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmarksmanship.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmaskofdeath-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmaskofdeath.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmassteleport-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmassteleport.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmeatapult-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmeatapult.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmeatwagon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmeatwagon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmechanicalcritter-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmechanicalcritter.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmedalionofcourage-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmedalionofcourage.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmedivh-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmedivh.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmercenarycamp-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmercenarycamp.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmerchant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmerchant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmetamorphosis-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmetamorphosis.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmilitia-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmilitia.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnminorrejuvpotion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnminorrejuvpotion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmirrorimage-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmirrorimage.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmonsoon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmonsoon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmonsterlure-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmonsterlure.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmoonarmor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmoonarmor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmoonstone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmoonstone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmoonwell-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmoonwell.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmortarteam-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmortarteam.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmountaingiant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmountaingiant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmove-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmove.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmurgalslave-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmurgalslave.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmurgulbloodgill-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmurgulbloodgill.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmurgulshadowcaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmurgulshadowcaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmurgultidewarrior-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmurgultidewarrior.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmurloc-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmurloc.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmurlocflesheater-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmurlocflesheater.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmurlocmutant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmurlocmutant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmurlocnightcrawler-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmurlocnightcrawler.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagaarmorup1-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagaarmorup1.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagaarmorup2-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagaarmorup2.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagaarmorup3-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagaarmorup3.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagaburrow-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagaburrow.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagamyrmidon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagamyrmidon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagamyrmidonroyalguard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagamyrmidonroyalguard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagaseawitch-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagaseawitch.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagasummoner-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagasummoner.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagaunburrow-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagaunburrow.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagaweaponup1-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagaweaponup1.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagaweaponup2-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagaweaponup2.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnagaweaponup3-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnagaweaponup3.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnaturesblessing-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnaturesblessing.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnaturetouchgrow-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnaturetouchgrow.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnecklace-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnecklace.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnecromancer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnecromancer.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnecromanceradept-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnecromanceradept.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnecromancermaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnecromancermaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnecropolis-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnecropolis.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnerubian-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnerubian.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnerubianqueen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnerubianqueen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnerubianspiderlord-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnerubianspiderlord.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnerubianziggurat-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnerubianziggurat.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnetherdragon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnetherdragon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnneutralmanashield-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnneutralmanashield.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnneutralmanashieldoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnneutralmanashieldoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnightelfbattlecruiser-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnightelfbattlecruiser.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnightelfbuild-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnightelfbuild.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnightelfdestroyer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnightelfdestroyer.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnightelfrunner-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnightelfrunner.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnightelfshipyard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnightelfshipyard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnnightelftransport-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnnightelftransport.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnobsidianstatue-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnobsidianstatue.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnogre-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnogre.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnogrelord-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnogrelord.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnogremagi-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnogremagi.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnoneheadedogre-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnoneheadedogre.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorbofcorruption-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorbofcorruption.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorbofdarkness-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorbofdarkness.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorbofdeath-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorbofdeath.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorbofdeathoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorbofdeathoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorboffire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorboffire.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorboffrost-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorboffrost.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorboflightning-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorboflightning.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorbofslowness-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorbofslowness.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorbofvenom-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorbofvenom.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorcdestroyer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorcdestroyer.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorclumberupgradetwo-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorclumberupgradetwo.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorcmeleeupone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorcmeleeupone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorcmeleeupthree-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorcmeleeupthree.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorcmeleeuptwo-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorcmeleeuptwo.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorcrallypoint-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorcrallypoint.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorctower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorctower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorctransport-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorctransport.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorcwarlock-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorcwarlock.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnorcwarlockred-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnorcwarlockred.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnowlbear-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnowlbear.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpackbeast-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpackbeast.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpandarenbrewmaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpandarenbrewmaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpandataunt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpandataunt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnparasite-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnparasite.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnparasiteoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnparasiteoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpatrol-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpatrol.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpeasant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpeasant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpendantofenergy-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpendantofenergy.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpendantofmana-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpendantofmana.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpeon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpeon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnperiapt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnperiapt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnperiapt1-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnperiapt1.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnphaseshift-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnphaseshift.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnphaseshiftoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnphaseshiftoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpigfarm-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpigfarm.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpillage-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpillage.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpipeofinsight-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpipeofinsight.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpitlord-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpitlord.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnplaguecloud-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnplaguecloud.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpocketfactory-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpocketfactory.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpoisonarrow-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpoisonarrow.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpoisonsting-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpoisonsting.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpolarfurbolg-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpolarfurbolg.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpolarfurbolgelder-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpolarfurbolgelder.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpolarfurbolgshaman-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpolarfurbolgshaman.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpolarfurbolgtracker-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpolarfurbolgtracker.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpolymorph-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpolymorph.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpossession-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpossession.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotionblue-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotionblue.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotionbluebig-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotionbluebig.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotionbluesmall-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotionbluesmall.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotiongreen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotiongreen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotiongreensmall-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotiongreensmall.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotionofclarity-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotionofclarity.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotionofdivinity-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotionofdivinity.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotionofomniscience-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotionofomniscience.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotionofrestoration-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotionofrestoration.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotionofvampirism-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotionofvampirism.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotionpurple-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotionpurple.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpotionred-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpotionred.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpriest-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpriest.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpriestadept-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpriestadept.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpriestessofthemoon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpriestessofthemoon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpriestmaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpriestmaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnproudmoore-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnproudmoore.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpurge-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpurge.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpurpledragonspawn-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpurpledragonspawn.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnpurplefelhound-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnpurplefelhound.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnquillbeastlv2-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnquillbeastlv2.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnquillspray-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnquillspray.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnquillsprayoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnquillsprayoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnraider-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnraider.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnraisedead-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnraisedead.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnraisedeadoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnraisedeadoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrallypoint-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrallypoint.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrallypointnightelf-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrallypointnightelf.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrallypointundead-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrallypointundead.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnravenform-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnravenform.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrazorback-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrazorback.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrazormanechief-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrazormanechief.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnreddragon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnreddragon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnreddragondevour-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnreddragondevour.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnregenerate-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnregenerate.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnregeneration-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnregeneration.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnregenerationaura-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnregenerationaura.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnreincarnation-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnreincarnation.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnreinforcedburrows-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnreinforcedburrows.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnreinforcedhides-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnreinforcedhides.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrejuvenation-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrejuvenation.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrejuvenationpotion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrejuvenationpotion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrejuvpotion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrejuvpotion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrepair-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrepair.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrepairoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrepairoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnreplenishhealth-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnreplenishhealth.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnreplenishhealthoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnreplenishhealthoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnreplenishmana-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnreplenishmana.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnreplenishmanaoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnreplenishmanaoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnresistantskin-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnresistantskin.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnresurrection-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnresurrection.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnreveal-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnreveal.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrevenant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrevenant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnriderlesshorse-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnriderlesshorse.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnriderlesskodo-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnriderlesskodo.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrifleman-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrifleman.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnringgreen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnringgreen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnringjadefalcon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnringjadefalcon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnringlionhead-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnringlionhead.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnringpurple-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnringpurple.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnringskull-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnringskull.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnringvioletspider-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnringvioletspider.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrobeofthemagi-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrobeofthemagi.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrobogoblin-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrobogoblin.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnmudgolem-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnmudgolem.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrocktower-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrocktower.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrodofnecromancy-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrodofnecromancy.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnroot-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnroot.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrune-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrune.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnrunedbracers-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnrunedbracers.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsacrifice-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsacrifice.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsacrificialdagger-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsacrificialdagger.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsacrificialpit-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsacrificialpit.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsacrificialskull-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsacrificialskull.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsasquatch-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsasquatch.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsasquatchshaman-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsasquatchshaman.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsatyr-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsatyr.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsatyrtrickster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsatyrtrickster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscatterrockets-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscatterrockets.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscepterofmastery-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscepterofmastery.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscourgebuild-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscourgebuild.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscout-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscout.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscroll-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscroll.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscrollofhaste-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscrollofhaste.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscrollofhealing-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscrollofhealing.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscrollofprotection-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscrollofprotection.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscrollofregeneration-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscrollofregeneration.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscrollofregenerationgreen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscrollofregenerationgreen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscrolloftownportal-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscrolloftownportal.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnscrolluber-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnscrolluber.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnseaelemental-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnseaelemental.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnseagiant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnseagiant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnseagiantgreen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnseagiantgreen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnseagiantpulverize-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnseagiantpulverize.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnseagiantwarstomp-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnseagiantwarstomp.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsearingarrows-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsearingarrows.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsearingarrowsoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsearingarrowsoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnseaturtlegreen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnseaturtlegreen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnseaturtlered-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnseaturtlered.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnseawitch-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnseawitch.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnseigeengine-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnseigeengine.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnseigeenginewithmissles-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnseigeenginewithmissles.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnselectunit-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnselectunit.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnselfdestruct-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnselfdestruct.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnselfdestructoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnselfdestructoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsentinel-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsentinel.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsentryward-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsentryward.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnserpentward-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnserpentward.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshade-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshade.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshadowhunter-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshadowhunter.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshadowmeld-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshadowmeld.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshadowpact-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshadowpact.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshadowstrike-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshadowstrike.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshaman-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshaman.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshamanadept-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshamanadept.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshamanmaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshamanmaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshandris-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshandris.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsheep-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsheep.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshockwave-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshockwave.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnshrineofaszhara-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnshrineofaszhara.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsilence-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsilence.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsirenadept-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsirenadept.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsirenmaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsirenmaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnskeletallongevity-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnskeletallongevity.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnskeletalorc-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnskeletalorc.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnskeletalorcchampion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnskeletalorcchampion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnskeletalorcgrunt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnskeletalorcgrunt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnskeletonarcher-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnskeletonarcher.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnskeletonmage-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnskeletonmage.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnskeletonwarrior-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnskeletonwarrior.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnskillz-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnskillz.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnslaughterhouse-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnslaughterhouse.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsleep-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsleep.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnslow-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnslow.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnslowoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnslowoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnslowpoison-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnslowpoison.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsludgecreature-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsludgecreature.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsmash-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsmash.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsnapdragon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsnapdragon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsnazzypotion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsnazzypotion.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsnazzyscroll-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsnazzyscroll.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsnazzyscrollgreen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsnazzyscrollgreen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsobimask-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsobimask.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsorceress-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsorceress.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsorceressadept-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsorceressadept.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsorceressmaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsorceressmaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsoulburn-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsoulburn.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspawninggrounds-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspawninggrounds.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspellbreaker-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspellbreaker.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspellbreakermagicdefend-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspellbreakermagicdefend.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspellbreakermagicundefend-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspellbreakermagicundefend.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspellshieldamulet-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspellshieldamulet.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspellsteal-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspellsteal.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspellstealoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspellstealoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspider-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspider.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiderblack-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiderblack.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiderblue-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiderblue.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspidercrab-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspidercrab.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspidergreen-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspidergreen.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiderling-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiderling.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspidersilkbroach-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspidersilkbroach.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspikedbarricades-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspikedbarricades.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiritlink-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiritlink.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiritlodge-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiritlodge.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnvengeanceincarnate-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnvengeanceincarnate.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiritofvengeance-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiritofvengeance.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiritwalker-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiritwalker.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiritwalkeradepttraining-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiritwalkeradepttraining.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiritwalkermastertraining-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiritwalkermastertraining.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiritwolf-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiritwolf.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnspiritwyvern-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnspiritwyvern.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstaffofnegation-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstaffofnegation.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstaffofpreservation-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstaffofpreservation.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstaffofpurification-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstaffofpurification.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstaffofsanctuary-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstaffofsanctuary.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstaffofsilence-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstaffofsilence.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstaffofteleportation-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstaffofteleportation.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstampede-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstampede.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstarfall-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstarfall.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstarwand-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstarwand.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstasistrap-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstasistrap.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstatup-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstatup.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsteamtank-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsteamtank.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsteelarmor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsteelarmor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsteelmelee-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsteelmelee.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsteelranged-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsteelranged.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstonearchitecture-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstonearchitecture.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstoneform-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstoneform.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstop-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstop.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstormbolt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstormbolt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstormbrewmaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstormbrewmaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstormearthfire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstormearthfire.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstormhammer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstormhammer.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstrengthofthemoon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstrengthofthemoon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstrengthofthewild-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstrengthofthewild.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstrongdrink-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstrongdrink.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstronghold-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstronghold.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnstun-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnstun.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsummonwaterelemental-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsummonwaterelemental.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsunderingblades-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsunderingblades.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnsylvanuswindrunner-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnsylvanuswindrunner.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntalisman-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntalisman.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntamehippogriff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntamehippogriff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntaunt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntaunt.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntauren-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntauren.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntaurentotem-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntaurentotem.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntavern-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntavern.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntelescope-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntelescope.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntempleofthedamned-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntempleofthedamned.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntempleoftides-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntempleoftides.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntheblackarrow-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntheblackarrow.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntheblackarrowoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntheblackarrowoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthecaptain-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthecaptain.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthickfur-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthickfur.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthoriumarmor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthoriumarmor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthoriummelee-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthoriummelee.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthoriumranged-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthoriumranged.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthorns-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthorns.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthornshield-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthornshield.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthornyshieldoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthornyshieldoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthrall-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthrall.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthunderclap-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthunderclap.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthunderlizard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthunderlizard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthunderlizardsalamander-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthunderlizardsalamander.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnthunderlizardvizier-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnthunderlizardvizier.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntichondrius-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntichondrius.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntidalguardian-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntidalguardian.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntimberwolf-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntimberwolf.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntinycastle-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntinycastle.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntombofrelics-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntombofrelics.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntome-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntome.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntomebrown-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntomebrown.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntomeofretraining-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntomeofretraining.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntomered-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntomered.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntornado-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntornado.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntownhall-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntownhall.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntranquility-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntranquility.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntransmute-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntransmute.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntransport-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntransport.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntreant-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntreant.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntreeofages-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntreeofages.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntreeofeternity-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntreeofeternity.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntreeoflife-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntreeoflife.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntrollbatrider-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntrollbatrider.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntrollburrow-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntrollburrow.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntrueshot-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntrueshot.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntuskaarblack-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntuskaarblack.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntuskaarbrown-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntuskaarbrown.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntuskaargold-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntuskaargold.png') no-repeat center;
+    background-size: cover;
+}
+
+.btntuskaarnomad-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btntuskaarnomad.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnultravision-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnultravision.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnunbroken-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnunbroken.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnundeadairbarge-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnundeadairbarge.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnundeadbattleship-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnundeadbattleship.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnundeaddestroyer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnundeaddestroyer.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnundeadload-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnundeadload.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnundeadloadoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnundeadloadoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnundeadshipyard-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnundeadshipyard.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnundeadtransport-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnundeadtransport.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnundeadunload-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnundeadunload.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnunholyarmor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnunholyarmor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnunholyaura-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnunholyaura.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnunholyfrenzy-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnunholyfrenzy.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnunholystrength-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnunholystrength.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnunload-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnunload.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnunloaddwarf-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnunloaddwarf.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnunloadpeon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnunloadpeon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnunstableconcoction-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnunstableconcoction.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnunsummonbuilding-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnunsummonbuilding.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnupgrademoonglaive-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnupgrademoonglaive.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnuproot-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnuproot.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnvampiricaura-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnvampiricaura.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnvoidwalker-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnvoidwalker.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnvolcano-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnvolcano.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnvoodoolounge-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnvoodoolounge.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnvorpalblades-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnvorpalblades.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwalloffire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwalloffire.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwand-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwand.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwandofcyclone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwandofcyclone.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwandofmanasteal-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwandofmanasteal.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwandofneutralization-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwandofneutralization.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwandofshadowsight-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwandofshadowsight.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwandskull-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwandskull.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwarden2-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwarden2.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwareagle-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwareagle.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwarstomp-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwarstomp.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnweb-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnweb.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnweboff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnweboff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwellspring-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwellspring.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwendigo-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwendigo.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwhirlwind-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwhirlwind.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwindserpent-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwindserpent.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwindwalkoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwindwalkoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwindwalkon-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwindwalkon.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwisp-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwisp.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwisphealoff-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwisphealoff.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwispsplode-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwispsplode.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwitchdoctor-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwitchdoctor.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwitchdoctoradept-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwitchdoctoradept.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwitchdoctormaster-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwitchdoctormaster.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnworkshop-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnworkshop.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwyvern-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwyvern.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnwyvernrider-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnwyvernrider.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnzergling-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnzergling.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnziggurat-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnziggurat.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnzigguratupgrade-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnzigguratupgrade.png') no-repeat center;
+    background-size: cover;
+}
+
+.btnzombie-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/btnzombie.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnanimalwartraining-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnanimalwartraining.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnbash-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnbash.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnbattleroar-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnbattleroar.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnberserk-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnberserk.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnbrilliance-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnbrilliance.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtncleavingattack-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtncleavingattack.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtncommand-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtncommand.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtncorrosivebreath-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtncorrosivebreath.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtncriticalstrike-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtncriticalstrike.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtndemolish-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtndemolish.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtndevotion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtndevotion.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtndrum-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtndrum.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtndrunkendodge-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtndrunkendodge.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtndwarvenlongrifle-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtndwarvenlongrifle.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnelunesblessing-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnelunesblessing.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnengineeringupgrade-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnengineeringupgrade.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnenvenomedspear-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnenvenomedspear.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnevasion-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnevasion.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnexhumecorpses-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnexhumecorpses.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnfeedback-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnfeedback.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnfirerocks-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnfirerocks.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnflakcannons-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnflakcannons.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnflyingmachinetruesight-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnflyingmachinetruesight.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnfragmentationbombs-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnfragmentationbombs.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnfreezingbreath-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnfreezingbreath.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnfrost-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnfrost.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtngenericspellimmunity-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtngenericspellimmunity.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnghoulfrenzy-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnghoulfrenzy.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtngnollcommandaura-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtngnollcommandaura.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnhardenedskin-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnhardenedskin.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnheadhunterberserker-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnheadhunterberserker.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnhumanartilleryupone-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnhumanartilleryupone.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnhumanlumberupgrade1-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnhumanlumberupgrade1.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnhumanlumberupgrade2-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnhumanlumberupgrade2.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnimmolation-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnimmolation.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnimpalingbolt-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnimpalingbolt.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnimprovedbows-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnimprovedbows.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnimprovedspikedbarricades-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnimprovedspikedbarricades.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnliquidfire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnliquidfire.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnmagicalsentry-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnmagicalsentry.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnmagicimmunity-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnmagicimmunity.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnmarkoffire-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnmarkoffire.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnmarksmanship-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnmarksmanship.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnpillage-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnpillage.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnplaguecloud-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnplaguecloud.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnpoisonsting-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnpoisonsting.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnregenerate-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnregenerate.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnreincarnation-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnreincarnation.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnreinforcedburrows-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnreinforcedburrows.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnresistantskin-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnresistantskin.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnscatterrockets-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnscatterrockets.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnscout-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnscout.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnseagiantpulverize-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnseagiantpulverize.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnshade-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnshade.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnshadetruesight-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnshadetruesight.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnskeletonmage-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnskeletonmage.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnslowpoison-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnslowpoison.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnsmash-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnsmash.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnspikedbarricades-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnspikedbarricades.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnspiritofvengeance-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnspiritofvengeance.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnstatup-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnstatup.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnstormhammer-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnstormhammer.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnsunderingblades-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnsunderingblades.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnthickfur-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnthickfur.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnthorns-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnthorns.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnthornshield-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnthornshield.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtntrueshot-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtntrueshot.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnunholyaura-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnunholyaura.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnupgrademoonglaive-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnupgrademoonglaive.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnvampiricaura-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnvampiricaura.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnvorpalblades-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnvorpalblades.png') no-repeat center;
+    background-size: cover;
+}
+
+.pasbtnwellspring-classic {
+    background: url('~@/assets/images/hotkeys/icons/classic/pasbtnwellspring.png') no-repeat center;
+    background-size: cover;
+}
