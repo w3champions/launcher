@@ -18,17 +18,17 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
-import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
-import {MacLauncher} from "@/update-handling/MacLauncher";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 const { execSync } = window.require("child_process");
 import VueMarkdown from "vue-markdown";
+import store from "@/globalState/vuex-store";
 
 @Component({
   components: {LoadingSpinner, VueMarkdown}
 })
 export default class HomeScreen extends Vue {
-  private updateStrategy = HomeScreen.isWindows() ? new WindowsLauncher() : new MacLauncher();
+  private updateStrategy = store.getters.fileService.updateStrategy;
+  
   private disablePlayBtn = true;
   public playButton = "";
   public selectedNews = 0;

@@ -5,7 +5,7 @@ import store from "@/globalState/vuex-store";
 const http = window.require("http");
 const WebSocket = window.require("ws");
 import { EventEmitter } from 'events';
-import {EGateway, ICurrentPlayer, IPlayerInstance} from './game.types';
+import {EGateway, ICurrentPlayer, IDownloadMapData, IDownloadMapProgressData, IPlayerInstance} from './game.types';
 
 export enum ELauncherMessageType {
     REQUEST_AUTHENTICATION_TOKEN = 'REQUEST_AUTHENTICATION_TOKEN',
@@ -130,26 +130,32 @@ export class IngameBridge extends EventEmitter {
         playerInstance.sendMessage(message);
     }
 
-    public sendMapDownloadProgress(playerInstance: IPlayerInstance, percent: number) {
+    public sendMapDownloadProgress(playerInstance: IPlayerInstance,  downloadMapData: IDownloadMapData, percent: number) {
+        const data: IDownloadMapProgressData = {
+            mapFile: downloadMapData.mapFile,
+            progressPercent: percent
+        }
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.MAP_DOWNLOAD_PROGRESS,
-            data: { percent }
+            data: data
         };
 
         playerInstance.sendMessage(message);
     }
 
-    public sendMapDownloadComplete(playerInstance: IPlayerInstance) {
+    public sendMapDownloadComplete(playerInstance: IPlayerInstance, downloadMapData: IDownloadMapData) {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.MAP_DOWNLOAD_COMPLETE,
+            data: downloadMapData
         };
 
         playerInstance.sendMessage(message);
     }
 
-    public sendMapDownloadFailed(playerInstance: IPlayerInstance) {
+    public sendMapDownloadFailed(playerInstance: IPlayerInstance, downloadMapData: IDownloadMapData) {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.MAP_DOWNLOAD_FAILED,
+            data: downloadMapData
         };
 
         playerInstance.sendMessage(message);

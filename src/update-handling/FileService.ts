@@ -2,6 +2,8 @@ import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import {MacLauncher} from "@/update-handling/MacLauncher";
 import logger from "@/logger";
 import { Grid, RaceHotKey } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
+import { AppStore } from "@/globalState/vuex-store";
+import { LauncherStrategy } from "./LauncherStrategy";
 
 const os = window.require("os");
 const fse = window.require("fs-extra");
@@ -12,11 +14,19 @@ const Store = window.require("electron-store");
 declare const __static: string;
 
 export class FileService {
-    public updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
+    public updateStrategy = {} as LauncherStrategy;
     private keyValueStore = new Store();
+
+    public initialize(store: AppStore) {
+        this.updateStrategy = this.isWindows() ? new WindowsLauncher(store) : new MacLauncher(store);
+    }
 
     public isWindows() {
         return os.platform() === "win32";
+    }
+
+    public downloadMap(fileName: string, onProgress?: (percentage: number) => void) {
+        return this.updateStrategy.downloadMap(fileName, onProgress);
     }
 
     loadIsTeamColorsEnabled(): boolean {

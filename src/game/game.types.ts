@@ -25,3 +25,7 @@ export interface IPlayerInstance extends WebSocket {
 export interface IDownloadMapData {
     mapFile: string;
 }
+
+export interface IDownloadMapProgressData extends IDownloadMapData {
+    progressPercent: number;
+}

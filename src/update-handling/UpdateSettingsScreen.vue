@@ -55,16 +55,15 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import {MacLauncher} from "@/update-handling/MacLauncher";
-import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 import ColorPicker from "@/color-picker/ColorPicker.vue";
+import store from "@/globalState/vuex-store";
 
 @Component({
   components: {ColorPicker, LoadingSpinner}
 })
 export default class UpdateSettingsScreen extends Vue {
-  private updateStrategy = this.isWindows() ? new WindowsLauncher() : new MacLauncher();
+  private updateStrategy = store.getters.fileService.updateStrategy;
 
   get defaultBnetLocation() {
     return this.updateStrategy.getDefaultBnetPath();

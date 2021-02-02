@@ -1,7 +1,5 @@
-import store from '../globalState/vuex-store'
+import { AppStore } from "@/globalState/vuex-store";
 import logger from "@/logger";
-import { ELauncherMessageType, IIngameBridgeEvent, ingameBridge } from '@/game/ingame-bridge';
-import { IDownloadMapData } from '@/game/game.types';
 
 const { remote } = window.require("electron");
 const fs = window.require("fs");
@@ -9,7 +7,7 @@ const AdmZip = window.require('adm-zip');
 const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
 
 export abstract class LauncherStrategy {
-    private store = store;
+    protected store: AppStore;
 
     abstract getDefaultPathMap(): string;
     abstract getDefaultPathWc3(): string;
@@ -25,28 +23,8 @@ export abstract class LauncherStrategy {
     abstract getBnetPathFromAgentLogs(): string;
     abstract getWc3PathFromAgentLogs(): string;
 
-    constructor() {
-        ingameBridge.on(ELauncherMessageType.MAP_DOWNLOAD, async (event: IIngameBridgeEvent) => {
-            if (!this.store) {
-                return;
-            }
-            
-            const pi = event.playerInstance;
-            const progressFunc = (progressPercent: number) => {
-                ingameBridge.sendMapDownloadProgress(pi, progressPercent);
-            };
-            const eventData = event.data as IDownloadMapData;
-            const isSuccess = await this.downloadMap(eventData.mapFile, progressFunc);
-
-            if (isSuccess) {
-                setTimeout(() => {
-                    ingameBridge.sendMapDownloadComplete(pi);
-                }, 1000);
-            }
-            else {
-                ingameBridge.sendMapDownloadFailed(pi);
-            }
-        });
+    constructor(store: AppStore) {
+        this.store = store;
     }
 
     unsetLoading() {
@@ -60,6 +38,10 @@ export abstract class LauncherStrategy {
     }
 
     public async downloadMap(fileName: string, onProgress?: (percentage: number) => void) {
+        if (!this.store) {
+            return;
+        }
+
         const to = `${this.mapsPath}/${fileName}`;
         logger.info(`Download ${fileName} to: ${to}`)
         const url = `${this.updateUrl}api/maps/download?mapPath=${fileName}`;
@@ -204,11 +186,11 @@ export abstract class LauncherStrategy {
     }
 
     private downloadMaps() {
-      return this.downloadAndWriteFile("maps", this.mapsPath, this.updateDownloadProgress);
+      return this.downloadAndWriteFile("maps", this.mapsPath, this.updateDownloadProgress.bind(this));
     }
 
     private updateDownloadProgress(progress: number) {
-        store.commit.updateHandling.DOWNLOAD_PROGRESS(progress);
+        this.store.commit.updateHandling.DOWNLOAD_PROGRESS(progress);
     }
 
     get updateUrl() {
@@ -395,7 +377,6 @@ export abstract class LauncherStrategy {
 
                 chunks.push(value as Uint8Array);
                 receivedLength += value?.length || 0;
-
                 if (onProgress) {
                     const percentCompleted = Math.floor(receivedLength / contentLength * 100);
                     onProgress(percentCompleted);
