@@ -28,8 +28,6 @@ import HeadLine from "@/home/HeadLine.vue";
 import logger from "@/logger";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 import store from "@/globalState/vuex-store";
-import {WindowsLauncher} from "@/update-handling/WindowsLauncher";
-import {MacLauncher} from "@/update-handling/MacLauncher";
 import {OAUTH_ENABLED} from "@/constants";
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
 const { remote } = window.require("electron");
@@ -39,7 +37,7 @@ const { ipcRenderer } = window.require('electron')
   components: {LoadingSpinner, HeadLine}
 })
 export default class App extends Vue {
-  private updateStrategy = App.isWindows() ? new WindowsLauncher() : new MacLauncher();
+  private updateStrategy = store.getters.fileService.updateStrategy;
 
   async created() {
     ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {

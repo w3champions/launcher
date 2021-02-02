@@ -1,4 +1,4 @@
-import store from '../globalState/vuex-store'
+import { AppStore } from "@/globalState/vuex-store";
 import logger from "@/logger";
 
 const { remote } = window.require("electron");
@@ -7,7 +7,7 @@ const AdmZip = window.require('adm-zip');
 const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
 
 export abstract class LauncherStrategy {
-    private store = store;
+    protected store: AppStore;
 
     abstract getDefaultPathMap(): string;
     abstract getDefaultPathWc3(): string;
@@ -23,6 +23,10 @@ export abstract class LauncherStrategy {
     abstract getBnetPathFromAgentLogs(): string;
     abstract getWc3PathFromAgentLogs(): string;
 
+    constructor(store: AppStore) {
+        this.store = store;
+    }
+
     unsetLoading() {
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
         this.store.commit.updateHandling.FINISH_MAPS_DL();
@@ -31,6 +35,43 @@ export abstract class LauncherStrategy {
     public startWc3() {
         this.makeSureJoinBugFilesAreGone();
         this.startWc3Process(this.bnetPath);
+    }
+
+    public async downloadMap(fileName: string, onProgress?: (percentage: number) => void) {
+        if (!this.store) {
+            return;
+        }
+
+        const to = `${this.mapsPath}/${fileName}`;
+        logger.info(`Download ${fileName} to: ${to}`)
+        const url = `${this.updateUrl}api/maps/download?mapPath=${fileName}`;
+
+        try {
+            const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);
+            const buffer = arrayBufferToBuffer(fileBytesArray);
+
+            try {
+                const lastSlash = to.lastIndexOf('/');
+                const mapDir = to.substr(0, lastSlash);
+                fs.mkdirSync(mapDir,  { recursive: true });
+                fs.writeFile(to, buffer, (err: any) => {
+                    if (err) {
+                        logger.error(err);
+                    }
+                });
+            } catch (e) {
+                logger.info(`normal download threw exception: ${e}`)
+                const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
+                fs.writeFile(temPath, buffer, () =>{})
+                logger.info(`try as sudo now from: ${temPath} to: ${to}`)
+                this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to })
+            }
+
+            return true;
+        } catch (e) {
+            logger.error(e);
+            return false;
+        }
     }
 
     get w3PathIsValid() {
@@ -145,11 +186,11 @@ export abstract class LauncherStrategy {
     }
 
     private downloadMaps() {
-        return this.downloadAndWriteFile("maps", this.mapsPath, this.updateDownloadProgress);
+      return this.downloadAndWriteFile("maps", this.mapsPath, this.updateDownloadProgress.bind(this));
     }
 
     private updateDownloadProgress(progress: number) {
-        store.commit.updateHandling.DOWNLOAD_PROGRESS(progress);
+        this.store.commit.updateHandling.DOWNLOAD_PROGRESS(progress);
     }
 
     get updateUrl() {
@@ -336,7 +377,6 @@ export abstract class LauncherStrategy {
 
                 chunks.push(value as Uint8Array);
                 receivedLength += value?.length || 0;
-
                 if (onProgress) {
                     const percentCompleted = Math.floor(receivedLength / contentLength * 100);
                     onProgress(percentCompleted);

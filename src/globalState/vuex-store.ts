@@ -25,7 +25,6 @@ import logger from "@/logger";
 const { ipcRenderer } = window.require("electron");
 
 Vue.use(Vuex);
-
 const services = {
   updateService: new UpdateService(),
   versionService: new VersionService(),
@@ -178,6 +177,8 @@ const mod = {
 const { store, rootActionContext, moduleActionContext } = createDirectStore(
   mod
 );
+
+store.getters.fileService.initialize(store);
 
 export default store;
 
