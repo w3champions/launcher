@@ -5,6 +5,7 @@ import router from "./router";
 import {ELauncherMessageType, IIngameBridgeEvent, ingameBridge} from "@/game/ingame-bridge";
 import { floWorkerService } from './flo-integration/flo-worker.service';
 import { IDownloadMapData } from './game/game.types';
+import { pingService } from './flo-integration/ping.service';
 
 Vue.config.productionTip = false
 
@@ -35,3 +36,11 @@ ingameBridge.on(ELauncherMessageType.MAP_DOWNLOAD, async (event: IIngameBridgeEv
       ingameBridge.sendMapDownloadFailed(pi, eventData);
   }
 });
+
+
+async function testPing() {
+  const result = await pingService.ping(3552, "104.211.182.11", 5);
+  console.log("result:", result);
+}
+
+testPing();
