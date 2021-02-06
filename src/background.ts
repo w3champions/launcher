@@ -5,6 +5,7 @@ import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
+import { pingService } from './background-thread/ping.service'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -221,7 +222,13 @@ ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
   if (fab) {
     fab.webContents.send('manual-hotkey-forward', arg);
   }
-})
+});
+
+ipcMain.on('flo-ping', async () => {
+  debugger
+  const result = await pingService.ping(3552, "104.211.182.11", 5);
+  console.log("result:", result);
+});
 
 ipcMain.on('fab-options-loaded', async (ev: IpcMainEvent, args) => {
   await createFab();

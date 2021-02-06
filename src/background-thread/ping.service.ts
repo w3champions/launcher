@@ -1,9 +1,9 @@
-const dgram = window.require('dgram');
+import dgram from 'dgram';
 const MAX_UINT16 = 0xffff;
 
 class PingService {
     private async sendPing(
-        socket: any,
+        socket: dgram.Socket,
         buf: Buffer,
         port: number,
         addr: string,
@@ -75,6 +75,7 @@ class PingService {
           });
       
           socket.on("message", (message: any, remote: any) => {
+            debugger
             if (done) {
               return;
             }
