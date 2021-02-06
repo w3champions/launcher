@@ -2,7 +2,8 @@
   <div id="app" class="app-container">
     <HeadLine />
     <div v-if="!isLoggedIn" >
-      <LoadingSpinner text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
+      <LoadingSpinner v-if="regionChoosen" text="Logging in..."/>
+      <LoadingSpinner v-else text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
       <div class="gw-selection-wrapper" v-if="!regionChoosen">
         <div style="display: flex; flex-direction: row; cursor: pointer" @click="() => loginAt('eu')">
           <div class="gw-selection gw-select-eu"/>
