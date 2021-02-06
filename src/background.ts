@@ -278,7 +278,6 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     width: 800,
     height: 800,
     show: false,
-    frame: false,
     webPreferences: {
       nodeIntegration: false,
       webSecurity: false

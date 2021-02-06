@@ -58,7 +58,6 @@ import {Component, Vue} from "vue-property-decorator";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 import ColorPicker from "@/color-picker/ColorPicker.vue";
 import store from "@/globalState/vuex-store";
-import {OAUTH_ENABLED} from "@/constants";
 
 @Component({
   components: {ColorPicker, LoadingSpinner}
@@ -91,11 +90,9 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   public async resetAuthentication() {
-    if (OAUTH_ENABLED) {
-      this.$store.direct.dispatch.setLoginGateway('');
-      await this.$router.push("/");
-      await this.$store.direct.dispatch.resetAuthentication(false);
-    }
+    this.$store.direct.dispatch.setLoginGateway('');
+    await this.$router.push("/");
+    await this.$store.direct.dispatch.resetAuthentication(false);
   }
 
   public switchEnemyColor(newColor: string) {
