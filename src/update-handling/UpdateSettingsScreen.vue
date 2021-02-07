@@ -58,6 +58,7 @@ import {Component, Vue} from "vue-property-decorator";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 import ColorPicker from "@/color-picker/ColorPicker.vue";
 import store from "@/globalState/vuex-store";
+import {LoginGW} from "@/globalState/rootTypings";
 
 @Component({
   components: {ColorPicker, LoadingSpinner}
@@ -90,7 +91,7 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   public async resetAuthentication() {
-    this.$store.direct.dispatch.setLoginGateway('');
+    this.$store.direct.dispatch.setLoginGateway(LoginGW.none);
     await this.$router.push("/");
     await this.$store.direct.dispatch.resetAuthentication(false);
   }

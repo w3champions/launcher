@@ -1,4 +1,4 @@
-import {W3cToken} from "@/globalState/rootTypings";
+import {LoginGW, W3cToken} from "@/globalState/rootTypings";
 
 const Store = window.require("electron-store");
 import store from "@/globalState/vuex-store";
@@ -21,9 +21,9 @@ export class AuthenticationService {
         return this.store.get(this.w3cAuthenticationCode) ?? null;
     }
 
-    public async authorize(code: string): Promise<W3cToken | null> {
+    public async authorize(code: string, region: LoginGW): Promise<W3cToken | null> {
         logger.info(`get token from code ${store.state.identificationUrl}`)
-        const url = `${store.state.identificationUrl}api/oauth/token?code=${code}&redirectUri=http://localhost:8080/login`;
+        const url = `${store.state.identificationUrl}api/oauth/token?code=${code}&region=${region}&redirectUri=http://localhost:8080/login`;
         try {
             const response = await fetch(url, {
                 method: "GET",

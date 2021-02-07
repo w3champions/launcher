@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex, {ActionContext} from "vuex";
 import {createDirectStore} from "direct-vuex";
-import {News, RootState, W3cToken} from "@/globalState/rootTypings";
+import {LoginGW, News, RootState, W3cToken} from "@/globalState/rootTypings";
 
 import updateHandling from "../update-handling/updateStore";
 import colorPicker from "../color-picker/colorSetStore";
@@ -22,6 +22,7 @@ import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationSe
 import {FileService} from "@/update-handling/FileService";
 import {AuthenticationService} from "@/globalState/AuthenticationService";
 import logger from "@/logger";
+
 const { ipcRenderer } = window.require("electron");
 
 Vue.use(Vuex);
@@ -46,7 +47,7 @@ const mod = {
     identificationUrl: IDENTIFICATION_URL_PROD,
     news: [] as News[],
     w3cToken: null,
-    selectedLoginGateway: '',
+    selectedLoginGateway: LoginGW.none,
   } as RootState,
   actions: {
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -98,9 +99,9 @@ const mod = {
         context: ActionContext<UpdateHandlingState, RootState>,
         code: string
     ) {
-      const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
+      const { commit, rootGetters, dispatch, state } = moduleActionContext(context, mod);
 
-      const token = await rootGetters.authService.authorize(code);
+      const token = await rootGetters.authService.authorize(code, state.selectedLoginGateway);
       if (token) {
         logger.info(`logged in as ${token.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(token);
@@ -112,7 +113,7 @@ const mod = {
     },
     setLoginGateway(
         context: ActionContext<UpdateHandlingState, RootState>,
-        selectdGateway: string
+        selectdGateway: LoginGW
     ) {
       const { commit } = moduleActionContext(context, mod);
 
@@ -148,7 +149,7 @@ const mod = {
     SET_W3CAUTH_TOKEN(state: RootState, w3cToken: W3cToken | null) {
       state.w3cToken = w3cToken;
     },
-    SET_LOGIN_GW(state: RootState, loginGateway: string) {
+    SET_LOGIN_GW(state: RootState, loginGateway: LoginGW) {
       state.selectedLoginGateway = loginGateway;
     },
     LOGOUT(state: RootState) {
