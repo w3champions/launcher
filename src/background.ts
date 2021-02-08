@@ -5,7 +5,7 @@ import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
-import { pingService } from './background-thread/ping.service'
+import { PingsRun } from './background-thread/ping/pings-run'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -226,8 +226,14 @@ ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
 
 ipcMain.on('flo-ping', async () => {
   debugger
-  const result = await pingService.ping(3552, "104.211.182.11", 5);
-  console.log("result:", result);
+  const pingsRun = new PingsRun([
+   // {port: 3556, address: '40.127.64.115'},
+   // {port: 3552, address: '154.17.19.60'},
+    {port: 3552, address: '20.52.152.78'},
+  ])
+  
+  await pingsRun.run(5);
+  console.log('completed pings');
 });
 
 ipcMain.on('fab-options-loaded', async (ev: IpcMainEvent, args) => {

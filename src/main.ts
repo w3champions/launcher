@@ -5,7 +5,7 @@ import router from "./router";
 import {ELauncherMessageType, IIngameBridgeEvent, ingameBridge} from "@/game/ingame-bridge";
 import { floWorkerService } from './flo-integration/flo-worker.service';
 import { IDownloadMapData } from './game/game.types';
-import { pingService } from './flo-integration/ping.service';
+const { ipcRenderer } = window.require('electron')
 
 Vue.config.productionTip = false
 
@@ -16,7 +16,7 @@ new Vue({
 }).$mount('#app')
 
 ingameBridge.initialize();
-floWorkerService.initialize();
+// floWorkerService.initialize();
 
 ingameBridge.on(ELauncherMessageType.MAP_DOWNLOAD, async (event: IIngameBridgeEvent) => {
   const eventData = event.data as IDownloadMapData;
@@ -37,10 +37,6 @@ ingameBridge.on(ELauncherMessageType.MAP_DOWNLOAD, async (event: IIngameBridgeEv
   }
 });
 
-
-async function testPing() {
-  const result = await pingService.ping(3552, "104.211.182.11", 5);
-  console.log("result:", result);
-}
-
-testPing();
+setTimeout(() => {
+  ipcRenderer.send('flo-ping');
+}, 3000);
