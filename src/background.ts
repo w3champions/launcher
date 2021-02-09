@@ -5,6 +5,7 @@ import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
+import { PingsRun } from './background-thread/ping/pings-run'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -221,7 +222,7 @@ ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
   if (fab) {
     fab.webContents.send('manual-hotkey-forward', arg);
   }
-})
+});
 
 ipcMain.on('fab-options-loaded', async (ev: IpcMainEvent, args) => {
   await createFab();

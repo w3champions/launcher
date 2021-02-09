@@ -37,8 +37,20 @@ export interface IFloNode {
 	ping: IFloPing;
 }
 
+export interface IPlayerNodeOverride {
+    nodeId: number;
+    port: number;
+    address: string;
+}
+
+interface IFloNodeOverride {
+    node_id: number;
+    address: string;
+}
+
 export interface IFloAuthData {
     token: string;
+    nodeOverrides: IPlayerNodeOverride[];
 }
 
 export interface IListNodesEvent extends IFloWorkerEvent {
@@ -61,7 +73,7 @@ export class FloWorkerInstance {
     private workerInfo?: IFloWorkerStartupData;
     private isWorkerStarted: boolean = false;
     private floWorkerWs?: WebSocket;
-    private lastConnectToken?: string;
+    private lastAuthData?: IFloAuthData;
     private reconnectInterValHandle?: any;
     private isReconnecting = false;
     private nodePings: IFloNode[] = [];
@@ -72,17 +84,17 @@ export class FloWorkerInstance {
         this.settings = settings;
     }
 
-    public async connect(playerInstance: IPlayerInstance, token: string) {
+    public async connect(playerInstance: IPlayerInstance, authData: IFloAuthData) {
         if (!this.isWorkerStarted) {
             await this.startWorker();
         }
 
-        this.lastConnectToken = token;
+        this.lastAuthData = authData;
         this.playerInstance = playerInstance;
         this.floWorkerWs?.send(
             JSON.stringify({
                 type: 'Connect',
-                token: token,
+                token: authData.token,
             })
         );
     }
@@ -111,6 +123,24 @@ export class FloWorkerInstance {
                 name: 'w3c-test'
             })
         );
+    }
+
+    public setNodeAddrsOverrides(nodeOverrides: IPlayerNodeOverride[]) {
+        if (!nodeOverrides || nodeOverrides.length == 0) {
+            return;
+        }
+
+        const overrides: IFloNodeOverride[] = nodeOverrides.map(x => {
+            return {
+                node_id: x.nodeId,
+                address: `${x.address}:${x.port}`
+            }
+        });
+
+        this.floWorkerWs?.send(JSON.stringify({
+            type: 'SetNodeAddrOverrides',
+            overrides
+        }));
     }
 
     public isConnected() {
@@ -174,6 +204,10 @@ export class FloWorkerInstance {
 
         this.startTestGame();
         setTimeout(()=> this.killTestGame() , 1000);
+
+        setTimeout(() => {
+            this.setNodeAddrsOverrides(this.lastAuthData?.nodeOverrides || []);
+        }, 2000);
     }
 
     private onDisconnectRecieved() {
@@ -192,7 +226,7 @@ export class FloWorkerInstance {
             this.stopWorker();
 
             setTimeout(async () => {
-                await this.connect(this.playerInstance as any, this.lastConnectToken as string);
+                await this.connect(this.playerInstance as any, this.lastAuthData as IFloAuthData);
                 this.isReconnecting = false;
             }, 1000);
         }, 2000);

@@ -50,7 +50,7 @@ export class IngameBridge extends EventEmitter {
         this.wss.on("connection", (ws: WebSocket, req: any) => {
             const pi = this.createPlayerInstance(ws, req.url);
             pi.onmessage = (message: MessageEvent) => {
-                logger.info(message);
+                logger.info({ type: message.type, data: message.data });
 
                 try {
                     const parsed = JSON.parse(message.data) as ILauncherGameMessage;

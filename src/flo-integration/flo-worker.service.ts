@@ -34,7 +34,7 @@ export class FloWorkerService {
             const pi = event.playerInstance;
 
             const workerInstance = this.getWorkerInstance(pi);
-            workerInstance?.connect(pi, data.token);
+            workerInstance?.connect(pi, data);
         });
 
         ingameBridge.on(ELauncherMessageType.DISCONNECTED, (playerInstnace: IPlayerInstance) => {
