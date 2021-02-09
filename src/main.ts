@@ -16,7 +16,7 @@ new Vue({
 }).$mount('#app')
 
 ingameBridge.initialize();
-// floWorkerService.initialize();
+floWorkerService.initialize();
 
 ingameBridge.on(ELauncherMessageType.MAP_DOWNLOAD, async (event: IIngameBridgeEvent) => {
   const eventData = event.data as IDownloadMapData;
@@ -36,7 +36,3 @@ ingameBridge.on(ELauncherMessageType.MAP_DOWNLOAD, async (event: IIngameBridgeEv
       ingameBridge.sendMapDownloadFailed(pi, eventData);
   }
 });
-
-setTimeout(() => {
-  ipcRenderer.send('flo-ping');
-}, 3000);
