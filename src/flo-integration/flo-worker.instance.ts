@@ -126,7 +126,10 @@ export class FloWorkerInstance {
     }
 
     public setNodeAddrsOverrides(nodeOverrides: IPlayerNodeOverride[]) {
-        debugger
+        if (!nodeOverrides || nodeOverrides.length == 0) {
+            return;
+        }
+
         const overrides: IFloNodeOverride[] = nodeOverrides.map(x => {
             return {
                 node_id: x.nodeId,
@@ -202,7 +205,9 @@ export class FloWorkerInstance {
         this.startTestGame();
         setTimeout(()=> this.killTestGame() , 1000);
 
-        this.setNodeAddrsOverrides(this.lastAuthData?.nodeOverrides || []);
+        setTimeout(() => {
+            this.setNodeAddrsOverrides(this.lastAuthData?.nodeOverrides || []);
+        }, 2000);
     }
 
     private onDisconnectRecieved() {
