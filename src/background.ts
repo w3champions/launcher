@@ -224,17 +224,17 @@ ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
   }
 });
 
-ipcMain.on('flo-ping', async () => {
-  const pingsRun = new PingsRun([
-    {port: 3556, address: '40.127.64.115'},
-    {port: 3553, address: '154.17.19.60'},
-    {port: 3552, address: '20.52.152.78'},
-  ])
+// ipcMain.on('flo-ping', async () => {
+//   const pingsRun = new PingsRun([
+//     {port: 3556, address: '40.127.64.115'},
+//     {port: 3553, address: '154.17.19.60'},
+//     {port: 3552, address: '20.52.152.78'},
+//   ])
   
-  await pingsRun.run(5);
-  pingsRun.printResults();
-  console.log('completed pings');
-});
+//   await pingsRun.run(5);
+//   pingsRun.printResults();
+//   console.log('completed pings');
+// });
 
 ipcMain.on('fab-options-loaded', async (ev: IpcMainEvent, args) => {
   await createFab();
