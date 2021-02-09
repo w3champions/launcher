@@ -5,7 +5,6 @@ import router from "./router";
 import {ELauncherMessageType, IIngameBridgeEvent, ingameBridge} from "@/game/ingame-bridge";
 import { floWorkerService } from './flo-integration/flo-worker.service';
 import { IDownloadMapData } from './game/game.types';
-const { ipcRenderer } = window.require('electron')
 
 Vue.config.productionTip = false
 
