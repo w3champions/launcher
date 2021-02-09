@@ -3,7 +3,7 @@ export interface RootState {
     isWindows: boolean,
     newsUrl: string,
     updateUrl: string,
-    selectedLoginGateway: string,
+    selectedLoginGateway: LoginGW,
     identificationUrl: string,
     news: News[],
     w3cToken: W3cToken | null
@@ -20,3 +20,7 @@ export type W3cToken = {
     name: string;
     isAdmin: boolean;
 };
+
+export enum LoginGW {
+    none, eu, cn
+}

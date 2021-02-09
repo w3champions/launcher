@@ -2,7 +2,8 @@
   <div id="app" class="app-container">
     <HeadLine />
     <div v-if="!isLoggedIn" >
-      <LoadingSpinner text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
+      <LoadingSpinner v-if="regionChoosen" text="Logging in..."/>
+      <LoadingSpinner v-else text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
       <div class="gw-selection-wrapper" v-if="!regionChoosen">
         <div style="display: flex; flex-direction: row; cursor: pointer" @click="() => loginAt('eu')">
           <div class="gw-selection gw-select-eu"/>
@@ -29,6 +30,8 @@ import logger from "@/logger";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 import store from "@/globalState/vuex-store";
 import {OAUTH_ENABLED} from "@/constants";
+import {LoginGW} from "@/globalState/rootTypings";
+
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
 const { remote } = window.require("electron");
 const { ipcRenderer } = window.require('electron')
@@ -45,7 +48,7 @@ export default class App extends Vue {
     })
 
     ipcRenderer.on('blizzard-window-closed-without-auth', () => {
-      store.dispatch.setLoginGateway('');
+      store.dispatch.setLoginGateway(LoginGW.none);
     })
 
     this.$store.direct.dispatch.loadIsTestMode();
@@ -75,11 +78,7 @@ export default class App extends Vue {
   }
 
   get regionChoosen() {
-    return this.$store.direct.state.selectedLoginGateway;
-  }
-
-  get loginGateways() {
-    return ["eu", "cn"]
+    return this.$store.direct.state.selectedLoginGateway !== LoginGW.none;
   }
 
   get isLoggedIn() {
@@ -87,7 +86,7 @@ export default class App extends Vue {
     return this.$store.direct.state.w3cToken
   }
 
-  public async loginAt(gateway: string) {
+  public async loginAt(gateway: LoginGW) {
     this.$store.direct.dispatch.setLoginGateway(gateway);
     await this.$store.direct.dispatch.resetAuthentication();
   }
