@@ -1,6 +1,6 @@
 {
   "name": "w3champions",
-  "version": "0.13.2",
+  "version": "0.14.0",
   "private": true,
   "description": "Always stay up to date with this Launcher for the community Ladder Warcraft 3 Champions.",
   "author": "simonheiss87@gmail.com",
@@ -29,6 +29,7 @@
     "electron-store": "6.0.1",
     "electron-updater": "4.3.5",
     "fs-extra": "9.0.1",
+    "jsonwebtoken": "^8.5.1",
     "node-addon-api": "3.1.0",
     "send-keys-native": "file:src/hot-keys/ItemHotkeys/send-keys-native",
     "sudo-prompt": "9.2.1",
@@ -45,6 +46,7 @@
     "@types/adm-zip": "0.4.33",
     "@types/electron-devtools-installer": "2.2.0",
     "@types/jest": "26.0.20",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/vue-markdown": "2.2.1",
     "@typescript-eslint/eslint-plugin": "4.13.0",
     "@typescript-eslint/parser": "4.13.0",

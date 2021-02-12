@@ -12,7 +12,6 @@ export interface ICurrentPlayer {
     toonName: string;
     gateway: EGateway;
     gatewayPing: number;
-    token?: string;
     country?: string;
 }
 

@@ -3,6 +3,7 @@ import {LoginGW, W3cToken} from "@/globalState/rootTypings";
 const Store = window.require("electron-store");
 import store from "@/globalState/vuex-store";
 import logger from "@/logger";
+import jwt from 'jsonwebtoken';
 
 export class AuthenticationService {
     private store = new Store();
@@ -41,22 +42,14 @@ export class AuthenticationService {
         }
     }
 
-    public async getProfile(bearer: string): Promise<W3cToken | null> {
-        logger.info(`get profile from token ${store.state.identificationUrl}`)
-        const url = `${store.state.identificationUrl}api/oauth/user-info?jwt=${bearer}`;
+    public getUserInfo(token: string): W3cToken | null {
         try {
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            });
-
-            return response.status !== 200 ? null : await response.json();
-        }
-        catch (e) {
-            logger.error(e);
+            const verifiedToken = jwt.verify(token, store.state.identificationPublicKey) as W3cToken;
+            logger.info(`verified token, user is: ${verifiedToken.battleTag}`);
+            verifiedToken.jwt = token;
+            return verifiedToken;
+        } catch (error) {
+            logger.warn(`failed to validate jwt ${error}`)
             return null;
         }
     }

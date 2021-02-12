@@ -10,6 +10,8 @@ import {UpdateService} from "@/update-handling/UpdateService";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
 import {VersionService} from "@/globalState/VersionService";
 import {
+  IDENTIFICATION_PUBLIC_KEY_PROD,
+  IDENTIFICATION_PUBLIC_KEY_TEST,
   IDENTIFICATION_URL_PROD,
   IDENTIFICATION_URL_TEST,
   NEWS_URL_PROD,
@@ -45,6 +47,7 @@ const mod = {
     updateUrl: UPDATE_URL_PROD,
     newsUrl: NEWS_URL_PROD,
     identificationUrl: IDENTIFICATION_URL_PROD,
+    identificationPublicKey: IDENTIFICATION_PUBLIC_KEY_PROD,
     news: [] as News[],
     w3cToken: null,
     selectedLoginGateway: LoginGW.none,
@@ -89,7 +92,7 @@ const mod = {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       const token = rootGetters.authService.loadAuthToken();
-      const userInfo = await rootGetters.authService.getProfile(token?.jwt ?? '')
+      const userInfo = await rootGetters.authService.getUserInfo(token?.jwt ?? '')
       if (userInfo) {
         logger.info(`logged in as ${userInfo.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(userInfo);
@@ -139,6 +142,7 @@ const mod = {
       state.updateUrl = test ? UPDATE_URL_TEST : UPDATE_URL_PROD;
       state.newsUrl = test ? NEWS_URL_TEST : NEWS_URL_PROD;
       state.identificationUrl = test ? IDENTIFICATION_URL_TEST : IDENTIFICATION_URL_PROD;
+      state.identificationPublicKey = test ? IDENTIFICATION_PUBLIC_KEY_TEST : IDENTIFICATION_PUBLIC_KEY_PROD;
     },
     SET_NEWS(state: RootState, news: News[]) {
       state.news = news;

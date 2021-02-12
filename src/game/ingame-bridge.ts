@@ -6,7 +6,10 @@ const http = window.require("http");
 const WebSocket = window.require("ws");
 import { EventEmitter } from 'events';
 import {EGateway, ICurrentPlayer, IDownloadMapData, IDownloadMapProgressData, IPlayerInstance} from './game.types';
-import { GameUtils } from './game-utils';
+import {AuthenticationService} from "@/globalState/AuthenticationService";
+import {W3cToken} from "@/globalState/rootTypings";
+import jwt from 'jsonwebtoken';
+import {IDENTIFICATION_PUBLIC_KEY_TEST} from "@/constants";
 
 export enum ELauncherMessageType {
     REQUEST_AUTHENTICATION_TOKEN = 'REQUEST_AUTHENTICATION_TOKEN',
@@ -47,8 +50,16 @@ export class IngameBridge extends EventEmitter {
     private wss = new WebSocket.Server({ server: this.server });
 
     public initialize() {
-        this.wss.on("connection", (ws: WebSocket, req: any) => {
-            const pi = this.createPlayerInstance(ws, req.url);
+        this.wss.on("connection", (ws: WebSocket) => {
+            const authenticationService = new AuthenticationService();
+            const token = authenticationService.loadAuthToken();
+            const userInfo = authenticationService.getUserInfo(token?.jwt ?? '');
+            if (!userInfo) {
+                logger.warn('user not logged in correctly')
+                return;
+            }
+
+            const pi = this.createPlayerInstance(ws, userInfo);
             pi.onmessage = (message: MessageEvent) => {
                 logger.info({ type: message.type, data: message.data });
 
@@ -162,11 +173,17 @@ export class IngameBridge extends EventEmitter {
         playerInstance.sendMessage(message);
     }
 
-    private createPlayerInstance(ws: WebSocket, urlParams: string) {
-        const player = GameUtils.getPlayerFromUrl(urlParams)
+    private createPlayerInstance(ws: WebSocket, token: W3cToken) {
+        const player = {
+            battleTag: token.battleTag,
+            toonName: token.battleTag,
+            gateway: EGateway.Europe,
+            gatewayPing: 30,
+            token: token.jwt,
+            country: '',
+        } as ICurrentPlayer;
 
         const pi = ws as IPlayerInstance;
-
         pi.player = player as ICurrentPlayer;
 
         pi.isDisconnected = () => {

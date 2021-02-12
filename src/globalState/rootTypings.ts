@@ -5,6 +5,7 @@ export interface RootState {
     updateUrl: string,
     selectedLoginGateway: LoginGW,
     identificationUrl: string,
+    identificationPublicKey: string,
     news: News[],
     w3cToken: W3cToken | null
 }
@@ -14,12 +15,12 @@ export interface News {
     message: string,
 }
 
-export type W3cToken = {
-    jwt: string;
-    battleTag: string;
-    name: string;
-    isAdmin: boolean;
-};
+export interface W3cToken {
+    jwt: string,
+    battleTag: string,
+    name: string,
+    isAdmin: boolean
+}
 
 export enum LoginGW {
     none, eu, cn

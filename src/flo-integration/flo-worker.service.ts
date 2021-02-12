@@ -18,7 +18,7 @@ export class FloWorkerService {
 
     public initialize() {
         const settings = this.createWorkerSettings();
- 
+
         // Start one worker by default
         this.primaryWorker = new FloWorkerInstance(settings);
         this.primaryWorker.startWorker();
@@ -62,7 +62,6 @@ export class FloWorkerService {
     }
 
     private getWorkerInstance(pi: IPlayerInstance) {
-
         let workerInstance = this.workers.find(x => x.isUsedBy(pi.player.battleTag));
 
         if (workerInstance) {
@@ -95,14 +94,14 @@ export class FloWorkerService {
             });
         })
     }
-    
+
     private createWorkerSettings() {
         const isWindows = this.store.state.isWindows;
         const floExecutable = (isWindows) ? 'flo-worker.exe' : 'flo-worker';
         let floWorkerFolderPath: string;
         if (environment.isDev) {
             const appPath = remote.app.getAppPath();
-            let rootFolder = appPath.replace('\\dist_electron', ''); 
+            let rootFolder = appPath.replace('\\dist_electron', '');
             rootFolder = rootFolder.replace('/dist_electron', '');
             floWorkerFolderPath =  path.join(rootFolder, `libs`);
         } else {
@@ -131,7 +130,7 @@ export class FloWorkerService {
         const result: IFloWorkerInstanceSettings = {
             floWorkerFolderPath,
             floWorkerExePath,
-            wc3FolderPath 
+            wc3FolderPath
         };
 
         return result;

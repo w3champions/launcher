@@ -5,12 +5,12 @@
       <LoadingSpinner v-if="regionChoosen" text="Logging in..."/>
       <LoadingSpinner v-else text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
       <div class="gw-selection-wrapper" v-if="!regionChoosen">
-        <div style="display: flex; flex-direction: row; cursor: pointer" @click="() => loginAt('eu')">
+        <div style="display: flex; flex-direction: row; cursor: pointer" @click="() => loginAt(loginGWs.eu)">
           <div class="gw-selection gw-select-eu"/>
           <div style="font-size: 40px; line-height: 60px; padding-left: 10px; padding-right: 10px"> / </div>
           <div class="gw-selection gw-select-us"/>
         </div>
-        <div class="gw-selection gw-select-cn" @click="() => loginAt('cn')"/>
+        <div class="gw-selection gw-select-cn" @click="() => loginAt(loginGWs.cn)"/>
       </div>
     </div>
     <div class="content-modal-wrapper">
@@ -79,6 +79,10 @@ export default class App extends Vue {
 
   get regionChoosen() {
     return this.$store.direct.state.selectedLoginGateway !== LoginGW.none;
+  }
+
+  get loginGWs() {
+    return LoginGW;
   }
 
   get isLoggedIn() {
