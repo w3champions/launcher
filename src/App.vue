@@ -53,7 +53,7 @@ export default class App extends Vue {
 
     this.$store.direct.dispatch.loadIsTestMode();
     this.$store.direct.dispatch.loadOsMode();
-    await this.$store.direct.dispatch.loadAuthToken();
+    this.$store.direct.dispatch.loadAuthToken();
 
     this.makeSureNumpadIsEnabled()
 
