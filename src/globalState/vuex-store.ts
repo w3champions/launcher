@@ -73,8 +73,7 @@ const mod = {
       rootGetters.versionService.switchToMode(mode);
       commit.SET_IS_TEST(mode);
 
-      await dispatch.resetAuthentication();
-
+      dispatch.resetAuthentication();
     },
     loadIsTestMode(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
@@ -88,11 +87,11 @@ const mod = {
 
       commit.SET_OS(rootGetters.fileService.isWindows());
     },
-    async loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
+    loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       const token = rootGetters.authService.loadAuthToken();
-      const userInfo = await rootGetters.authService.getUserInfo(token?.jwt ?? '')
+      const userInfo = rootGetters.authService.getUserInfo(token?.jwt ?? '')
       if (userInfo) {
         logger.info(`logged in as ${userInfo.battleTag}`)
         commit.SET_W3CAUTH_TOKEN(userInfo);
@@ -111,7 +110,7 @@ const mod = {
         await rootGetters.authService.saveAuthToken(token);
       }
       else {
-        await dispatch.resetAuthentication();
+        dispatch.resetAuthentication();
       }
     },
     setLoginGateway(
@@ -122,7 +121,7 @@ const mod = {
 
       commit.SET_LOGIN_GW(selectdGateway);
     },
-    async resetAuthentication(
+    resetAuthentication(
         context: ActionContext<UpdateHandlingState, RootState>,
         requestRelogin: boolean = true
     ) {
@@ -130,7 +129,7 @@ const mod = {
       logger.info("reset auth token")
 
       commit.LOGOUT();
-      await rootGetters.authService.deleteAuthToken();
+      rootGetters.authService.deleteAuthToken();
       if (requestRelogin && OAUTH_ENABLED) {
         ipcRenderer.send('oauth-requested', state.selectedLoginGateway);
       }
