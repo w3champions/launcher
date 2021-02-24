@@ -8,8 +8,6 @@ import { EventEmitter } from 'events';
 import {EGateway, ICurrentPlayer, IDownloadMapData, IDownloadMapProgressData, IPlayerInstance} from './game.types';
 import {AuthenticationService} from "@/globalState/AuthenticationService";
 import {W3cToken} from "@/globalState/rootTypings";
-import jwt from 'jsonwebtoken';
-import {IDENTIFICATION_PUBLIC_KEY_TEST} from "@/constants";
 
 export enum ELauncherMessageType {
     REQUEST_AUTHENTICATION_TOKEN = 'REQUEST_AUTHENTICATION_TOKEN',
@@ -26,6 +24,7 @@ export enum ELauncherMessageType {
     FLO_CHECK_BONJOUR = 'FLO_CHECK_BONJOUR',
     FLO_CHECK_BONJOUR_RESULT = 'FLO_CHECK_BONJOUR_RESULT',
     FLO_PING_UPDATE = 'FLO_PING_UPDATE',
+    FLO_NETWORK_TEST = 'FLO_NETWORK_TEST',
 
     FLO_CREATE_TEST_GAME = 'FLO_CREATE_TEST_GAME',
     FLO_KILL_TEST_GAME = 'FLO_KILL_TEST_GAME',
