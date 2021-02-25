@@ -77,8 +77,7 @@ export class FloWorkerInstance {
     private reconnectInterValHandle?: any;
     private isReconnecting = false;
     private nodePings: IFloNode[] = [];
-
-    public playerInstance?: IPlayerInstance;
+    private playerInstance?: IPlayerInstance;
 
     constructor(settings: IFloWorkerInstanceSettings) {
         this.settings = settings;

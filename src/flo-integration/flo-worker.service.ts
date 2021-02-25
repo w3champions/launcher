@@ -9,6 +9,7 @@ const { remote } = window.require("electron");
 const path = require('path');
 const fs = window.require("fs");
 const { exec } = window.require("child_process");
+const { ipcRenderer } = window.require('electron')
 
 export class FloWorkerService {
     private store = store;
@@ -58,6 +59,10 @@ export class FloWorkerService {
         ingameBridge.on(ELauncherMessageType.FLO_KILL_TEST_GAME, (event: IIngameBridgeEvent) => {
             const workerInstance = this.getWorkerInstance(event.playerInstance);
             workerInstance?.killTestGame();
+        });
+
+        ingameBridge.on(ELauncherMessageType.FLO_NETWORK_TEST, (event: IIngameBridgeEvent) => {
+            ipcRenderer.send('flo-network-test', event.data);
         });
     }
 

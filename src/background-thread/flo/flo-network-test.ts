@@ -1,12 +1,6 @@
-import { EventEmitter } from 'events';
 import dgram from 'dgram';
 import { IFloNodeNetworkInfo, IFloNodeProxy } from '@/types/flo-types';
 import { NodeNetworkTester, ENodeNetworkTesterEvents } from './node-network-tester';
-
-export interface IPingData {
-  seq: number;
-  ping: number;
-}
 
 class FloNodeNetworkInfoWrapper {
   private readonly networkTester: NodeNetworkTester;
@@ -40,7 +34,7 @@ class FloNodeNetworkInfoWrapper {
   }
 
   printResults() {
-    console.log(`${this.networkTester.id} -> avg: ${this.networkTester.avgPing}, loss: ${this.networkTester.lossRate}`);
+    console.log(`${this.networkTester.nodeInfo.id} -> avg: ${this.networkTester.avgPing}, loss: ${this.networkTester.lossRate}`);
 
     for (const proxyTester of this.proxyNetworkTesters) {
       proxyTester.printResult();
@@ -67,7 +61,7 @@ class FloNodeProxyWrapper {
   }
 
   printResult() {
-    console.log(`${this.networkTester.id} -> avg: ${this.networkTester.avgPing}, loss: ${this.networkTester.lossRate}`);
+    console.log(`   ${this.networkTester.nodeInfo.id} -> avg: ${this.networkTester.avgPing}, loss: ${this.networkTester.lossRate}`);
   }
 }
 
@@ -80,7 +74,6 @@ export class FloNetworkTest {
     }
 
     public async run(numberOfPings: number) {
-      debugger
       const socket = dgram.createSocket("udp4");
 
       socket.on("error", (err) => {
@@ -95,7 +88,6 @@ export class FloNetworkTest {
       }
 
       await Promise.allSettled(promises);
-      console.log('closing ping socket');
       socket.close();
     }
 

@@ -1,7 +1,6 @@
 import { EventEmitter } from 'events';
 import dgram from 'dgram';
 import { IFloNodeNetworkInfo, IFloNodeProxy } from "@/types/flo-types";
-import { IPingData } from "./flo-network-test";
 
 const MAX_UINT16 = 0xffff;
 
@@ -9,17 +8,21 @@ export enum ENodeNetworkTesterEvents {
   Complete = 'Complete',
 }
 
+export interface IPingData {
+  seq: number;
+  ping: number;
+}
+
 export class NodeNetworkTester extends EventEmitter{
     readonly baseTime: number;
     readonly seq: number;
-    readonly endSeq: number;
     readonly pings: IPingData[];
   
     private readonly address: string;
     private readonly port: number;
   
-    private pingTries = 0;
     private timeoutTimer?: NodeJS.Timeout;
+    private timeoutsCount = 0;
   
     public isDone: boolean = false;
   
@@ -28,13 +31,17 @@ export class NodeNetworkTester extends EventEmitter{
     }
   
     get lossRate(): number {
-      return (this.nPings - this.pings.length) / this.nPings;
+      return this.timeoutsCount / this.nPings;
     }
   
     get avgPing(): number {
       const sum = this.pings.map(x => x.ping).reduce((a, b) => a + b, 0);
       const avg = (sum / this.pings.length) || 0;
       return avg;
+    }
+
+    get hasDoneEnoughPings() {
+      return (this.pings.length + this.timeoutsCount) == this.nPings;
     }
   
     constructor(public nodeInfo: IFloNodeNetworkInfo | IFloNodeProxy,
@@ -48,7 +55,6 @@ export class NodeNetworkTester extends EventEmitter{
       this.pings = [];
   
       this.seq = Math.floor(Math.random() * (MAX_UINT16 - this.nPings));
-      this.endSeq = this.seq + this.nPings - 1;
   
       this.subscribeToSocketEvents();
     }
@@ -75,6 +81,7 @@ export class NodeNetworkTester extends EventEmitter{
             await this.sleep(1000);
           }
         } catch (e) {
+          console.log(e);
           this.errorSendingPing();
         }
       });
@@ -100,8 +107,11 @@ export class NodeNetworkTester extends EventEmitter{
       seq: number,
       timestamp: number
     ) {
-      if (seq > MAX_UINT16 || timestamp > MAX_UINT16) {
-        throw new Error("value overflow");
+      if (seq > MAX_UINT16) {
+        throw new Error(`seq value overflow: ${seq}`);
+      }
+      else if (timestamp > MAX_UINT16) {
+        throw new Error(`timestamp value overflow: ${timestamp}`);
       }
       buf.writeUInt16BE(seq, 0);
       buf.writeUInt16BE(timestamp, 2);
@@ -142,32 +152,32 @@ export class NodeNetworkTester extends EventEmitter{
         clearTimeout(this.timeoutTimer);
       }
   
-      this.pingTries++;
-  
       this.pings.push({ seq, ping });
       console.log(`${this.id} -> ${ping}`);
   
-      if (this.endSeq == seq) {
-        this.isDone = true;
-      }
-  
-      if (this.isDone) {
-        this.emit(ENodeNetworkTesterEvents.Complete)
+      if (this.hasDoneEnoughPings) {
+        this.complete();
       }
     }
   
     private errorSendingPing() {
+      if (this.timeoutTimer) {
+        clearTimeout(this.timeoutTimer);
+      }
+
+      this.complete();
+    }
+
+    private complete(){
       this.isDone = true;
       this.emit(ENodeNetworkTesterEvents.Complete);
     }
   
     private timeout() {
       console.log(`${this.id} -> Timeout`);
-      this.pingTries++;
-  
-      if (this.pingTries == this.nPings) {
-        this.isDone = true;
-        this.emit(ENodeNetworkTesterEvents.Complete);
+      this.timeoutsCount++;
+      if (this.hasDoneEnoughPings) {
+        this.complete();
       }
     }
   
