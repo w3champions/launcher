@@ -29,7 +29,6 @@ export interface IFloNodeNetworkTestResult extends INetworkTestResult {
 
 export interface IFloNetworkTest {
     nodesPingTests: IFloNodeNetworkTestResult[];
-    date: Date;
     duration: number;
     isComplete: boolean;
 }

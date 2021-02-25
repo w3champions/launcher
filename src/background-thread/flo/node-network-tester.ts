@@ -1,6 +1,5 @@
 import { EventEmitter } from 'events';
 import dgram from 'dgram';
-import { IFloNodeNetworkInfo, IFloNodeProxy } from "@/types/flo-types";
 
 const MAX_UINT16 = 0xffff;
 
@@ -11,6 +10,15 @@ export enum ENodeNetworkTesterEvents {
 export interface IPingData {
   seq: number;
   ping: number;
+}
+
+export interface INodeConfig {
+  nodeId: number;
+  address: string;
+  port: number;
+  isDns: boolean;
+  isProxy: boolean;
+  proxyId?: string;
 }
 
 export class NodeNetworkTester extends EventEmitter{
@@ -44,7 +52,7 @@ export class NodeNetworkTester extends EventEmitter{
       return (this.pings.length + this.timeoutsCount) == this.nPings;
     }
   
-    constructor(public nodeInfo: IFloNodeNetworkInfo | IFloNodeProxy,
+    constructor(public nodeInfo: INodeConfig,
       private nPings: number, 
       private socket: dgram.Socket) {
       super();

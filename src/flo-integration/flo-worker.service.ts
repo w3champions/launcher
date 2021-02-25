@@ -4,6 +4,7 @@ import { ELauncherMessageType, IIngameBridgeEvent, ingameBridge } from '@/game/i
 import { FloWorkerInstance, IFloAuthData, IFloWorkerInstanceSettings } from './flo-worker.instance';
 import { IPlayerInstance } from '@/game/game.types';
 import logger from '@/logger';
+import { IFloNetworkTest } from "@/types/flo-types";
 
 const { remote } = window.require("electron");
 const path = require('path');
@@ -63,6 +64,9 @@ export class FloWorkerService {
 
         ingameBridge.on(ELauncherMessageType.FLO_NETWORK_TEST, (event: IIngameBridgeEvent) => {
             ipcRenderer.send('flo-network-test', event.data);
+            ipcRenderer.once('flo-network-test-result', (wht: any, networkTest: IFloNetworkTest) => {
+                ingameBridge.sendNetworkTest(event.playerInstance, networkTest);
+            })
         });
     }
 

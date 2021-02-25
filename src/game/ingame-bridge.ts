@@ -8,6 +8,7 @@ import { EventEmitter } from 'events';
 import {EGateway, ICurrentPlayer, IDownloadMapData, IDownloadMapProgressData, IPlayerInstance} from './game.types';
 import {AuthenticationService} from "@/globalState/AuthenticationService";
 import {W3cToken} from "@/globalState/rootTypings";
+import { IFloNetworkTest } from '@/types/flo-types';
 
 export enum ELauncherMessageType {
     REQUEST_AUTHENTICATION_TOKEN = 'REQUEST_AUTHENTICATION_TOKEN',
@@ -25,6 +26,7 @@ export enum ELauncherMessageType {
     FLO_CHECK_BONJOUR_RESULT = 'FLO_CHECK_BONJOUR_RESULT',
     FLO_PING_UPDATE = 'FLO_PING_UPDATE',
     FLO_NETWORK_TEST = 'FLO_NETWORK_TEST',
+    FLO_NETWORK_TEST_RESULT = 'FLO_NETWORK_TEST_RESULT',
 
     FLO_CREATE_TEST_GAME = 'FLO_CREATE_TEST_GAME',
     FLO_KILL_TEST_GAME = 'FLO_KILL_TEST_GAME',
@@ -167,6 +169,15 @@ export class IngameBridge extends EventEmitter {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.MAP_DOWNLOAD_FAILED,
             data: downloadMapData
+        };
+
+        playerInstance.sendMessage(message);
+    }
+
+    public sendNetworkTest(playerInstance: IPlayerInstance, networkTest: IFloNetworkTest) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.FLO_NETWORK_TEST_RESULT,
+            data: networkTest
         };
 
         playerInstance.sendMessage(message);

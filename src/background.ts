@@ -5,7 +5,7 @@ import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
-import { FloNetworkTest } from './background-thread/flo/flo-network-test'
+import { FloNetworkTestRunner } from './background-thread/flo/flo-network-test-runner'
 import { IFloNodeNetworkInfo } from './types/flo-types'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
@@ -247,9 +247,9 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
 
 ipcMain.on('flo-network-test', async (ev: IpcMainEvent, floNodeNetworkInfo: IFloNodeNetworkInfo[]) => {
   try {
-    const networkTest = new FloNetworkTest(floNodeNetworkInfo);
-    await networkTest.run(60);
-    networkTest.printResults();
+    const networkTest = new FloNetworkTestRunner(floNodeNetworkInfo);
+    const testResult = await networkTest.run(50);
+    win?.webContents.send('flo-network-test-result', testResult);
   }
   catch(e) {
     console.log(e);
