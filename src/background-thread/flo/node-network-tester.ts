@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 import dgram from 'dgram';
+import dns from 'dns';
 
 const MAX_UINT16 = 0xffff;
 
@@ -29,13 +30,20 @@ export class NodeNetworkTester extends EventEmitter{
     private readonly address: string;
     private readonly port: number;
   
+    private resolvedIpAddress?: string;
     private timeoutTimer?: NodeJS.Timeout;
     private timeoutsCount = 0;
   
     public isDone: boolean = false;
   
     get id() : string {
-      return `${this.address}:${this.port}`;
+      let address = this.address;
+
+      if (this.nodeInfo.isDns) {
+        address = this.resolvedIpAddress as any;
+      }
+
+      return `${address}:${this.port}`;
     }
   
     get lossRate(): number {
@@ -71,6 +79,12 @@ export class NodeNetworkTester extends EventEmitter{
       const TIMEOUT = 1.5 * 1000;
   
       const buf = Buffer.alloc(4);
+
+      let ipAddress = this.address;
+      if (this.nodeInfo.isDns) {
+        ipAddress = await this.resolveIpFromDns(this.address);
+        this.resolvedIpAddress = ipAddress;
+      }
     
       setImmediate(async () => {
         try {
@@ -82,7 +96,7 @@ export class NodeNetworkTester extends EventEmitter{
               this.socket,
               buf,
               this.port,
-              this.address,
+              ipAddress,
               this.seq + i,
               Date.now() - this.baseTime
             );
@@ -191,5 +205,15 @@ export class NodeNetworkTester extends EventEmitter{
   
     private sleep(t: number) {
       return new Promise((resolve) => setTimeout(resolve, t));
+    }
+
+    private resolveIpFromDns(dnsAddress: string) {
+      const promise = new Promise<string>((res, rej) => {
+        dns.lookup(dnsAddress, (err, ipAddress, family) => {
+          res(ipAddress);
+        });
+      });
+
+      return promise;
     }
   }

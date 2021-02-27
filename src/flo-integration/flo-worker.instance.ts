@@ -1,8 +1,10 @@
 import { IPlayerInstance } from '@/game/game.types';
 import { ingameBridge } from '@/game/ingame-bridge';
 import logger from '@/logger';
+import { IFloNodeProxy } from '@/types/flo-types';
 const { spawn } = window.require("child_process");
 const WebSocketClass = window.require("ws");
+const dns = window.require("dns");
 
 interface IFloWorkerStartupData {
     port: number;
@@ -37,12 +39,6 @@ export interface IFloNode {
 	ping: IFloPing;
 }
 
-export interface IPlayerNodeOverride {
-    nodeId: number;
-    port: number;
-    address: string;
-}
-
 interface IFloNodeOverride {
     node_id: number;
     address: string;
@@ -50,7 +46,7 @@ interface IFloNodeOverride {
 
 export interface IFloAuthData {
     token: string;
-    nodeOverrides: IPlayerNodeOverride[];
+    nodeOverrides: IFloNodeProxy[];
 }
 
 export interface IListNodesEvent extends IFloWorkerEvent {
@@ -124,9 +120,15 @@ export class FloWorkerInstance {
         );
     }
 
-    public setNodeAddrsOverrides(nodeOverrides: IPlayerNodeOverride[]) {
+    public async setNodeAddrsOverrides(nodeOverrides: IFloNodeProxy[]) {
         if (!nodeOverrides || nodeOverrides.length == 0) {
             return;
+        }
+
+        const dnsOverrides = nodeOverrides.filter(x => x.isDns);
+
+        for (const dnsOverride of dnsOverrides) {
+            dnsOverride.address = await this.resolveIpFromDns(dnsOverride.address);
         }
 
         const overrides: IFloNodeOverride[] = nodeOverrides.map(x => {
@@ -302,4 +304,14 @@ export class FloWorkerInstance {
             }
         }
     }
+
+    private resolveIpFromDns(dnsAddress: string) {
+        const promise = new Promise<string>((res, rej) => {
+          dns.lookup(dnsAddress, (err: any, ipAddress: string) => {
+            res(ipAddress);
+          });
+        });
+  
+        return promise;
+      }
 }
