@@ -6,6 +6,7 @@ const MAX_UINT16 = 0xffff;
 
 export enum ENodeNetworkTesterEvents {
   Complete = 'Complete',
+  Progress = 'Progress'
 }
 
 export interface IPingData {
@@ -58,6 +59,10 @@ export class NodeNetworkTester extends EventEmitter{
 
     get hasDoneEnoughPings() {
       return (this.pings.length + this.timeoutsCount) == this.nPings;
+    }
+
+    get progressPercent() {
+      return (this.pings.length + this.timeoutsCount) / this.nPings * 100;
     }
   
     constructor(public nodeInfo: INodeConfig,
@@ -175,7 +180,7 @@ export class NodeNetworkTester extends EventEmitter{
       }
   
       this.pings.push({ seq, ping });
-      console.log(`${this.id} -> ${ping}`);
+      this.emitProgress();
   
       if (this.hasDoneEnoughPings) {
         this.complete();
@@ -194,10 +199,14 @@ export class NodeNetworkTester extends EventEmitter{
       this.isDone = true;
       this.emit(ENodeNetworkTesterEvents.Complete);
     }
+
+    private emitProgress() {
+      this.emit(ENodeNetworkTesterEvents.Progress, this.progressPercent);
+    }
   
     private timeout() {
-      console.log(`${this.id} -> Timeout`);
       this.timeoutsCount++;
+      this.emitProgress();
       if (this.hasDoneEnoughPings) {
         this.complete();
       }

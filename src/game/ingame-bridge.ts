@@ -9,6 +9,8 @@ import {EGateway, ICurrentPlayer, IDownloadMapData, IDownloadMapProgressData, IP
 import {AuthenticationService} from "@/globalState/AuthenticationService";
 import {W3cToken} from "@/globalState/rootTypings";
 import { IFloNetworkTest } from '@/types/flo-types';
+import { OAUTH_ENABLED } from '@/constants';
+import { GameUtils } from './game-utils';
 
 export enum ELauncherMessageType {
     REQUEST_AUTHENTICATION_TOKEN = 'REQUEST_AUTHENTICATION_TOKEN',
@@ -27,6 +29,7 @@ export enum ELauncherMessageType {
     FLO_PING_UPDATE = 'FLO_PING_UPDATE',
     FLO_NETWORK_TEST = 'FLO_NETWORK_TEST',
     FLO_NETWORK_TEST_RESULT = 'FLO_NETWORK_TEST_RESULT',
+    FLO_NETWORK_TEST_PROGRESS = 'FLO_NETWORK_TEST_PROGRESS',
 
     FLO_CREATE_TEST_GAME = 'FLO_CREATE_TEST_GAME',
     FLO_KILL_TEST_GAME = 'FLO_KILL_TEST_GAME',
@@ -51,16 +54,32 @@ export class IngameBridge extends EventEmitter {
     private wss = new WebSocket.Server({ server: this.server });
 
     public initialize() {
-        this.wss.on("connection", (ws: WebSocket) => {
+        this.wss.on("connection", (ws: WebSocket, req: any) => {
             const authenticationService = new AuthenticationService();
             const token = authenticationService.loadAuthToken();
-            const userInfo = authenticationService.getUserInfo(token?.jwt ?? '');
+
+            let userInfo: W3cToken | null = null;
+            if (OAUTH_ENABLED) {
+                userInfo = authenticationService.getUserInfo(token?.jwt ?? '');
+            }
+            else {
+                const paramsFromUrl = GameUtils.getPlayerFromUrl(req.url);
+                if (paramsFromUrl) {
+                    userInfo = {
+                        battleTag: paramsFromUrl.battleTag,
+                        name: paramsFromUrl.battleTag,
+                        isAdmin: false,
+                        jwt: '',
+                    };
+                }
+            }
+
             if (!userInfo) {
                 logger.warn('user not logged in correctly')
                 return;
             }
 
-            const pi = this.createPlayerInstance(ws, userInfo);
+            const pi = this.createPlayerInstance(ws, userInfo as any);
             pi.onmessage = (message: MessageEvent) => {
                 logger.info({ type: message.type, data: message.data });
 
@@ -174,7 +193,17 @@ export class IngameBridge extends EventEmitter {
         playerInstance.sendMessage(message);
     }
 
-    public sendNetworkTest(playerInstance: IPlayerInstance, networkTest: IFloNetworkTest) {
+    
+    public sendNetworkTestProgress(playerInstance: IPlayerInstance, progressPerc: number) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.FLO_NETWORK_TEST_PROGRESS,
+            data: progressPerc
+        };
+
+        playerInstance.sendMessage(message);
+    }
+
+    public sendNetworkTestResult(playerInstance: IPlayerInstance, networkTest: IFloNetworkTest) {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.FLO_NETWORK_TEST_RESULT,
             data: networkTest

@@ -7,6 +7,7 @@ import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
 import { FloNetworkTestRunner } from './background-thread/flo/flo-network-test-runner'
 import { IFloNodeNetworkInfo } from './types/flo-types'
+import { ENodeNetworkTesterEvents } from './background-thread/flo/node-network-tester'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -248,6 +249,9 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
 ipcMain.on('flo-network-test', async (ev: IpcMainEvent, floNodeNetworkInfo: IFloNodeNetworkInfo[]) => {
   try {
     const networkTest = new FloNetworkTestRunner(floNodeNetworkInfo);
+    networkTest.on(ENodeNetworkTesterEvents.Progress, (progressPerc: number) => {
+      win?.webContents.send('flo-network-test-progress', progressPerc);
+    });
     const testResult = await networkTest.run(50);
     win?.webContents.send('flo-network-test-result', testResult);
   }

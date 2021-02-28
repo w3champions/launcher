@@ -1,13 +1,16 @@
+import { EventEmitter } from 'events';
 import dgram from 'dgram';
 import { IFloNodeNetworkInfo, IFloNodeNetworkTestResult } from "@/types/flo-types";
 import { FloNodeProxyWrapper } from "./flo-node-proxy-wrapper";
 import { ENodeNetworkTesterEvents, INodeConfig, NodeNetworkTester } from "./node-network-tester";
 
-export class FloNodeNetworkInfoWrapper {
+export class FloNodeNetworkInfoWrapper extends EventEmitter {
     private readonly networkTester: NodeNetworkTester;
     private readonly proxyNetworkTesters: FloNodeProxyWrapper[];
   
     constructor(public nodeNetworkInfo: IFloNodeNetworkInfo, nPings: number, socket: dgram.Socket) {
+      super();
+
       const nodeInfo: INodeConfig = {
         nodeId: nodeNetworkInfo.id,
         address: nodeNetworkInfo.address,
@@ -17,6 +20,9 @@ export class FloNodeNetworkInfoWrapper {
       };
       
       this.networkTester = new NodeNetworkTester(nodeInfo, nPings, socket);
+      this.networkTester.on(ENodeNetworkTesterEvents.Progress, (progressPerc) => {
+        this.emit(ENodeNetworkTesterEvents.Progress, progressPerc);
+      });
   
       this.proxyNetworkTesters = nodeNetworkInfo.proxies.map(x => {
         return new FloNodeProxyWrapper(x , nPings, socket);

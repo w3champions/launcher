@@ -64,8 +64,13 @@ export class FloWorkerService {
 
         ingameBridge.on(ELauncherMessageType.FLO_NETWORK_TEST, (event: IIngameBridgeEvent) => {
             ipcRenderer.send('flo-network-test', event.data);
+
+            ipcRenderer.on('flo-network-test-progress', (wht: any, progressPerc: number) => {
+                ingameBridge.sendNetworkTestProgress(event.playerInstance, progressPerc);
+            })
+
             ipcRenderer.once('flo-network-test-result', (wht: any, networkTest: IFloNetworkTest) => {
-                ingameBridge.sendNetworkTest(event.playerInstance, networkTest);
+                ingameBridge.sendNetworkTestResult(event.playerInstance, networkTest);
             })
         });
     }

@@ -1,14 +1,17 @@
+import { EventEmitter } from 'events';
 import dgram from 'dgram';
 import { IFloNetworkTest, IFloNodeNetworkInfo } from '@/types/flo-types';
 import { FloNodeNetworkInfoWrapper } from './flo-node-network-wrapper';
+import { ENodeNetworkTesterEvents } from './node-network-tester';
 
-export class FloNetworkTestRunner {
+export class FloNetworkTestRunner extends EventEmitter {
     private readonly floNodeNetworkInfo: IFloNodeNetworkInfo[] = [];
     private readonly floNodeNetworkInfoWrapper: FloNodeNetworkInfoWrapper[] = [];
 
     private isComplete = false;
 
     constructor(floNodeNetworkInfo: IFloNodeNetworkInfo[]) {
+      super();
       this.floNodeNetworkInfo = floNodeNetworkInfo;
     }
 
@@ -25,6 +28,13 @@ export class FloNetworkTestRunner {
         const floNodeNetworkInfoWrapper = new FloNodeNetworkInfoWrapper(nodeNetworkInfo, numberOfPings, socket);
         this.floNodeNetworkInfoWrapper.push(floNodeNetworkInfoWrapper);
         promises.push(... floNodeNetworkInfoWrapper.testNodeNetwork());
+      }
+
+      const firstNetworkWrapper = this.floNodeNetworkInfoWrapper[0];
+      if (firstNetworkWrapper) {
+        firstNetworkWrapper.on(ENodeNetworkTesterEvents.Progress, (progressPerc: number) => {
+          this.emit(ENodeNetworkTesterEvents.Progress, progressPerc);
+        });
       }
 
       await Promise.allSettled(promises);
