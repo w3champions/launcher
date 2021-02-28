@@ -3,20 +3,32 @@ import dgram from 'dgram';
 import { IFloNetworkTest, IFloNodeNetworkInfo } from '@/types/flo-types';
 import { FloNodeNetworkInfoWrapper } from './flo-node-network-wrapper';
 import { ENodeNetworkTesterEvents } from './node-network-tester';
+import { BrowserWindow, ipcMain, IpcMainEvent } from 'electron';
 
-export class FloNetworkTestRunner extends EventEmitter {
-    private readonly floNodeNetworkInfo: IFloNodeNetworkInfo[] = [];
+class FloNetworkTestService extends EventEmitter {
     private readonly floNodeNetworkInfoWrapper: FloNodeNetworkInfoWrapper[] = [];
 
-    private isComplete = false;
+    private window?: BrowserWindow;
 
-    constructor(floNodeNetworkInfo: IFloNodeNetworkInfo[]) {
+    constructor() {
       super();
-      this.floNodeNetworkInfo = floNodeNetworkInfo;
+
+      ipcMain.on('flo-network-test', async (ev: IpcMainEvent, floNodeNetworkInfo: IFloNodeNetworkInfo[]) => {
+        try {
+          const testResult = await this.run(floNodeNetworkInfo, 50);
+          this.window?.webContents.send('flo-network-test-result', testResult);
+        }
+        catch(e) {
+          console.log(e);
+        }
+      });
     }
 
-    public async run(numberOfPings: number) {
-      this.isComplete = false;
+    public setWindow(window: BrowserWindow) {
+      this.window = window;
+    }
+
+    public async run(floNodeNetworkInfo: IFloNodeNetworkInfo[], numberOfPings: number) {
       const socket = dgram.createSocket("udp4");
 
       socket.on("error", (err) => {
@@ -24,7 +36,7 @@ export class FloNetworkTestRunner extends EventEmitter {
       });
 
       const promises: Promise<void>[] = [];
-      for (const nodeNetworkInfo of this.floNodeNetworkInfo) {
+      for (const nodeNetworkInfo of floNodeNetworkInfo) {
         const floNodeNetworkInfoWrapper = new FloNodeNetworkInfoWrapper(nodeNetworkInfo, numberOfPings, socket);
         this.floNodeNetworkInfoWrapper.push(floNodeNetworkInfoWrapper);
         promises.push(... floNodeNetworkInfoWrapper.testNodeNetwork());
@@ -33,17 +45,18 @@ export class FloNetworkTestRunner extends EventEmitter {
       const firstNetworkWrapper = this.floNodeNetworkInfoWrapper[0];
       if (firstNetworkWrapper) {
         firstNetworkWrapper.on(ENodeNetworkTesterEvents.Progress, (progressPerc: number) => {
-          this.emit(ENodeNetworkTesterEvents.Progress, progressPerc);
+          this.window?.webContents.send('flo-network-test-progress', progressPerc);
         });
       }
 
+      this.window?.webContents.send('flo-network-test-start');
+
       await Promise.allSettled(promises);
-      this.isComplete = true;
       socket.close();
 
       const result: IFloNetworkTest = {
         duration: numberOfPings,
-        isComplete: this.isComplete,
+        isComplete: true,
         nodesPingTests: this.floNodeNetworkInfoWrapper.map(x => x.getResult())
       };
 
@@ -56,3 +69,5 @@ export class FloNetworkTestRunner extends EventEmitter {
       }
     }
 }
+
+export const floNetworkTestService = new FloNetworkTestService();

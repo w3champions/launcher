@@ -5,9 +5,7 @@ import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
-import { FloNetworkTestRunner } from './background-thread/flo/flo-network-test-runner'
-import { IFloNodeNetworkInfo } from './types/flo-types'
-import { ENodeNetworkTesterEvents } from './background-thread/flo/node-network-tester'
+import { floNetworkTestService } from './background-thread/flo/flo-network-test.service'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -74,7 +72,9 @@ function createWindow() {
       enableRemoteModule: true,
       webSecurity: false
     }
-  })
+  });
+
+  floNetworkTestService.setWindow(win);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -244,20 +244,6 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
     fab.close();
   }
   fab = null;
-});
-
-ipcMain.on('flo-network-test', async (ev: IpcMainEvent, floNodeNetworkInfo: IFloNodeNetworkInfo[]) => {
-  try {
-    const networkTest = new FloNetworkTestRunner(floNodeNetworkInfo);
-    networkTest.on(ENodeNetworkTesterEvents.Progress, (progressPerc: number) => {
-      win?.webContents.send('flo-network-test-progress', progressPerc);
-    });
-    const testResult = await networkTest.run(50);
-    win?.webContents.send('flo-network-test-result', testResult);
-  }
-  catch(e) {
-    console.log(e);
-  }
 });
 
 const authUrlChina = 'https://www.battlenet.com.cn/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'

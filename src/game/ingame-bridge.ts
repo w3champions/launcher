@@ -30,6 +30,7 @@ export enum ELauncherMessageType {
     FLO_NETWORK_TEST = 'FLO_NETWORK_TEST',
     FLO_NETWORK_TEST_RESULT = 'FLO_NETWORK_TEST_RESULT',
     FLO_NETWORK_TEST_PROGRESS = 'FLO_NETWORK_TEST_PROGRESS',
+    FLO_NETWORK_TEST_START = 'FLO_NETWORK_TEST_START',
 
     FLO_CREATE_TEST_GAME = 'FLO_CREATE_TEST_GAME',
     FLO_KILL_TEST_GAME = 'FLO_KILL_TEST_GAME',
@@ -193,7 +194,14 @@ export class IngameBridge extends EventEmitter {
         playerInstance.sendMessage(message);
     }
 
-    
+    public sendNetworkTestStart(playerInstance: IPlayerInstance) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.FLO_NETWORK_TEST_START,
+        };
+
+        playerInstance.sendMessage(message);
+    }
+
     public sendNetworkTestProgress(playerInstance: IPlayerInstance, progressPerc: number) {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.FLO_NETWORK_TEST_PROGRESS,
