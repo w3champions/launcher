@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import dgram from 'dgram';
-import { IFloNetworkTest, IFloNodeNetworkInfo } from '@/types/flo-types';
+import { IFloNetworkTest, IFloNetworkTestRequest, IFloNodeNetworkInfo } from '@/types/flo-types';
 import { FloNodeNetworkInfoWrapper } from './flo-node-network-wrapper';
 import { ENodeNetworkTesterEvents } from './node-network-tester';
 import { BrowserWindow, ipcMain, IpcMainEvent } from 'electron';
@@ -11,9 +11,9 @@ class FloNetworkTestService extends EventEmitter {
     constructor() {
       super();
 
-      ipcMain.on('flo-network-test', async (ev: IpcMainEvent, floNodeNetworkInfo: IFloNodeNetworkInfo[]) => {
+      ipcMain.on('flo-network-test', async (ev: IpcMainEvent, networkTestRequest: IFloNetworkTestRequest) => {
         try {
-          const testResult = await this.run(floNodeNetworkInfo, 50);
+          const testResult = await this.run(networkTestRequest);
           this.window?.webContents.send('flo-network-test-result', testResult);
         }
         catch(e) {
@@ -26,7 +26,7 @@ class FloNetworkTestService extends EventEmitter {
       this.window = window;
     }
 
-    public async run(floNodeNetworkInfo: IFloNodeNetworkInfo[], numberOfPings: number) {
+    public async run(networkTestRequest: IFloNetworkTestRequest) {
       const socket = dgram.createSocket("udp4");
 
       socket.on("error", (err) => {
@@ -35,8 +35,8 @@ class FloNetworkTestService extends EventEmitter {
 
       const floNodeNetworkInfoWrappers: FloNodeNetworkInfoWrapper[] = [];
       const promises: Promise<void>[] = [];
-      for (const nodeNetworkInfo of floNodeNetworkInfo) {
-        const floNodeNetworkInfoWrapper = new FloNodeNetworkInfoWrapper(nodeNetworkInfo, numberOfPings, socket);
+      for (const nodeNetworkInfo of networkTestRequest.nodes) {
+        const floNodeNetworkInfoWrapper = new FloNodeNetworkInfoWrapper(nodeNetworkInfo, networkTestRequest.duration, socket);
         floNodeNetworkInfoWrappers.push(floNodeNetworkInfoWrapper);
         promises.push(... floNodeNetworkInfoWrapper.testNodeNetwork());
       }
@@ -54,8 +54,7 @@ class FloNetworkTestService extends EventEmitter {
       socket.close();
 
       const result: IFloNetworkTest = {
-        duration: numberOfPings,
-        isComplete: true,
+        duration: networkTestRequest.duration,
         nodesPingTests: floNodeNetworkInfoWrappers.map(x => x.getResult())
       };
 

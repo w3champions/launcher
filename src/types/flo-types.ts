@@ -13,6 +13,11 @@ export interface IFloNodeProxy {
     address: string;
 }
 
+export interface IFloNetworkTestRequest {
+    duration: number;
+    nodes: IFloNodeNetworkInfo[];
+}
+
 export interface INetworkTestResult {
     avgPing: number;
     packetLoss: number;
@@ -30,5 +35,4 @@ export interface IFloNodeNetworkTestResult extends INetworkTestResult {
 export interface IFloNetworkTest {
     nodesPingTests: IFloNodeNetworkTestResult[];
     duration: number;
-    isComplete: boolean;
 }

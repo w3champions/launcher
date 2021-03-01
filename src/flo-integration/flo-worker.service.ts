@@ -62,7 +62,12 @@ export class FloWorkerService {
             workerInstance?.killTestGame();
         });
 
-        ingameBridge.on(ELauncherMessageType.FLO_NETWORK_TEST, (event: IIngameBridgeEvent) => {
+        ingameBridge.on(ELauncherMessageType.FLO_SET_NODE_OVERRIDES, (event: IIngameBridgeEvent) => {
+            const workerInstance = this.getWorkerInstance(event.playerInstance);
+            workerInstance?.setNodeAddrsOverrides(event.data);
+        });
+
+        ingameBridge.on(ELauncherMessageType.FLO_NETWORK_TEST_REQUEST, (event: IIngameBridgeEvent) => {
             ipcRenderer.once('flo-network-test-start', (wht: any) => {
                 ingameBridge.sendNetworkTestStart(event.playerInstance);
             });
