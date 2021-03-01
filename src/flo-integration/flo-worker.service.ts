@@ -4,11 +4,13 @@ import { ELauncherMessageType, IIngameBridgeEvent, ingameBridge } from '@/game/i
 import { FloWorkerInstance, IFloAuthData, IFloWorkerInstanceSettings } from './flo-worker.instance';
 import { IPlayerInstance } from '@/game/game.types';
 import logger from '@/logger';
+import { IFloNetworkTest } from "@/types/flo-types";
 
 const { remote } = window.require("electron");
 const path = require('path');
 const fs = window.require("fs");
 const { exec } = window.require("child_process");
+const { ipcRenderer } = window.require('electron')
 
 export class FloWorkerService {
     private store = store;
@@ -58,6 +60,28 @@ export class FloWorkerService {
         ingameBridge.on(ELauncherMessageType.FLO_KILL_TEST_GAME, (event: IIngameBridgeEvent) => {
             const workerInstance = this.getWorkerInstance(event.playerInstance);
             workerInstance?.killTestGame();
+        });
+
+        ingameBridge.on(ELauncherMessageType.FLO_SET_NODE_OVERRIDES, (event: IIngameBridgeEvent) => {
+            const workerInstance = this.getWorkerInstance(event.playerInstance);
+            workerInstance?.setNodeAddrsOverrides(event.data);
+        });
+
+        ingameBridge.on(ELauncherMessageType.FLO_NETWORK_TEST_REQUEST, (event: IIngameBridgeEvent) => {
+            ipcRenderer.once('flo-network-test-start', (wht: any) => {
+                ingameBridge.sendNetworkTestStart(event.playerInstance);
+            });
+
+            ipcRenderer.removeAllListeners('flo-network-test-progress');
+            ipcRenderer.on('flo-network-test-progress', (wht: any, progressPerc: number) => {
+                ingameBridge.sendNetworkTestProgress(event.playerInstance, progressPerc);
+            });
+
+            ipcRenderer.once('flo-network-test-result', (wht: any, networkTest: IFloNetworkTest) => {
+                ingameBridge.sendNetworkTestResult(event.playerInstance, networkTest);
+            });
+
+            ipcRenderer.send('flo-network-test', event.data);
         });
     }
 

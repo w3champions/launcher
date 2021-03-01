@@ -1,8 +1,10 @@
 import { IPlayerInstance } from '@/game/game.types';
 import { ingameBridge } from '@/game/ingame-bridge';
 import logger from '@/logger';
+import { IFloNodeProxy } from '@/types/flo-types';
 const { spawn } = window.require("child_process");
 const WebSocketClass = window.require("ws");
+const dns = window.require("dns");
 
 interface IFloWorkerStartupData {
     port: number;
@@ -37,12 +39,6 @@ export interface IFloNode {
 	ping: IFloPing;
 }
 
-export interface IPlayerNodeOverride {
-    nodeId: number;
-    port: number;
-    address: string;
-}
-
 interface IFloNodeOverride {
     node_id: number;
     address: string;
@@ -50,7 +46,7 @@ interface IFloNodeOverride {
 
 export interface IFloAuthData {
     token: string;
-    nodeOverrides: IPlayerNodeOverride[];
+    nodeOverrides: IFloNodeProxy[];
 }
 
 export interface IListNodesEvent extends IFloWorkerEvent {
@@ -77,8 +73,7 @@ export class FloWorkerInstance {
     private reconnectInterValHandle?: any;
     private isReconnecting = false;
     private nodePings: IFloNode[] = [];
-
-    public playerInstance?: IPlayerInstance;
+    private playerInstance?: IPlayerInstance;
 
     constructor(settings: IFloWorkerInstanceSettings) {
         this.settings = settings;
@@ -125,9 +120,15 @@ export class FloWorkerInstance {
         );
     }
 
-    public setNodeAddrsOverrides(nodeOverrides: IPlayerNodeOverride[]) {
-        if (!nodeOverrides || nodeOverrides.length == 0) {
-            return;
+    public async setNodeAddrsOverrides(nodeOverrides: IFloNodeProxy[]) {
+        if (!nodeOverrides) {
+            nodeOverrides = [];
+        }
+
+        const dnsOverrides = nodeOverrides.filter(x => x.isDns);
+
+        for (const dnsOverride of dnsOverrides) {
+            dnsOverride.address = await this.resolveIpFromDns(dnsOverride.address);
         }
 
         const overrides: IFloNodeOverride[] = nodeOverrides.map(x => {
@@ -137,10 +138,14 @@ export class FloWorkerInstance {
             }
         });
 
-        this.floWorkerWs?.send(JSON.stringify({
+        const nodeOverridesMessage = JSON.stringify({
             type: 'SetNodeAddrOverrides',
             overrides
-        }));
+        });
+
+        logger.info(`Setting node overrides: ${nodeOverridesMessage}`)
+
+        this.floWorkerWs?.send(nodeOverridesMessage);
     }
 
     public isConnected() {
@@ -303,4 +308,14 @@ export class FloWorkerInstance {
             }
         }
     }
+
+    private resolveIpFromDns(dnsAddress: string) {
+        const promise = new Promise<string>((res, rej) => {
+          dns.lookup(dnsAddress, (err: any, ipAddress: string) => {
+            res(ipAddress);
+          });
+        });
+  
+        return promise;
+      }
 }

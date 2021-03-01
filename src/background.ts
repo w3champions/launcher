@@ -5,7 +5,7 @@ import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
-import { PingsRun } from './background-thread/ping/pings-run'
+import { floNetworkTestService } from './background-thread/flo/flo-network-test.service'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -72,7 +72,9 @@ function createWindow() {
       enableRemoteModule: true,
       webSecurity: false
     }
-  })
+  });
+
+  floNetworkTestService.setWindow(win);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -241,9 +243,8 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
   if (fab) {
     fab.close();
   }
-
   fab = null;
-})
+});
 
 const authUrlChina = 'https://www.battlenet.com.cn/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
 const logoutUrlChina = 'https://www.battlenet.com.cn/login/logout';
