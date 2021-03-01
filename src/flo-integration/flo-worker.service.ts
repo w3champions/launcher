@@ -67,6 +67,7 @@ export class FloWorkerService {
                 ingameBridge.sendNetworkTestStart(event.playerInstance);
             });
 
+            ipcRenderer.removeAllListeners('flo-network-test-progress');
             ipcRenderer.on('flo-network-test-progress', (wht: any, progressPerc: number) => {
                 ingameBridge.sendNetworkTestProgress(event.playerInstance, progressPerc);
             });

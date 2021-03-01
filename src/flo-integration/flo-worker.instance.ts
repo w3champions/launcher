@@ -121,8 +121,8 @@ export class FloWorkerInstance {
     }
 
     public async setNodeAddrsOverrides(nodeOverrides: IFloNodeProxy[]) {
-        if (!nodeOverrides || nodeOverrides.length == 0) {
-            return;
+        if (!nodeOverrides) {
+            nodeOverrides = [];
         }
 
         const dnsOverrides = nodeOverrides.filter(x => x.isDns);
@@ -138,10 +138,14 @@ export class FloWorkerInstance {
             }
         });
 
-        this.floWorkerWs?.send(JSON.stringify({
+        const nodeOverridesMessage = JSON.stringify({
             type: 'SetNodeAddrOverrides',
             overrides
-        }));
+        });
+
+        logger.info(`Setting node overrides: ${nodeOverridesMessage}`)
+
+        this.floWorkerWs?.send(nodeOverridesMessage);
     }
 
     public isConnected() {
