@@ -2,6 +2,7 @@ import { IFloNode } from '@/flo-integration/flo-worker.instance';
 import logger from "@/logger";
 import store from "@/globalState/vuex-store";
 
+const { remote } = window.require("electron");
 const http = window.require("http");
 const WebSocket = window.require("ws");
 import { EventEmitter } from 'events';
@@ -54,8 +55,10 @@ export interface IIngameBridgeEvent extends ILauncherGameMessage {
 export class IngameBridge extends EventEmitter {
     private server = http.createServer();
     private wss = new WebSocket.Server({ server: this.server });
+    private launcherVersion = '0.0.0';
 
     public initialize() {
+        this.launcherVersion = remote.app.getVersion();
         this.wss.on("connection", (ws: WebSocket, req: any) => {
             const authenticationService = new AuthenticationService();
             const token = authenticationService.loadAuthToken();
@@ -121,7 +124,7 @@ export class IngameBridge extends EventEmitter {
     public sendLauncherVersion(playerInstance: IPlayerInstance) {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.LAUNCHER_VERSION,
-            data: { launcherVersion: store.state.updateHandling.localLauncherVersion }
+            data: { launcherVersion: this.launcherVersion }
         };
 
         playerInstance.sendMessage(message);
