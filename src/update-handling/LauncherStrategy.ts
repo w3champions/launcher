@@ -53,7 +53,7 @@ export abstract class LauncherStrategy {
             try {
                 const lastSlash = to.lastIndexOf('/');
                 const mapDir = to.substr(0, lastSlash);
-                fs.mkdirSync(mapDir,  { recursive: true });
+                fs.mkdirSync(mapDir, { recursive: true });
                 fs.writeFile(to, buffer, (err: any) => {
                     if (err) {
                         logger.error(err);
@@ -62,7 +62,7 @@ export abstract class LauncherStrategy {
             } catch (e) {
                 logger.info(`normal download threw exception: ${e}`)
                 const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
-                fs.writeFile(temPath, buffer, () =>{})
+                fs.writeFile(temPath, buffer, () => { })
                 logger.info(`try as sudo now from: ${temPath} to: ${to}`)
                 this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to })
             }
@@ -173,7 +173,12 @@ export abstract class LauncherStrategy {
 
     private async downloadMapsAndUi() {
         this.store.commit.updateHandling.START_DLS();
-        await this.downloadWebui();
+        if(!this.isTest){
+            await this.downloadWebui();
+        } else {
+            await this.downloadWebuiToPTR();
+        }
+        
         await this.downloadMaps();
         await this.store.dispatch.updateHandling.loadOnlineW3CVersion();
         this.store.dispatch.updateHandling.saveLocalW3CVersion(this.onlineW3cVersion);
@@ -181,12 +186,18 @@ export abstract class LauncherStrategy {
         this.store.commit.updateHandling.FINISH_DLS();
     }
 
-    private downloadWebui() {
-        return this.downloadAndWriteFile("webui", this.w3Path);
+    private async downloadWebui() {
+        await this.downloadAndWriteFile("webui", this.w3Path);
     }
 
-    private downloadMaps() {
-      return this.downloadAndWriteFile("maps", this.mapsPath, this.updateDownloadProgress.bind(this));
+    private async downloadWebuiToPTR() {
+        await this.downloadAndWriteFile("webui", this.w3Path.replace('retail', 'ptr'));
+    }
+
+    private async downloadMaps() {
+        await this.downloadAndWriteFile("maps", this.mapsPath, this.updateDownloadProgress.bind(this));
+        await this.copyMapsToPtr()
+        return "";
     }
 
     private updateDownloadProgress(progress: number) {
@@ -206,6 +217,10 @@ export abstract class LauncherStrategy {
         return this.w3Path.replace("/_retail_", "").replace("\\_retail_", "");
     }
 
+    private async copyMapsToPtr(){
+        this.store.dispatch.updateHandling.sudoCopyFromTo({ from: this.mapsPath, to: this.mapsPath.replace("Warcraft III", "Warcraft III Public Test") });
+    }
+
     private async downloadAndWriteFile(fileName: string, to: string, onProgress?: (percentage: number) => void) {
         logger.info(`Download ${fileName} to: ${to}`)
         const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
@@ -222,7 +237,7 @@ export abstract class LauncherStrategy {
                 const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
                 zip.extractAllTo(temPath, true);
                 logger.info(`try as sudo now from: ${temPath} to: ${to}`)
-                this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to })
+                this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to });
             }
 
             return "";
@@ -253,7 +268,7 @@ export abstract class LauncherStrategy {
         }
 
 
-        this.store.dispatch.updateHandling.saveMapPath(this.getDefaultPathMap())
+        this.store.dispatch.updateHandling.saveMapPath(this.getDefaultPathMap());
 
         await this.downloadMaps()
         this.store.commit.updateHandling.FINISH_MAPS_DL();

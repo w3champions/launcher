@@ -45,12 +45,12 @@ const mod = {
 
       commit.SET_W3_PATH(version);
     },
-    saveMapPath(context: ActionContext<UpdateHandlingState, RootState>, version: string) {
+    saveMapPath(context: ActionContext<UpdateHandlingState, RootState>, mapPath: string) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
-      rootGetters.updateService.saveMapPath(version);
+      rootGetters.updateService.saveMapPath(mapPath);
 
-      commit.SET_MAPS_PATH(version);
+      commit.SET_MAPS_PATH(mapPath);
     },
     saveBnetPath(context: ActionContext<UpdateHandlingState, RootState>, version: string) {
       const { commit, rootGetters } = moduleActionContext(context, mod);

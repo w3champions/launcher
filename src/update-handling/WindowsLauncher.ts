@@ -12,6 +12,12 @@ export class WindowsLauncher extends LauncherStrategy {
                 logger.error(err);
             }
         });
+
+        exec("reg add \"HKEY_CURRENT_USER\\Software\\Blizzard Entertainment\\Warcraft III Public Test\" /v \"Allow Local Files\" /t REG_DWORD /d 1 /f", function(err: Error) {
+            if (err) {
+                logger.error(err);
+            }
+        });
     }
 
     getDefaultPathWc3(): string {
