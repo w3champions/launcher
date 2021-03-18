@@ -37,6 +37,10 @@ module.exports = {
         dmg: {
           sign: false
         },
+        win: {
+          publisherName: ["Simon Heiss"],
+          target: ["nsis"]
+        },
         publish: [{
           provider: "github",
           owner: "w3champions",
