@@ -49,7 +49,6 @@ const f12function = () => {
 }
 
 export class ItemHotkeyRegistrationService {
-
     private keyValueStore = new Store();
     private lastPortKey = "lastPortKey";
     private gridMode = "gridMode";

@@ -94,9 +94,7 @@ import {
   ITEM_TOP_LEFT,
   ITEM_TOP_RIGHT
 } from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
-import {InGameState, ManualHotkeyMode} from "@/hot-keys/ItemHotkeys/HotKeyStateMachine";
 import {combiAsStringForDisplay} from "@/hot-keys/ItemHotkeys/utilsFunctions";
-// eslint-disable-next-line no-unused-vars
 import {KeyDto, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import {tooltips} from  "@/hot-keys/Tooltips";
 
@@ -255,11 +253,7 @@ export default class ItemHotkeyTab extends Vue {
 
   get hotkeyState() {
     const hotKeyStateMachine = this.$store.direct.state.hotKeys.hotKeyStateMachine;
-    if (hotKeyStateMachine instanceof ManualHotkeyMode) {
-      return (hotKeyStateMachine as ManualHotkeyMode).keysActivatedInManualMode;
-    }
-
-    return hotKeyStateMachine.constructor.name === InGameState.name
+    return hotKeyStateMachine.isTurnedOn();
   }
 
   get itemTopLeft() {

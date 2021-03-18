@@ -10,10 +10,8 @@ export abstract class HotKeyState {
     abstract pressF12(): HotKeyState;
     abstract toggleManualMode(): HotKeyState;
     abstract toggle(): HotKeyState;
-
-    public isManual() {
-        return this.constructor.name === ManualHotkeyMode.name;
-    }
+    abstract isManual(): boolean;
+    abstract isTurnedOn(): boolean;
 
     protected turnOffHotkeys() {
         logger.info("turn Off HotKeys manually")
@@ -79,6 +77,14 @@ export class ChatState extends HotKeyState {
     toggle(): HotKeyState {
         return this.turnOnHotKeys();
     }
+
+    isManual(): boolean {
+        return false;
+    }
+
+    isTurnedOn(): boolean {
+        return false;
+    }
 }
 
 export class ManualHotkeyMode extends HotKeyState {
@@ -128,9 +134,20 @@ export class ManualHotkeyMode extends HotKeyState {
 
         return this;
     }
+
+    isManual(): boolean {
+        return true;
+    }
+
+    isTurnedOn(): boolean {
+        return this.keysActivatedInManualMode;
+    }
 }
 
 class MenuState extends HotKeyState {
+    isTurnedOn(): boolean {
+        throw new Error('Method not implemented.');
+    }
     constructor() {
         super();
         store.dispatch.hotKeys.disbleHotKeys();
@@ -166,6 +183,10 @@ class MenuState extends HotKeyState {
 
     toggle(): HotKeyState {
         return this.turnOnHotKeys();
+    }
+
+    isManual(): boolean {
+        return false;
     }
 }
 
@@ -206,6 +227,14 @@ class InChatLogState extends HotKeyState {
     toggle(): HotKeyState {
         return this.turnOnHotKeys();
     }
+
+    isManual(): boolean {
+        return false;
+    }
+
+    isTurnedOn(): boolean {
+        return false;
+    }
 }
 
 export class InGameState extends HotKeyState {
@@ -244,6 +273,14 @@ export class InGameState extends HotKeyState {
 
     toggle(): HotKeyState {
         return this.turnOffHotkeys();
+    }
+
+    isManual(): boolean {
+        return false;
+    }
+
+    isTurnedOn(): boolean {
+        return true;
     }
 }
 
@@ -285,6 +322,14 @@ export class NotInGameState extends HotKeyState {
 
     toggle(): HotKeyState {
         return this.turnOnHotKeys();
+    }
+
+    isManual(): boolean {
+        return false;
+    }
+
+    isTurnedOn(): boolean {
+        return false;
     }
 }
 
