@@ -22,6 +22,12 @@ export class MacLauncher extends LauncherStrategy {
                 logger.error(err);
             }
         });
+
+        exec("defaults write \"com.blizzard.Warcraft III Public Test\" \"Allow Local Files\" -int 1", function(err: Error) {
+            if (err) {
+                logger.error(err);
+            }
+        });
     }
 
     getDefaultPathWc3(): string {

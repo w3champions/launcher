@@ -50,7 +50,7 @@ export abstract class LauncherStrategy {
             const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);
             const buffer = arrayBufferToBuffer(fileBytesArray);
 
-            try {
+        try {
                 const lastSlash = to.lastIndexOf('/');
                 const mapDir = to.substr(0, lastSlash);
                 fs.mkdirSync(mapDir, { recursive: true });
@@ -173,9 +173,9 @@ export abstract class LauncherStrategy {
 
     private async downloadMapsAndUi() {
         this.store.commit.updateHandling.START_DLS();
-        if(!this.isTest){
-            await this.downloadWebui();
-        } else {
+        await this.downloadWebui();
+
+        if(this.isTest){
             await this.downloadWebuiToPTR();
         }
         
@@ -196,7 +196,7 @@ export abstract class LauncherStrategy {
 
     private async downloadMaps() {
         await this.downloadAndWriteFile("maps", this.mapsPath, this.updateDownloadProgress.bind(this));
-        await this.copyMapsToPtr()
+        // await this.copyMapsToPtr()
         return "";
     }
 
@@ -217,10 +217,6 @@ export abstract class LauncherStrategy {
         return this.w3Path.replace("/_retail_", "").replace("\\_retail_", "");
     }
 
-    private async copyMapsToPtr(){
-        this.store.dispatch.updateHandling.sudoCopyFromTo({ from: this.mapsPath, to: this.mapsPath.replace("Warcraft III", "Warcraft III Public Test") });
-    }
-
     private async downloadAndWriteFile(fileName: string, to: string, onProgress?: (percentage: number) => void) {
         logger.info(`Download ${fileName} to: ${to}`)
         const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
@@ -229,9 +225,14 @@ export abstract class LauncherStrategy {
             const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);
             const buffer = arrayBufferToBuffer(fileBytesArray);
             const zip = new AdmZip(buffer);
-
+            
             try {
                 zip.extractAllTo(to, true);
+
+                if(fileName == "maps" && this.isTest){
+                    zip.extractAllTo(to.replace("Warcraft III", "Warcraft III Public Test"), true);
+                }
+
             } catch (e) {
                 logger.info(`normal download threw exception: ${e}`)
                 const temPath = `${remote.app.getPath("appData")}/w3champions/${fileName}_temp`;
