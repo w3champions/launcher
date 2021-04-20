@@ -5,6 +5,7 @@ import { FloWorkerInstance, IFloAuthData, IFloWorkerInstanceSettings } from './f
 import { IPlayerInstance } from '@/game/game.types';
 import logger from '@/logger';
 import { IFloNetworkTest } from "@/types/flo-types";
+import { FLO_CONTROLLER_HOST_URL_PROD, FLO_CONTROLLER_HOST_URL_TEST } from "@/constants";
 
 const { remote } = window.require("electron");
 const path = require('path');
@@ -19,17 +20,13 @@ export class FloWorkerService {
     private workers: FloWorkerInstance[] = [];
 
     public initialize() {
-        const settings = this.createWorkerSettings();
+        store.original.subscribeAction((x, y) => {
+            if (x.type == 'setTestMode') {
+                this.reloadWorkers(x.payload as boolean);
+            }
+        });
 
-        // Start one worker by default
-        this.primaryWorker = new FloWorkerInstance(settings);
-        this.primaryWorker.startWorker();
-
-        // Create second worker used to connect second Warcraft 3 to the launcher
-        this.secondaryWorker = new FloWorkerInstance(settings);
-
-        this.workers.push(this.primaryWorker);
-        this.workers.push(this.secondaryWorker);
+        this.reloadWorkers(store.state.isTest);
 
         ingameBridge.on(ELauncherMessageType.FLO_AUTH, (event: IIngameBridgeEvent) => {
             const data = event.data as IFloAuthData;
@@ -85,6 +82,26 @@ export class FloWorkerService {
         });
     }
 
+    private reloadWorkers(isTest: boolean) {
+        for (const worker of this.workers) {
+            worker?.stopWorker();
+        }
+
+        this.workers = [];
+
+        const settings = this.createWorkerSettings(isTest);
+
+        // Start one worker by default
+        this.primaryWorker = new FloWorkerInstance(settings);
+        this.primaryWorker.startWorker();
+
+        // Create second worker used to connect second Warcraft 3 to the launcher
+        this.secondaryWorker = new FloWorkerInstance(settings);
+
+        this.workers.push(this.primaryWorker);
+        this.workers.push(this.secondaryWorker);
+    }
+
     private getWorkerInstance(pi: IPlayerInstance) {
         let workerInstance = this.workers.find(x => x.isUsedBy(pi.player.battleTag));
 
@@ -119,7 +136,7 @@ export class FloWorkerService {
         })
     }
 
-    private createWorkerSettings() {
+    private createWorkerSettings(isTest: boolean) {
         const isWindows = this.store.state.isWindows;
         const floExecutable = (isWindows) ? 'flo-worker.exe' : 'flo-worker';
         let floWorkerFolderPath: string;
@@ -151,10 +168,14 @@ export class FloWorkerService {
             wc3FolderPath = wc3FolderPath.replace('\\_retail_', '');
         }
 
+        const floControllerHostUrl = isTest ?
+            FLO_CONTROLLER_HOST_URL_TEST : FLO_CONTROLLER_HOST_URL_PROD;
+
         const result: IFloWorkerInstanceSettings = {
             floWorkerFolderPath,
             floWorkerExePath,
-            wc3FolderPath
+            wc3FolderPath,
+            floControllerHostUrl
         };
 
         return result;

@@ -35,8 +35,8 @@ export interface IFloNode {
     id: string;
     name: string;
     location: string;
-	country_id: string;
-	ping: IFloPing;
+    country_id: string;
+    ping: IFloPing;
 }
 
 interface IFloNodeOverride {
@@ -54,13 +54,14 @@ export interface IListNodesEvent extends IFloWorkerEvent {
 }
 
 export interface IPingUpdate extends IFloWorkerEvent {
-    ping_map: {[id: string]: IFloPing};
+    ping_map: { [id: string]: IFloPing };
 }
 
 export interface IFloWorkerInstanceSettings {
     floWorkerFolderPath: string;
     floWorkerExePath: string;
     wc3FolderPath: string;
+    floControllerHostUrl: string;
 }
 
 export class FloWorkerInstance {
@@ -158,15 +159,20 @@ export class FloWorkerInstance {
 
     public async startWorker() {
         const promise = new Promise<void>((res) => {
-            this.floWorkerProcess = spawn(this.settings.floWorkerExePath, ['--installation-path', this.settings.wc3FolderPath], {cwd: this.settings.floWorkerFolderPath});
+            this.floWorkerProcess = spawn(this.settings.floWorkerExePath,
+                ['--installation-path', this.settings.wc3FolderPath,
+                    '--controller-host', this.settings.floControllerHostUrl
+                ],
+                { cwd: this.settings.floWorkerFolderPath }
+            );
             this.floWorkerProcess.stdout.on('data', async (data: Buffer) => {
                 if (!this.workerInfo && data) {
                     const dataString = data.toString();
                     const parsed = JSON.parse(dataString);
-    
+
                     if (parsed.version && parsed.port) {
-                        logger.info('Flo worker started');
-    
+                        logger.info(`Flo worker started against: ${this.settings.floControllerHostUrl}`);
+
                         this.workerInfo = parsed;
                         await this.attachToFloWorkerWebsocket();
                         this.isWorkerStarted = true;
@@ -178,11 +184,11 @@ export class FloWorkerInstance {
             this.floWorkerProcess.on('error', function (startErr: any) {
                 logger.error('start error' + startErr);
             });
-    
+
             this.floWorkerProcess.stderr.on('data', (data: any) => {
                 logger.error(`stderr: ${data}`);
             });
-    
+
             this.floWorkerProcess.on('close', (code: any) => {
                 this.floWorkerProcess = null;
                 this.workerInfo = undefined;
@@ -190,7 +196,7 @@ export class FloWorkerInstance {
                 logger.info(`child process exited with code ${code}`);
             });
         });
-        
+
         return promise;
     }
 
@@ -208,7 +214,7 @@ export class FloWorkerInstance {
         ingameBridge.sendFloConnected(this.playerInstance as any, this.workerInfo?.version as string);
 
         this.startTestGame();
-        setTimeout(()=> this.killTestGame() , 1000);
+        setTimeout(() => this.killTestGame(), 1000);
 
         setTimeout(() => {
             this.setNodeAddrsOverrides(this.lastAuthData?.nodeOverrides || []);
@@ -244,23 +250,23 @@ export class FloWorkerInstance {
                 rej('flo worker info is missing');
                 return;
             }
-    
+
             const ws = new WebSocketClass(`ws://127.0.0.1:${this.workerInfo?.port}`, {
                 // request must from this origin or w3flo.com
                 origin: "http://localhost:3000",
             });
-    
+
             this.floWorkerWs = ws;
-    
+
             ws.on("open", () => {
                 logger.info(`Connected to flo worker websocket on ${this.workerInfo?.port}`);
                 res();
             });
-    
+
             ws.on("close", function close() {
                 logger.info("ws disconnected");
             });
-    
+
             ws.on("message", (data: any) => {
                 const parsed = JSON.parse(data) as IFloWorkerEvent;
                 this.processFloWorkerMessage(parsed);
@@ -311,11 +317,11 @@ export class FloWorkerInstance {
 
     private resolveIpFromDns(dnsAddress: string) {
         const promise = new Promise<string>((res, rej) => {
-          dns.lookup(dnsAddress, (err: any, ipAddress: string) => {
-            res(ipAddress);
-          });
+            dns.lookup(dnsAddress, (err: any, ipAddress: string) => {
+                res(ipAddress);
+            });
         });
-  
+
         return promise;
-      }
+    }
 }
