@@ -206,9 +206,12 @@ export class FloWorkerInstance {
             }
             this.isReconnecting = true;
             logger.info('Reconnecting to flo server');
-            this.stopWorker();
 
             setTimeout(async () => {
+                if (!this.floWorkerWs) {
+                    logger.info('Reconnecting to flo worker websocket');
+                    await this.attachToFloWorkerWebsocket();
+                }
                 await this.connect(this.playerInstance as any, this.lastAuthData as IFloAuthData);
                 this.isReconnecting = false;
             }, 1000);
@@ -235,8 +238,9 @@ export class FloWorkerInstance {
                 res();
             });
 
-            ws.on("close", function close() {
+            ws.on("close", () => {
                 logger.info("ws disconnected");
+                this.floWorkerWs = undefined;
             });
 
             ws.on("message", (data: any) => {
