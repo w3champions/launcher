@@ -1,4 +1,3 @@
-import { IFloNode } from '@/flo-integration/flo-worker.instance';
 import logger from "@/logger";
 import store from "@/globalState/vuex-store";
 
@@ -12,6 +11,7 @@ import {W3cToken} from "@/globalState/rootTypings";
 import { IFloNetworkTest } from '@/types/flo-types';
 import { OAUTH_ENABLED } from '@/constants';
 import { GameUtils } from './game-utils';
+import { IFloNode } from "@/flo-integration/types";
 
 export enum ELauncherMessageType {
     REQUEST_AUTHENTICATION_TOKEN = 'REQUEST_AUTHENTICATION_TOKEN',

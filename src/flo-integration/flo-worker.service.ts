@@ -1,11 +1,12 @@
 import store from "@/globalState/vuex-store";
 import { environment } from '@/environment';
 import { ELauncherMessageType, IIngameBridgeEvent, ingameBridge } from '@/game/ingame-bridge';
-import { FloWorkerInstance, IFloAuthData, IFloWorkerInstanceSettings } from './flo-worker.instance';
+import { FloWorkerInstance } from './flo-worker.instance';
 import { IPlayerInstance } from '@/game/game.types';
 import logger from '@/logger';
 import { IFloNetworkTest } from "@/types/flo-types";
 import { FLO_CONTROLLER_HOST_URL_PROD, FLO_CONTROLLER_HOST_URL_TEST } from "@/constants";
+import { IFloAuthData, IFloWorkerInstanceSettings } from "./types";
 
 const { remote } = window.require("electron");
 const path = require('path');
@@ -109,7 +110,7 @@ export class FloWorkerService {
             return workerInstance;
         }
 
-        workerInstance = this.workers.find(x => !x.isConnected());
+        workerInstance = this.workers.find(x => !x.isConnectedToGame());
         if (workerInstance) {
             return workerInstance;
         }

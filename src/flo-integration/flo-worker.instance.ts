@@ -2,67 +2,13 @@ import { IPlayerInstance } from '@/game/game.types';
 import { ingameBridge } from '@/game/ingame-bridge';
 import logger from '@/logger';
 import { IFloNodeProxy } from '@/types/flo-types';
+import { EFloWorkerEventTypes, EPlayerStatus, IFloWorkerEvent, IPingUpdate, IPlayerSession } from './flo-worker-messages';
+import { IFloAuthData, IFloNode, IFloNodeOverride, IFloWorkerInstanceSettings, IFloWorkerStartupData } from './types';
 const { spawn } = window.require("child_process");
 const WebSocketClass = window.require("ws");
 const dns = window.require("dns");
 
-interface IFloWorkerStartupData {
-    port: number;
-    version: string;
-}
 
-enum EFloWorkerEventTypes {
-    ClientInfo = 'ClientInfo',
-    ListNodes = 'ListNodes',
-    PlayerSession = 'PlayerSession',
-    PingUpdate = 'PingUpdate',
-    Disconnect = 'Disconnect'
-}
-
-interface IFloWorkerEvent {
-    type: EFloWorkerEventTypes;
-}
-
-export interface IFloPing {
-    min: number;
-    max: number;
-    avg: number;
-    current: number;
-    loss_rate: number;
-}
-
-export interface IFloNode {
-    id: string;
-    name: string;
-    location: string;
-    country_id: string;
-    ping: IFloPing;
-}
-
-interface IFloNodeOverride {
-    node_id: number;
-    address: string;
-}
-
-export interface IFloAuthData {
-    token: string;
-    nodeOverrides: IFloNodeProxy[];
-}
-
-export interface IListNodesEvent extends IFloWorkerEvent {
-    nodes: IFloNode[];
-}
-
-export interface IPingUpdate extends IFloWorkerEvent {
-    ping_map: { [id: string]: IFloPing };
-}
-
-export interface IFloWorkerInstanceSettings {
-    floWorkerFolderPath: string;
-    floWorkerExePath: string;
-    wc3FolderPath: string;
-    floControllerHostUrl: string;
-}
 
 export class FloWorkerInstance {
     private settings: IFloWorkerInstanceSettings
@@ -72,21 +18,32 @@ export class FloWorkerInstance {
     private floWorkerWs?: WebSocket;
     private lastAuthData?: IFloAuthData;
     private reconnectInterValHandle?: any;
-    private isReconnecting = false;
     private nodePings: IFloNode[] = [];
     private playerInstance?: IPlayerInstance;
+    private playerSession?: IPlayerSession;
+    private isReconnecting = false;
 
     constructor(settings: IFloWorkerInstanceSettings) {
         this.settings = settings;
     }
 
+    get isInsideGame() {
+        return this.playerSession?.status == EPlayerStatus.InGame;
+    }
+
     public async connect(playerInstance: IPlayerInstance, authData: IFloAuthData) {
+        if (this.playerSession && this.isInsideGame) {
+            this.onPlayerSessionReceived(this.playerSession);
+            return;
+        }
+
         if (!this.isWorkerStarted) {
             await this.startWorker();
         }
 
         this.lastAuthData = authData;
         this.playerInstance = playerInstance;
+
         this.floWorkerWs?.send(
             JSON.stringify({
                 type: 'Connect',
@@ -95,15 +52,12 @@ export class FloWorkerInstance {
         );
     }
 
-    public disconnect() {
-        this.floWorkerWs?.send(
-            JSON.stringify({
-                type: 'Disconnect'
-            })
-        );
-    }
-
     public startTestGame() {
+        if (this.isInsideGame) {
+            logger.info('Cannot start test game because already in game.');
+            return;
+        }
+
         this.floWorkerWs?.send(
             JSON.stringify({
                 type: 'StartTestGame',
@@ -113,6 +67,11 @@ export class FloWorkerInstance {
     }
 
     public killTestGame() {
+        if (this.isInsideGame) {
+            logger.info('Cannot stop test game because already in game.');
+            return;
+        }
+
         this.floWorkerWs?.send(
             JSON.stringify({
                 type: 'KillTestGame',
@@ -149,7 +108,7 @@ export class FloWorkerInstance {
         this.floWorkerWs?.send(nodeOverridesMessage);
     }
 
-    public isConnected() {
+    public isConnectedToGame() {
         return this.playerInstance && this.playerInstance.readyState == WebSocket.OPEN;
     }
 
@@ -158,6 +117,11 @@ export class FloWorkerInstance {
     }
 
     public async startWorker() {
+        if (this.isInsideGame) {
+            logger.info('Cannot start worker game because already in game.');
+            return;
+        }
+
         const promise = new Promise<void>((res) => {
             this.floWorkerProcess = spawn(this.settings.floWorkerExePath,
                 ['--installation-path', this.settings.wc3FolderPath,
@@ -201,13 +165,20 @@ export class FloWorkerInstance {
     }
 
     public stopWorker() {
+        if (this.isInsideGame) {
+            logger.info('Cannot stop worker game because already in game.');
+            return;
+        }
+
         logger.info('Stopping worker');
         this.floWorkerWs?.close();
         this.floWorkerProcess?.kill();
         this.isWorkerStarted = false;
     }
 
-    private onPlayerSessionReceived() {
+    private onPlayerSessionReceived(playerSession: IPlayerSession) {
+        this.playerSession = playerSession;
+
         if (this.reconnectInterValHandle) {
             clearInterval(this.reconnectInterValHandle);
         }
@@ -222,6 +193,7 @@ export class FloWorkerInstance {
     }
 
     private onDisconnectRecieved() {
+        logger.info('Disconnect received');
         ingameBridge.sendFloDisconnected(this.playerInstance as any);
 
         if (this.reconnectInterValHandle) {
@@ -281,7 +253,13 @@ export class FloWorkerInstance {
         switch (parsed.type) {
             case EFloWorkerEventTypes.PlayerSession:
                 {
-                    this.onPlayerSessionReceived();
+                    this.onPlayerSessionReceived(parsed as any);
+                    break;
+                }
+            case EFloWorkerEventTypes.PlayerSessionUpdate:
+                {
+                    const sessionUpdate = parsed as IPlayerSession;
+                    this.playerSession = sessionUpdate;
                     break;
                 }
             case EFloWorkerEventTypes.Disconnect:
@@ -311,6 +289,8 @@ export class FloWorkerInstance {
 
                     ingameBridge.sendPingUpdates(this.playerInstance as any, this.nodePings)
                 }
+
+                break;
             }
         }
     }
