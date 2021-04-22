@@ -22,6 +22,7 @@ export class FloWorkerInstance {
     private playerInstance?: IPlayerInstance;
     private playerSession?: IPlayerSession;
     private isReconnecting = false;
+    private isTestGameCheckDone = false;
 
     constructor(settings: IFloWorkerInstanceSettings) {
         this.settings = settings;
@@ -32,11 +33,6 @@ export class FloWorkerInstance {
     }
 
     public async connect(playerInstance: IPlayerInstance, authData: IFloAuthData) {
-        if (this.playerSession && this.isInsideGame) {
-            this.onPlayerSessionReceived(this.playerSession);
-            return;
-        }
-
         if (!this.isWorkerStarted) {
             await this.startWorker();
         }
@@ -53,11 +49,6 @@ export class FloWorkerInstance {
     }
 
     public startTestGame() {
-        if (this.isInsideGame) {
-            logger.info('Cannot start test game because already in game.');
-            return;
-        }
-
         this.floWorkerWs?.send(
             JSON.stringify({
                 type: 'StartTestGame',
@@ -67,11 +58,6 @@ export class FloWorkerInstance {
     }
 
     public killTestGame() {
-        if (this.isInsideGame) {
-            logger.info('Cannot stop test game because already in game.');
-            return;
-        }
-
         this.floWorkerWs?.send(
             JSON.stringify({
                 type: 'KillTestGame',
@@ -184,8 +170,11 @@ export class FloWorkerInstance {
         }
         ingameBridge.sendFloConnected(this.playerInstance as any, this.workerInfo?.version as string);
 
-        this.startTestGame();
-        setTimeout(() => this.killTestGame(), 1000);
+        if (!this.isTestGameCheckDone) {
+            this.startTestGame();
+            setTimeout(() => this.killTestGame(), 1000);
+            this.isTestGameCheckDone = true;
+        }
 
         setTimeout(() => {
             this.setNodeAddrsOverrides(this.lastAuthData?.nodeOverrides || []);
