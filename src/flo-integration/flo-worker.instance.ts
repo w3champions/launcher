@@ -8,8 +8,6 @@ const { spawn } = window.require("child_process");
 const WebSocketClass = window.require("ws");
 const dns = window.require("dns");
 
-
-
 export class FloWorkerInstance {
     private settings: IFloWorkerInstanceSettings
     private floWorkerProcess?: any;
@@ -46,6 +44,29 @@ export class FloWorkerInstance {
                 token: authData.token,
             })
         );
+    }
+
+    public reconnect(playerInstance: IPlayerInstance, authData: IFloAuthData) {
+        if (this.reconnectInterValHandle) {
+            clearInterval(this.reconnectInterValHandle);
+        }
+
+        this.reconnectInterValHandle = setInterval(() => {
+            if (this.isReconnecting) {
+                return;
+            }
+            this.isReconnecting = true;
+            logger.info('Reconnecting to flo server');
+
+            setTimeout(async () => {
+                if (!this.floWorkerWs) {
+                    logger.info('Reconnecting to flo worker websocket');
+                    await this.attachToFloWorkerWebsocket();
+                }
+                await this.connect(playerInstance, authData);
+                this.isReconnecting = false;
+            }, 1000);
+        }, 2000);
     }
 
     public startTestGame() {
@@ -184,27 +205,7 @@ export class FloWorkerInstance {
     private onDisconnectRecieved() {
         logger.info('Disconnect received');
         ingameBridge.sendFloDisconnected(this.playerInstance as any);
-
-        if (this.reconnectInterValHandle) {
-            clearInterval(this.reconnectInterValHandle);
-        }
-
-        this.reconnectInterValHandle = setInterval(() => {
-            if (this.isReconnecting) {
-                return;
-            }
-            this.isReconnecting = true;
-            logger.info('Reconnecting to flo server');
-
-            setTimeout(async () => {
-                if (!this.floWorkerWs) {
-                    logger.info('Reconnecting to flo worker websocket');
-                    await this.attachToFloWorkerWebsocket();
-                }
-                await this.connect(this.playerInstance as any, this.lastAuthData as IFloAuthData);
-                this.isReconnecting = false;
-            }, 1000);
-        }, 2000);
+        this.reconnect(this.playerInstance as any, this.lastAuthData as any);
     }
 
     private async attachToFloWorkerWebsocket() {
