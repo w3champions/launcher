@@ -53,6 +53,7 @@ export enum EPlayerGameStatus {
     Connected = 'Connected',
     Joined = 'Joined',
     Loaded = 'Loaded',
+    Disconnected = 'Disconnected',
     Left = 'Left'
 }
 

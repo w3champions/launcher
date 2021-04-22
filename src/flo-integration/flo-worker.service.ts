@@ -37,6 +37,14 @@ export class FloWorkerService {
             workerInstance?.connect(pi, data);
         });
 
+        ingameBridge.on(ELauncherMessageType.FLO_RECONNECT, (event: IIngameBridgeEvent) => {
+            const data = event.data as IFloAuthData;
+            const pi = event.playerInstance;
+
+            const workerInstance = this.getWorkerInstance(pi);
+            workerInstance?.reconnect(pi, data);
+        });
+
         ingameBridge.on(ELauncherMessageType.DISCONNECTED, (playerInstnace: IPlayerInstance) => {
         });
 

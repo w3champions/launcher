@@ -8,8 +8,6 @@ const { spawn } = window.require("child_process");
 const WebSocketClass = window.require("ws");
 const dns = window.require("dns");
 
-
-
 export class FloWorkerInstance {
     private settings: IFloWorkerInstanceSettings
     private floWorkerProcess?: any;
@@ -22,6 +20,7 @@ export class FloWorkerInstance {
     private playerInstance?: IPlayerInstance;
     private playerSession?: IPlayerSession;
     private isReconnecting = false;
+    private isTestGameCheckDone = false;
 
     constructor(settings: IFloWorkerInstanceSettings) {
         this.settings = settings;
@@ -32,11 +31,6 @@ export class FloWorkerInstance {
     }
 
     public async connect(playerInstance: IPlayerInstance, authData: IFloAuthData) {
-        if (this.playerSession && this.isInsideGame) {
-            this.onPlayerSessionReceived(this.playerSession);
-            return;
-        }
-
         if (!this.isWorkerStarted) {
             await this.startWorker();
         }
@@ -52,12 +46,30 @@ export class FloWorkerInstance {
         );
     }
 
-    public startTestGame() {
-        if (this.isInsideGame) {
-            logger.info('Cannot start test game because already in game.');
-            return;
+    public reconnect(playerInstance: IPlayerInstance, authData: IFloAuthData) {
+        if (this.reconnectInterValHandle) {
+            clearInterval(this.reconnectInterValHandle);
         }
 
+        this.reconnectInterValHandle = setInterval(() => {
+            if (this.isReconnecting) {
+                return;
+            }
+            this.isReconnecting = true;
+            logger.info('Reconnecting to flo server');
+
+            setTimeout(async () => {
+                if (!this.floWorkerWs) {
+                    logger.info('Reconnecting to flo worker websocket');
+                    await this.attachToFloWorkerWebsocket();
+                }
+                await this.connect(playerInstance, authData);
+                this.isReconnecting = false;
+            }, 1000);
+        }, 2000);
+    }
+
+    public startTestGame() {
         this.floWorkerWs?.send(
             JSON.stringify({
                 type: 'StartTestGame',
@@ -67,11 +79,6 @@ export class FloWorkerInstance {
     }
 
     public killTestGame() {
-        if (this.isInsideGame) {
-            logger.info('Cannot stop test game because already in game.');
-            return;
-        }
-
         this.floWorkerWs?.send(
             JSON.stringify({
                 type: 'KillTestGame',
@@ -184,8 +191,11 @@ export class FloWorkerInstance {
         }
         ingameBridge.sendFloConnected(this.playerInstance as any, this.workerInfo?.version as string);
 
-        this.startTestGame();
-        setTimeout(() => this.killTestGame(), 1000);
+        if (!this.isTestGameCheckDone) {
+            this.startTestGame();
+            setTimeout(() => this.killTestGame(), 1000);
+            this.isTestGameCheckDone = true;
+        }
 
         setTimeout(() => {
             this.setNodeAddrsOverrides(this.lastAuthData?.nodeOverrides || []);
@@ -195,24 +205,7 @@ export class FloWorkerInstance {
     private onDisconnectRecieved() {
         logger.info('Disconnect received');
         ingameBridge.sendFloDisconnected(this.playerInstance as any);
-
-        if (this.reconnectInterValHandle) {
-            clearInterval(this.reconnectInterValHandle);
-        }
-
-        this.reconnectInterValHandle = setInterval(() => {
-            if (this.isReconnecting) {
-                return;
-            }
-            this.isReconnecting = true;
-            logger.info('Reconnecting to flo server');
-            this.stopWorker();
-
-            setTimeout(async () => {
-                await this.connect(this.playerInstance as any, this.lastAuthData as IFloAuthData);
-                this.isReconnecting = false;
-            }, 1000);
-        }, 2000);
+        this.reconnect(this.playerInstance as any, this.lastAuthData as any);
     }
 
     private async attachToFloWorkerWebsocket() {
@@ -235,8 +228,9 @@ export class FloWorkerInstance {
                 res();
             });
 
-            ws.on("close", function close() {
+            ws.on("close", () => {
                 logger.info("ws disconnected");
+                this.floWorkerWs = undefined;
             });
 
             ws.on("message", (data: any) => {
