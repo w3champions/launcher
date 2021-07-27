@@ -22,12 +22,12 @@ jobs:
 
   - script: npm run build
     displayName: 'npm build'
-    condition: 
+    condition:
       eq(variables['Build.Reason'], 'PullRequest')
 
   - script: npm run buildAndPublish
     displayName: 'npm build and sign'
-    condition: 
+    condition:
       ne(variables['Build.Reason'], 'PullRequest')
     env:
       CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_MAC)
@@ -64,16 +64,16 @@ jobs:
 
   - script: npm run build
     displayName: 'npm build'
-    condition: 
+    condition:
       eq(variables['Build.Reason'], 'PullRequest')
 
   - script: npm run buildAndPublish
     displayName: 'npm build and sign'
-    condition: 
+    condition:
       ne(variables['Build.Reason'], 'PullRequest')
     env:
-      CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_WIN)
-      CSC_LINK: w3c-certs-win.pfx
+#      CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_WIN)
+#      CSC_LINK: w3c-certs-win.pfx
       GH_TOKEN: $(GH_TOKEN)
 
   - task: CopyFiles@2
