@@ -1,13 +1,13 @@
-export const UPDATE_URL_PROD = "https://update-service.w3champions.com/";
+export const UPDATE_URL_PROD = "http://123.57.23.5:25053/";
 export const UPDATE_URL_TEST = "https://update-service.test.w3champions.com/";
 
-export const NEWS_URL_PROD = "https://statistic-service.w3champions.com/";
+export const NEWS_URL_PROD = "http://123.57.23.5:25052/";
 export const NEWS_URL_TEST = "https://statistic-service.test.w3champions.com/";
 
-export const IDENTIFICATION_URL_PROD = "https://identification-service.w3champions.com/";
+export const IDENTIFICATION_URL_PROD = "http://123.57.23.5:25051/";
 export const IDENTIFICATION_URL_TEST = "https://identification-service.test.w3champions.com/";
 
-export const FLO_CONTROLLER_HOST_URL_PROD = 'service.w3flo.com';
+export const FLO_CONTROLLER_HOST_URL_PROD = 'ea2d46.pathx.ucloudgda.com';
 export const FLO_CONTROLLER_HOST_URL_TEST = '157.90.1.251';
 
 export const IDENTIFICATION_PUBLIC_KEY_PROD = `-----BEGIN PUBLIC KEY-----
