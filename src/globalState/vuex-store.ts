@@ -13,11 +13,14 @@ import {
   IDENTIFICATION_PUBLIC_KEY_PROD,
   IDENTIFICATION_PUBLIC_KEY_TEST,
   IDENTIFICATION_URL_PROD,
+  IDENTIFICATION_URL_PROD_CHINA,
   IDENTIFICATION_URL_TEST,
   NEWS_URL_PROD,
+  NEWS_URL_PROD_CHINA,
   NEWS_URL_TEST,
   OAUTH_ENABLED,
   UPDATE_URL_PROD,
+  UPDATE_URL_PROD_CHINA,
   UPDATE_URL_TEST
 } from "@/constants";
 import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
@@ -44,6 +47,7 @@ const mod = {
   },
   state: {
     isTest: false,
+    isChinaProxyEnabled: false,
     updateUrl: UPDATE_URL_PROD,
     newsUrl: NEWS_URL_PROD,
     identificationUrl: IDENTIFICATION_URL_PROD,
@@ -81,6 +85,13 @@ const mod = {
       const mode = rootGetters.versionService.loadMode();
 
       commit.SET_IS_TEST(mode);
+    },
+    loadIsChinaProxyEnabled(context: ActionContext<unknown, RootState>) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      const enabled = rootGetters.versionService.loadIsChinaProxyEnabled();
+
+      commit.SET_IS_CHINA_PROXY_ENABLED(enabled);
     },
     loadOsMode(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
@@ -134,6 +145,13 @@ const mod = {
         ipcRenderer.send('oauth-requested', state.selectedLoginGateway);
       }
     },
+    async setChinaProxy(context: ActionContext<RootState, RootState>, enabled: boolean) {
+      const { commit, rootGetters } = moduleActionContext(context, mod);
+
+      commit.SET_IS_CHINA_PROXY_ENABLED(enabled);
+
+      rootGetters.versionService.saveIsChinaProxyEnabled(enabled);
+    },
   },
   mutations: {
     SET_IS_TEST(state: RootState, test: boolean) {
@@ -158,6 +176,21 @@ const mod = {
     LOGOUT(state: RootState) {
       state.w3cToken = null;
     },
+    SET_IS_CHINA_PROXY_ENABLED(state: RootState, enabled: boolean) {
+      state.isChinaProxyEnabled = enabled
+      if (enabled) {
+        state.updateUrl = UPDATE_URL_PROD_CHINA;
+        state.newsUrl = NEWS_URL_PROD_CHINA;
+        state.identificationUrl = IDENTIFICATION_URL_PROD_CHINA;
+        state.identificationPublicKey = IDENTIFICATION_PUBLIC_KEY_PROD;
+      } else {
+        const test = state.isTest
+        state.updateUrl = test ? UPDATE_URL_TEST : UPDATE_URL_PROD;
+        state.newsUrl = test ? NEWS_URL_TEST : NEWS_URL_PROD;
+        state.identificationUrl = test ? IDENTIFICATION_URL_TEST : IDENTIFICATION_URL_PROD;
+        state.identificationPublicKey = test ? IDENTIFICATION_PUBLIC_KEY_TEST : IDENTIFICATION_PUBLIC_KEY_PROD;
+      }
+    }
   },
   getters: {
     updateService() {

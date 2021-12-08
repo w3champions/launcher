@@ -52,6 +52,7 @@ export default class App extends Vue {
     })
 
     this.$store.direct.dispatch.loadIsTestMode();
+    this.$store.direct.dispatch.loadIsChinaProxyEnabled();
     this.$store.direct.dispatch.loadOsMode();
     this.$store.direct.dispatch.loadAuthToken();
 

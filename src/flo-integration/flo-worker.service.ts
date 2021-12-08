@@ -5,7 +5,7 @@ import { FloWorkerInstance } from './flo-worker.instance';
 import { IPlayerInstance } from '@/game/game.types';
 import logger from '@/logger';
 import { IFloNetworkTest } from "@/types/flo-types";
-import { FLO_CONTROLLER_HOST_URL_PROD, FLO_CONTROLLER_HOST_URL_TEST } from "@/constants";
+import { FLO_CONTROLLER_HOST_URL_PROD, FLO_CONTROLLER_HOST_URL_TEST, FLO_CONTROLLER_HOST_URL_PROD_CHINA } from "@/constants";
 import { IFloAuthData, IFloWorkerInstanceSettings } from "./types";
 
 const { remote } = window.require("electron");
@@ -98,7 +98,7 @@ export class FloWorkerService {
 
         this.workers = [];
 
-        const settings = this.createWorkerSettings(isTest);
+        const settings = this.createWorkerSettings();
 
         // Start one worker by default
         this.primaryWorker = new FloWorkerInstance(settings);
@@ -145,8 +145,11 @@ export class FloWorkerService {
         })
     }
 
-    private createWorkerSettings(isTest: boolean) {
-        const isWindows = this.store.state.isWindows;
+    private createWorkerSettings() {
+        const { isWindows, isTest, isChinaProxyEnabled } = this.store.state
+        const floControllerHostUrl = isChinaProxyEnabled ? FLO_CONTROLLER_HOST_URL_PROD_CHINA : (
+            isTest ? FLO_CONTROLLER_HOST_URL_TEST : FLO_CONTROLLER_HOST_URL_PROD
+        );
         const floExecutable = (isWindows) ? 'flo-worker.exe' : 'flo-worker';
         let floWorkerFolderPath: string;
         if (environment.isDev) {
@@ -176,9 +179,6 @@ export class FloWorkerService {
             wc3FolderPath = wc3FolderPath.replace('/_retail_', '');
             wc3FolderPath = wc3FolderPath.replace('\\_retail_', '');
         }
-
-        const floControllerHostUrl = isTest ?
-            FLO_CONTROLLER_HOST_URL_TEST : FLO_CONTROLLER_HOST_URL_PROD;
 
         const result: IFloWorkerInstanceSettings = {
             floWorkerFolderPath,

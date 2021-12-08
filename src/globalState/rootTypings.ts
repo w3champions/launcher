@@ -1,5 +1,6 @@
 export interface RootState {
     isTest: boolean,
+    isChinaProxyEnabled: boolean,
     isWindows: boolean,
     newsUrl: string,
     updateUrl: string,
