@@ -2,6 +2,7 @@ import { EPlayerGameStatus, ICurrentGameInfo } from "@/flo-integration/flo-worke
 
 export interface RootState {
     isTest: boolean,
+    isChinaProxyEnabled: boolean,
     isWindows: boolean,
     newsUrl: string,
     updateUrl: string,

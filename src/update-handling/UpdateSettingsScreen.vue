@@ -2,6 +2,55 @@
   <div class="launcher-background">
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <div style="padding-top: 40px; position: relative">
+      <div class="options-header w3font" style="margin-bottom: 10px">Directory Settings</div>
+        <div class="location-wrapper">
+        <div class="w3c-icon" :title="`Enter the location to wc3 (Usually ${defaultW3Location})`"/>
+        <div class="reset-button-line"  :class="isW3LocationWrong ? 'path-is-wrong' : 'path-is-right'">
+          <div :title="explanationW3Wrong">{{w3Path}}</div>
+          <div class="reset-button" @click="resetW3Path" />
+        </div>
+        <div class="bnet-icon" :title="`Enter the location to wc3 (Usually ${defaultBnetLocation})`" />
+        <div class="reset-button-line" :class="isBnetLocationWrong ? 'path-is-wrong' : 'path-is-right'">
+          <div :title="explanationBnetWrong">{{battleNet}}</div>
+          <div class="reset-button" @click="resetBnetPath" />
+        </div>
+      </div>
+      <div class="options-header w3font" style="margin-top: 20px">Color Settings</div>
+      <div class="color-pick-bar">
+        <div style="display: flex">
+          <div :class="isTeamColorsEnabled ? 'toggle-on' : 'toggle-off'" @click="toggleTeamColors"/>
+          <div style="line-height: 31px; margin-left: 5px">Team colors</div>
+        </div>
+
+        <ColorPicker text="Own Color" :color="ownColor" :onSwitchColor="switchOwnColor"/>
+        <ColorPicker text="Enemy Color" :color="enemyColor" :onSwitchColor="switchEnemyColor"/>
+        <ColorPicker text="Allies Color" :color="alliesColor" :onSwitchColor="switchAlliesColor"/>
+      </div>
+      <div class="options-header w3font" style="margin-top: 20px">Misc</div>
+      <div class="misc-wrapper">
+        <div style="display: flex">
+          <div :class="isChinaProxyEnabled ? 'toggle-on' : 'toggle-off'" @click="toggleChinaProxy"/>
+          <div style="line-height: 31px; margin-left: 5px">China proxy</div>
+        </div>
+      </div>
+      <div class="button-bar">
+        <template v-if="isChinaProxyEnabled">
+          <div @click="repairW3cChina" :disabled="isLoading" class="button-bar-button w3font">
+            修复客户端
+          </div>
+        </template>
+        <template v-else>
+          <div @click="repairW3c" :disabled="isLoading" class="button-bar-button w3font">
+            Reset W3C
+          </div>
+          <div @click="redownloadW3c" :disabled="isLoading" class="button-bar-button w3font" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
+            Redownload
+          </div>
+          <div @click="toggleVersion" class="button-bar-button w3font" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
+            Switch to {{ !isTest ? "PTR" : "LIVE" }}
+          </div>
+        </template>
+      </div>
       <div class="version-wrapper">
         <div>Warcraft 3 Champions Version: {{w3cVersion}}</div>
         <div>Launcher Version: {{ currentLauncherVersion }}</div>
@@ -119,6 +168,10 @@ export default class UpdateSettingsScreen extends Vue {
     return this.$store.direct.state.colorPicker.isTeamColorsEnabled;
   }
 
+  get isChinaProxyEnabled() {
+    return this.$store.direct.state.isChinaProxyEnabled
+  }
+
   public async toggleTeamColors() {
     await this.$store.direct.dispatch.colorPicker.saveIsTeamColorsEnabled(!this.isTeamColorsEnabled);
   }
@@ -133,6 +186,10 @@ export default class UpdateSettingsScreen extends Vue {
     this.$store.direct.dispatch.updateHandling.saveIsCustomFontEnabled(value);
 
     this.updateStrategy.setCustomFont(value);
+  }
+  
+  public async toggleChinaProxy() {
+    await this.$store.direct.dispatch.setChinaProxy(!this.isChinaProxyEnabled);
   }
 
   get explanationW3Wrong() {
@@ -218,6 +275,12 @@ export default class UpdateSettingsScreen extends Vue {
     await this.updateStrategy.repairWc3();
   }
 
+    public async repairW3cChina() {
+    if (this.isLoading) return;
+
+    await this.updateStrategy.repairChina();
+  }
+
   private isWindows() {
     return this.$store.state.isWindows;
   }
@@ -281,7 +344,7 @@ export default class UpdateSettingsScreen extends Vue {
   height: 30px;
 }
 
-.team-colors-off {
+.toggle-off {
   background: url("~@/assets/images/settings/Settings_Toggle_Off.png") center no-repeat;
   background-size: cover;
   width: 31px;
@@ -368,5 +431,17 @@ export default class UpdateSettingsScreen extends Vue {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.misc-wrapper {
+  margin-top: 10px;
+  background: url("~@/assets/images/home/Header_Buttons_Frame.png") no-repeat center;
+  height: 71px;
+  width: 671px;
+  background-size: cover;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 </style>
