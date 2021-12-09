@@ -27,6 +27,7 @@ import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationSe
 import {FileService} from "@/update-handling/FileService";
 import {AuthenticationService} from "@/globalState/AuthenticationService";
 import logger from "@/logger";
+import { IFloWorkerEvent } from "@/flo-integration/flo-worker-messages";
 
 const { ipcRenderer } = window.require("electron");
 
@@ -55,6 +56,7 @@ const mod = {
     news: [] as News[],
     w3cToken: null,
     selectedLoginGateway: LoginGW.none,
+    currentGame: null,
   } as RootState,
   actions: {
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -145,13 +147,17 @@ const mod = {
         ipcRenderer.send('oauth-requested', state.selectedLoginGateway);
       }
     },
-    async setChinaProxy(context: ActionContext<RootState, RootState>, enabled: boolean) {
+    async setChinaProxy(context: ActionContext<unknown, RootState>, enabled: boolean) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       commit.SET_IS_CHINA_PROXY_ENABLED(enabled);
 
       rootGetters.versionService.saveIsChinaProxyEnabled(enabled);
     },
+    updateCurrentGame(context: ActionContext<unknown, RootState>, msg: IFloWorkerEvent) {
+      const { commit } = moduleActionContext(context, mod);
+      commit.UPDATE_CURRENT_GAME(msg);
+    }
   },
   mutations: {
     SET_IS_TEST(state: RootState, test: boolean) {
@@ -190,6 +196,9 @@ const mod = {
         state.identificationUrl = test ? IDENTIFICATION_URL_TEST : IDENTIFICATION_URL_PROD;
         state.identificationPublicKey = test ? IDENTIFICATION_PUBLIC_KEY_TEST : IDENTIFICATION_PUBLIC_KEY_PROD;
       }
+    },
+    UPDATE_CURRENT_GAME(state: RootState, msg: IFloWorkerEvent) {
+      state.currentGame = msg as any
     }
   },
   getters: {

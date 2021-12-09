@@ -15,7 +15,7 @@ export class VersionService {
     }
 
     public loadIsChinaProxyEnabled() {
-        return this.store.get(this.isChinaProxyEnabledKey) ?? false;
+        return this.store.get(this.isChinaProxyEnabledKey) !== false;
     }
 
     public saveIsChinaProxyEnabled(enabled: boolean) {

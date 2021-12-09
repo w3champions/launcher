@@ -8,7 +8,8 @@ export interface RootState {
     identificationUrl: string,
     identificationPublicKey: string,
     news: News[],
-    w3cToken: W3cToken | null
+    w3cToken: W3cToken | null,
+    currentGame: CurrentGame | null,
 }
 
 export interface News {
@@ -25,4 +26,15 @@ export interface W3cToken {
 
 export enum LoginGW {
     none, eu, cn
+}
+
+export interface CurrentGame {
+    id: number
+    name: string
+    map: string
+    players: Array<{
+        id: number
+        name: string
+        status: string
+    }>,
 }

@@ -101,7 +101,9 @@ export class FloWorkerService {
         const settings = this.createWorkerSettings();
 
         // Start one worker by default
-        this.primaryWorker = new FloWorkerInstance(settings);
+        this.primaryWorker = new FloWorkerInstance(settings, (event) => {
+            this.store.dispatch.updateCurrentGame(event)
+        });
         this.primaryWorker.startWorker();
 
         // Create second worker used to connect second Warcraft 3 to the launcher
