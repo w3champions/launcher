@@ -255,6 +255,9 @@ const mod = {
         state.identificationUrl = test ? IDENTIFICATION_URL_TEST : IDENTIFICATION_URL_PROD;
         state.identificationPublicKey = test ? IDENTIFICATION_PUBLIC_KEY_TEST : IDENTIFICATION_PUBLIC_KEY_PROD;
       }
+    },
+    UPDATE_CURRENT_GAME(state: RootState, msg: IFloWorkerEvent) {
+      state.currentGame = msg as any
     }
   },
   getters: {
