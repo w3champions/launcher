@@ -102,7 +102,7 @@ export class FloWorkerService {
 
         // Start one worker by default
         this.primaryWorker = new FloWorkerInstance(settings, (event) => {
-            this.store.dispatch.updateCurrentGame(event)
+            this.store.dispatch.updateFloStatus(event)
         });
         this.primaryWorker.startWorker();
 

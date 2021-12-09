@@ -9,7 +9,6 @@
     <div style="bottom: 188px; display: flex; justify-content: center; position: absolute;">
       <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="() => isSelected(index) ? 'selected-item' : ''"/>
     </div>
-    {{currentGame}}
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <button @click="tryStartWc3" class="start-button w3font" :disabled="isDisabled" :content="playButton" :title="explanation">
       {{ playButton }}
@@ -117,10 +116,6 @@ export default class HomeScreen extends Vue {
     const runningProcesses = execSync("tasklist /FI \"STATUS eq RUNNING").toString();
     const indexOf = runningProcesses.indexOf("Battle.net.exe");
     return indexOf === -1;
-  }
-
-  get currentGame() {
-    return JSON.stringify(this.$store.direct.state.currentGame)
   }
 }
 </script>

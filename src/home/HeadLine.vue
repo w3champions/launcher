@@ -3,6 +3,7 @@
     <div class="headline-container">
       <HeadItem target="/" text="W3Champions" />
       <HeadItem target="/HotKeys/0" text="Hotkeys"/>
+      <HeadItem target="/Status" text="Status"/>
       <HeadItem target="/Settings" text="Settings"/>
     </div>
   </div>
@@ -26,17 +27,17 @@ export default class HeadLine extends Vue {
 .headline-container {
   position: absolute;
   top: 60px;
-  left: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
 
-  width: 671px;
+  width: 871px;
   height: 71px;
-
-  background: url("~@/assets/images/home/Header_Buttons_Frame.png") center no-repeat;
-  background-size: cover;
 }
 
 .headline-wrapper {
