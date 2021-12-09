@@ -256,8 +256,64 @@ const mod = {
         state.identificationPublicKey = test ? IDENTIFICATION_PUBLIC_KEY_TEST : IDENTIFICATION_PUBLIC_KEY_PROD;
       }
     },
-    UPDATE_CURRENT_GAME(state: RootState, msg: IFloWorkerEvent) {
-      state.currentGame = msg as any
+    UPDATE_CURRENT_STATUS(state: RootState, msg: IFloWorkerEvent) {
+      switch (msg.type) {
+        case 'PlayerSession': {
+          const typed = msg as IPlayerSession
+          state.floStatus = {
+            ...(state.floStatus ? state.floStatus : {
+              game: null,
+              player_slot_status_map: {}
+            }),
+            player_id: typed.player?.id,
+            name: typed.player?.name,
+          }
+          break
+        }
+        case 'PlayerSessionUpdate': {
+          const typed = msg as IPlayerSessionUpdate
+          if (!typed.game_id) {
+            if (state.floStatus) {
+              // state.floStatus.game = null
+            }
+          }
+          break
+        }
+        case 'CurrentGameInfo': {
+          if (state.floStatus) {
+            state.floStatus.game = msg as ICurrentGameInfo
+          }
+          break
+        }
+        case 'GameStatusUpdate': {
+          if (state.floStatus) {
+            const typed = msg as IGameStatusUpdate
+            if (typed.game_id === state.floStatus.game?.id) {
+              state.floStatus.game.status = typed.status;
+              for (const [player_id, status] of Object.entries(typed.updated_player_game_client_status_map)) {
+                const slot = state.floStatus.game.slots.find(s => String(s.player?.id) === player_id)
+                if (slot) {
+                  slot.client_status = status
+                }
+              }
+            }
+          }
+          break
+        }
+        case 'GameSlotClientStatusUpdate': {
+          if (state.floStatus) {
+            const typed = msg as IGameSlotClientStatusUpdate;
+            if (typed.game_id === state.floStatus.game?.id) {
+              state.floStatus.game.status = typed.status;
+              const slot = state.floStatus.game.slots.find(s => s.player?.id === typed.player_id)
+              if (slot) {
+                slot.client_status = typed.status
+              }
+            }
+          }
+          break
+        }
+      }
     }
   },
   getters: {

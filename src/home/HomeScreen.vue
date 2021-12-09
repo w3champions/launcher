@@ -119,10 +119,6 @@ export default class HomeScreen extends Vue {
     const indexOf = runningProcesses.indexOf("Battle.net.exe");
     return indexOf === -1;
   }
-
-  get currentGame() {
-    return JSON.stringify(this.$store.direct.state.currentGame)
-  }
 }
 </script>
 
