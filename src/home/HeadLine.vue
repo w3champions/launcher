@@ -26,14 +26,14 @@ export default class HeadLine extends Vue {
 .headline-container {
   position: absolute;
   top: 5%;
-  left: 18%;
+  left: 24%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  padding:1%;
-  width: 66%;
-  height: 7%;
+  padding:0%;
+  width: 680px;
+  height: 9%;
 
   background: url("~@/assets/images/home/Header_Buttons_Frame.png") center no-repeat;
   background-size: cover;
