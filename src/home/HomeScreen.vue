@@ -159,7 +159,7 @@ export default class HomeScreen extends Vue {
   font-size: 28px;
   padding:2%;
   position:fixed;
-  bottom:6%;
+  bottom:3.5%;
 }
 
 .start-button:active {
