@@ -5,8 +5,9 @@
       <br />
       <div v-if="isNewsHtml" v-html="news[selectedNews].message"></div>
       <vue-markdown v-else :source="news[selectedNews] ? news[selectedNews].message : ''" />
+      
     </div>
-    <div style="bottom: 188px; display: flex; justify-content: center; position: absolute;">
+    <div style="display: flex; justify-content: center; " >
       <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="() => isSelected(index) ? 'selected-item' : ''"/>
     </div>
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
@@ -93,7 +94,7 @@ export default class HomeScreen extends Vue {
   }
 
   get news() {
-    return this.$store.direct.state.news;
+    return this.$store.direct.state.news.slice(0,6);
   }
 
   public async tryStartWc3() {
@@ -123,6 +124,7 @@ export default class HomeScreen extends Vue {
 <style scoped type="text/css">
 .home-container{
   display: flex;
+  height:100%;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
@@ -131,12 +133,13 @@ export default class HomeScreen extends Vue {
 .modt {
   background: url("~@/assets/images/home/W3Champion_Text_Frame.png") no-repeat center;
   background-size: cover;
-  margin-top: 60px;
-  margin-bottom: 15px;
-  padding: 50px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  padding: 4%;
   font-size: 14px;
   width: 865px;
   height: 390px;
+  overflow-y: scroll;
 }
 
 .start-button:disabled {
@@ -150,11 +153,13 @@ export default class HomeScreen extends Vue {
   border: none;
   outline: inherit;
   cursor: pointer;
-  height: 88px;
-  width: 393px;
+  width: 30%;
   text-align: center;
-  line-height: 80px;
+  line-height: 100%;
   font-size: 28px;
+  padding:2%;
+  position:fixed;
+  bottom:3.5%;
 }
 
 .start-button:active {
@@ -170,14 +175,15 @@ export default class HomeScreen extends Vue {
   margin-right: 8px;
   cursor: pointer;
   margin-left: 8px;
-  height: 25px;
+  height: 22px;
   width: 25px;
-  background-color: #bbb;
+  background-color: #797;
   border-radius: 50%;
-  display: inline-block;
+  position:relative;
+  bottom:472px;
 }
 
 .selected-item {
-  background-color: #ffd528 !important;
+  background-color: #afd528;
 }
 </style>

@@ -152,8 +152,15 @@ body {
   font-family: "Inter";
   color: antiquewhite;
   user-select: none;
+  overflow:hidden;
 }
+::-webkit-scrollbar {
+width: 16px;
+height: 16px; }
 
+::-webkit-scrollbar-thumb {
+background-color: rgba(0, 0, 0, 0.2);
+-webkit-box-shadow: inset 1px 1px 0 rgba(0,0.07,0,0.10),inset 0 -1px 0 rgba(0,0.07,0,0.07); }
 a {
   color: inherit;
 }
@@ -169,6 +176,7 @@ a {
   background: url("~@/assets/images/home/Maon_Border.png") center no-repeat;
   height: 100vh;
   background-size: cover;
+
 }
 
 .fullscreen-bg__video {
@@ -179,8 +187,8 @@ a {
   min-height: 100%;
   z-index: -100;
   transform: translateX(-50%) translateY(-50%);
-  width: 1200px;
-  height: 655px;
+  width: 100%;
+  height: 100%;
 }
 
 .static-bg {
@@ -188,9 +196,9 @@ a {
   background: url("~@/assets/images/home/Static_Background.png") center no-repeat;
   background-size: cover;
   z-index: -100;
-  top: 140px;
-  width: 1210px;
-  height: 655px;
+  top: 10px;
+  width: 100%;
+  height: 100%;
 }
 
 .content-modal-wrapper {
@@ -202,8 +210,8 @@ a {
 }
 
 .content-modal {
-  margin-top: 15vh;
-  height: 700px;
+  margin-top: 8vh;
+  height: 80%;
   width: 100%;
 }
 
@@ -216,8 +224,8 @@ a {
   height: 60px;
   width: 61px;
   cursor: pointer;
-  top: 65px;
-  right: 55px;
+  top: 0%;
+  right: 0%;
 }
 
 .gw-selection {

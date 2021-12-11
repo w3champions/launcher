@@ -17,10 +17,10 @@ export default class ButtonWarcraft extends Vue {
 <style scoped type="text/css">
 .header-item {
   -webkit-app-region: no-drag;
-  font-size: 1.5em;
+  font-size: 1.3em;
   text-align: center;
   line-height: 56px;
-  width: 215px;
+  width: 210px;
   height: 55px;
   background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;
   background-size: cover;
