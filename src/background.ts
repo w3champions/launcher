@@ -1,6 +1,6 @@
 'use strict'
 
-import {app, protocol, globalShortcut, screen, BrowserWindow, dialog, ipcMain, IpcMainEvent, Tray, Menu, nativeImage } from 'electron'
+import {app, protocol, globalShortcut, screen, BrowserWindow, dialog, ipcMain, IpcMainEvent, Tray, Menu, nativeImage, ipcRenderer } from 'electron'
 import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
@@ -135,11 +135,27 @@ if (!gotTheLock) {
     }
   })
 
+  ipcMain.handle('w3c-check-for-update', async () => {
+    let error = null
+    try {
+      await autoUpdater.checkForUpdatesAndNotify();
+    } catch (e) {
+      logger.error("Updating failed horribly, starting without check for new version");
+      logger.error(e);
+      error = e
+    }
+
+    // Endpoint detection and auto-update check done
+    // tell App.vue to start loading
+    win?.webContents.send('w3c-check-for-update-finished');
+  })
+
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', async () => {
-    if (isDevelopment && !process.env.IS_TEST) {
+    const isTest = Boolean(process.env.IS_TEST)
+    if (isDevelopment && !isTest) {
       // Install Vue Devtools
       try {
         await installExtension(VUEJS_DEVTOOLS)
@@ -148,12 +164,6 @@ if (!gotTheLock) {
       }
     }
 
-    try {
-      await autoUpdater.checkForUpdatesAndNotify();
-    } catch (e) {
-      logger.error("Updating failed horribly, starting without check for new version");
-      logger.error(e);
-    }
     createWindow();
     createTray();
   });

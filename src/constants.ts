@@ -1,19 +1,3 @@
-export const UPDATE_URL_PROD = "https://update-service.w3champions.com/";
-export const UPDATE_URL_PROD_CHINA = "http://123.57.23.5:25053/";
-export const UPDATE_URL_TEST = "https://update-service.test.w3champions.com/";
-
-export const NEWS_URL_PROD = "https://statistic-service.w3champions.com/";
-export const NEWS_URL_PROD_CHINA = "http://123.57.23.5:25052/";
-export const NEWS_URL_TEST = "https://statistic-service.test.w3champions.com/";
-
-export const IDENTIFICATION_URL_PROD = "https://identification-service.w3champions.com/";
-export const IDENTIFICATION_URL_PROD_CHINA = "http://123.57.23.5:25051/";
-export const IDENTIFICATION_URL_TEST = "https://identification-service.test.w3champions.com/";
-
-export const FLO_CONTROLLER_HOST_URL_PROD = 'service.w3flo.com';
-export const FLO_CONTROLLER_HOST_URL_PROD_CHINA = 'ea2d46.pathx.ucloudgda.com';
-export const FLO_CONTROLLER_HOST_URL_TEST = '157.90.1.251';
-
 export const IDENTIFICATION_PUBLIC_KEY_PROD = `-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAtm4he5E9SkGn3hI2cSIH
 H+3+jxeP/J5oSrOecUik7rwOHI4nKLhvfk1mwIsyQkMXRgEGXkToPTk5CAgkTvq9
@@ -47,35 +31,3 @@ sYbv9oAYja2AuGxDba1MJHUCAwEAAQ==
 `
 
 export const OAUTH_ENABLED = false;
-
-export const CHINA_ALIYUN_OSS_URL = "http://w3champions.oss-cn-shanghai.aliyuncs.com";
-export const CHINA_WEBUI_SRC= `<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Warcraft 3 UI</title>
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, minimal-ui" />
-        <script>
-            window.__DEBUG = new Boolean('').valueOf();
-        </script>
-    </head>
-    <body>
-        <div id="root"></div>
-        <div id="portal"></div>
-		
-		<script>
-			var logCalls = [];
-			var w3cClientVersion = 1;
-			console.origLog = console.log;
-			console.log = (...args) => {
-				logCalls.push(...args);
-				console.origLog("log");
-				console.origLog(...args);
-			}
-
-		</script>
-        <script src="GlueManager.js"></script>
-		<script src="${CHINA_ALIYUN_OSS_URL}/ingame/w3champions.js"></script>
-    </body>
-</html>
-`

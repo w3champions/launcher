@@ -35,7 +35,6 @@ const mod = {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       rootGetters.updateService.saveLocalW3CVersion(version);
-
       commit.SET_LOCAL_W3C_VERSION(version);
     },
     saveW3Path(context: ActionContext<UpdateHandlingState, RootState>, version: string) {
@@ -65,10 +64,10 @@ const mod = {
       commit.SET_CURRENT_LAUNCHER_VERSION(remote.app.getVersion());
     },
     async loadOnlineW3CVersion(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit, rootState } = moduleActionContext(context, mod);
+      const { commit, rootGetters } = moduleActionContext(context, mod);
 
-      try {
-        const result = await fetch(`${rootState.updateUrl}api/client-version`);
+      try { 
+        const result = await fetch(`${rootGetters.endpointService.selected.updateUrl}api/client-version`);
         const version = await result.json();
         commit.SET_ONLINE_W3C_VERSION(version.version);
       } catch (e) {

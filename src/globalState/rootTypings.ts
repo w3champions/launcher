@@ -1,13 +1,11 @@
 import { EPlayerGameStatus, ICurrentGameInfo } from "@/flo-integration/flo-worker-messages";
+import { IEndpoint } from "./EndpointService";
 
 export interface RootState {
     isTest: boolean,
-    isChinaProxyEnabled: boolean,
+    selectedEndpoint: IEndpoint | null,
     isWindows: boolean,
-    newsUrl: string,
-    updateUrl: string,
     selectedLoginGateway: LoginGW,
-    identificationUrl: string,
     identificationPublicKey: string,
     news: News[],
     w3cToken: W3cToken | null,
