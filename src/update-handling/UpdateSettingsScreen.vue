@@ -26,20 +26,8 @@
         <ColorPicker text="Enemy Color" :color="enemyColor" :onSwitchColor="switchEnemyColor"/>
         <ColorPicker text="Allies Color" :color="alliesColor" :onSwitchColor="switchAlliesColor"/>
       </div>
-      <div class="options-header w3font" style="margin-top: 20px">Misc</div>
-      <div class="misc-wrapper">
-        <div style="display: flex">
-          <div :class="isChinaProxyEnabled ? 'toggle-on' : 'toggle-off'" @click="toggleChinaProxy"/>
-          <div style="line-height: 31px; margin-left: 5px">China proxy</div>
-        </div>
-      </div>
       <div class="button-bar">
-        <template v-if="isChinaProxyEnabled">
-          <div @click="repairW3cChina" :disabled="isLoading" class="button-bar-button w3font">
-            修复客户端
-          </div>
-        </template>
-        <template v-else>
+        <template>
           <div @click="repairW3c" :disabled="isLoading" class="button-bar-button w3font">
             Reset W3C
           </div>
@@ -52,7 +40,8 @@
         </template>
       </div>
       <div class="version-wrapper">
-        <div>Warcraft 3 Champions Version: {{w3cVersion}}</div>
+        <div>W3Champions Endpoint: {{selectedEndpoint.id}}</div>
+        <div>W3Champions Version: {{w3cVersion}}</div>
         <div>Launcher Version: {{ currentLauncherVersion }}</div>
         <div v-if="currentUser">
           <span>{{ currentUser }}</span>
@@ -146,6 +135,10 @@ export default class UpdateSettingsScreen extends Vue {
     return this.$store.direct.state.colorPicker.allyColor;
   }
 
+  get selectedEndpoint() {
+    return this.$store.direct.state.selectedEndpoint;
+  }
+
   public switchOwnColor(newColor: string) {
     this.$store.direct.dispatch.colorPicker.switchOwnColor(newColor);
   }
@@ -166,10 +159,6 @@ export default class UpdateSettingsScreen extends Vue {
 
   get isTeamColorsEnabled() {
     return this.$store.direct.state.colorPicker.isTeamColorsEnabled;
-  }
-
-  get isChinaProxyEnabled() {
-    return this.$store.direct.state.isChinaProxyEnabled
   }
 
   public async toggleTeamColors() {
@@ -275,12 +264,6 @@ export default class UpdateSettingsScreen extends Vue {
     await this.updateStrategy.repairWc3();
   }
 
-    public async repairW3cChina() {
-    if (this.isLoading) return;
-
-    await this.updateStrategy.repairChina();
-  }
-
   private isWindows() {
     return this.$store.state.isWindows;
   }
@@ -308,7 +291,6 @@ export default class UpdateSettingsScreen extends Vue {
   background: url("~@/assets/images/home/Header_Buttons_Frame_Slim.png") center no-repeat;
   background-size: cover;
 }
-
 .button-bar-button {
   font-size: 20px;
   width: 208px;
@@ -324,7 +306,6 @@ export default class UpdateSettingsScreen extends Vue {
   background: url("~@/assets/images/home/Button_Blue_Active.png") center no-repeat;
   background-size: cover;
 }
-
 .reset-button-line {
   display: flex;
   justify-content: space-between;
@@ -343,19 +324,16 @@ export default class UpdateSettingsScreen extends Vue {
   width: 31px;
   height: 30px;
 }
-
-.toggle-off {
+.team-colors-off {
   background: url("~@/assets/images/settings/Settings_Toggle_Off.png") center no-repeat;
   background-size: cover;
   width: 31px;
   height: 30px;
 }
-
 .path-is-wrong {
   background: url("~@/assets/images/settings/Settings_Directory_Frame_Error.png") no-repeat center;
   background-size: cover;
 }
-
 .path-is-right {
   background: url("~@/assets/images/settings/Settings_Directory_Frame.png") no-repeat center;
   background-size: cover;
@@ -364,27 +342,23 @@ export default class UpdateSettingsScreen extends Vue {
 .disabled-option {
   color: rgb(140, 137, 137) !important;
 }
-
 .reset-button {
   width: 36px;
   height: 36px;
   background: url("~@/assets/images/icons/folder-icon-resting.png") no-repeat center;
   background-size: cover;
 }
-
 .reset-button:hover {
   background: url("~@/assets/images/icons/folder-icon-hover.png") no-repeat center;
   background-size: cover;
   cursor: pointer;
 }
-
 .version-wrapper {
   text-align: right;
   position: absolute;
   right: 0;
   top: 0;
 }
-
 .color-pick-bar {
   margin-top: 10px;
   background: url("~@/assets/images/home/Header_Buttons_Frame.png") no-repeat center;
@@ -396,11 +370,9 @@ export default class UpdateSettingsScreen extends Vue {
   justify-content: space-around;
   align-items: center;
 }
-
 .options-header {
   font-size: 18px;
 }
-
 .bnet-icon {
   background: url("~@/assets/images/settings/Settings_Bnet_Icon.png") no-repeat center;
   background-size: cover;
@@ -409,7 +381,6 @@ export default class UpdateSettingsScreen extends Vue {
   height: 24px;
   width: 24px;
 }
-
 .w3c-icon {
   background: url("~@/assets/images/settings/Settings_W3_Icon.png") no-repeat center;
   background-size: cover;
@@ -418,7 +389,6 @@ export default class UpdateSettingsScreen extends Vue {
   height: 26px;
   width: 30px;
 }
-
 .location-wrapper {
   background: url("~@/assets/images/settings/Settings_Directory_Text_Frame.png") no-repeat center;
   background-size: cover;

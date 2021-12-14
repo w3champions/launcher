@@ -1,4 +1,4 @@
-import { CHINA_ALIYUN_OSS_URL, CHINA_WEBUI_SRC, UPDATE_URL_PROD_CHINA } from "@/constants";
+import { IEndpoint } from "@/globalState/EndpointService";
 import { AppStore } from "@/globalState/vuex-store";
 import logger from "@/logger";
 
@@ -47,7 +47,9 @@ export abstract class LauncherStrategy {
         const delimiter = mapsPath.endsWith('/') || mapsPath.endsWith('\\') ? '' : '/';
         const to = `${mapsPath}${delimiter}${fileName}`;
         logger.info(`Download ${fileName} to: ${to}`)
-        const url = `${this.updateUrl}api/maps/download?mapPath=${fileName}`;
+        const url = this.endpoint.overrideUpdateFileDownloadUrl
+            ? `${this.endpoint.overrideUpdateFileDownloadUrl}maps/${fileName}`
+            : `${this.endpoint.updateUrl}api/maps/download?mapPath=${fileName}`;
 
         try {
             const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);
@@ -196,9 +198,9 @@ export abstract class LauncherStrategy {
     private updateDownloadProgress(progress: number) {
         this.store.commit.updateHandling.DOWNLOAD_PROGRESS(progress);
     }
-
-    get updateUrl() {
-        return this.store.state.updateUrl;
+    
+    get endpoint() {
+        return this.store.getters.endpointService.selected as IEndpoint
     }
 
     get isTest() {
@@ -212,7 +214,9 @@ export abstract class LauncherStrategy {
 
     private async downloadAndWriteFile(fileName: string, to: string, onProgress?: (percentage: number) => void) {
         logger.info(`Download ${fileName} to: ${to}`)
-        const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
+        const url = this.endpoint.overrideUpdateFileDownloadUrl 
+            ? `${this.endpoint.overrideUpdateFileDownloadUrl}${fileName}`
+            : `${this.endpoint.updateUrl}api/${fileName}?ptr=${this.isTest}`;
 
         try {
             const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);
@@ -238,52 +242,6 @@ export abstract class LauncherStrategy {
         } catch (e) {
             logger.error(e);
         }
-    }
-
-    public async repairChina() {
-        if (!this.w3PathIsValid) return;
-        this.store.commit.updateHandling.START_DLS();
-        try {
-            const { version } = await fetch(`${UPDATE_URL_PROD_CHINA}api/client-version`)
-                .then(res => res.json())
-            logger.info(`Latest client version is ${version}`)
-
-            {
-                const to = this.mapsPath;
-                const url = `${CHINA_ALIYUN_OSS_URL}/update-service-content/maps_v${version}.zip`;
-                const fileBytesArray = await this.downloadFileWithProgress(url, this.updateDownloadProgress.bind(this));
-                const buffer = arrayBufferToBuffer(fileBytesArray);
-                const zip = new AdmZip(buffer);
-                
-                try {
-                    zip.extractAllTo(to, true);
-                    zip.extractAllTo(to.replace("Warcraft III", "Warcraft III Public Test"), true);
-                } catch (e) {
-                    logger.info(`normal download threw exception: ${e}`)
-                    const temPath = `${remote.app.getPath("appData")}/w3champions/china_maps_temp`;
-                    zip.extractAllTo(temPath, true);
-                    logger.info(`try as sudo now from: ${temPath} to: ${to}`)
-                    this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to });
-                }
-            }
-
-            {
-                const to = `${this.w3Path}/webui/index.html`
-                try {
-                    fs.writeFileSync(to, CHINA_WEBUI_SRC);
-                } catch (e) {
-                    logger.info(`normal write threw exception: ${e}`)
-                    const temPath = `${remote.app.getPath("appData")}/w3champions/china_webui_temp`;
-                    fs.writeFileSync(temPath, CHINA_WEBUI_SRC);
-                    this.store.dispatch.updateHandling.sudoCopyFromTo({ from: temPath, to });
-                }
-            }
-        } catch (e) {
-            logger.error(e);
-            alert(`Error: ${e}`)
-        }
-        this.store.commit.updateHandling.FINISH_WEBUI_DL();
-        this.store.commit.updateHandling.FINISH_MAPS_DL();
     }
 
     public async updateIfNeeded() {

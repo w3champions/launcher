@@ -14,8 +14,10 @@ new Vue({
   render: h => h(App),
 }).$mount('#app')
 
-ingameBridge.initialize();
-floWorkerService.initialize();
+store.dispatch.init().then(() => {  
+  ingameBridge.initialize();
+  floWorkerService.initialize();
+});
 
 ingameBridge.on(ELauncherMessageType.MAP_DOWNLOAD, async (event: IIngameBridgeEvent) => {
   const eventData = event.data as IDownloadMapData;

@@ -5,10 +5,10 @@ import { FloWorkerInstance } from './flo-worker.instance';
 import { IPlayerInstance } from '@/game/game.types';
 import logger from '@/logger';
 import { IFloNetworkTest } from "@/types/flo-types";
-import { FLO_CONTROLLER_HOST_URL_PROD, FLO_CONTROLLER_HOST_URL_TEST, FLO_CONTROLLER_HOST_URL_PROD_CHINA } from "@/constants";
 import { IFloAuthData, IFloWatchGameData, IFloWorkerInstanceSettings } from "./types";
 import { floStatsService } from "./flo-stats.service";
 const { globalShortcut } = window.require("electron").remote;
+import { IEndpoint } from "@/globalState/EndpointService";
 
 const { remote } = window.require("electron");
 const path = require('path');
@@ -168,10 +168,9 @@ export class FloWorkerService {
     }
 
     private createWorkerSettings() {
-        const { isWindows, isTest, isChinaProxyEnabled } = this.store.state
-        const floControllerHostUrl = isChinaProxyEnabled ? FLO_CONTROLLER_HOST_URL_PROD_CHINA : (
-            isTest ? FLO_CONTROLLER_HOST_URL_TEST : FLO_CONTROLLER_HOST_URL_PROD
-        );
+        const { isWindows } = this.store.state
+        const endpoint: IEndpoint = this.store.getters.selectedEndpoint;
+        const floControllerHostUrl = endpoint.floControllerHost;
         const floExecutable = (isWindows) ? 'flo-worker.exe' : 'flo-worker';
         let floWorkerFolderPath: string;
         if (environment.isDev) {

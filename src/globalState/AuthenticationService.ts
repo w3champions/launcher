@@ -23,8 +23,9 @@ export class AuthenticationService {
     }
 
     public async authorize(code: string, region: LoginGW): Promise<W3cToken | null> {
-        logger.info(`get token from code ${store.state.identificationUrl}`)
-        const url = `${store.state.identificationUrl}api/oauth/token?code=${code}&region=${region}&redirectUri=http://localhost:8080/login`;
+        const identificationUrl = store.state.selectedEndpoint?.identificationUrl
+        logger.info(`get token from code ${identificationUrl}`)
+        const url = `${identificationUrl}api/oauth/token?code=${code}&region=${region}&redirectUri=http://localhost:8080/login`;
         try {
             const response = await fetch(url, {
                 method: "GET",

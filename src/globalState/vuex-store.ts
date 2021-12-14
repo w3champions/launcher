@@ -9,19 +9,10 @@ import hotKeys from "../hot-keys/hotkeyStore";
 import {UpdateService} from "@/update-handling/UpdateService";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
 import {VersionService} from "@/globalState/VersionService";
+import {EndpointService, IEndpoint} from "@/globalState/EndpointService";
 import {
   IDENTIFICATION_PUBLIC_KEY_PROD,
-  IDENTIFICATION_PUBLIC_KEY_TEST,
-  IDENTIFICATION_URL_PROD,
-  IDENTIFICATION_URL_PROD_CHINA,
-  IDENTIFICATION_URL_TEST,
-  NEWS_URL_PROD,
-  NEWS_URL_PROD_CHINA,
-  NEWS_URL_TEST,
   OAUTH_ENABLED,
-  UPDATE_URL_PROD,
-  UPDATE_URL_PROD_CHINA,
-  UPDATE_URL_TEST
 } from "@/constants";
 import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
 import {FileService} from "@/update-handling/FileService";
@@ -38,6 +29,7 @@ const services = {
   fileService: new FileService(),
   itemHotkeyService: new ItemHotkeyRegistrationService(),
   authService: new AuthenticationService(),
+  endpointService: new EndpointService(),
 };
 
 const mod = {
@@ -48,10 +40,7 @@ const mod = {
   },
   state: {
     isTest: false,
-    isChinaProxyEnabled: false,
-    updateUrl: UPDATE_URL_PROD,
-    newsUrl: NEWS_URL_PROD,
-    identificationUrl: IDENTIFICATION_URL_PROD,
+    selectedEndpoint: null,
     identificationPublicKey: IDENTIFICATION_PUBLIC_KEY_PROD,
     news: [] as News[],
     w3cToken: null,
@@ -59,12 +48,26 @@ const mod = {
     floStatus: null,
   } as RootState,
   actions: {
+    async init(context: ActionContext<unknown, RootState>) {
+      const { commit, state } = moduleActionContext(context, mod);
+      try {
+        const selected = await services.endpointService.selectFastestEndpoint(state.isTest)
+        // only check for update if overrideUpdateFileDownloadUrl is not set
+        // it's not worth it to fix electron-updater for China
+        if (!selected.overrideUpdateFileDownloadUrl) {
+          await ipcRenderer.invoke('w3c-check-for-update');
+        }
+        commit.SET_ENDPOINT(selected);
+      } catch (e) {
+        logger.error(e);
+      }
+    },
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, state } = moduleActionContext(context, mod);
 
       try {
         const news = await (
-            await fetch(`${state.newsUrl}api/admin/news`)
+            await fetch(`${services.endpointService.selected.newsUrl}api/admin/news`)
         ).json();
 
         commit.SET_NEWS(news);
@@ -79,6 +82,7 @@ const mod = {
       rootGetters.versionService.switchToMode(mode);
       commit.SET_IS_TEST(mode);
 
+      await dispatch.init()
       dispatch.resetAuthentication();
     },
     loadIsTestMode(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -87,13 +91,6 @@ const mod = {
       const mode = rootGetters.versionService.loadMode();
 
       commit.SET_IS_TEST(mode);
-    },
-    loadIsChinaProxyEnabled(context: ActionContext<unknown, RootState>) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
-
-      const enabled = rootGetters.versionService.loadIsChinaProxyEnabled();
-
-      commit.SET_IS_CHINA_PROXY_ENABLED(enabled);
     },
     loadOsMode(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
@@ -162,10 +159,6 @@ const mod = {
   mutations: {
     SET_IS_TEST(state: RootState, test: boolean) {
       state.isTest = test;
-      state.updateUrl = test ? UPDATE_URL_TEST : UPDATE_URL_PROD;
-      state.newsUrl = test ? NEWS_URL_TEST : NEWS_URL_PROD;
-      state.identificationUrl = test ? IDENTIFICATION_URL_TEST : IDENTIFICATION_URL_PROD;
-      state.identificationPublicKey = test ? IDENTIFICATION_PUBLIC_KEY_TEST : IDENTIFICATION_PUBLIC_KEY_PROD;
     },
     SET_NEWS(state: RootState, news: News[]) {
       state.news = news;
@@ -314,7 +307,10 @@ const mod = {
           break
         }
       }
-    }
+    },
+    SET_ENDPOINT(state: RootState, selected: IEndpoint) {
+      state.selectedEndpoint = selected
+    },
   },
   getters: {
     updateService() {
@@ -332,6 +328,12 @@ const mod = {
     authService() {
       return services.authService;
     },
+    endpointService() {
+      return services.endpointService;
+    },
+    selectedEndpoint() {
+      return services.endpointService.selected;
+    }
   },
 } as const;
 
