@@ -60,6 +60,8 @@ app.on('will-quit', () => {
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
+    // width: 1020,
+    // height: 664,
     width: 1275,
     height: 830,
     resizable: false,

@@ -102,9 +102,8 @@ export default class HotKeySetupScreen extends Vue {
 
 .hotkey-race-wrapper {
   display: flex;
-  flex-direction: row;
   height: 90%;
-  padding: 30px 50px 30px 70px;
+  padding: 0% 16% 0% 8%;
 }
 
 .hotkey-tabs {
