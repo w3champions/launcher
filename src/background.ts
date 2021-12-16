@@ -9,6 +9,7 @@ import { machineIdSync } from 'node-machine-id';
 import { floNetworkTestService } from './background-thread/flo/flo-network-test.service'
 import { floUtilsService } from './background-thread/flo/flo-utils.service'
 import { LoginGW } from './globalState/rootTypings'
+import { endpontService } from './background-thread/endpoint/endpoint.service'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -81,6 +82,7 @@ function createWindow() {
 
   floNetworkTestService.setWindow(win);
   floUtilsService.registerHandlers();
+  endpontService.setWindow(win);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -153,7 +155,7 @@ if (!gotTheLock) {
 
     // Endpoint detection and auto-update check done
     // tell App.vue to start loading
-    win?.webContents.send('w3c-check-for-update-finished');
+    win?.webContents.send('w3c-background-init-finished');
   })
 
   // This method will be called when Electron has finished

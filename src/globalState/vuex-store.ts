@@ -9,7 +9,6 @@ import hotKeys from "../hot-keys/hotkeyStore";
 import {UpdateService} from "@/update-handling/UpdateService";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
 import {VersionService} from "@/globalState/VersionService";
-import {EndpointService, IEndpoint} from "@/globalState/EndpointService";
 import {
   IDENTIFICATION_PUBLIC_KEY_PROD,
   OAUTH_ENABLED,
@@ -19,6 +18,7 @@ import {FileService} from "@/update-handling/FileService";
 import {AuthenticationService} from "@/globalState/AuthenticationService";
 import logger from "@/logger";
 import { ICurrentGameInfo, IFloWorkerEvent, IGameSlotClientStatusUpdate, IGameStatusUpdate, IPlayerSession, IPlayerSessionUpdate } from "@/flo-integration/flo-worker-messages";
+import type { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 
 const { ipcRenderer } = window.require("electron");
 
@@ -29,7 +29,6 @@ const services = {
   fileService: new FileService(),
   itemHotkeyService: new ItemHotkeyRegistrationService(),
   authService: new AuthenticationService(),
-  endpointService: new EndpointService(),
 };
 
 const mod = {
@@ -48,16 +47,15 @@ const mod = {
     floStatus: null,
   } as RootState,
   actions: {
-    async init(context: ActionContext<unknown, RootState>) {
+    async init(context: ActionContext<unknown, RootState>, selectedEndpoint: IEndpoint) {
       const { commit, state } = moduleActionContext(context, mod);
       try {
-        const selected = await services.endpointService.selectFastestEndpoint(state.isTest)
         // only check for update if overrideUpdateFileDownloadUrl is not set
         // it's not worth it to fix electron-updater for China
-        if (!selected.overrideUpdateFileDownloadUrl) {
+        if (!selectedEndpoint.overrideUpdateFileDownloadUrl) {
           await ipcRenderer.invoke('w3c-check-for-update');
         }
-        commit.SET_ENDPOINT(selected);
+        commit.SET_ENDPOINT(selectedEndpoint);
       } catch (e) {
         logger.error(e);
       }
@@ -67,7 +65,7 @@ const mod = {
 
       try {
         const news = await (
-            await fetch(`${services.endpointService.selected.newsUrl}api/admin/news`)
+            await fetch(`${state.selectedEndpoint?.newsUrl}api/admin/news`)
         ).json();
 
         commit.SET_NEWS(news);
@@ -77,12 +75,11 @@ const mod = {
       }
     },
     async setTestMode(context: ActionContext<UpdateHandlingState, RootState>, mode: boolean) {
-      const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
+      const { commit, rootGetters, dispatch, state } = moduleActionContext(context, mod);
 
       rootGetters.versionService.switchToMode(mode);
       commit.SET_IS_TEST(mode);
-
-      await dispatch.init()
+      ipcRenderer.invoke('w3c-select-endpoint', mode);
       dispatch.resetAuthentication();
     },
     loadIsTestMode(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -328,11 +325,11 @@ const mod = {
     authService() {
       return services.authService;
     },
-    endpointService() {
-      return services.endpointService;
-    },
-    selectedEndpoint() {
-      return services.endpointService.selected;
+    selectedEndpoint(state: RootState) {
+      if (!state.selectedEndpoint) {
+        throw new Error(`Endpoint not selected`)
+      }
+      return state.selectedEndpoint
     }
   },
 } as const;

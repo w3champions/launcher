@@ -54,10 +54,12 @@ export default class App extends Vue {
     ipcRenderer.on('blizzard-window-closed-without-auth', () => {
       store.dispatch.setLoginGateway(LoginGW.none);
     })
-    
-    ipcRenderer.on('w3c-check-for-update-finished', async () => {
-      this.$store.direct.dispatch.loadIsTestMode();
 
+    this.$store.direct.dispatch.loadIsTestMode();
+
+    ipcRenderer.invoke('w3c-select-endpoint', store.state.isTest);
+    
+    ipcRenderer.on('w3c-background-init-finished', async () => {
       this.$store.direct.dispatch.loadOsMode();
       this.$store.direct.dispatch.loadAuthToken();
 

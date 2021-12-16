@@ -60,7 +60,7 @@ const mod = {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       try { 
-        const result = await fetch(`${rootGetters.endpointService.selected.updateUrl}api/client-version`);
+        const result = await fetch(`${rootGetters.selectedEndpoint?.updateUrl}api/client-version`);
         const version = await result.json();
         commit.SET_ONLINE_W3C_VERSION(version.version);
       } catch (e) {
