@@ -1,4 +1,4 @@
-import { IEndpoint } from "@/globalState/EndpointService";
+import type { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 import { AppStore } from "@/globalState/vuex-store";
 import logger from "@/logger";
 
@@ -208,7 +208,7 @@ export abstract class LauncherStrategy {
     }
     
     get endpoint() {
-        return this.store.getters.endpointService.selected as IEndpoint
+        return this.store.getters.selectedEndpoint as IEndpoint
     }
 
     get isTest() {

@@ -1,5 +1,5 @@
+import type { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 import { EPlayerGameStatus, ICurrentGameInfo } from "@/flo-integration/flo-worker-messages";
-import { IEndpoint } from "./EndpointService";
 
 export interface RootState {
     isTest: boolean,

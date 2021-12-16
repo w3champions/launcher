@@ -6,7 +6,7 @@ import { IPlayerInstance } from '@/game/game.types';
 import logger from '@/logger';
 import { IFloNetworkTest } from "@/types/flo-types";
 import { IFloAuthData, IFloWorkerInstanceSettings } from "./types";
-import { IEndpoint } from "@/globalState/EndpointService";
+import { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 
 const { remote } = window.require("electron");
 const path = require('path');

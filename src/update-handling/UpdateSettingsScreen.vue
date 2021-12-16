@@ -293,7 +293,7 @@ export default class UpdateSettingsScreen extends Vue {
 }
 .version-wrapper {
   padding-right: 20px;
-  padding-top: 30px;
+  padding-top: 10px;
   text-align: right
 }
 .color-pick-bar {
