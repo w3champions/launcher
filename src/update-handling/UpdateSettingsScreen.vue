@@ -263,10 +263,6 @@ export default class UpdateSettingsScreen extends Vue {
 
     await this.updateStrategy.repairWc3();
   }
-
-  private isWindows() {
-    return this.$store.state.isWindows;
-  }
 }
 </script>
 

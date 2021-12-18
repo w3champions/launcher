@@ -1,7 +1,6 @@
 import type { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 import { AppStore } from "@/globalState/vuex-store";
 import logger from "@/logger";
-import { ipcRenderer } from "electron";
 
 const { remote, ipcRenderer } = window.require("electron");
 const fs = window.require("fs");
