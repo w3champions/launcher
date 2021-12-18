@@ -49,13 +49,9 @@ const mod = {
   } as RootState,
   actions: {
     async init(context: ActionContext<unknown, RootState>, selectedEndpoint: IEndpoint) {
-      const { commit, state } = moduleActionContext(context, mod);
+      const { commit } = moduleActionContext(context, mod);
       try {
-        // only check for update if rewriteUpdateUrl is not set
-        // it's not worth it to fix electron-updater for China
-        if (!selectedEndpoint.staticBaseUpdateFileUrl) {
-          await ipcRenderer.invoke('w3c-check-for-update');
-        }
+        ipcRenderer.invoke('w3c-check-for-update', selectedEndpoint);
         commit.SET_ENDPOINT(selectedEndpoint);
       } catch (e) {
         logger.error(e);

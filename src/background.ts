@@ -1,12 +1,14 @@
 'use strict'
 
-import {app, protocol, globalShortcut, screen, BrowserWindow, dialog, ipcMain, IpcMainEvent, Tray, Menu, nativeImage, ipcRenderer } from 'electron'
+import {app, protocol, globalShortcut, screen, BrowserWindow, dialog, ipcMain, IpcMainEvent, Tray, Menu, nativeImage, shell } from 'electron'
 import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
 import { floNetworkTestService } from './background-thread/flo/flo-network-test.service'
-import { endpontService } from './background-thread/endpoint/endpoint.service'
+import { endpontService, IEndpoint } from './background-thread/endpoint/endpoint.service'
+import { floUtilsService } from './background-thread/flo/flo-utils.services'
+import fetch from 'electron-fetch'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -79,6 +81,7 @@ function createWindow() {
 
   floNetworkTestService.setWindow(win);
   endpontService.setWindow(win);
+  floUtilsService.registerHandlers();
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -139,10 +142,43 @@ if (!gotTheLock) {
     }
   })
 
-  ipcMain.handle('w3c-check-for-update', async () => {
+  ipcMain.handle('w3c-check-for-update', async (_: unknown, endpoint: IEndpoint) => {
     let error = null
     try {
-      await autoUpdater.checkForUpdatesAndNotify();
+      if (endpoint.staticBaseUpdateFileUrl) {
+        // Special logic created for China, where access to github is unstable
+        const url = `${endpoint.updateUrl}api/launcher-version`
+        const { version } = await fetch(url).then(res => res.json())
+        const localVersion = app.getVersion()
+        if (version !== localVersion) {
+          const localParts = localVersion.split('.')
+          const remoteParts = version.split('.')
+          for (let i = 0; i < 3; i++) {
+            const local = parseInt(localParts[i])
+            const remote = parseInt(remoteParts[i])
+            if (local > remote) {
+              return;
+            } else if (local < remote) {
+              break;
+            }
+          }
+
+          if (win instanceof BrowserWindow) {
+            await dialog.showMessageBox(win, {
+              type: "info",
+              title: `New version ${version}`,
+              message: `A new version (${version}) of the launcher is out, please download and install`,
+              buttons: ['Download']
+            })
+            const ext = process.platform === 'win32' ? 'exe' : 'dmg'
+            const url = `${endpoint.staticBaseUpdateFileUrl}w3champions-${version}.${ext}`
+            shell.openExternal(url)
+            app.exit()
+          }
+        }
+      } else {
+        await autoUpdater.checkForUpdatesAndNotify();
+      }
     } catch (e) {
       logger.error("Updating failed horribly, starting without check for new version");
       logger.error(e);
