@@ -42,6 +42,7 @@ const mod = {
     selectedEndpoint: null,
     identificationPublicKey: IDENTIFICATION_PUBLIC_KEY_PROD,
     news: [] as News[],
+    newsLoading: false,
     w3cToken: null,
     selectedLoginGateway: LoginGW.none,
     floStatus: null,
@@ -50,9 +51,9 @@ const mod = {
     async init(context: ActionContext<unknown, RootState>, selectedEndpoint: IEndpoint) {
       const { commit, state } = moduleActionContext(context, mod);
       try {
-        // only check for update if overrideUpdateFileDownloadUrl is not set
+        // only check for update if rewriteUpdateUrl is not set
         // it's not worth it to fix electron-updater for China
-        if (!selectedEndpoint.overrideUpdateFileDownloadUrl) {
+        if (!selectedEndpoint.staticBaseUpdateFileUrl) {
           await ipcRenderer.invoke('w3c-check-for-update');
         }
         commit.SET_ENDPOINT(selectedEndpoint);
@@ -62,6 +63,8 @@ const mod = {
     },
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, state } = moduleActionContext(context, mod);
+
+      commit.SET_NEWS_LOADING(true)
 
       try {
         const news = await (
@@ -73,6 +76,8 @@ const mod = {
         commit.SET_NEWS([]);
         logger.error(e);
       }
+
+      commit.SET_NEWS_LOADING(false)
     },
     async setTestMode(context: ActionContext<UpdateHandlingState, RootState>, mode: boolean) {
       const { commit, rootGetters, dispatch, state } = moduleActionContext(context, mod);
@@ -152,6 +157,9 @@ const mod = {
     },
     SET_NEWS(state: RootState, news: News[]) {
       state.news = news;
+    },
+    SET_NEWS_LOADING(state: RootState, value: boolean) {
+      state.newsLoading = value;
     },
     SET_OS(state: RootState, isWindows: boolean) {
       state.isWindows = isWindows;

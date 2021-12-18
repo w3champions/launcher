@@ -148,10 +148,6 @@ if (!gotTheLock) {
       logger.error(e);
       error = e
     }
-
-    // Endpoint detection and auto-update check done
-    // tell App.vue to start loading
-    win?.webContents.send('w3c-background-init-finished');
   })
 
   // This method will be called when Electron has finished

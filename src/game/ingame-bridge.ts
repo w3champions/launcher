@@ -57,8 +57,14 @@ export class IngameBridge extends EventEmitter {
     private server = http.createServer();
     private wss = new WebSocket.Server({ server: this.server });
     private launcherVersion = '0.0.0';
+    private inited = false;
 
     public initialize() {
+        if (this.inited) {
+            return
+        }
+        this.inited = true;
+        
         this.launcherVersion = remote.app.getVersion();
         this.wss.on("connection", (ws: WebSocket, req: any) => {
             const authenticationService = new AuthenticationService();

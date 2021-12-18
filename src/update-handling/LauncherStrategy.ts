@@ -1,6 +1,7 @@
 import type { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 import { AppStore } from "@/globalState/vuex-store";
 import logger from "@/logger";
+import { ipcRenderer } from "electron";
 
 const { remote } = window.require("electron");
 const fs = window.require("fs");
@@ -45,8 +46,8 @@ export abstract class LauncherStrategy {
 
         const to = `${this.mapsPath}/${fileName}`;
         logger.info(`Download ${fileName} to: ${to}`)
-        const url = this.endpoint.overrideUpdateFileDownloadUrl
-            ? `${this.endpoint.overrideUpdateFileDownloadUrl}maps/${fileName}`
+        const url = this.endpoint.staticBaseUpdateFileUrl
+            ? this.rewriteStaticUpdateFileUrl(this.endpoint.staticBaseUpdateFileUrl, `maps/${fileName}`, this.isTest)
             : `${this.endpoint.updateUrl}api/maps/download?mapPath=${fileName}`;
 
         try {
@@ -105,11 +106,24 @@ export abstract class LauncherStrategy {
         return this.localW3cVersion !== this.onlineW3cVersion;
     }
 
+    private rewriteStaticUpdateFileUrl(base: string, fileName: string, _isTest: boolean) {
+        let url
+        if (fileName === 'maps') {
+            url = `${base}maps_v${this.onlineW3cVersion}.zip`
+        } else if (fileName === 'webui') {
+            url = `${base}china-webui.zip`
+        } else {
+            url = `${base}${fileName}`
+        }
+        return `${url}?version=${encodeURIComponent(this.onlineW3cVersion)}`
+    }
+
     public async repairWc3() {
         await this.store.dispatch.setTestMode(false);
         this.store.commit.updateHandling.START_DLS();
         this.store.dispatch.updateHandling.resetPaths();
         await this.updateIfNeeded();
+        await ipcRenderer.invoke('w3c-add-flo-firewall-rule')
     }
 
     private async getFolderFromUserIfNeverStarted(
@@ -222,9 +236,12 @@ export abstract class LauncherStrategy {
 
     private async downloadAndWriteFile(fileName: string, to: string, onProgress?: (percentage: number) => void) {
         logger.info(`Download ${fileName} to: ${to}`)
-        const url = this.endpoint.overrideUpdateFileDownloadUrl 
-            ? `${this.endpoint.overrideUpdateFileDownloadUrl}${fileName}`
+
+        const url = this.endpoint.staticBaseUpdateFileUrl 
+            ? this.rewriteStaticUpdateFileUrl(this.endpoint.staticBaseUpdateFileUrl, fileName, this.isTest)
             : `${this.endpoint.updateUrl}api/${fileName}?ptr=${this.isTest}`;
+
+        console.log(url)
 
         try {
             const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);

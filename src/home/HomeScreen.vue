@@ -1,6 +1,7 @@
 <template>
   <div class="home-container">
     <div class="modt">
+      <p v-if="isNewsLoading">Loading news...</p>
       <div class="w3font news-header">{{ news[selectedNews] ? news[selectedNews].date : "" }}</div>
       <br />
       <div v-if="isNewsHtml" v-html="news[selectedNews].message"></div>
@@ -83,6 +84,10 @@ export default class HomeScreen extends Vue {
       || this.disablePlayBtn
       || this.isW3LocationWrong
       || this.isBnetLocationWrong);
+  }
+
+  get isNewsLoading() {
+    return this.$store.direct.state.newsLoading
   }
 
   get isW3LocationWrong() {

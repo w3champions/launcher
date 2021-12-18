@@ -1,6 +1,6 @@
+import store from './globalState/vuex-store'
 import Vue from 'vue'
 import App from './App.vue'
-import store from './globalState/vuex-store'
 import router from "./router";
 import {ELauncherMessageType, IIngameBridgeEvent, ingameBridge} from "@/game/ingame-bridge";
 import { floWorkerService } from './flo-integration/flo-worker.service';
@@ -17,11 +17,10 @@ new Vue({
   render: h => h(App),
 }).$mount('#app')
 
-ipcRenderer.on("w3c-endpoint-selected", (_: unknown, endpoint: IEndpoint) => {
-  store.dispatch.init(endpoint).then(() => {  
-    ingameBridge.initialize();
-    floWorkerService.initialize();
-  });
+ipcRenderer.on("w3c-endpoint-selected", async (_: unknown, endpoint: IEndpoint) => {
+  await store.dispatch.init(endpoint)
+  ingameBridge.initialize();
+  floWorkerService.initialize();
 })
 
 ingameBridge.on(ELauncherMessageType.MAP_DOWNLOAD, async (event: IIngameBridgeEvent) => {
