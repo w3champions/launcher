@@ -58,32 +58,36 @@ export default class App extends Vue {
     this.$store.direct.dispatch.loadIsTestMode();
 
     ipcRenderer.invoke('w3c-select-endpoint', store.state.isTest);
-    
-    ipcRenderer.on('w3c-background-init-finished', async () => {
-      this.$store.direct.dispatch.loadOsMode();
-      this.$store.direct.dispatch.loadAuthToken();
+    ipcRenderer.on('w3c-endpoint-selected', () => {
+      Vue.nextTick(async () => {
+        const state = this.$store.direct.state
+        if (state.selectedEndpoint) {
+          this.$store.direct.dispatch.loadOsMode();
+          this.$store.direct.dispatch.loadAuthToken();
 
-      this.makeSureNumpadIsEnabled()
+          this.makeSureNumpadIsEnabled()
 
-      await this.$store.direct.dispatch.loadNews();
+          this.$store.direct.dispatch.loadNews();
 
-      logger.info(remote.app.getPath('userData'))
-      this.$store.direct.dispatch.hotKeys.loadHotkeyFabSettings();
-      this.$store.direct.dispatch.hotKeys.loadToggleKey();
-      this.$store.direct.dispatch.hotKeys.loadHotKeys();
-      this.$store.direct.dispatch.hotKeys.setToggleKey(this.$store.direct.state.hotKeys.toggleButton);
-      this.$store.direct.dispatch.hotKeys.loadManualMode();
-      this.$store.direct.dispatch.hotKeys.loadIsClassicIcons();
+          logger.info(remote.app.getPath('userData'))
+          this.$store.direct.dispatch.hotKeys.loadHotkeyFabSettings();
+          this.$store.direct.dispatch.hotKeys.loadToggleKey();
+          this.$store.direct.dispatch.hotKeys.loadHotKeys();
+          this.$store.direct.dispatch.hotKeys.setToggleKey(this.$store.direct.state.hotKeys.toggleButton);
+          this.$store.direct.dispatch.hotKeys.loadManualMode();
+          this.$store.direct.dispatch.hotKeys.loadIsClassicIcons();
 
-      this.$store.direct.dispatch.updateHandling.loadAllPaths();
-      await this.$store.direct.dispatch.updateHandling.loadIsCustomFontEnabled();
-      await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
-      await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
-      await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
-      await this.$store.direct.dispatch.colorPicker.loadIsTeamColorsEnabled();
-      await this.$store.direct.dispatch.colorPicker.loadColors();
+          this.$store.direct.dispatch.updateHandling.loadAllPaths();
+          await this.$store.direct.dispatch.updateHandling.loadIsCustomFontEnabled();
+          await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
+          await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
+          await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
+          await this.$store.direct.dispatch.colorPicker.loadIsTeamColorsEnabled();
+          await this.$store.direct.dispatch.colorPicker.loadColors();
 
-      await this.updateStrategy.updateIfNeeded();
+          await this.updateStrategy.updateIfNeeded();
+        }
+      })
     })
   }
 

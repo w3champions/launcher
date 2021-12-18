@@ -1,5 +1,5 @@
 import { BrowserWindow, ipcMain } from "electron";
-import fs from 'fs'
+import fetch from 'electron-fetch'
 
 export interface IEndpoint {
   id: string;
@@ -7,26 +7,24 @@ export interface IEndpoint {
   newsUrl: string;
   identificationUrl: string;
   floControllerHost: string;
-  overrideUpdateFileDownloadUrl?: string;
-  overrideRemoteWebUIFileName?: string,
+  staticBaseUpdateFileUrl?: string;
 }
 
 const ENDPOINTS_PROD: IEndpoint[] = [
-  {
-    id: "Europe",
-    updateUrl: "https://update-service.w3champions.com/",
-    newsUrl: "https://statistic-service.w3champions.com/",
-    identificationUrl: "https://identification-service.w3champions.com/",
-    floControllerHost: "service.w3flo.com",
-  },
+  // {
+  //   id: "Europe",
+  //   updateUrl: "https://update-service.w3champions.com/",
+  //   newsUrl: "https://statistic-service.w3champions.com/",
+  //   identificationUrl: "https://identification-service.w3champions.com/",
+  //   floControllerHost: "service.w3flo.com",
+  // },
   {
     id: "中国",
     updateUrl: "http://123.57.23.5:25053/",
     newsUrl: "http://123.57.23.5:25052/",
     identificationUrl: "http://123.57.23.5:25051/",
     floControllerHost: "ea2d46.pathx.ucloudgda.com",
-    overrideUpdateFileDownloadUrl: "https://w3champions.oss-cn-shanghai.aliyuncs.com/update-service-content/",
-    overrideRemoteWebUIFileName: "china-webui.zip"
+    staticBaseUpdateFileUrl: 'https://w3champions.oss-cn-shanghai.aliyuncs.com/update-service-content/'
   },
 ];
 

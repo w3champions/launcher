@@ -8,6 +8,7 @@ export interface RootState {
     selectedLoginGateway: LoginGW,
     identificationPublicKey: string,
     news: News[],
+    newsLoading: boolean,
     w3cToken: W3cToken | null,
     floStatus: FloStatus | null,
 }
