@@ -11,19 +11,19 @@ export interface IEndpoint {
 }
 
 const ENDPOINTS_PROD: IEndpoint[] = [
-  // {
-  //   id: "Europe",
-  //   updateUrl: "https://update-service.w3champions.com/",
-  //   newsUrl: "https://statistic-service.w3champions.com/",
-  //   identificationUrl: "https://identification-service.w3champions.com/",
-  //   floControllerHost: "service.w3flo.com",
-  // },
+  {
+    id: "Europe",
+    updateUrl: "https://update-service.w3champions.com/",
+    newsUrl: "https://statistic-service.w3champions.com/",
+    identificationUrl: "https://identification-service.w3champions.com/",
+    floControllerHost: "service.w3flo.com",
+  },
   {
     id: "中国",
     updateUrl: "http://123.57.23.5:25053/",
     newsUrl: "http://123.57.23.5:25052/",
     identificationUrl: "http://123.57.23.5:25051/",
-    floControllerHost: "ea2d46.pathx.ucloudgda.com",
+    floControllerHost: "123.57.23.5",
     staticBaseUpdateFileUrl: 'https://w3champions.oss-cn-shanghai.aliyuncs.com/update-service-content/'
   },
 ];

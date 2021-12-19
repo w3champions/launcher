@@ -13,7 +13,6 @@ const path = require('path');
 const fs = window.require("fs");
 const { exec } = window.require("child_process");
 const { ipcRenderer } = window.require('electron')
-const sudo = window.require("sudo-prompt");
 
 export class FloWorkerService {
     private store = store;
@@ -95,18 +94,6 @@ export class FloWorkerService {
             });
 
             ipcRenderer.send('flo-network-test', event.data);
-        });
-    }
-
-    public addWindowsFirewallRule() {
-        const settings = this.createWorkerSettings();
-        logger.info("flo worker: " + settings.floWorkerExePath);
-        sudo.exec(`netsh firewall add allowedprogram "${settings.floWorkerExePath}" "FLO" ENABLE`, {
-            name: 'Warcraft 3 Champions',
-        }, (err: Error) => {
-            if (err) {
-                logger.error(err)
-            }
         });
     }
 
