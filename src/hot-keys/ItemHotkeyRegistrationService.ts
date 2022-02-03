@@ -199,7 +199,6 @@ export class ItemHotkeyRegistrationService {
             globalShortcut.register(keyCode, fkt)
         } catch (e) {
             logger.error(`Failed to register combo: ${combiAsString(combo)}`);
-            alert(`Could not register combo: ${combiAsString(combo)}. Switching to an english keyboard layout should help. Nevertheless, please reach out on discord to get this fixed for good =)`)
         }
     }
 
