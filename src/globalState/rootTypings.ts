@@ -1,3 +1,5 @@
+import { EPlayerGameStatus, ICurrentGameInfo } from "@/flo-integration/flo-worker-messages";
+
 export interface RootState {
     isTest: boolean,
     isWindows: boolean,
@@ -7,7 +9,8 @@ export interface RootState {
     identificationUrl: string,
     identificationPublicKey: string,
     news: News[],
-    w3cToken: W3cToken | null
+    w3cToken: W3cToken | null,
+    floStatus: FloStatus | null,
 }
 
 export interface News {
@@ -24,4 +27,10 @@ export interface W3cToken {
 
 export enum LoginGW {
     none, eu, cn
+}
+
+export interface FloStatus {
+    player_id: number,
+    name: string,
+    game: ICurrentGameInfo | null,
 }

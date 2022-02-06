@@ -3,6 +3,7 @@ import VueRouter, {Route} from "vue-router";
 import UpdateSettingsScreen from "@/update-handling/UpdateSettingsScreen.vue";
 import HotKeySetupScreen from "@/hot-keys/HotKeySetupScreen.vue";
 import HomeScreen from "@/home/HomeScreen.vue";
+import StatusScreen from "@/status/StatusScreen.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
                 tab: parseInt(route.params.tab)
             }
         }
+    },
+    {
+        path: "/Status",
+        name: "Status",
+        component: StatusScreen,
     },
     {
         path: "/Settings",
