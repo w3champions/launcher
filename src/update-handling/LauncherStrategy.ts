@@ -248,7 +248,6 @@ export abstract class LauncherStrategy {
     }
 
     public async updateIfNeeded() {
-        await this.store.dispatch.updateHandling.loadOnlineW3CVersion();
         if (!this.needsW3cUpdate) {
             logger.info("no need for update")
             return;
