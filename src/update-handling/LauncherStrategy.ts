@@ -99,7 +99,7 @@ export abstract class LauncherStrategy {
     }
 
     get needsW3cUpdate() {
-        return this.localW3cVersion !== this.onlineW3cVersion;
+        return this.onlineW3cVersion !== '' && this.localW3cVersion !== this.onlineW3cVersion;
     }
 
     public async repairWc3() {
