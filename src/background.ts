@@ -6,6 +6,7 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
 import { floNetworkTestService } from './background-thread/flo/flo-network-test.service'
+import { floUtilsService } from './background-thread/flo/flo-utils.service'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -77,6 +78,8 @@ function createWindow() {
   });
 
   floNetworkTestService.setWindow(win);
+  floUtilsService.registerHandlers();
+
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
