@@ -1,7 +1,7 @@
 import { AppStore } from "@/globalState/vuex-store";
 import logger from "@/logger";
 
-const { remote } = window.require("electron");
+const { remote, ipcRenderer } = window.require("electron");
 const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
@@ -107,6 +107,7 @@ export abstract class LauncherStrategy {
         this.store.commit.updateHandling.START_DLS();
         this.store.dispatch.updateHandling.resetPaths();
         await this.updateIfNeeded();
+        await ipcRenderer.invoke('flo-add-firewall-rule')
     }
 
     private async getFolderFromUserIfNeverStarted(
