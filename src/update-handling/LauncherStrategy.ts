@@ -99,7 +99,7 @@ export abstract class LauncherStrategy {
     }
 
     get needsW3cUpdate() {
-        return this.localW3cVersion !== this.onlineW3cVersion;
+        return this.onlineW3cVersion !== '' && this.localW3cVersion !== this.onlineW3cVersion;
     }
 
     public async repairWc3() {
@@ -249,7 +249,6 @@ export abstract class LauncherStrategy {
     }
 
     public async updateIfNeeded() {
-        await this.store.dispatch.updateHandling.loadOnlineW3CVersion();
         if (!this.needsW3cUpdate) {
             logger.info("no need for update")
             return;
