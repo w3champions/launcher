@@ -50,6 +50,9 @@ jobs:
 - job: Windows
   pool:
     vmImage: 'windows-latest'
+    demands:
+    - msbuild
+    - visualstudio
   steps:
   - task: NodeTool@0
     inputs:
