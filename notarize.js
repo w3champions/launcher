@@ -11,7 +11,7 @@ exports.default = async function notarizing(context) {
     return await notarize({
         appBundleId: 'W3Champions',
         appPath: `${appOutDir}/${appName}.app`,
-        appleId: "simonheiss87@gmail.com",
+        appleId: "xuke.ca@hotmail.com",
         appleIdPassword: process.env.APP_PW,
     });
 };
