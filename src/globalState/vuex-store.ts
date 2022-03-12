@@ -24,6 +24,7 @@ import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationSe
 import {FileService} from "@/update-handling/FileService";
 import {AuthenticationService} from "@/globalState/AuthenticationService";
 import logger from "@/logger";
+import { ICurrentGameInfo, IFloWorkerEvent, IGameSlotClientStatusUpdate, IGameStatusUpdate, IPlayerSession, IPlayerSessionUpdate } from "@/flo-integration/flo-worker-messages";
 
 const { ipcRenderer } = window.require("electron");
 
@@ -51,6 +52,7 @@ const mod = {
     news: [] as News[],
     w3cToken: null,
     selectedLoginGateway: LoginGW.none,
+    floStatus: null,
   } as RootState,
   actions: {
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -134,6 +136,10 @@ const mod = {
         ipcRenderer.send('oauth-requested', state.selectedLoginGateway);
       }
     },
+    updateFloStatus(context: ActionContext<unknown, RootState>, msg: IFloWorkerEvent) {
+      const { commit } = moduleActionContext(context, mod);
+      commit.UPDATE_CURRENT_STATUS(msg);
+    }
   },
   mutations: {
     SET_IS_TEST(state: RootState, test: boolean) {
@@ -158,6 +164,65 @@ const mod = {
     LOGOUT(state: RootState) {
       state.w3cToken = null;
     },
+    UPDATE_CURRENT_STATUS(state: RootState, msg: IFloWorkerEvent) {
+      switch (msg.type) {
+        case 'PlayerSession': {
+          const typed = msg as IPlayerSession
+          state.floStatus = {
+            ...(state.floStatus ? state.floStatus : {
+              game: null,
+              player_slot_status_map: {}
+            }),
+            player_id: typed.player?.id,
+            name: typed.player?.name,
+          }
+          break
+        }
+        case 'PlayerSessionUpdate': {
+          const typed = msg as IPlayerSessionUpdate
+          if (!typed.game_id) {
+            if (state.floStatus) {
+              // state.floStatus.game = null
+            }
+          }
+          break
+        }
+        case 'CurrentGameInfo': {
+          if (state.floStatus) {
+            state.floStatus.game = msg as ICurrentGameInfo
+          }
+          break
+        }
+        case 'GameStatusUpdate': {
+          if (state.floStatus) {
+            const typed = msg as IGameStatusUpdate
+            if (typed.game_id === state.floStatus.game?.id) {
+              state.floStatus.game.status = typed.status;
+              for (const [player_id, status] of Object.entries(typed.updated_player_game_client_status_map)) {
+                const slot = state.floStatus.game.slots.find(s => String(s.player?.id) === player_id)
+                if (slot) {
+                  slot.client_status = status
+                }
+              }
+            }
+          }
+          break
+        }
+        case 'GameSlotClientStatusUpdate': {
+          if (state.floStatus) {
+            const typed = msg as IGameSlotClientStatusUpdate;
+            if (typed.game_id === state.floStatus.game?.id) {
+              state.floStatus.game.status = typed.status;
+              const slot = state.floStatus.game.slots.find(s => s.player?.id === typed.player_id)
+              if (slot) {
+                slot.client_status = typed.status
+              }
+            }
+          }
+          break
+        }
+      }
+    }
   },
   getters: {
     updateService() {

@@ -8,6 +8,8 @@ const { spawn } = window.require("child_process");
 const WebSocketClass = window.require("ws");
 const dns = window.require("dns");
 
+type OnEventCallback = (event: IFloWorkerEvent) => void;
+
 export class FloWorkerInstance {
     private settings: IFloWorkerInstanceSettings
     private floWorkerProcess?: any;
@@ -21,9 +23,13 @@ export class FloWorkerInstance {
     private playerSession?: IPlayerSession;
     private isReconnecting = false;
     private isTestGameCheckDone = false;
+    private onEvent: OnEventCallback | null = null;
 
-    constructor(settings: IFloWorkerInstanceSettings) {
+    constructor(settings: IFloWorkerInstanceSettings, onEvent?: OnEventCallback) {
         this.settings = settings;
+        if (onEvent) {
+            this.onEvent = onEvent
+        }
     }
 
     get isInsideGame() {
@@ -244,6 +250,9 @@ export class FloWorkerInstance {
     }
 
     private processFloWorkerMessage(parsed: IFloWorkerEvent) {
+        if (this.onEvent) {
+            this.onEvent(parsed)
+        }
         switch (parsed.type) {
             case EFloWorkerEventTypes.PlayerSession:
                 {
