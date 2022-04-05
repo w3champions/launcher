@@ -1,6 +1,6 @@
 {
   "name": "w3champions",
-  "version": "0.19.0",
+  "version": "0.19.1",
   "private": true,
   "description": "Always stay up to date with this Launcher for the community Ladder Warcraft 3 Champions.",
   "author": "simonheiss87@gmail.com",
@@ -68,6 +68,7 @@
     "eslint": ">= 1.6.0 < 7.0.0",
     "eslint-plugin-vue": "7.4.1",
     "jest": "26.6.3",
+    "node-gyp": "^9.0.0",
     "sass": "1.32.4",
     "sass-loader": "10.1.1",
     "ts-jest": "26.4.4",
