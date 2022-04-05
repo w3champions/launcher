@@ -1,4 +1,7 @@
 {
+     "variables": {
+        "openssl_fips" : "0" 
+    },
     'targets': [
       {
         "cflags!": [ "-fno-exceptions" ],
