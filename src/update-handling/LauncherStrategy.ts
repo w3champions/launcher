@@ -180,7 +180,6 @@ export abstract class LauncherStrategy {
             await this.downloadWebuiToPTR();
         }
         
-        await this.downloadMaps();
         await this.store.dispatch.updateHandling.loadOnlineW3CVersion();
         this.store.dispatch.updateHandling.saveLocalW3CVersion(this.onlineW3cVersion);
         logger.info(`switched to test/live with w3c version: ${this.localW3cVersion}`)
@@ -193,12 +192,6 @@ export abstract class LauncherStrategy {
 
     private async downloadWebuiToPTR() {
         await this.downloadAndWriteFile("webui", this.w3Path.replace('retail', 'ptr'));
-    }
-
-    private async downloadMaps() {
-        await this.downloadAndWriteFile("maps", this.mapsPath, this.updateDownloadProgress.bind(this));
-        // await this.copyMapsToPtr()
-        return "";
     }
 
     private updateDownloadProgress(progress: number) {
@@ -271,7 +264,6 @@ export abstract class LauncherStrategy {
 
         this.store.dispatch.updateHandling.saveMapPath(this.getDefaultPathMap());
 
-        await this.downloadMaps()
         this.store.commit.updateHandling.FINISH_MAPS_DL();
         await this.downloadWebui()
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
@@ -343,7 +335,6 @@ export abstract class LauncherStrategy {
     public async redownloadW3c() {
         if (!this.w3PathIsValid) return;
         this.store.commit.updateHandling.START_DLS();
-        await this.downloadMaps()
         await this.downloadWebui();
         this.store.commit.updateHandling.FINISH_WEBUI_DL();
         this.store.commit.updateHandling.FINISH_MAPS_DL();
