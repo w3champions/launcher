@@ -1,15 +1,17 @@
 <template>
   <div class="home-container">
+  
     <div class="modt">
+      <div class="news-button-container" >
+        <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="() => isSelected(index) ? 'selected-item' : ''"/>
+      </div>
       <div class="w3font news-header">{{ news[selectedNews] ? news[selectedNews].date : "" }}</div>
       <br />
       <div v-if="isNewsHtml" v-html="news[selectedNews].message"></div>
       <vue-markdown v-else :source="news[selectedNews] ? news[selectedNews].message : ''" />
       
     </div>
-    <div style="display: flex; justify-content: center; " >
-      <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="() => isSelected(index) ? 'selected-item' : ''"/>
-    </div>
+
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <button @click="tryStartWc3" class="start-button w3font" :disabled="isDisabled" :content="playButton" :title="explanation">
       {{ playButton }}
@@ -130,6 +132,12 @@ export default class HomeScreen extends Vue {
   align-items: center;
 }
 
+.news-button-container{
+  display: flex;
+  justify-content: center;
+  margin-bottom:1px;
+}
+
 .modt {
   background: url("~@/assets/images/home/W3Champion_Text_Frame.png") no-repeat center;
   background-size: cover;
@@ -140,6 +148,7 @@ export default class HomeScreen extends Vue {
   width: 865px;
   height: 390px;
   overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 .start-button:disabled {
@@ -175,12 +184,13 @@ export default class HomeScreen extends Vue {
   margin-right: 8px;
   cursor: pointer;
   margin-left: 8px;
-  height: 22px;
+  height: 25px;
   width: 25px;
-  background-color: #797;
+  background-color: #697;
   border-radius: 50%;
   position:relative;
-  bottom:472px;
+  bottom:18px;
+
 }
 
 .selected-item {
