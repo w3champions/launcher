@@ -1,6 +1,9 @@
 trigger:
 - master
 
+variables:
+  - group: 'Code Signing'
+
 pr:
 - master
 
@@ -78,6 +81,20 @@ jobs:
 #      CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_WIN)
 #      CSC_LINK: w3c-certs-win.pfx
       GH_TOKEN: $(GH_TOKEN)
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'custom'
+      custom: 'tool'
+      arguments: 'install --global azuresigntool'
+    displayName: Install AzureSignTool
+  
+  -script: AzureSignTool sign \ 
+    -kvu "$(vault-uri)" \
+    -kvi "$(app-client-id)" \
+    -kvs "$(app-secret-id)" \
+    -kvc "$(w3champions-ov)" \
+    -v $(Build.ArtifactStagingDirectory)/w3champions.Setup*.exe
 
   - task: CopyFiles@2
     inputs:
