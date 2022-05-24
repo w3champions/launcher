@@ -102,9 +102,11 @@ jobs:
       arguments: 'install --global azuresigntool'
     displayName: Install AzureSignTool
   
-  - script: AzureSignTool sign \ 
-    -kvu "$(vault-uri)" \
-    -kvi "$(app-client-id)" \
-    -kvs "$(app-secret-id)" \
-    -kvc "$(w3champions-ov)" \
-    -v "$(Build.ArtifactStagingDirectory)/w3champions Setup$(BUILD_NUMBER).exe"
+  - powershell: '& AzureSignTool sign ` 
+    -kvu "$(vault-uri)" `
+    -kvt "$(app-tenant-id)" `
+    -kvi "$(app-client-id)" `
+    -kvs "$(app-secret-id)" `
+    -kvc "$(w3champions-ov)" `
+    -v "$(Build.ArtifactStagingDirectory)/w3champions Setup$(BUILD_NUMBER).exe"'
+    displayName: 'Sign the build'
