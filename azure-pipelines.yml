@@ -100,7 +100,7 @@ jobs:
     -kvi "$(app-client-id)" `
     -kvs "$(app-secret-id)" `
     -kvc "$(w3champions-ov)" `
-    -v ".dist_electron/w3champions Setup $(BUILD_NUMBER).exe"'
+    -v "dist_electron/w3champions Setup $(BUILD_NUMBER).exe"'
     displayName: 'Sign the build'
 
   - task: CopyFiles@2
