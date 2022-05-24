@@ -62,6 +62,9 @@ jobs:
       versionSpec: '16.x'
     displayName: 'Install Node.js'
 
+  - bash: echo "##vso[task.setvariable variable=BUILD_NUMBER]$(node --eval="process.stdout.write(require('./package.json').version))"
+    displayName: 'set build version'
+
   - script: npm install
     displayName: 'npm install'
 
@@ -82,20 +85,6 @@ jobs:
 #      CSC_LINK: w3c-certs-win.pfx
       GH_TOKEN: $(GH_TOKEN)
 
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'custom'
-      custom: 'tool'
-      arguments: 'install --global azuresigntool'
-    displayName: Install AzureSignTool
-  
-  -script: AzureSignTool sign \ 
-    -kvu "$(vault-uri)" \
-    -kvi "$(app-client-id)" \
-    -kvs "$(app-secret-id)" \
-    -kvc "$(w3champions-ov)" \
-    -v $(Build.ArtifactStagingDirectory)/w3champions.Setup*.exe
-
   - task: CopyFiles@2
     inputs:
       contents: 'dist_electron/w3champions Setup *.exe'
@@ -105,3 +94,18 @@ jobs:
       PathtoPublish: $(Build.ArtifactStagingDirectory)
       ArtifactName: 'drop'
       publishLocation: 'Container'
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'custom'
+      custom: 'tool'
+      arguments: 'install --global azuresigntool'
+    displayName: Install AzureSignTool
+  
+  -script: AzureSignTool sign \ 
+    -kvu "$(vault-uri)" \
+    -kvt "$(app-tenant-id)" \
+    -kvi "$(app-client-id)" \
+    -kvs "$(app-secret-id)" \
+    -kvc "$(w3champions-ov)" \
+    -v "$(Build.ArtifactStagingDirectory)/w3champions Setup$(BUILD_NUMBER).exe"
