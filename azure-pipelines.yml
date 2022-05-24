@@ -63,7 +63,7 @@ jobs:
     displayName: 'Install Node.js'
 
   - powershell: | 
-      build=$(node --eval="process.stdout.write(require('./package.json').version))
+      $build=$(node --eval="process.stdout.write(require('./package.json').version))
       echo "##vso[task.setvariable variable=BUILD_NUMBER]$build"
     displayName: 'set build version'
 
