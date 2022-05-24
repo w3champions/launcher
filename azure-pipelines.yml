@@ -102,7 +102,7 @@ jobs:
       arguments: 'install --global azuresigntool'
     displayName: Install AzureSignTool
   
-  -script: AzureSignTool sign \ 
+  - script: AzureSignTool sign \ 
     -kvu "$(vault-uri)" \
     -kvt "$(app-tenant-id)" \
     -kvi "$(app-client-id)" \
