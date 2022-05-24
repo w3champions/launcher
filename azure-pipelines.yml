@@ -104,7 +104,6 @@ jobs:
   
   - script: AzureSignTool sign \ 
     -kvu "$(vault-uri)" \
-    -kvt "$(app-tenant-id)" \
     -kvi "$(app-client-id)" \
     -kvs "$(app-secret-id)" \
     -kvc "$(w3champions-ov)" \
