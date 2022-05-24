@@ -79,23 +79,13 @@ jobs:
       eq(variables['Build.Reason'], 'PullRequest')
 
   - script: npm run buildAndPublish
-    displayName: 'npm build and sign'
+    displayName: 'npm buildAndPublish'
     condition:
       ne(variables['Build.Reason'], 'PullRequest')
     env:
 #      CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_WIN)
 #      CSC_LINK: w3c-certs-win.pfx
       GH_TOKEN: $(GH_TOKEN)
-
-  - task: CopyFiles@2
-    inputs:
-      contents: 'dist_electron/w3champions Setup *.exe'
-      targetFolder: $(Build.ArtifactStagingDirectory)
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: $(Build.ArtifactStagingDirectory)
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
 
   - task: DotNetCoreCLI@2
     inputs:
@@ -110,5 +100,15 @@ jobs:
     -kvi "$(app-client-id)" `
     -kvs "$(app-secret-id)" `
     -kvc "$(w3champions-ov)" `
-    -v "$(Build.ArtifactStagingDirectory)/w3champions Setup$(BUILD_NUMBER).exe"'
+    -v ".dist_electron/w3champions Setup$(BUILD_NUMBER).exe"'
     displayName: 'Sign the build'
+
+  - task: CopyFiles@2
+    inputs:
+      contents: 'dist_electron/w3champions Setup *.exe'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
