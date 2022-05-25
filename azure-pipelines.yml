@@ -93,7 +93,7 @@ jobs:
   - task: DownloadSecureFile@1
     name: OVCertificate
     inputs:
-      secureFile: w3champions-ov-certificate
+      secureFile: w3champions-ov-certificate.pfx
     displayName: 'Download OV Cert' 
 
   - script: npm run buildAndPublish
