@@ -90,13 +90,19 @@ jobs:
 #      script: AzureSignTool sign -kvu "$(vault-uri)" -kvi "$(app-client-id)" -kvs "$(app-secret-id)" -kvc "w3champions-ov" -kvt "$(app-tenant-id)" -v "dist_electron/w3champions Setup $(BUILD_NUMBER).exe"
 #    displayName: 'Sign the build'
 
+  - task: DownloadSecureFile@1
+    name: ov-cert
+    inputs:
+      secureFile: w3champions-ov-certificate
+    displayName: 'Download OV Cert' 
+
   - script: npm run buildAndPublish
-    displayName: 'npm buildAndPublish'
+    displayName: 'electron build & publish'
     condition:
       ne(variables['Build.Reason'], 'PullRequest')
     env:
       CSC_KEY_PASSWORD: $(OV_CERT_PASSWORD)
-      CSC_LINK: $(w3champions-ov-certificate.secureFilePath)
+      CSC_LINK: $(ov-cert-download.secureFilePath)
       GH_TOKEN: $(GH_TOKEN)
 
   - task: CopyFiles@2
