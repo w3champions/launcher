@@ -91,7 +91,7 @@ jobs:
 #    displayName: 'Sign the build'
 
   - task: DownloadSecureFile@1
-    name: ov-cert
+    name: OVCertificate
     inputs:
       secureFile: w3champions-ov-certificate
     displayName: 'Download OV Cert' 
@@ -102,7 +102,7 @@ jobs:
       ne(variables['Build.Reason'], 'PullRequest')
     env:
       CSC_KEY_PASSWORD: $(OV_CERT_PASSWORD)
-      CSC_LINK: $(ov-cert-download.secureFilePath)
+      CSC_LINK: $(OVCertificate.secureFilePath)
       GH_TOKEN: $(GH_TOKEN)
 
   - task: CopyFiles@2
