@@ -78,25 +78,25 @@ jobs:
     condition:
       eq(variables['Build.Reason'], 'PullRequest')
 
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'custom'
-      custom: 'tool'
-      arguments: 'install --global azuresigntool'
-    displayName: Install AzureSignTool
+#  - task: DotNetCoreCLI@2
+#    inputs:
+#      command: 'custom'
+#      custom: 'tool'
+#      arguments: 'install --global azuresigntool'
+#    displayName: Install AzureSignTool
   
-  - task: CmdLine@2
-    inputs:
-      script: AzureSignTool sign -kvu "$(vault-uri)" -kvi "$(app-client-id)" -kvs "$(app-secret-id)" -kvc "w3champions-ov" -kvt "$(app-tenant-id)" -v "dist_electron/w3champions Setup $(BUILD_NUMBER).exe"
-    displayName: 'Sign the build'
+#  - task: CmdLine@2
+#    inputs:
+#      script: AzureSignTool sign -kvu "$(vault-uri)" -kvi "$(app-client-id)" -kvs "$(app-secret-id)" -kvc "w3champions-ov" -kvt "$(app-tenant-id)" -v "dist_electron/w3champions Setup $(BUILD_NUMBER).exe"
+#    displayName: 'Sign the build'
 
   - script: npm run buildAndPublish
     displayName: 'npm buildAndPublish'
     condition:
       ne(variables['Build.Reason'], 'PullRequest')
     env:
-#      CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_WIN)
-#      CSC_LINK: w3c-certs-win.pfx
+      CSC_KEY_PASSWORD: $(OV_CERT_PASSWORD)
+      CSC_LINK: $(w3champions-ov-certificate.secureFilePath)
       GH_TOKEN: $(GH_TOKEN)
 
   - task: CopyFiles@2
