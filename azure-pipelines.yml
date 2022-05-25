@@ -95,7 +95,7 @@ jobs:
     displayName: Install AzureSignTool
   
   - task: CmdLine@2
-    input:
+    inputs:
       script: AzureSignTool sign -kvu "$(vault-uri)" -kvi "$(app-client-id)" -kvs "$(app-secret-id)" -kvc "w3champions-ov" -kvt "$(app-tenant-id)" -v "dist_electron/w3champions Setup $(BUILD_NUMBER).exe"
     displayName: 'Sign the build'
 
