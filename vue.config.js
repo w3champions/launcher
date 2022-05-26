@@ -38,7 +38,7 @@ module.exports = {
           sign: false
         },
         win: {
-          publisherName: ["Simon Heiss"],
+          publisherName: ["Deespul LLC"],
           target: ["nsis"]
         },
         publish: [{

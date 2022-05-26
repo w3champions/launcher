@@ -59,6 +59,11 @@ jobs:
       versionSpec: '16.x'
     displayName: 'Install Node.js'
 
+  - powershell: | 
+      $build=(Get-Content -Raw -Path package.json | ConvertFrom-Json).version
+      echo "##vso[task.setvariable variable=BUILD_NUMBER;]$build"
+    displayName: 'set build version'
+
   - script: npm install
     displayName: 'npm install'
 
@@ -70,13 +75,31 @@ jobs:
     condition:
       eq(variables['Build.Reason'], 'PullRequest')
 
+#  - task: DotNetCoreCLI@2
+#    inputs:
+#      command: 'custom'
+#      custom: 'tool'
+#      arguments: 'install --global azuresigntool'
+#    displayName: Install AzureSignTool
+  
+#  - task: CmdLine@2
+#    inputs:
+#      script: AzureSignTool sign -kvu "$(vault-uri)" -kvi "$(app-client-id)" -kvs "$(app-secret-id)" -kvc "w3champions-ov" -kvt "$(app-tenant-id)" -v "dist_electron/w3champions Setup $(BUILD_NUMBER).exe"
+#    displayName: 'Sign the build'
+
+  - task: DownloadSecureFile@1
+    name: OVCertificate
+    inputs:
+      secureFile: w3champions-ov-certificate.pfx
+    displayName: 'Download OV Cert' 
+
   - script: npm run buildAndPublish
-    displayName: 'npm build and sign'
+    displayName: 'electron build & publish'
     condition:
       ne(variables['Build.Reason'], 'PullRequest')
     env:
-#      CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_WIN)
-#      CSC_LINK: w3c-certs-win.pfx
+      CSC_KEY_PASSWORD: $(OV_CERT_PASSWORD)
+      CSC_LINK: $(OVCertificate.secureFilePath)
       GH_TOKEN: $(GH_TOKEN)
 
   - task: CopyFiles@2
