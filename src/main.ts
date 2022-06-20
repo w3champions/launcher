@@ -24,7 +24,7 @@ ingameBridge.on(ELauncherMessageType.MAP_DOWNLOAD, async (event: IIngameBridgeEv
       ingameBridge.sendMapDownloadProgress(pi, eventData, progressPercent);
   };
 
-  const isSuccess = await store.getters.fileService.downloadMap(eventData.mapFile, progressFunc);
+  const isSuccess = await store.getters.fileService.downloadMap(eventData.mapFile, eventData.basePath, progressFunc);
 
   if (isSuccess) {
       setTimeout(() => {

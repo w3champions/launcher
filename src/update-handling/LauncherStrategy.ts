@@ -37,12 +37,13 @@ export abstract class LauncherStrategy {
         this.startWc3Process(this.bnetPath);
     }
 
-    public async downloadMap(fileName: string, onProgress?: (percentage: number) => void) {
+    public async downloadMap(fileName: string, mapsPath: string, onProgress?: (percentage: number) => void) {
         if (!this.store) {
             return;
         }
 
-        const to = `${this.mapsPath}/${fileName}`;
+        const delimiter = mapsPath.endsWith('/') || mapsPath.endsWith('\\') ? '' : '/';
+        const to = `${mapsPath}${delimiter}${fileName}`;
         logger.info(`Download ${fileName} to: ${to}`)
         const url = `${this.updateUrl}api/maps/download?mapPath=${fileName}`;
 
@@ -88,10 +89,6 @@ export abstract class LauncherStrategy {
 
     get localW3cVersion() {
         return this.store.state.updateHandling.localW3cVersion;
-    }
-
-    get mapsPath() {
-        return this.store.state.updateHandling.mapsPath;
     }
 
     get onlineW3cVersion() {
@@ -261,8 +258,6 @@ export abstract class LauncherStrategy {
             return;
         }
 
-
-        this.store.dispatch.updateHandling.saveMapPath(this.getDefaultPathMap());
 
         this.store.commit.updateHandling.FINISH_MAPS_DL();
         await this.downloadWebui()

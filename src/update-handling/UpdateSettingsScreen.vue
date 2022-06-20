@@ -160,10 +160,6 @@ export default class UpdateSettingsScreen extends Vue {
     return this.$store.direct.state.updateHandling.bnetPath;
   }
 
-  get mapPath(): string {
-    return this.$store.direct.state.updateHandling.mapsPath;
-  }
-
   get w3cVersion(): string {
     return this.$store.direct.state.updateHandling.localW3cVersion;
   }

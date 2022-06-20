@@ -4,18 +4,9 @@ export class UpdateService {
     private store = new Store();
 
     private wc3PathKey = "wc3PathKey";
-    private wc3MapKey = "wc3MapKey";
     private bnetKey = "bnetKey";
     private currentVersionKey = "currentVersionKey";
     private isClassicIconKey = "isClassicIconKey";
-
-    loadMapsPath(): string {
-        return this.store.get(this.wc3MapKey)
-    }
-
-    saveMapPath(value: string) {
-        this.store.set(this.wc3MapKey, value);
-    }
 
     loadBnetPath(): string {
         return this.store.get(this.bnetKey)

@@ -11,7 +11,6 @@ const mod = {
   state: {
     bnetPath: "",
     w3Path: "",
-    mapsPath: "",
     localW3cVersion: "",
     onlineW3cVersion: "",
     localLauncherVersion: "",
@@ -45,13 +44,6 @@ const mod = {
 
       commit.SET_W3_PATH(version);
     },
-    saveMapPath(context: ActionContext<UpdateHandlingState, RootState>, mapPath: string) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
-
-      rootGetters.updateService.saveMapPath(mapPath);
-
-      commit.SET_MAPS_PATH(mapPath);
-    },
     saveBnetPath(context: ActionContext<UpdateHandlingState, RootState>, version: string) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
@@ -79,7 +71,6 @@ const mod = {
     loadAllPaths(context: ActionContext<UpdateHandlingState, RootState>) {
       const { rootGetters, commit } = moduleActionContext(context, mod);
       commit.SET_BNET_PATH(rootGetters.updateService.loadBnetPath());
-      commit.SET_MAPS_PATH(rootGetters.updateService.loadMapsPath());
       commit.SET_W3_PATH(rootGetters.updateService.loadW3Path());
       commit.SET_LOCAL_W3C_VERSION(rootGetters.updateService.loadW3CVersion());
     },
@@ -87,7 +78,6 @@ const mod = {
       const { rootGetters, commit } = moduleActionContext(context, mod);
 
       rootGetters.updateService.saveBnetPath("");
-      rootGetters.updateService.saveMapPath("");
       rootGetters.updateService.saveW3Path("");
       rootGetters.updateService.saveLocalW3CVersion("");
 
@@ -95,7 +85,6 @@ const mod = {
       commit.W3_PATH_IS_INVALID(false);
       commit.SET_BNET_PATH("");
       commit.SET_BNET_PATH("");
-      commit.SET_MAPS_PATH("");
       commit.SET_W3_PATH("");
       commit.SET_LOCAL_W3C_VERSION("");
     },
@@ -107,9 +96,6 @@ const mod = {
   mutations: {
     SET_BNET_PATH(state: UpdateHandlingState, path: string) {
       state.bnetPath = path;
-    },
-    SET_MAPS_PATH(state: UpdateHandlingState, path: string) {
-      state.mapsPath = path;
     },
     SET_W3_PATH(state: UpdateHandlingState, path: string) {
       state.w3Path = path;
