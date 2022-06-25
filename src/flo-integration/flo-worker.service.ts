@@ -36,11 +36,6 @@ export class FloWorkerService {
 
             const workerInstance = this.getWorkerInstance(pi);
             workerInstance?.connect(pi, data);
-
-            setTimeout(() => {
-                debugger;
-                this.watchGame(2996130, this.workers[0]);
-            }, 5000);
         });
 
         ingameBridge.on(ELauncherMessageType.FLO_RECONNECT, (event: IIngameBridgeEvent) => {
