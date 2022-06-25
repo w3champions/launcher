@@ -93,6 +93,15 @@ export class FloWorkerInstance {
         );
     }
 
+    public watchGame(token: string) {
+        this.floWorkerWs?.send(
+            JSON.stringify({
+                type: 'WatchGame',
+                token: token
+            })
+        );
+    }
+
     public async setNodeAddrsOverrides(nodeOverrides: IFloNodeProxy[]) {
         if (!nodeOverrides) {
             nodeOverrides = [];
