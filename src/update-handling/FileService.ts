@@ -4,7 +4,6 @@ import logger from "@/logger";
 import { Grid, RaceHotKey } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 import { AppStore } from "@/globalState/vuex-store";
 import { LauncherStrategy } from "./LauncherStrategy";
-
 const os = window.require("os");
 const fse = window.require("fs-extra");
 const sudo = window.require("sudo-prompt");
@@ -15,6 +14,7 @@ declare const __static: string;
 
 export class FileService {
     public updateStrategy = {} as LauncherStrategy;
+    public HotkeyMode = Number;
     private keyValueStore = new Store();
 
     public initialize(store: AppStore) {
@@ -40,26 +40,27 @@ export class FileService {
         return false;
     }
 
-    async enableCustomHotkeys() {
+    loadHotkeyMode(): Number {
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
-        if (fse.existsSync(settingsFile)) {
+        let key = 0;
+        if (fse.existsSync(settingsFile)){
+
             const content = fse.readFileSync(settingsFile, 'utf8').toString().split("\n");
-            const index1 = content.indexOf("customkeys=0");
-            const index2 = content.indexOf("customkeys=1");
-            const index3 = content.indexOf("customkeys=2");
-            content[index1 + index2 + index3 + 2] = `customkeys=1`;
-            await this.writeArrayToFileForce(settingsFile, content, "War3Preferences.txt");
+            const hotkeyModeSetting = content.find((l: string) => l.startsWith("customkeys="));
+            key = parseInt(hotkeyModeSetting.match(/\d+/)[0]);
         }
+        console.log("Reading configured hotkey mode: " + key);
+        return key;
     }
 
-    async enableGridHotkeys(){
+    async setHotkeyMode(mode: Number){
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
         if (fse.existsSync(settingsFile)) {
             const content = fse.readFileSync(settingsFile, 'utf8').toString().split("\n");
             const index1 = content.indexOf("customkeys=0");
             const index2 = content.indexOf("customkeys=1");
             const index3 = content.indexOf("customkeys=2");
-            content[index1 + index2 + index3 + 2] = `customkeys=2`;
+            content[index1 + index2 + index3 + 2] = `customkeys=${mode}`;
             await this.writeArrayToFileForce(settingsFile, content, "War3Preferences.txt");
         }
     }

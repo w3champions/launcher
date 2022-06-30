@@ -189,6 +189,7 @@ export class ItemHotkeyRegistrationService {
     public loadGridMode(){
         return this.keyValueStore.get(this.gridMode);
     }
+
     private register(combo: ClickCombination, fkt: () => void) {
         try {
             const keyCode = combiAsString(combo);
