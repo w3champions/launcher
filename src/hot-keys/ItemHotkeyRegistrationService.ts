@@ -13,7 +13,6 @@ import {
 } from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
 import logger from "@/logger";
 import {ClickCombination, HotKey, HotkeyButtonPosition, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
-import {RaceHotKey} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 
 const { globalShortcut } = window.require("electron").remote;
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
@@ -51,7 +50,6 @@ const f12function = () => {
 export class ItemHotkeyRegistrationService {
     private keyValueStore = new Store();
     private lastPortKey = "lastPortKey";
-    private gridMode = "gridMode";
     private hotKeyStoreKey = "hotKeyStoreKey"
     private hotKeyToggleKey = "hotKeyToggleKey"
     private hotKeyManualMode = "hotKeyManualModeKey"
@@ -179,15 +177,6 @@ export class ItemHotkeyRegistrationService {
 
     public loadLastW3cPort() {
         return this.keyValueStore.get(this.lastPortKey);
-    }
-
-    public saveGridMode(gm: boolean){
-        this.keyValueStore.set(this.gridMode, gm);
-        logger.info(this.keyValueStore.get(this.gridMode))
-    }
-
-    public loadGridMode(){
-        return this.keyValueStore.get(this.gridMode);
     }
 
     private register(combo: ClickCombination, fkt: () => void) {

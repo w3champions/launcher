@@ -54,6 +54,7 @@ export class FileService {
     }
 
     async setHotkeyMode(mode: Number){
+        console.log("setting warcraft hotkey mode " + mode);
         const settingsFile = this.updateStrategy.getWar3PreferencesFile();
         if (fse.existsSync(settingsFile)) {
             const content = fse.readFileSync(settingsFile, 'utf8').toString().split("\n");

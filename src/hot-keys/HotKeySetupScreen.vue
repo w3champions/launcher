@@ -7,6 +7,7 @@
       <div v-if="this.tab === races.items">
         <ItemHotkeyTab />
         <div class="wc3hotkey-mode-container">
+            <div class="tooltip"> {{hotkeyTooltip}} </div>
             <div :class="hotkeyMode == 0 ? 'rect-button rb-on' : 'rect-button rb-off'" @click="setHotkeyMode(0)"> Classic </div>
             <div :class="hotkeyMode == 1 ? 'rect-button rb-on' : 'rect-button rb-off'" @click="setHotkeyMode(1)"> Custom </div>
             <div :class="hotkeyMode == 2 ? 'rect-button rb-on' : 'rect-button rb-off'" @click="setHotkeyMode(2)"> Grid </div>
@@ -28,6 +29,9 @@ import RaceSpecificHotkeyTab from "@/hot-keys/RaceSpecificHotkeys/RaceSpecificHo
 import ItemHotkeyTab from "@/hot-keys/ItemHotkeys/ItemHotkeyTab.vue";
 import {HotkeyType} from "@/hot-keys/ItemHotkeys/hotkeyState";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
+import {tooltips} from  "@/hot-keys/Tooltips";
+
+
 @Component({
   components: {ItemHotkeyTab, RaceSpecificHotkeyTab, LoadingSpinner}
 })
@@ -44,16 +48,20 @@ export default class HotKeySetupScreen extends Vue {
 
     this.isLoading = true;
     this.$store.direct.dispatch.hotKeys.importHotkeysFromFile().then(
-      () => {this.isLoading = false;});
+      () => {
+        this.isLoading = false;
+        this.hotkeyMode = this.$store.direct.state.hotKeys.hotkeyMode;
+      });
     
-    this.hotkeyMode = this.$store.direct.state.hotKeys.hotkeyMode;
-    console.log("SET HOTKEYMODE" + this.hotkeyMode)
   }
 
   public setHotkeyMode(mode: Number) {
     this.$store.direct.dispatch.hotKeys.updateHotkeyMode(mode);
-    console.log("SETTING HOTKEY MODE" + mode) 
     this.hotkeyMode = mode;
+  }
+
+  public get hotkeyTooltip(){
+    return tooltips.hotkeyMode;
   }
 
   public navigateTo(tab: HotkeyType) {
@@ -143,6 +151,20 @@ export default class HotKeySetupScreen extends Vue {
   height: 28px;
 
 }
+.tooltip {
+  display:none;
+  top:40px;
+  left:40px;
+  position:absolute;
+  background: #28282b;
+  padding:4px;
+  border: 2px solid gold;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.wc3hotkey-mode-container:hover .tooltip{
+  display:block;
+}
 .rb-on {
   background: url("~@/assets/images/settings/RectButtonActive.png") center no-repeat;
 }
@@ -152,4 +174,6 @@ export default class HotKeySetupScreen extends Vue {
 .tab-container {
   width: 100%;
 }
+
+
 </style>

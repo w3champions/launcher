@@ -93,7 +93,6 @@ import {
 } from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
 import {combiAsStringForDisplay} from "@/hot-keys/ItemHotkeys/utilsFunctions";
 import {KeyDto, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
-import {tooltips} from  "@/hot-keys/Tooltips";
 
 @Component
 export default class ItemHotkeyTab extends Vue {
@@ -135,10 +134,6 @@ export default class ItemHotkeyTab extends Vue {
     }
 
     this.closeModal();
-  }
-
-  get gridToolTip(){
-    return tooltips.gridmode;
   }
 
   get isHotkeyManualMode() {
