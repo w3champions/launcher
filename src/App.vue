@@ -176,7 +176,9 @@ a {
   background: url("~@/assets/images/home/Maon_Border.png") center no-repeat;
   height: 100vh;
   background-size: cover;
-
+  overflow-x: hidden;
+  overflow-y: scroll;
+  
 }
 
 .fullscreen-bg__video {
