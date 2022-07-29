@@ -34,10 +34,7 @@ export class WindowsLauncher extends LauncherStrategy {
     getDefaultPathMap(): string {
         const documentPath = remote.app.getPath("documents");
         try {
-            if (fs.existsSync(`${documentPath}\\Warcraft III\\_retail_`)
-                && !fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)) {
-                fs.mkdirSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`);
-            } else if (fs.existsSync(`${documentPath}\\Warcraft III`)
+            if (fs.existsSync(`${documentPath}\\Warcraft III`)
                 && !fs.existsSync(`${documentPath}\\Warcraft III\\Maps`)) {
                 fs.mkdirSync(`${documentPath}\\Warcraft III\\Maps`);
             }
@@ -45,9 +42,7 @@ export class WindowsLauncher extends LauncherStrategy {
             logger.error(e)
         }
 
-        return fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)
-            ? `${documentPath}\\Warcraft III\\_retail_\\Maps`
-            : `${documentPath}\\Warcraft III\\Maps`;
+        return `${documentPath}\\Warcraft III\\Maps`;
     }
 
     getWar3PreferencesFile(): string {
@@ -105,7 +100,7 @@ export class WindowsLauncher extends LauncherStrategy {
 
         const wc3NoRetail = this.getPathFromAgentLogs(/"([^'"]*:[^"']*Warcraft III.exe)"/);
         if (wc3NoRetail) {
-            return wc3NoRetail.replace('\\Warcraft III.exe', '');
+            return wc3NoRetail.replace('\\x86_64\\Warcraft III.exe', '');
         }
 
         return '';
