@@ -304,7 +304,23 @@ export class FloWorkerInstance {
 
                 break;
             }
+            case EFloWorkerEventTypes.WatchGameError: {
+                this.onWatchGameError();
+                break;
+            }
+            case EFloWorkerEventTypes.WatchGame: {
+                this.onWatchGameSuccess();
+                break;
+            }
         }
+    }
+
+    private onWatchGameError() {
+        ingameBridge.sendWatchGameError(this.playerInstance as any);
+    }
+
+    private onWatchGameSuccess() {
+        ingameBridge.sendWatchGameSuccess(this.playerInstance as any);
     }
 
     private resolveIpFromDns(dnsAddress: string) {

@@ -35,6 +35,8 @@ export enum ELauncherMessageType {
     FLO_NETWORK_TEST_RESULT = 'FLO_NETWORK_TEST_RESULT',
     FLO_SET_NODE_OVERRIDES = 'FLO_SET_NODE_OVERRIDES',
     FLO_WATCH_GAME = 'FLO_WATCH_GAME',
+    FLO_WATCH_GAME_SUCCESS = 'FLO_WATCH_GAME_SUCCESS',
+    FLO_WATCH_GAME_ERROR = 'FLO_WATCH_GAME_ERROR',
 
     FLO_CREATE_TEST_GAME = 'FLO_CREATE_TEST_GAME',
     FLO_KILL_TEST_GAME = 'FLO_KILL_TEST_GAME',
@@ -221,6 +223,22 @@ export class IngameBridge extends EventEmitter {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.FLO_NETWORK_TEST_RESULT,
             data: networkTest
+        };
+
+        playerInstance.sendMessage(message);
+    }
+
+    public sendWatchGameError(playerInstance: IPlayerInstance) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.FLO_WATCH_GAME_ERROR,
+        };
+
+        playerInstance.sendMessage(message);
+    }
+
+    public sendWatchGameSuccess(playerInstance: IPlayerInstance) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.FLO_WATCH_GAME_SUCCESS,
         };
 
         playerInstance.sendMessage(message);
