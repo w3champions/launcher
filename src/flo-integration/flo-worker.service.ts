@@ -6,7 +6,8 @@ import { IPlayerInstance } from '@/game/game.types';
 import logger from '@/logger';
 import { IFloNetworkTest } from "@/types/flo-types";
 import { FLO_CONTROLLER_HOST_URL_PROD, FLO_CONTROLLER_HOST_URL_TEST } from "@/constants";
-import { IFloAuthData, IFloWorkerInstanceSettings } from "./types";
+import { IFloAuthData, IFloWatchGameData, IFloWorkerInstanceSettings } from "./types";
+import { floStatsService } from "./flo-stats.service";
 
 const { remote } = window.require("electron");
 const path = require('path');
@@ -89,6 +90,19 @@ export class FloWorkerService {
 
             ipcRenderer.send('flo-network-test', event.data);
         });
+
+        ingameBridge.on(ELauncherMessageType.FLO_WATCH_GAME, async (event: IIngameBridgeEvent)  => {
+            const workerInstance = this.getWorkerInstance(event.playerInstance);
+            const data = event.data as IFloWatchGameData;
+
+            const token = await floStatsService.getWatchGameToken(data.floGameId);
+            workerInstance?.watchGame(token);
+        });
+    }
+
+    public async watchGame(gameId: number, workerInstance: FloWorkerInstance) {
+        const token = await floStatsService.getWatchGameToken(gameId);
+        workerInstance?.watchGame(token);
     }
 
     private reloadWorkers(isTest: boolean) {
