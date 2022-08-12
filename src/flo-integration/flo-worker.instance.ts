@@ -31,6 +31,7 @@ export class FloWorkerInstance {
 
     private watchGameDecreaseSpeedHotkey = 'f6';
     private watchGameIncreaseSpeedHotkey = 'f7';
+    private watchGameHotkeysRegistered = false;
 
     constructor(settings: IFloWorkerInstanceSettings, onEvent?: OnEventCallback) {
         this.settings = settings;
@@ -230,6 +231,8 @@ export class FloWorkerInstance {
 
         globalShortcut.unregister(this.watchGameDecreaseSpeedHotkey);
         globalShortcut.unregister(this.watchGameIncreaseSpeedHotkey);
+
+        this.watchGameHotkeysRegistered = false;
     }
 
     private onDisconnectRecieved() {
@@ -341,7 +344,7 @@ export class FloWorkerInstance {
 
         ingameBridge.sendWatchGameSuccess(this.playerInstance as any);
 
-        if (data.speed == 1) {
+        if (!this.watchGameHotkeysRegistered) {
             // TODO (W3C-151)  make those hotkeys configurable from UI
             // Note that electron global shortcuts do not execute default key action
             globalShortcut.register(this.watchGameDecreaseSpeedHotkey, () => {
@@ -351,6 +354,8 @@ export class FloWorkerInstance {
             globalShortcut.register(this.watchGameIncreaseSpeedHotkey, () => {
                 this.watchGameChangeSpeed(1);
             });
+
+            this.watchGameHotkeysRegistered = true;
         }
     }
 
