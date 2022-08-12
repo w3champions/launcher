@@ -2,7 +2,7 @@ import { IPlayerInstance } from '@/game/game.types';
 import { ingameBridge } from '@/game/ingame-bridge';
 import logger from '@/logger';
 import { IFloNodeProxy } from '@/types/flo-types';
-import { EFloWorkerEventTypes, EPlayerStatus, IFloWorkerEvent, IPingUpdate, IPlayerSession } from './flo-worker-messages';
+import { EFloWorkerEventTypes, EPlayerStatus, IFloWorkerEvent, IPingUpdate, IPlayerSession, IWatchGameResponse } from './flo-worker-messages';
 import { IFloAuthData, IFloNode, IFloNodeOverride, IFloWorkerInstanceSettings, IFloWorkerStartupData } from './types';
 const { spawn } = window.require("child_process");
 const WebSocketClass = window.require("ws");
@@ -24,6 +24,9 @@ export class FloWorkerInstance {
     private isReconnecting = false;
     private isTestGameCheckDone = false;
     private onEvent: OnEventCallback | null = null;
+
+    private isWatching = false;
+    private lastWatchGameSpeed = 1;
 
     constructor(settings: IFloWorkerInstanceSettings, onEvent?: OnEventCallback) {
         this.settings = settings;
@@ -217,6 +220,31 @@ export class FloWorkerInstance {
         }, 2000);
     }
 
+    public watchGameChangeSpeed(increment: number) {
+        if (!this.isWatching) {
+            return;
+        }
+
+        let newSpeed = this.lastWatchGameSpeed + increment;
+
+        if (newSpeed < 1) {
+            newSpeed = 1;
+        }
+
+        if (newSpeed > 4) {
+            newSpeed = 4;
+        }
+
+        if (newSpeed != this.lastWatchGameSpeed) {
+            this.setWatchGameSpeed(newSpeed);
+        }
+    }
+
+    public gameExited() {
+        this.isWatching = false;
+        this.lastWatchGameSpeed = 1;
+    }
+
     private onDisconnectRecieved() {
         logger.info('Disconnect received');
         ingameBridge.sendFloDisconnected(this.playerInstance as any);
@@ -309,17 +337,21 @@ export class FloWorkerInstance {
                 break;
             }
             case EFloWorkerEventTypes.WatchGame: {
-                this.onWatchGameSuccess();
+                this.onWatchGameSuccess(parsed as IWatchGameResponse);
                 break;
             }
         }
     }
 
     private onWatchGameError() {
+        this.isWatching = false;
         ingameBridge.sendWatchGameError(this.playerInstance as any);
     }
 
-    private onWatchGameSuccess() {
+    private onWatchGameSuccess(data: IWatchGameResponse) {
+        this.lastWatchGameSpeed = data.speed;
+        this.isWatching = true;
+
         ingameBridge.sendWatchGameSuccess(this.playerInstance as any);
     }
 
@@ -331,5 +363,14 @@ export class FloWorkerInstance {
         });
 
         return promise;
+    }
+
+    private setWatchGameSpeed(speed: number) {
+        const setSpeedMessage = JSON.stringify({
+            type: 'WatchGameSetSpeed',
+            speed: speed
+        });
+
+        this.floWorkerWs?.send(setSpeedMessage);
     }
 }

@@ -125,3 +125,10 @@ export enum ESlotStatus {
     Occupied = "Occupied",
     Open = "Open",
 }
+
+export interface IWatchGameResponse {
+    type: EFloWorkerEventTypes;
+    speed: number;
+    game_id: number;
+    delay_secs: number;
+}
