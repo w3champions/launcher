@@ -29,16 +29,6 @@ export class FloWorkerService {
             }
         });
 
-        // TODO (W3C-151)  make those hotkeys configurable from UI
-        // Note that electron global shortcuts do not execute default key action
-        globalShortcut.register('f6', () => {
-            this.watchGameChangeSpeed(-1);
-        });
-
-        globalShortcut.register('f7', () => {
-            this.watchGameChangeSpeed(1);
-        });
-
         this.reloadWorkers(store.state.isTest);
 
         ingameBridge.on(ELauncherMessageType.FLO_AUTH, (event: IIngameBridgeEvent) => {
@@ -113,12 +103,6 @@ export class FloWorkerService {
         ingameBridge.on(ELauncherMessageType.EXIT_GAME, () => {
             this.setExitGame();
         });
-    }
-
-    public watchGameChangeSpeed(increment: number) {
-        for (const worker of this.workers) {
-            worker.watchGameChangeSpeed(increment);
-        }
     }
 
     private setExitGame() {
