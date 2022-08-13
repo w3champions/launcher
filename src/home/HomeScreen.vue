@@ -2,14 +2,15 @@
   <div class="home-container">
   
     <div class="modt">
-      <div class="news-button-container" >
-        <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="() => isSelected(index) ? 'selected-item' : ''"/>
-      </div>
-      <div class="w3font news-header">{{ news[selectedNews] ? news[selectedNews].date : "" }}</div>
-      <br />
-      <div v-if="isNewsHtml" v-html="news[selectedNews].message"></div>
-      <vue-markdown v-else :source="news[selectedNews] ? news[selectedNews].message : ''" />
-      
+      <div class="modt-inner">
+        <div class="news-button-container" >
+          <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="() => isSelected(index) ? 'selected-item' : ''"/>
+        </div>
+        <div class="w3font news-header">{{ news[selectedNews] ? news[selectedNews].date : "" }}</div>
+        <br />
+        <div v-if="isNewsHtml" v-html="news[selectedNews].message"></div>
+        <vue-markdown v-else :source="news[selectedNews] ? news[selectedNews].message : ''" />
+      </div>      
     </div>
 
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
@@ -147,8 +148,31 @@ export default class HomeScreen extends Vue {
   font-size: 14px;
   width: 865px;
   height: 390px;
+
+}
+
+.modt-inner {
+  height: 422px;
+  top: -32px;
+  position: relative;
+  padding: 30px 20px 0px 0px;
+  margin: 0%;
   overflow-y: scroll;
   scroll-behavior: smooth;
+}
+
+.inner-location-wrapper {
+  height: 180px;
+  width: 605px;
+
+}
+
+.location-wrapper {
+  background: url("~@/assets/images/settings/Settings_Directory_Text_Frame.png") no-repeat center;
+  background-size: cover;
+  padding: 28px 30px 30px 30px;
+  height: 150px;
+  width: 605px;
 }
 
 .start-button:disabled {
