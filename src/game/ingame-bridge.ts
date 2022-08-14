@@ -19,6 +19,7 @@ export enum ELauncherMessageType {
 
     CONNECTED = 'CONNECTED',
     DISCONNECTED = 'DISCONNECTED',
+    LAUNCHER_GET_VERSION = 'LAUNCHER_GET_VERSION',
     LAUNCHER_VERSION = 'LAUNCHER_VERSION',
     START_GAME = 'START_GAME',
     EXIT_GAME = 'EXIT_GAME',
@@ -100,10 +101,16 @@ export class IngameBridge extends EventEmitter {
                         data: parsed.data
                     }
 
-                    if(parsed.type === ELauncherMessageType.REQUEST_AUTHENTICATION_TOKEN) {
+                    if (parsed.type === ELauncherMessageType.REQUEST_AUTHENTICATION_TOKEN) {
                         const message: ILauncherGameMessage = {
                             type: ELauncherMessageType.RECEIVED_AUTHENTICATION_TOKEN_FROM_LAUNCHER,
                             data: store.state.w3cToken
+                        };
+                        pi.sendMessage(message);
+                    } else if (parsed.type === ELauncherMessageType.LAUNCHER_GET_VERSION) {
+                        const message: ILauncherGameMessage = {
+                            type: ELauncherMessageType.LAUNCHER_VERSION,
+                            data: { launcherVersion: this.launcherVersion }
                         };
                         pi.sendMessage(message);
                     }
@@ -119,19 +126,9 @@ export class IngameBridge extends EventEmitter {
                 this.emit(ELauncherMessageType.DISCONNECTED, pi);
             };
 
-            this.sendLauncherVersion(pi);
         });
 
         this.server.listen(38123);
-    }
-
-    public sendLauncherVersion(playerInstance: IPlayerInstance) {
-        const message: ILauncherGameMessage = {
-            type: ELauncherMessageType.LAUNCHER_VERSION,
-            data: { launcherVersion: this.launcherVersion }
-        };
-
-        playerInstance.sendMessage(message);
     }
 
     public sendFloConnected(playerInstance: IPlayerInstance, workerVersion: string) {
