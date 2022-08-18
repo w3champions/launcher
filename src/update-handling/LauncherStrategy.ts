@@ -308,19 +308,14 @@ export abstract class LauncherStrategy {
 
     public async hardSetW3cPath() {
         const path = await this.openSelectFolderDialog(this.w3PathWithOutRetail);
-        if (!path || path === this.w3PathWithOutRetail) return;
+        if (!path) return;
         this.store.commit.updateHandling.SET_W3_PATH(path);
         logger.info(`w3 path to check: ${path}`)
         if (!fs.existsSync(`${path}/${this.getDefaultWc3Executable()}`)) {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(true);
         } else {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
-
-            if (fs.existsSync(`${this.w3Path}/_retail_`)) {
-                this.store.dispatch.updateHandling.saveW3Path(`${path}/_retail_`)
-            } else {
-                this.store.dispatch.updateHandling.saveW3Path(path)
-            }
+            this.store.dispatch.updateHandling.saveW3Path(path);
         }
 
         if (this.w3PathIsValid) {

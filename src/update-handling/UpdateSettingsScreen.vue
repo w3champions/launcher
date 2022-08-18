@@ -173,7 +173,7 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   get w3Path(): string {
-    return this.updateStrategy.w3PathWithOutRetail;
+    return this.updateStrategy.w3Path;
   }
 
   get news() {
