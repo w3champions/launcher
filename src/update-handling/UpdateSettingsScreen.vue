@@ -3,23 +3,23 @@
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
     <div style="padding-top: 40px">
       <div class="options-header w3font" style="margin-bottom: 10px">Directory Settings</div>
-        <div class="location-wrapper">
-        <div class="w3c-icon" :title="`Enter the location to wc3 (Usually ${defaultW3Location})`"/>
-        <div class="reset-button-line"  :class="isW3LocationWrong ? 'path-is-wrong' : 'path-is-right'">
-          <div :title="explanationW3Wrong">{{w3Path}}</div>
-          <div class="reset-button" @click="resetW3Path" />
+      <div class="location-wrapper">
+        <div class="w3c-icon" :title="`Enter the location to wc3 (Usually ${defaultW3Location})`"></div>
+        <div class="reset-button-line"  :class="isW3LocationWrong ? 'path-is-wrong' : 'path-is-right'" :title="explanationW3Wrong">
+          <div>{{w3Path}}</div>
+          <div class="reset-button" @click="resetW3Path"></div>
         </div>
-        <div class="bnet-icon" :title="`Enter the location to wc3 (Usually ${defaultBnetLocation})`" />
-        <div class="reset-button-line" :class="isBnetLocationWrong ? 'path-is-wrong' : 'path-is-right'">
-          <div :title="explanationBnetWrong">{{battleNet}}</div>
-          <div class="reset-button" @click="resetBnetPath" />
+        <div class="bnet-icon" :title="`Enter the location to wc3 (Usually ${defaultBnetLocation})`"></div>
+        <div class="reset-button-line" :class="isBnetLocationWrong ? 'path-is-wrong' : 'path-is-right'" :title="explanationBnetWrong">
+          <div>{{battleNet}}</div>
+          <div class="reset-button" @click="resetBnetPath"></div>
         </div>
       </div>
       <div class="options-header w3font" style="margin-top: 20px">Color Settings</div>
       <div class="color-pick-bar">
         <div style="display: flex">
-          <div :class="isTeamColorsEnabled ? 'team-colors-on' : 'team-colors-off'" @click="toggleTeamColors"/>
-          <div style="line-height: 31px; margin-left: 5px">Team colors</div>
+          <div :class="isTeamColorsEnabled ? 'team-colors-on' : 'team-colors-off'" @click="toggleTeamColors"></div>
+          <div style="line-height: 31px; margin-left: 5px">Team Colors</div>
         </div>
 
         <ColorPicker text="Own Color" :color="ownColor" :onSwitchColor="switchOwnColor"/>
@@ -114,7 +114,7 @@ export default class UpdateSettingsScreen extends Vue {
 
   get explanationW3Wrong() {
     if (this.isW3LocationWrong) {
-      return "Warcraft III location wrong, please select a different Folder"
+      return "Warcraft III location is wrong, please select a different folder"
     }
 
     return ""
@@ -122,7 +122,7 @@ export default class UpdateSettingsScreen extends Vue {
 
   get explanationBnetWrong() {
     if (this.isBnetLocationWrong) {
-      return "BattleNet location wrong, please select a different Folder"
+      return "BattleNet location is wrong, please select a different folder"
     }
 
     return ""
