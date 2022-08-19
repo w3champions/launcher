@@ -185,11 +185,15 @@ export abstract class LauncherStrategy {
     }
 
     private async downloadWebui() {
-        await this.downloadAndWriteFile("webui", this.w3Path);
+        if (fs.existsSync(`${this.w3Path}/_retail_`)) {
+            await this.downloadAndWriteFile("webui", `${this.w3Path}/_retail_`);
+        } else {
+            await this.downloadAndWriteFile("webui", this.w3Path);
+        }
     }
 
     private async downloadWebuiToPTR() {
-        await this.downloadAndWriteFile("webui", this.w3Path.replace('retail', 'ptr'));
+        await this.downloadAndWriteFile("webui", `${this.w3Path}/_ptr_`);
     }
 
     private updateDownloadProgress(progress: number) {
@@ -338,16 +342,12 @@ export abstract class LauncherStrategy {
         }
 
         logger.info("default wc3 path: " + defaultW3Path);
-        let w3path = await this.getFolderFromUserIfNeverStarted(
+        const w3path = await this.getFolderFromUserIfNeverStarted(
             this.w3Path,
             defaultW3Path,
             "Warcraft III not found",
             "Warcraft III folder not found, please locate it manually"
         );
-
-        if (fs.existsSync(`${w3path}/_retail_`)) {
-            w3path = `${w3path}/_retail_`;
-        }
 
         if (w3path === "defaultPath") {
             return "";
