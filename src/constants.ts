@@ -42,4 +42,4 @@ sYbv9oAYja2AuGxDba1MJHUCAwEAAQ==
 -----END PUBLIC KEY-----
 `
 
-export const OAUTH_ENABLED = false;
+export const OAUTH_ENABLED = true;

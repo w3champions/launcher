@@ -34,6 +34,7 @@ export abstract class LauncherStrategy {
 
     public startWc3() {
         this.makeSureJoinBugFilesAreGone();
+        this.turnOnLocalFiles();
         this.startWc3Process(this.bnetPath);
     }
 

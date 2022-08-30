@@ -6,7 +6,9 @@ import { IPlayerInstance } from '@/game/game.types';
 import logger from '@/logger';
 import { IFloNetworkTest } from "@/types/flo-types";
 import { FLO_CONTROLLER_HOST_URL_PROD, FLO_CONTROLLER_HOST_URL_TEST } from "@/constants";
-import { IFloAuthData, IFloWorkerInstanceSettings } from "./types";
+import { IFloAuthData, IFloWatchGameData, IFloWorkerInstanceSettings } from "./types";
+import { floStatsService } from "./flo-stats.service";
+const { globalShortcut } = window.require("electron").remote;
 
 const { remote } = window.require("electron");
 const path = require('path');
@@ -58,7 +60,7 @@ export class FloWorkerService {
             }
         });
 
-        ingameBridge.on(ELauncherMessageType.FLO_CREATE_TEST_GAME,  (event: IIngameBridgeEvent)  => {
+        ingameBridge.on(ELauncherMessageType.FLO_CREATE_TEST_GAME, (event: IIngameBridgeEvent) => {
             const workerInstance = this.getWorkerInstance(event.playerInstance);
             workerInstance?.startTestGame();
         });
@@ -89,6 +91,24 @@ export class FloWorkerService {
 
             ipcRenderer.send('flo-network-test', event.data);
         });
+
+        ingameBridge.on(ELauncherMessageType.FLO_WATCH_GAME, async (event: IIngameBridgeEvent) => {
+            const workerInstance = this.getWorkerInstance(event.playerInstance);
+            const data = event.data as IFloWatchGameData;
+
+            const token = await floStatsService.getWatchGameToken(data.floGameId);
+            workerInstance?.watchGame(token);
+        });
+
+        ingameBridge.on(ELauncherMessageType.EXIT_GAME, () => {
+            this.setExitGame();
+        });
+    }
+
+    private setExitGame() {
+        for (const worker of this.workers) {
+            worker.gameExited();
+        }
     }
 
     private reloadWorkers(isTest: boolean) {
@@ -128,15 +148,15 @@ export class FloWorkerService {
         return this.primaryWorker;
     }
 
-    private isRunning(win: string, mac: string, linux: string){
-        return new Promise<boolean>(function(resolve, reject){
+    private isRunning(win: string, mac: string, linux: string) {
+        return new Promise<boolean>(function (resolve, reject) {
             const plat = remote.process.platform;
             const cmd = plat == 'win32' ? 'tasklist' : (plat == 'darwin' ? 'ps -ax | grep ' + mac : (plat == 'linux' ? 'ps -A' : ''))
             const proc = plat == 'win32' ? win : (plat == 'darwin' ? mac : (plat == 'linux' ? linux : ''))
-            if(cmd === '' || proc === ''){
+            if (cmd === '' || proc === '') {
                 resolve(false)
             }
-            exec(cmd, function(err: any, stdout: any, stderr: any) {
+            exec(cmd, function (err: any, stdout: any, stderr: any) {
                 if (err) {
                     reject(err);
                     return;
@@ -155,7 +175,7 @@ export class FloWorkerService {
             const appPath = remote.app.getAppPath();
             let rootFolder = appPath.replace('\\dist_electron', '');
             rootFolder = rootFolder.replace('/dist_electron', '');
-            floWorkerFolderPath =  path.join(rootFolder, `libs`);
+            floWorkerFolderPath = path.join(rootFolder, `libs`);
         } else {
             floWorkerFolderPath = path.join(`${remote.app.getAppPath()}.unpacked`);
         }
@@ -163,7 +183,7 @@ export class FloWorkerService {
         const floWorkerExePath = path.join(floWorkerFolderPath, floExecutable);
         const floLogsFolder = path.join(floWorkerFolderPath, 'flo-logs');
 
-        if (!fs.existsSync(floLogsFolder)){
+        if (!fs.existsSync(floLogsFolder)) {
             fs.mkdirSync(floLogsFolder);
         }
 

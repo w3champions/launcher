@@ -7,6 +7,7 @@ import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
 import { floNetworkTestService } from './background-thread/flo/flo-network-test.service'
 import { floUtilsService } from './background-thread/flo/flo-utils.service'
+import { LoginGW } from './globalState/rootTypings'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
 
@@ -261,7 +262,7 @@ let logoutUrl = logoutUrlEu;
 
 ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
 
-  if (args === "cn") {
+  if (args === LoginGW.cn) {
     authUrl = authUrlChina;
     logoutUrl = logoutUrlChina;
   } else {
