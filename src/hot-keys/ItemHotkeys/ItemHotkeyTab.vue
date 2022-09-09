@@ -67,10 +67,7 @@
           <div :class="isShowHotkeyIndicator ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleShowHotkeyIndicator" />
           <div class="text-spacer">show hotkey indicator</div>
         </div>
-        <div class="just-a-row" >
-          <div :class="isGridMode ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleGridMode" />
-          <div class="text-spacer"> WC3 Reforged grid mode </div>
-        </div>
+
         <div class="just-a-row">
           <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
           <div class="text-spacer">Inventory hotkeys are {{hotkeyState ? 'ON' : 'OFF'}}</div>
@@ -96,7 +93,6 @@ import {
 } from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
 import {combiAsStringForDisplay} from "@/hot-keys/ItemHotkeys/utilsFunctions";
 import {KeyDto, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
-import {tooltips} from  "@/hot-keys/Tooltips";
 
 @Component
 export default class ItemHotkeyTab extends Vue {
@@ -140,16 +136,8 @@ export default class ItemHotkeyTab extends Vue {
     this.closeModal();
   }
 
-  get gridToolTip(){
-    return tooltips.gridmode;
-  }
-
   get isHotkeyManualMode() {
     return this.$store.direct.state.hotKeys.hotKeyStateMachine.isManual();
-  }
-
-  get isGridMode() {
-    return this.$store.direct.state.hotKeys.gridMode;
   }
 
   get isShowHotkeyIndicator() {
@@ -172,11 +160,7 @@ export default class ItemHotkeyTab extends Vue {
   public toggleHotkeyManualMode() {
     this.$store.direct.dispatch.hotKeys.toggleManualMode();
   }
-  public toggleGridMode() {
-    let cur = this.$store.direct.state.hotKeys.gridMode;
-    this.$store.direct.dispatch.hotKeys.saveGridMode(!cur);
-    this.$store.direct.dispatch.hotKeys.updateHotkeyMode();
-  }
+
   public toggleShowHotkeyIndicator() {
     this.$store.direct.dispatch.hotKeys.toggleShowHotkeyIndicator();
   }
@@ -350,7 +334,7 @@ export default class ItemHotkeyTab extends Vue {
   background: url("~@/assets/images/hotkeys/Hotkeys_Button_Highlight.png") no-repeat center;
   background-size: cover;
   line-height: 68px;
-}
+} 
 
 .hotkey-toggle {
   cursor: pointer;
@@ -422,7 +406,7 @@ export default class ItemHotkeyTab extends Vue {
 
 .manual-mode-off {
   background: url("~@/assets/images/settings/Settings_Toggle_Off.png") center no-repeat;
-  background-size: cover;
+    background-size: cover;
   width: 31px;
   height: 30px;
 }
