@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="news-buttons-box" >
+    <div class="news-buttons-box"         @wheel="onSelectorScroll">
       <div 
-        @wheel="onSelectorScroll"
-      v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="isSelected(index) ? 'selected-news-item' : ''"/>
+
+      v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="isSelected(index) ? 'news-selector-selected' : ''"/>
       </div>
     <div class="w3font news-header">{{ selectedNewsDate }}</div>
     <div class="news-banner">
@@ -84,27 +84,28 @@ export default class NewsBanner extends Vue {
     text-align:center;
   }
 
-  .selected-news-item {
-    background-color: rgb(127, 135, 155)     !important;
+  .news-selector-selected {
+    background-color: rgba(98, 110, 197, 0.656)     !important;
     border-radius: 50%;
   }
 
-  .news-selector {
+.news-selector {
   margin-right: 8px;
   cursor: pointer;
   margin-left: 8px;
-  height: 22px;
-  width: 22px;
+  height: 24px;
+  width: 24px;
   /* background-color: #697; */
-  border-color: rgb(135, 143, 164)     !important;
+  border-color: rgba(78, 106, 176, 0.508);
   border-style: solid;
   border-radius: 50%;
   position:relative;
   bottom:18px;
-
 }
-
-.news-buttons-box{
+.news-selector:hover {
+  border-color: rgba(69, 98, 173, 0.508);
+}
+  .news-buttons-box{
   display: flex;
   justify-content: center;
 }
