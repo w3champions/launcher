@@ -1,18 +1,10 @@
 <template>
   <div class="home-container">
   
-    <div class="modt">
-      <div class="news-button-container" >
-        <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="() => isSelected(index) ? 'selected-item' : ''"/>
-      </div>
-      <div class="w3font news-header">{{ news[selectedNews] ? news[selectedNews].date : "" }}</div>
-      <br />
-      <div v-if="isNewsHtml" v-html="news[selectedNews].message"></div>
-      <vue-markdown v-else :source="news[selectedNews] ? news[selectedNews].message : ''" />
-      
-    </div>
+    <NewsBanner/>
 
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
+    
     <button @click="tryStartWc3" class="start-button w3font" :disabled="isDisabled" :content="playButton" :title="explanation">
       {{ playButton }}
     </button>
@@ -22,24 +14,20 @@
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
+import NewsBanner from "@/home/NewsBanner.vue";
+
 const { execSync } = window.require("child_process");
-import VueMarkdown from "vue-markdown";
 import store from "@/globalState/vuex-store";
 
 @Component({
-  components: {LoadingSpinner, VueMarkdown}
+  components: {LoadingSpinner, NewsBanner}
 })
 export default class HomeScreen extends Vue {
   private updateStrategy = store.getters.fileService.updateStrategy;
   
   private disablePlayBtn = true;
   public playButton = "";
-  public selectedNews = 0;
   @Prop() public code!: string;
-
-  public selectNews(index: number) {
-    this.selectedNews = index;
-  }
 
   async mounted() {
     this.turnOnButton();
@@ -55,30 +43,13 @@ export default class HomeScreen extends Vue {
     }
   }
 
-  get isNewsHtml() {
-    let isHtml = false;
-    const newsItem = this.news[this.selectedNews];
-
-    if (newsItem) {
-      // Check that it starts with '<' and ends with '>'
-      isHtml = newsItem.message.trim().charAt(0) === '<'
-        && newsItem.message.trim().charAt(newsItem.message.length - 1) === '>';
-    }
-
-    return isHtml;
-  }
-
   get explanation() {
     if (this.isW3LocationWrong || this.isBnetLocationWrong) {
       return "BattleNet or Warcraft III location wrong, please fix in Settings"
     }
-
     return ""
   }
 
-  public isSelected(index: number) {
-    return index === this.selectedNews;
-  }
 
   get isDisabled() {
     return (this.isLoading
@@ -93,10 +64,6 @@ export default class HomeScreen extends Vue {
 
   get isBnetLocationWrong() {
     return this.$store.direct.state.updateHandling.bnetPathIsInvalid;
-  }
-
-  get news() {
-    return this.$store.direct.state.news.slice(0,6);
   }
 
   public async tryStartWc3() {
@@ -132,24 +99,6 @@ export default class HomeScreen extends Vue {
   align-items: center;
 }
 
-.news-button-container{
-  display: flex;
-  justify-content: center;
-  margin-bottom:1px;
-}
-
-.modt {
-  background: url("~@/assets/images/home/W3Champion_Text_Frame.png") no-repeat center;
-  background-size: cover;
-  margin-top: 1%;
-  margin-bottom: 1%;
-  padding: 4%;
-  font-size: 14px;
-  width: 865px;
-  height: 390px;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
-}
 
 .start-button:disabled {
   opacity: 0.6;
@@ -168,7 +117,7 @@ export default class HomeScreen extends Vue {
   font-size: 28px;
   padding:2%;
   position:fixed;
-  bottom:3.5%;
+  bottom:5.5%;
 }
 
 .start-button:active {
@@ -176,24 +125,5 @@ export default class HomeScreen extends Vue {
   background-size: cover;
 }
 
-.news-header {
-  font-size: 20px;
-}
 
-.news-selector {
-  margin-right: 8px;
-  cursor: pointer;
-  margin-left: 8px;
-  height: 25px;
-  width: 25px;
-  background-color: #697;
-  border-radius: 50%;
-  position:relative;
-  bottom:18px;
-
-}
-
-.selected-item {
-  background-color: #afd528;
-}
 </style>
