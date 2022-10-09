@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="news-buttons-box" >
-      <div v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="isSelected(index) ? 'selected-news-item' : ''"/>
+      <div 
+        @wheel="onSelectorScroll"
+      v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="isSelected(index) ? 'selected-news-item' : ''"/>
       </div>
     <div class="w3font news-header">{{ selectedNewsDate }}</div>
     <div class="news-banner">
@@ -25,6 +27,8 @@ import store from "@/globalState/vuex-store";
 
 export default class NewsBanner extends Vue {
     public selectedNews = 0;
+    private newsSlice = 6; // how many news to display
+
     get selectedNewsDate(){
       return this.news[this.selectedNews] ? this.news[this.selectedNews].date : ''
     }
@@ -49,8 +53,15 @@ export default class NewsBanner extends Vue {
   public selectNews(index: number) {
     this.selectedNews = index;
   }
+  public onSelectorScroll(e: WheelEvent){
+    e.deltaY > 0 ? this.selectedNews += 1 : this.selectedNews -= 1
+    if(this.selectedNews < 0)
+      this.selectedNews = this.newsSlice - 1
+    if(this.selectedNews > this.newsSlice - 1)
+      this.selectedNews = 0
+  }
   get news() {
-    return store.state.news.slice(0,6);
+    return store.state.news.slice(0,this.newsSlice);
   }
 }
 </script>
@@ -68,7 +79,7 @@ export default class NewsBanner extends Vue {
   }
       
   .news-header {
-    font-size: 20px;
+    font-size: 21px;
     padding-bottom: 10px;
     text-align:center;
   }
@@ -82,8 +93,8 @@ export default class NewsBanner extends Vue {
   margin-right: 8px;
   cursor: pointer;
   margin-left: 8px;
-  height: 25px;
-  width: 25px;
+  height: 22px;
+  width: 22px;
   /* background-color: #697; */
   border-color: rgb(135, 143, 164)     !important;
   border-style: solid;
