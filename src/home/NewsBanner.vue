@@ -68,26 +68,26 @@ export default class NewsBanner extends Vue {
 
 <style scoped type="text/css">
 
-  .news-banner{
-    background: url("~@/assets/images/home/W3Champion_Text_Frame.png") no-repeat center;
-    background-size: cover;
-    font-size: 14px;
-    width: 865px;
-    height: 440px;
-    display: flex;
-    justify-content: center;
-  }
-      
-  .news-header {
-    font-size: 21px;
-    padding-bottom: 10px;
-    text-align:center;
-  }
+.news-banner{
+  background: url("~@/assets/images/home/W3Champion_Text_Frame.png") no-repeat center;
+  background-size: cover;
+  font-size: 14px;
+  width: 865px;
+  height: 440px;
+  display: flex;
+  justify-content: center;
+}
+    
+.news-header {
+  font-size: 21px;
+  padding-bottom: 10px;
+  text-align:center;
+}
 
-  .news-selector-selected {
-    background-color: rgba(98, 110, 197, 0.656)     !important;
-    border-radius: 50%;
-  }
+.news-selector-selected {
+  background-color: rgba(98, 110, 197, 0.656)     !important;
+  border-radius: 50%;
+}
 
 .news-selector {
   margin-right: 8px;
