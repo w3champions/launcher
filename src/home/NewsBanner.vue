@@ -26,25 +26,25 @@ import store from "@/globalState/vuex-store";
 })
 
 export default class NewsBanner extends Vue {
-    public selectedNews = 0;
-    private newsSlice = 6; // how many news to display
+  public selectedNews = 0;
+  private newsSlice = 6; // how many news to display
 
-    get selectedNewsDate(){
-      return this.news[this.selectedNews] ? this.news[this.selectedNews].date : ''
+  get selectedNewsDate(){
+    return this.news[this.selectedNews] ? this.news[this.selectedNews].date : ''
+  }
+  get selectedNewsMessage(){
+    return this.news[this.selectedNews] ? this.news[this.selectedNews].message : ''
+  }
+  get isNewsHtml() {
+      
+    let isHtml = false;
+    const newsItem = this.news[this.selectedNews];
+    if (newsItem) {
+    // Check that it starts with '<' and ends with '>'
+    isHtml = newsItem.message.trim().charAt(0) === '<'
+        && newsItem.message.trim().charAt(newsItem.message.length - 1) === '>';
     }
-    get selectedNewsMessage(){
-      return this.news[this.selectedNews] ? this.news[this.selectedNews].message : ''
-    }
-    get isNewsHtml() {
-        
-        let isHtml = false;
-        const newsItem = this.news[this.selectedNews];
-        if (newsItem) {
-        // Check that it starts with '<' and ends with '>'
-        isHtml = newsItem.message.trim().charAt(0) === '<'
-            && newsItem.message.trim().charAt(newsItem.message.length - 1) === '>';
-        }
-        return isHtml;
+    return isHtml;
   }
 
   public isSelected(index: number) {
@@ -105,7 +105,7 @@ export default class NewsBanner extends Vue {
 .news-selector:hover {
   border-color: rgba(69, 98, 173, 0.508);
 }
-  .news-buttons-box{
+.news-buttons-box{
   display: flex;
   justify-content: center;
 }
