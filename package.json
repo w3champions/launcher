@@ -1,6 +1,6 @@
 {
   "name": "w3champions",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": true,
   "description": "Always stay up to date with this Launcher for the community Ladder Warcraft 3 Champions.",
   "author": "Deespul LLC",
@@ -31,6 +31,7 @@
     "fs-extra": "9.0.1",
     "jsonwebtoken": "8.5.1",
     "node-addon-api": "3.1.0",
+    "node-machine-id": "^1.1.12",
     "pbkdf2": "3.0.3",
     "send-keys-native": "file:src/hot-keys/ItemHotkeys/send-keys-native",
     "sudo-prompt": "9.2.1",
