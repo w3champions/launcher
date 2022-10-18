@@ -2,6 +2,7 @@ import logger from "@/logger";
 import store from "@/globalState/vuex-store";
 
 const { remote } = window.require("electron");
+const { machineIdSync } = window.require("node-machine-id");
 const http = window.require("http");
 const WebSocket = window.require("ws");
 import { EventEmitter } from 'events';
@@ -62,6 +63,7 @@ export class IngameBridge extends EventEmitter {
     private launcherVersion = '0.0.0';
 
     public initialize() {
+        const hid = machineIdSync();
         this.launcherVersion = remote.app.getVersion();
         this.wss.on("connection", (ws: WebSocket, req: any) => {
             const authenticationService = new AuthenticationService();
@@ -103,7 +105,7 @@ export class IngameBridge extends EventEmitter {
                     if(parsed.type === ELauncherMessageType.REQUEST_AUTHENTICATION_TOKEN) {
                         const message: ILauncherGameMessage = {
                             type: ELauncherMessageType.RECEIVED_AUTHENTICATION_TOKEN_FROM_LAUNCHER,
-                            data: store.state.w3cToken
+                            data: {hid, ...store.state.w3cToken } 
                         };
                         pi.sendMessage(message);
                     }
