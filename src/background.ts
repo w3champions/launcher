@@ -5,6 +5,7 @@ import {autoUpdater, UpdateInfo} from 'electron-updater'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'path';
+import { machineIdSync } from 'node-machine-id';
 import { floNetworkTestService } from './background-thread/flo/flo-network-test.service'
 import { floUtilsService } from './background-thread/flo/flo-utils.service'
 import { LoginGW } from './globalState/rootTypings'
@@ -80,7 +81,6 @@ function createWindow() {
 
   floNetworkTestService.setWindow(win);
   floUtilsService.registerHandlers();
-
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -232,6 +232,11 @@ ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
   }
 });
 
+ipcMain.on('diagnostic-data', async (ev: IpcMainEvent, arg) => {
+  const diagnosticsId = machineIdSync();
+  win?.webContents.send('diagnostic-data-forward', diagnosticsId);
+});
+
 ipcMain.on('fab-options-loaded', async (ev: IpcMainEvent, args) => {
   await createFab();
   if (fab) {
@@ -261,7 +266,6 @@ let authUrl = authUrlEu;
 let logoutUrl = logoutUrlEu;
 
 ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
-
   if (args === LoginGW.cn) {
     authUrl = authUrlChina;
     logoutUrl = logoutUrlChina;
