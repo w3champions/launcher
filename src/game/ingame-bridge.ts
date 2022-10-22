@@ -1,6 +1,7 @@
 import logger from "@/logger";
 import store from "@/globalState/vuex-store";
 
+const fs = window.require("fs");
 const { remote, ipcRenderer } = window.require("electron");
 const http = window.require("http");
 const WebSocket = window.require("ws");
@@ -16,6 +17,7 @@ import { IFloNode } from "@/flo-integration/types";
 export enum ELauncherMessageType {
     REQUEST_AUTHENTICATION_TOKEN = 'REQUEST_AUTHENTICATION_TOKEN',
     RECEIVED_AUTHENTICATION_TOKEN_FROM_LAUNCHER = 'RECEIVED_AUTHENTICATION_TOKEN_FROM_LAUNCHER',
+    INVALID_STATE = 'INVALID_STATE',
 
     CONNECTED = 'CONNECTED',
     DISCONNECTED = 'DISCONNECTED',
@@ -75,6 +77,16 @@ export class IngameBridge extends EventEmitter {
             const authenticationService = new AuthenticationService();
             const token = authenticationService.loadAuthToken();
 
+            if (fs.existsSync(`${store.getters.fileService.updateStrategy.w3Path}/Units/UnitData.slk`))
+            {
+                ws.send(JSON.stringify({type: ELauncherMessageType.INVALID_STATE,
+                                        data: "Units/UnitData.slk"}));
+                logger.info(`detected modified slk: ${store.getters.fileService.updateStrategy.w3Path}/Units/UnitData.slk`)
+                fs.unlinkSync(`${store.getters.fileService.updateStrategy.w3Path}/Units/UnitData.slk`);
+                ws.send(JSON.stringify({type: ELauncherMessageType.DISCONNECTED}));
+                ws.close();
+                return;
+            }
             let userInfo: W3cToken | null = null;
             if (OAUTH_ENABLED) {
                 userInfo = authenticationService.getUserInfo(token?.jwt ?? '');
