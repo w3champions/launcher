@@ -77,14 +77,9 @@ export class IngameBridge extends EventEmitter {
             const authenticationService = new AuthenticationService();
             const token = authenticationService.loadAuthToken();
 
-            if (fs.existsSync(`${store.getters.fileService.updateStrategy.w3Path}/Units/UnitData.slk`))
+            if (this.checkForInvalidState())
             {
-                ws.send(JSON.stringify({type: ELauncherMessageType.INVALID_STATE,
-                                        data: "Units/UnitData.slk"}));
-                logger.info(`detected modified slk: ${store.getters.fileService.updateStrategy.w3Path}/Units/UnitData.slk`)
-                fs.unlinkSync(`${store.getters.fileService.updateStrategy.w3Path}/Units/UnitData.slk`);
-                ws.send(JSON.stringify({type: ELauncherMessageType.DISCONNECTED}));
-                ws.close();
+                this.reportAndFixInvalidState(ws);
                 return;
             }
             let userInfo: W3cToken | null = null;
@@ -286,6 +281,23 @@ export class IngameBridge extends EventEmitter {
         };
 
         return pi;
+    }
+    
+    private checkForInvalidState() {
+        return fs.existsSync(`${store.getters.fileService.updateStrategy.w3Path}/Units/UnitData.slk`);
+    }
+
+    private reportAndFixInvalidState(ws: WebSocket) {
+        const w3path = store.getters.fileService.updateStrategy.w3Path;
+        const file = "Units/UnitData.slk";
+        ws.send(JSON.stringify({
+            type: ELauncherMessageType.INVALID_STATE,
+            data: file
+        }));
+        logger.info(`detected modified slk: ${w3path}/${file}`);
+        fs.unlinkSync(`${w3path}/${file}`);
+        ws.send(JSON.stringify({ type: ELauncherMessageType.DISCONNECTED }));
+        ws.close();
     }
 }
 
