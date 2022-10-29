@@ -7,6 +7,7 @@ export class UpdateService {
     private bnetKey = "bnetKey";
     private currentVersionKey = "currentVersionKey";
     private isClassicIconKey = "isClassicIconKey";
+    private isCustomFontEnabled = "isCustomFontEnabled";
 
     loadBnetPath(): string {
         return this.store.get(this.bnetKey)
@@ -30,6 +31,14 @@ export class UpdateService {
 
     saveW3Path(value: string) {
         this.store.set(this.wc3PathKey, value);
+    }
+    
+    loadCustomFontEnabled(): boolean {
+        return this.store.get(this.isCustomFontEnabled);
+    }
+
+    saveCustomFontEnabled(value: boolean) {
+        this.store.set(this.isCustomFontEnabled, value);
     }
 
     loadIsClassicIcons(): boolean {

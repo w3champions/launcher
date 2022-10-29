@@ -328,6 +328,14 @@ export abstract class LauncherStrategy {
         }
     }
 
+    public async setCustomFont(value: boolean) {
+        if (value) {
+            fs.rmdirSync(`${this.w3Path}/fonts`, {recursive: true});
+        } else {
+            this.downloadAndWriteFile("fonts", this.w3Path);
+        }
+    }
+
     public async redownloadW3c() {
         if (!this.w3PathIsValid) return;
         this.store.commit.updateHandling.START_DLS();
