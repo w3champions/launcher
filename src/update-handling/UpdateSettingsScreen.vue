@@ -37,6 +37,13 @@
             <ColorPicker text="Enemy Color" :color="enemyColor" :onSwitchColor="switchEnemyColor" />
             <ColorPicker text="Allies Color" :color="alliesColor" :onSwitchColor="switchAlliesColor" />
           </div>
+
+          <div class="color-pick-bar">
+            <div style="display: flex">
+              <div :class="isCustomFontEnabled ? 'team-colors-on' : 'team-colors-off'" @click="toggleCustomFont"></div>
+              <div style="line-height: 31px; margin-left: 5px">Custom Fonts</div>
+            </div>
+          </div>
         </div>
         <div class="button-bar">
           <div @click="repairW3c" :disabled="isLoading" class="button-bar-button w3font">
@@ -114,6 +121,18 @@ export default class UpdateSettingsScreen extends Vue {
 
   public async toggleTeamColors() {
     await this.$store.direct.dispatch.colorPicker.saveIsTeamColorsEnabled(!this.isTeamColorsEnabled);
+  }
+
+  get isCustomFontEnabled() {
+    return this.$store.direct.state.updateHandling.isCustomFontEnabled;
+  }
+
+  public async toggleCustomFont() {
+    let value = !this.isCustomFontEnabled;
+
+    this.$store.direct.dispatch.updateHandling.saveIsCustomFontEnabled(value);
+
+    this.updateStrategy.setCustomFont(value);
   }
 
   get explanationW3Wrong() {

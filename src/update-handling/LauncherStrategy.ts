@@ -328,6 +328,22 @@ export abstract class LauncherStrategy {
         }
     }
 
+    public async setCustomFont(value: boolean) {
+        if (!this.w3PathIsValid) return;
+        if (value) {
+            this.downloadAndWriteFile("fonts", this.w3Path);
+            if (this.isTest) {
+                this.downloadAndWriteFile("fonts", this.w3Path.replace('retail', 'ptr'))
+            }
+        } else {
+            fs.rmdirSync(`${this.w3Path}/fonts`, {recursive: true});
+            if (this.isTest) {
+                fs.rmdirSync(`${this.w3Path.replace('retail', 'ptr')}/fonts`,
+                {recursive: true});
+            }
+        }
+    }
+
     public async redownloadW3c() {
         if (!this.w3PathIsValid) return;
         this.store.commit.updateHandling.START_DLS();
