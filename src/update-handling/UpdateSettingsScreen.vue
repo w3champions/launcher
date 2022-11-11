@@ -128,9 +128,11 @@ export default class UpdateSettingsScreen extends Vue {
   }
 
   public async toggleCustomFont() {
-    await this.$store.direct.dispatch.updateHandling.saveIsCustomFontEnabled(!this.isCustomFontEnabled);
+    let value = !this.isCustomFontEnabled;
 
-    await this.updateStrategy.setCustomFont(!this.isCustomFontEnabled);
+    this.$store.direct.dispatch.updateHandling.saveIsCustomFontEnabled(value);
+
+    this.updateStrategy.setCustomFont(value);
   }
 
   get explanationW3Wrong() {
