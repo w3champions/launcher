@@ -70,7 +70,7 @@ function createWindow() {
     // height: 664,
     width: 1275,
     height: 830,
-    resizable: false,
+    resizable: true,
     frame: false,
     titleBarStyle: 'hidden',
     transparent: true,

@@ -91,13 +91,13 @@ export default class StatusScreen extends Vue {
 .status-container{
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
-  top: 167px;
+  top: 19vh;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  width: 1128px;
-  height: 580px;
+  width: 90vw;
+  height: 70vh;
   overflow-y: auto;
   padding: 16px;
 }

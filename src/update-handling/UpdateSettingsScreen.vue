@@ -27,7 +27,7 @@
           </div>
         </div>
         <div>
-          <div class="options-header w3font" style="margin-top: 20px">Color Settings</div>
+          <div class="options-header w3font" style="margin-top: 15px">Color Settings</div>
           <div class="color-pick-bar">
             <div style="display: flex">
               <div :class="isTeamColorsEnabled ? 'team-colors-on' : 'team-colors-off'" @click="toggleTeamColors"></div>
@@ -228,6 +228,7 @@ export default class UpdateSettingsScreen extends Vue {
 <style scoped type="text/css">
 .launcher-background {
   display: flex;
+  height: 100%;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
@@ -237,30 +238,31 @@ export default class UpdateSettingsScreen extends Vue {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
 
-  margin-top: 50px;
-  width: 915px;
-  height: 71px;
+  position:fixed;
+  bottom: 5vh;
+  width: 90%;
+  height: 86px;
 
   background: url("~@/assets/images/home/Header_Buttons_Frame_Slim.png") center no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .button-bar-button {
   font-size: 20px;
-  width: 208px;
-  height: 54px;
+  width: 22vw;
+  height: 60px;
   text-align: center;
   cursor: pointer;
-  line-height: 56px;
+  line-height: 60px;
   background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .button-bar-button:active {
   background: url("~@/assets/images/home/Button_Blue_Active.png") center no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .reset-button-line {
@@ -301,6 +303,7 @@ export default class UpdateSettingsScreen extends Vue {
 
 .disabled-option {
   color: rgb(140, 137, 137) !important;
+  filter: grayscale();
 }
 
 .reset-button {
@@ -318,18 +321,18 @@ export default class UpdateSettingsScreen extends Vue {
 
 .version-wrapper {
   text-align: right;
-  position: absolute;
-  right: 0;
-  top: 0;
+  position: fixed;
+  right: 5.5vw;
+  top: 20vh;
   font-size: 12px;
 }
 
 .color-pick-bar {
-  margin-top: 10px;
+  margin-top: 1vh;
   background: url("~@/assets/images/home/Header_Buttons_Frame.png") no-repeat center;
-  height: 71px;
+  height: 72px;
   width: 671px;
-  background-size: cover;
+  background-size: 100% 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;

@@ -2,7 +2,7 @@
   <div>
     <div class="hotkey-wrapper">
       <div>
-        <div class="w3font" style="margin-bottom: 15px">Inventory</div>
+        <div class="w3font" style="margin-bottom: 2vh">Inventory</div>
         <table class="item-grid">
           <tr>
             <td class="single-item" @click="() => openChangeHotkeyModal(itemTopLeft)">
@@ -27,8 +27,8 @@
         </table>
       </div>
 
-      <div style="margin-left: 40px">
-        <div class="w3font" style="margin-bottom: 15px; margin-left: 8px">Miscellaneous</div>
+      <div>
+        <div class="w3font" style="margin-bottom: 2vh; margin-left: 1vh">Miscellaneous</div>
         <table class="function-key-grid">
           <tr>
             <td class="single-item function-item" @click="() => openChangeHotkeyModal(f1Key)">{{getKeyComboOf(f1Key)}} <div class="foot-note">F1</div></td>
@@ -40,16 +40,16 @@
       </div>
     </div>
 
-    <div style="position:absolute; right: 133px; top: 210px" :class="modal ? 'visible' : 'hidden'" class="current-selection-container">
+    <div style="position:absolute; right: 12vw; top: 25vh" :class="modal ? 'visible' : 'hidden'" class="current-selection-container">
       <div style="display: flex; flex-direction: row">
         <div style="height: 64px; width: 64px; margin: 10px;" class="function-item w3font">
-          <div style="padding-top: 38px; position: absolute; right: 7px">
+          <div style="line-height:64px; width:64px; text-align:center; position: absolute">
             {{ hotKeyCombo }}
           </div>
         </div>
-        <div style="margin-top: 15px">
+        <div style="align-self:center">
           <div class="w3font">Press desired key</div>
-          <div style="cursor: pointer; color: aliceblue; margin-top: 18px; font-size: 14px" class="w3font" @click="removeHotKey">Remove</div>
+          <div style="cursor: pointer; color: aliceblue; margin-top: 2vh; font-size: 14px" class="w3font" @click="removeHotKey">Remove</div>
         </div>
       </div>
     </div>
@@ -293,47 +293,45 @@ export default class ItemHotkeyTab extends Vue {
 
 <style scoped type="text/css">
 .hotkey-wrapper {
-  padding-top: 20px;
-  padding-left: 60px;
-  padding-right: 60px;
-
-  min-width: 80%;
+  padding-top: 2vh;
+  padding-left: 8vw;
 
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .item-grid {
   background: url("~@/assets/images/hotkeys/Hotkeys_Inventory_Frame.png") no-repeat center;
-  background-size: cover;
-  padding: 5px;
-  width: 155px;
-  height: 221px;
+  background-size: 100% 100%;
+  padding: 3%;
+  width: min(18vw, 20vh);
+  height: max(28vh, 10vw);
 }
 
 .function-key-grid {
   background: url("~@/assets/images/hotkeys/Hotkeys_Heroes_Frame.png") no-repeat center;
-  background-size: cover;
-  padding: 5px;
-  width: 291px;
-  height: 85px;
+  background-size: 100% 100%;
+  padding: 3%;
+  width: 100%;
+  height: 5%;
 }
 
 .single-item {
   background: url("~@/assets/images/hotkeys/Hotkeys_Inventory_Button.png") no-repeat center;
-  background-size: cover;
+  background-size: 100% 100%;
   cursor: pointer;
   text-align: center;
-  font-size: 16px;
-  line-height: 68px;
-  height: 68px;
-  width: 68px;
+  font-size: 2.4vmin;
+  line-height: 7%;
+  height: 7%;
+  width: 7%;
 }
 
 .item-hover:hover {
   background: url("~@/assets/images/hotkeys/Hotkeys_Button_Highlight.png") no-repeat center;
-  background-size: cover;
-  line-height: 68px;
+  background-size: 100% 100%;
+  line-height: 7%;
 } 
 
 .hotkey-toggle {
@@ -345,11 +343,11 @@ export default class ItemHotkeyTab extends Vue {
 .foot-note {
   text-align: center;
   color: #7f7f7f;
-  font-size: 12px;
+  font-size: 14px;
 
   position: absolute;
-  bottom: -20px;
-  left: 20px;
+  bottom: 1vh;
+  left: 2vw;
 }
 
 .function-item {
@@ -371,17 +369,17 @@ export default class ItemHotkeyTab extends Vue {
 
 .hotkey-tips {
   display: flex;
-  font-size: 13px;
+  font-size: 1.7vmin;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
-  padding: 20px;
+  padding: 2vw;
   background: url("~@/assets/images/hotkeys/Hotkeys_Inventory_Text_Frame.png") no-repeat center;
-  width: 562px;
-  height: 180px;
-  margin-left: 66px;
-  margin-top: 60px;
-  background-size: cover;
+  width: 92%;
+  height: 24vh;
+  margin-left: 4vw;
+  margin-top: 8vh;
+  background-size: 100% 100%;
 }
 
 .inventory-options {
