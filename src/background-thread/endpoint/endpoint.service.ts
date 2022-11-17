@@ -13,7 +13,7 @@ export interface IEndpoint {
 const ENDPOINTS_PROD: IEndpoint[] = [
   {
     id: "Europe",
-    updateUrl: "https://update-service.w3champions.com/",
+    updateUrl: "https://qupdate-service.w3champions.com/",
     newsUrl: "https://statistic-service.w3champions.com/",
     identificationUrl: "https://identification-service.w3champions.com/",
     floControllerHost: "service.w3flo.com",

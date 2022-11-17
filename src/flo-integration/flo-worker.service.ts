@@ -7,8 +7,7 @@ import logger from '@/logger';
 import { IFloNetworkTest } from "@/types/flo-types";
 import { IFloAuthData, IFloWatchGameData, IFloWorkerInstanceSettings } from "./types";
 import { floStatsService } from "./flo-stats.service";
-const { globalShortcut } = window.require("electron").remote;
-import { IEndpoint } from "@/globalState/EndpointService";
+import { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 
 const { remote } = window.require("electron");
 const path = require('path');

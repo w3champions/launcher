@@ -3,7 +3,7 @@
     <template>
       <HeadLine />
       <LoadingSpinner v-if="!selectedEndpoint" text="Selecting server..."/>
-      <div v-if="!isLoggedIn" >
+      <div v-if="selectedEndpoint && !isLoggedIn" >
         <LoadingSpinner v-if="regionChoosen" text="Logging in..."/>
         <LoadingSpinner v-else text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
         <div class="gw-selection-wrapper" v-if="!regionChoosen">
@@ -47,6 +47,8 @@ export default class App extends Vue {
   private updateStrategy = store.getters.fileService.updateStrategy;
 
   async created() {
+    this.$store.direct.dispatch.loadIsTestMode();
+
     ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {
       store.dispatch.authorizeWithCode(args);
     })
@@ -55,13 +57,12 @@ export default class App extends Vue {
       store.dispatch.setLoginGateway(LoginGW.none);
     })
 
-    this.$store.direct.dispatch.loadIsTestMode();
-
     ipcRenderer.invoke('w3c-select-endpoint', store.state.isTest);
     ipcRenderer.on('w3c-endpoint-selected', () => {
       Vue.nextTick(async () => {
         const state = this.$store.direct.state
         if (state.selectedEndpoint) {
+
           this.$store.direct.dispatch.loadOsMode();
           this.$store.direct.dispatch.loadAuthToken();
 

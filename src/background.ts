@@ -9,7 +9,7 @@ import { machineIdSync } from 'node-machine-id';
 import { floNetworkTestService } from './background-thread/flo/flo-network-test.service'
 import { LoginGW } from './globalState/rootTypings'
 import { endpontService, IEndpoint } from './background-thread/endpoint/endpoint.service'
-import { floUtilsService } from './background-thread/flo/flo-utils.services'
+import { floUtilsService } from './background-thread/flo/flo-utils.service'
 import fetch from 'electron-fetch'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -85,7 +85,6 @@ function createWindow() {
   floNetworkTestService.setWindow(win);
   floUtilsService.registerHandlers();
   endpontService.setWindow(win);
-  floUtilsService.registerHandlers();
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

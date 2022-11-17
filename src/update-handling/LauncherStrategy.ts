@@ -109,6 +109,8 @@ export abstract class LauncherStrategy {
             url = `${base}maps_v${this.onlineW3cVersion}.zip`
         } else if (fileName === 'webui') {
             url = `${base}china-webui.zip`
+        } else if (fileName === 'fonts') {
+            url = `${base}fonts.zip`
         } else {
             url = `${base}${fileName}`
         }

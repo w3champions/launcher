@@ -1,44 +1,7 @@
 <template>
   <div class="launcher-background">
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
-    <div style="padding-top: 40px; position: relative">
-      <div class="options-header w3font" style="margin-bottom: 10px">Directory Settings</div>
-        <div class="location-wrapper">
-        <div class="w3c-icon" :title="`Enter the location to wc3 (Usually ${defaultW3Location})`"/>
-        <div class="reset-button-line"  :class="isW3LocationWrong ? 'path-is-wrong' : 'path-is-right'">
-          <div :title="explanationW3Wrong">{{w3Path}}</div>
-          <div class="reset-button" @click="resetW3Path" />
-        </div>
-        <div class="bnet-icon" :title="`Enter the location to wc3 (Usually ${defaultBnetLocation})`" />
-        <div class="reset-button-line" :class="isBnetLocationWrong ? 'path-is-wrong' : 'path-is-right'">
-          <div :title="explanationBnetWrong">{{battleNet}}</div>
-          <div class="reset-button" @click="resetBnetPath" />
-        </div>
-      </div>
-      <div class="options-header w3font" style="margin-top: 20px">Color Settings</div>
-      <div class="color-pick-bar">
-        <div style="display: flex">
-          <div :class="isTeamColorsEnabled ? 'toggle-on' : 'toggle-off'" @click="toggleTeamColors"/>
-          <div style="line-height: 31px; margin-left: 5px">Team colors</div>
-        </div>
-
-        <ColorPicker text="Own Color" :color="ownColor" :onSwitchColor="switchOwnColor"/>
-        <ColorPicker text="Enemy Color" :color="enemyColor" :onSwitchColor="switchEnemyColor"/>
-        <ColorPicker text="Allies Color" :color="alliesColor" :onSwitchColor="switchAlliesColor"/>
-      </div>
-      <div class="button-bar">
-        <template>
-          <div @click="repairW3c" :disabled="isLoading" class="button-bar-button w3font">
-            Reset W3C
-          </div>
-          <div @click="redownloadW3c" :disabled="isLoading" class="button-bar-button w3font" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
-            Redownload
-          </div>
-          <div @click="toggleVersion" class="button-bar-button w3font" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
-            Switch to {{ !isTest ? "PTR" : "LIVE" }}
-          </div>
-        </template>
-      </div>
+    <div style="padding-top: 30px; position: relative">
       <div class="version-wrapper">
         <div>W3Champions Endpoint: {{selectedEndpoint.id}}</div>
         <div>W3Champions Version: {{w3cVersion}}</div>
@@ -176,10 +139,6 @@ export default class UpdateSettingsScreen extends Vue {
 
     this.updateStrategy.setCustomFont(value);
   }
-  
-  public async toggleChinaProxy() {
-    await this.$store.direct.dispatch.setChinaProxy(!this.isChinaProxyEnabled);
-  }
 
   get explanationW3Wrong() {
     if (this.isW3LocationWrong) {
@@ -287,6 +246,7 @@ export default class UpdateSettingsScreen extends Vue {
   background: url("~@/assets/images/home/Header_Buttons_Frame_Slim.png") center no-repeat;
   background-size: cover;
 }
+
 .button-bar-button {
   font-size: 20px;
   width: 208px;
@@ -302,6 +262,7 @@ export default class UpdateSettingsScreen extends Vue {
   background: url("~@/assets/images/home/Button_Blue_Active.png") center no-repeat;
   background-size: cover;
 }
+
 .reset-button-line {
   display: flex;
   justify-content: space-between;
@@ -320,16 +281,19 @@ export default class UpdateSettingsScreen extends Vue {
   width: 31px;
   height: 30px;
 }
+
 .team-colors-off {
   background: url("~@/assets/images/settings/Settings_Toggle_Off.png") center no-repeat;
   background-size: cover;
   width: 31px;
   height: 30px;
 }
+
 .path-is-wrong {
   background: url("~@/assets/images/settings/Settings_Directory_Frame_Error.png") no-repeat center;
   background-size: cover;
 }
+
 .path-is-right {
   background: url("~@/assets/images/settings/Settings_Directory_Frame.png") no-repeat center;
   background-size: cover;
@@ -338,23 +302,28 @@ export default class UpdateSettingsScreen extends Vue {
 .disabled-option {
   color: rgb(140, 137, 137) !important;
 }
+
 .reset-button {
   width: 36px;
   height: 36px;
   background: url("~@/assets/images/icons/folder-icon-resting.png") no-repeat center;
   background-size: cover;
 }
+
 .reset-button:hover {
   background: url("~@/assets/images/icons/folder-icon-hover.png") no-repeat center;
   background-size: cover;
   cursor: pointer;
 }
+
 .version-wrapper {
   text-align: right;
   position: absolute;
   right: 0;
   top: 0;
+  font-size: 12px;
 }
+
 .color-pick-bar {
   margin-top: 10px;
   background: url("~@/assets/images/home/Header_Buttons_Frame.png") no-repeat center;
@@ -366,9 +335,11 @@ export default class UpdateSettingsScreen extends Vue {
   justify-content: space-around;
   align-items: center;
 }
+
 .options-header {
   font-size: 18px;
 }
+
 .bnet-icon {
   background: url("~@/assets/images/settings/Settings_Bnet_Icon.png") no-repeat center;
   background-size: cover;
@@ -377,6 +348,7 @@ export default class UpdateSettingsScreen extends Vue {
   height: 24px;
   width: 24px;
 }
+
 .w3c-icon {
   background: url("~@/assets/images/settings/Settings_W3_Icon.png") no-repeat center;
   background-size: cover;
@@ -385,6 +357,7 @@ export default class UpdateSettingsScreen extends Vue {
   height: 26px;
   width: 30px;
 }
+
 .location-wrapper {
   background: url("~@/assets/images/settings/Settings_Directory_Text_Frame.png") no-repeat center;
   background-size: cover;
@@ -397,17 +370,5 @@ export default class UpdateSettingsScreen extends Vue {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.misc-wrapper {
-  margin-top: 10px;
-  background: url("~@/assets/images/home/Header_Buttons_Frame.png") no-repeat center;
-  height: 71px;
-  width: 671px;
-  background-size: cover;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
 }
 </style>

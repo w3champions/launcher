@@ -11,8 +11,6 @@ const { globalShortcut } = window.require("electron").remote;
 
 type OnEventCallback = (event: IFloWorkerEvent) => void;
 
-type OnEventCallback = (event: IFloWorkerEvent) => void;
-
 export class FloWorkerInstance {
     private settings: IFloWorkerInstanceSettings
     private floWorkerProcess?: any;
