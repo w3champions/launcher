@@ -20,10 +20,10 @@ const ENDPOINTS_PROD: IEndpoint[] = [
   },
   {
     id: "中国",
-    updateUrl: "http://123.57.23.5:25053/",
-    newsUrl: "http://123.57.23.5:25052/",
-    identificationUrl: "http://123.57.23.5:25051/",
-    floControllerHost: "123.57.23.5",
+    updateUrl: "http://45.194.17.149:8084/",
+    newsUrl: "http://45.194.17.149:8083/",
+    identificationUrl: "http://45.194.17.149:8082/",
+    floControllerHost: "bd5271.pathx.ucloudgda.com",
     staticBaseUpdateFileUrl: 'https://w3champions.oss-cn-shanghai.aliyuncs.com/update-service-content/'
   },
 ];
