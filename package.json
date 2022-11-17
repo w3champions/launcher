@@ -81,6 +81,11 @@
     "vue-template-compiler": "2.6.12",
     "webpack": "^4.0.0"
   },
+  "overrides": {
+    "vue-cli-plugin-electron-builder": {
+      "electron-builder": "$electron-builder"
+    }
+  },
   "eslintConfig": {
     "root": true,
     "env": {
