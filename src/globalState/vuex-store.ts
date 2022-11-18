@@ -10,7 +10,6 @@ import {UpdateService} from "@/update-handling/UpdateService";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
 import {VersionService} from "@/globalState/VersionService";
 import {
-  IDENTIFICATION_PUBLIC_KEY_PROD,
   OAUTH_ENABLED,
 } from "@/constants";
 import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
@@ -40,7 +39,6 @@ const mod = {
   state: {
     isTest: false,
     selectedEndpoint: null,
-    identificationPublicKey: IDENTIFICATION_PUBLIC_KEY_PROD,
     news: [] as News[],
     newsLoading: false,
     w3cToken: null,
