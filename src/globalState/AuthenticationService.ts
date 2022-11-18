@@ -45,7 +45,7 @@ export class AuthenticationService {
 
     public getUserInfo(token: string): W3cToken | null {
         try {
-            const verifiedToken = jwt.verify(token, store.state.identificationPublicKey) as W3cToken;
+            const verifiedToken = jwt.verify(token, store.state.selectedEndpoint!.identificationPublicKey) as W3cToken;
             logger.info(`verified token, user is: ${verifiedToken.battleTag}`);
             verifiedToken.jwt = token;
             return verifiedToken;

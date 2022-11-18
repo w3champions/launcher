@@ -28,13 +28,11 @@ export class FloWorkerService {
         }
         this.inited = true;
 
-        store.original.subscribeAction((x, y) => {
-            if (x.type == 'setTestMode') {
-                this.reloadWorkers(x.payload as boolean);
-            }
+        ipcRenderer.on('w3c-endpoint-selected', () => {
+                this.reloadWorkers();
         });
 
-        this.reloadWorkers(store.state.isTest);
+        this.reloadWorkers();
 
         ingameBridge.on(ELauncherMessageType.FLO_AUTH, (event: IIngameBridgeEvent) => {
             const data = event.data as IFloAuthData;
@@ -116,7 +114,7 @@ export class FloWorkerService {
         }
     }
 
-    private reloadWorkers(isTest: boolean) {
+    private reloadWorkers() {
         for (const worker of this.workers) {
             worker?.stopWorker();
         }

@@ -6,7 +6,6 @@ export interface RootState {
     selectedEndpoint: IEndpoint | null,
     isWindows: boolean,
     selectedLoginGateway: LoginGW,
-    identificationPublicKey: string,
     news: News[],
     newsLoading: boolean,
     w3cToken: W3cToken | null,
