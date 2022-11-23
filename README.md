@@ -33,6 +33,6 @@ npm run build
 - run the build as normal with an updated version
 - ask modmoto to do a manual sign
   - run local build
-  - run local `singWindows.bat` with usb installed
+  - run local `signWindows.bat` with usb installed
   - upload exe, blockmap and latest.yml to GH after build 
 - release 
