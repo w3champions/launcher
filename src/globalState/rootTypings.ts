@@ -1,14 +1,13 @@
+import type { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 import { EPlayerGameStatus, ICurrentGameInfo } from "@/flo-integration/flo-worker-messages";
 
 export interface RootState {
     isTest: boolean,
+    selectedEndpoint: IEndpoint | null,
     isWindows: boolean,
-    newsUrl: string,
-    updateUrl: string,
     selectedLoginGateway: LoginGW,
-    identificationUrl: string,
-    identificationPublicKey: string,
     news: News[],
+    newsLoading: boolean,
     w3cToken: W3cToken | null,
     floStatus: FloStatus | null,
 }

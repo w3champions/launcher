@@ -1,6 +1,5 @@
 <template>
   <div class="home-container">
-  
     <NewsBanner/>
 
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
@@ -56,6 +55,10 @@ export default class HomeScreen extends Vue {
       || this.disablePlayBtn
       || this.isW3LocationWrong
       || this.isBnetLocationWrong);
+  }
+
+  get isNewsLoading() {
+    return this.$store.direct.state.newsLoading
   }
 
   get isW3LocationWrong() {

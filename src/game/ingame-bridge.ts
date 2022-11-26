@@ -1,13 +1,14 @@
 import logger from "@/logger";
 import store from "@/globalState/vuex-store";
 
-const { remote } = window.require("electron");
+const fs = window.require("fs");
+const { remote, ipcRenderer } = window.require("electron");
 const http = window.require("http");
 const WebSocket = window.require("ws");
 import { EventEmitter } from 'events';
-import {EGateway, ICurrentPlayer, IDownloadMapData, IDownloadMapProgressData, IPlayerInstance} from './game.types';
-import {AuthenticationService} from "@/globalState/AuthenticationService";
-import {W3cToken} from "@/globalState/rootTypings";
+import { EGateway, ICurrentPlayer, IDownloadMapData, IDownloadMapProgressData, IPlayerInstance } from './game.types';
+import { AuthenticationService } from "@/globalState/AuthenticationService";
+import { W3cToken } from "@/globalState/rootTypings";
 import { IFloNetworkTest } from '@/types/flo-types';
 import { OAUTH_ENABLED } from '@/constants';
 import { GameUtils } from './game-utils';
@@ -16,6 +17,7 @@ import { IFloNode } from "@/flo-integration/types";
 export enum ELauncherMessageType {
     REQUEST_AUTHENTICATION_TOKEN = 'REQUEST_AUTHENTICATION_TOKEN',
     RECEIVED_AUTHENTICATION_TOKEN_FROM_LAUNCHER = 'RECEIVED_AUTHENTICATION_TOKEN_FROM_LAUNCHER',
+    INVALID_STATE = 'INVALID_STATE',
 
     CONNECTED = 'CONNECTED',
     DISCONNECTED = 'DISCONNECTED',
@@ -60,13 +62,32 @@ export class IngameBridge extends EventEmitter {
     private server = http.createServer();
     private wss = new WebSocket.Server({ server: this.server });
     private launcherVersion = '0.0.0';
+    private diagnosticsData?:string;
+    private inited = false;
 
     public initialize() {
+        if (this.inited) {
+            return
+        }
+        this.inited = true;
+        
         this.launcherVersion = remote.app.getVersion();
+
+        ipcRenderer.on('diagnostic-data-forward', (_event: any, diagnosticsData: string) => {
+            this.diagnosticsData = diagnosticsData;
+        });
+
+        ipcRenderer.send('diagnostic-data');
+
         this.wss.on("connection", (ws: WebSocket, req: any) => {
             const authenticationService = new AuthenticationService();
             const token = authenticationService.loadAuthToken();
 
+            if (this.checkForInvalidState())
+            {
+                this.reportAndFixInvalidState(ws);
+                return;
+            }
             let userInfo: W3cToken | null = null;
             if (OAUTH_ENABLED) {
                 userInfo = authenticationService.getUserInfo(token?.jwt ?? '');
@@ -103,7 +124,7 @@ export class IngameBridge extends EventEmitter {
                     if(parsed.type === ELauncherMessageType.REQUEST_AUTHENTICATION_TOKEN) {
                         const message: ILauncherGameMessage = {
                             type: ELauncherMessageType.RECEIVED_AUTHENTICATION_TOKEN_FROM_LAUNCHER,
-                            data: store.state.w3cToken
+                            data: {diagnosticsData: this.diagnosticsData, ...store.state.w3cToken } 
                         };
                         pi.sendMessage(message);
                     }
@@ -266,6 +287,23 @@ export class IngameBridge extends EventEmitter {
         };
 
         return pi;
+    }
+    
+    private checkForInvalidState() {
+        return fs.existsSync(`${store.getters.fileService.updateStrategy.w3Path}/Units/UnitData.slk`);
+    }
+
+    private reportAndFixInvalidState(ws: WebSocket) {
+        const w3path = store.getters.fileService.updateStrategy.w3Path;
+        const file = "Units/UnitData.slk";
+        ws.send(JSON.stringify({
+            type: ELauncherMessageType.INVALID_STATE,
+            data: file
+        }));
+        logger.info(`detected modified slk: ${w3path}/${file}`);
+        fs.unlinkSync(`${w3path}/${file}`);
+        ws.send(JSON.stringify({ type: ELauncherMessageType.DISCONNECTED }));
+        ws.close();
     }
 }
 

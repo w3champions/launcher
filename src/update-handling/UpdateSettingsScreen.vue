@@ -1,9 +1,10 @@
 <template>
   <div class="launcher-background">
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
-    <div style="padding-top: 40px; position: relative">
+    <div style="padding-top: 30px; position: relative">
       <div class="version-wrapper">
-        <div>Warcraft 3 Champions Version: {{w3cVersion}}</div>
+        <div>W3Champions Endpoint: {{selectedEndpoint.id}}</div>
+        <div>W3Champions Version: {{w3cVersion}}</div>
         <div>Launcher Version: {{ currentLauncherVersion }}</div>
         <div v-if="currentUser">
           <span>{{ currentUser }}</span>
@@ -36,6 +37,13 @@
             <ColorPicker text="Own Color" :color="ownColor" :onSwitchColor="switchOwnColor" />
             <ColorPicker text="Enemy Color" :color="enemyColor" :onSwitchColor="switchEnemyColor" />
             <ColorPicker text="Allies Color" :color="alliesColor" :onSwitchColor="switchAlliesColor" />
+          </div>
+
+          <div class="color-pick-bar">
+            <div style="display: flex">
+              <div :class="isCustomFontEnabled ? 'team-colors-on' : 'team-colors-off'" @click="toggleCustomFont"></div>
+              <div style="line-height: 31px; margin-left: 5px">Custom Fonts</div>
+            </div>
           </div>
         </div>
         <div class="button-bar">
@@ -90,6 +98,10 @@ export default class UpdateSettingsScreen extends Vue {
     return this.$store.direct.state.colorPicker.allyColor;
   }
 
+  get selectedEndpoint() {
+    return this.$store.direct.state.selectedEndpoint;
+  }
+
   public switchOwnColor(newColor: string) {
     this.$store.direct.dispatch.colorPicker.switchOwnColor(newColor);
   }
@@ -114,6 +126,18 @@ export default class UpdateSettingsScreen extends Vue {
 
   public async toggleTeamColors() {
     await this.$store.direct.dispatch.colorPicker.saveIsTeamColorsEnabled(!this.isTeamColorsEnabled);
+  }
+
+  get isCustomFontEnabled() {
+    return this.$store.direct.state.updateHandling.isCustomFontEnabled;
+  }
+
+  public async toggleCustomFont() {
+    let value = !this.isCustomFontEnabled;
+
+    this.$store.direct.dispatch.updateHandling.saveIsCustomFontEnabled(value);
+
+    this.updateStrategy.setCustomFont(value);
   }
 
   get explanationW3Wrong() {
@@ -197,10 +221,6 @@ export default class UpdateSettingsScreen extends Vue {
     if (this.isLoading) return;
 
     await this.updateStrategy.repairWc3();
-  }
-
-  private isWindows() {
-    return this.$store.state.isWindows;
   }
 }
 </script>
@@ -301,6 +321,7 @@ export default class UpdateSettingsScreen extends Vue {
   position: absolute;
   right: 0;
   top: 0;
+  font-size: 12px;
 }
 
 .color-pick-bar {

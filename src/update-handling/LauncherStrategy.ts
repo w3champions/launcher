@@ -1,3 +1,4 @@
+import type { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 import { AppStore } from "@/globalState/vuex-store";
 import logger from "@/logger";
 
@@ -46,7 +47,9 @@ export abstract class LauncherStrategy {
         const delimiter = mapsPath.endsWith('/') || mapsPath.endsWith('\\') ? '' : '/';
         const to = `${mapsPath}${delimiter}${fileName}`;
         logger.info(`Download ${fileName} to: ${to}`)
-        const url = `${this.updateUrl}api/maps/download?mapPath=${fileName}`;
+        const url = this.endpoint.staticBaseUpdateFileUrl
+            ? this.rewriteStaticUpdateFileUrl(this.endpoint.staticBaseUpdateFileUrl, `maps/${fileName}`, this.isTest)
+            : `${this.endpoint.updateUrl}api/maps/download?mapPath=${fileName}`;
 
         try {
             const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);
@@ -98,6 +101,20 @@ export abstract class LauncherStrategy {
 
     get needsW3cUpdate() {
         return this.onlineW3cVersion !== '' && this.localW3cVersion !== this.onlineW3cVersion;
+    }
+
+    private rewriteStaticUpdateFileUrl(base: string, fileName: string, _isTest: boolean) {
+        let url
+        if (fileName === 'maps') {
+            url = `${base}maps_v${this.onlineW3cVersion}.zip`
+        } else if (fileName === 'webui') {
+            url = `${base}china-webui.zip`
+        } else if (fileName === 'fonts') {
+            url = `${base}fonts.zip`
+        } else {
+            url = `${base}${fileName}`
+        }
+        return `${url}?version=${encodeURIComponent(this.onlineW3cVersion)}`
     }
 
     public async repairWc3() {
@@ -195,9 +212,9 @@ export abstract class LauncherStrategy {
     private updateDownloadProgress(progress: number) {
         this.store.commit.updateHandling.DOWNLOAD_PROGRESS(progress);
     }
-
-    get updateUrl() {
-        return this.store.state.updateUrl;
+    
+    get endpoint() {
+        return this.store.getters.selectedEndpoint as IEndpoint
     }
 
     get isTest() {
@@ -211,7 +228,12 @@ export abstract class LauncherStrategy {
 
     private async downloadAndWriteFile(fileName: string, to: string, onProgress?: (percentage: number) => void) {
         logger.info(`Download ${fileName} to: ${to}`)
-        const url = `${this.updateUrl}api/${fileName}?ptr=${this.isTest}`;
+
+        const url = this.endpoint.staticBaseUpdateFileUrl 
+            ? this.rewriteStaticUpdateFileUrl(this.endpoint.staticBaseUpdateFileUrl, fileName, this.isTest)
+            : `${this.endpoint.updateUrl}api/${fileName}?ptr=${this.isTest}`;
+
+        console.log(url)
 
         try {
             const fileBytesArray = await this.downloadFileWithProgress(url, onProgress);
@@ -328,6 +350,22 @@ export abstract class LauncherStrategy {
         }
     }
 
+    public async setCustomFont(value: boolean) {
+        if (!this.w3PathIsValid) return;
+        if (value) {
+            this.downloadAndWriteFile("fonts", this.w3Path);
+            if (this.isTest) {
+                this.downloadAndWriteFile("fonts", this.w3Path.replace('retail', 'ptr'))
+            }
+        } else {
+            fs.rmdirSync(`${this.w3Path}/fonts`, {recursive: true});
+            if (this.isTest) {
+                fs.rmdirSync(`${this.w3Path.replace('retail', 'ptr')}/fonts`,
+                {recursive: true});
+            }
+        }
+    }
+
     public async redownloadW3c() {
         if (!this.w3PathIsValid) return;
         this.store.commit.updateHandling.START_DLS();
@@ -399,6 +437,11 @@ export abstract class LauncherStrategy {
 
     private makeSureJoinBugFilesAreGone() {
         try {
+
+            if (fs.existsSync(`${this.w3Path}/Units/UnitData.slk`)) {
+                logger.info(`deleted modified slk: ${this.w3Path}/Units/UnitData.slk`)
+                fs.unlinkSync(`${this.w3Path}/Units/UnitData.slk`, (e: Error) => { logger.error(e) })
+            }
 
             if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`)) {
                 logger.info(`delete maps in ${this.w3Path}/Maps/W3Champions`)
