@@ -1,25 +1,28 @@
 <template>
   <div id="app" class="app-container">
-    <HeadLine />
-    <div v-if="!isLoggedIn" >
-      <LoadingSpinner v-if="regionChoosen" text="Logging in..."/>
-      <LoadingSpinner v-else text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
-      <div class="gw-selection-wrapper" v-if="!regionChoosen">
-        <div style="display: flex; flex-direction: row; cursor: pointer" @click="() => loginAt(loginGWs.eu)">
-          <div class="gw-selection gw-select-eu"/>
-          <div style="font-size: 40px; line-height: 60px; padding-left: 10px; padding-right: 10px"> / </div>
-          <div class="gw-selection gw-select-us"/>
+    <template>
+      <HeadLine />
+      <LoadingSpinner v-if="!selectedEndpoint" text="Selecting server..."/>
+      <div v-if="selectedEndpoint && !isLoggedIn" >
+        <LoadingSpinner v-if="regionChoosen" text="Logging in..."/>
+        <LoadingSpinner v-else text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
+        <div class="gw-selection-wrapper" v-if="!regionChoosen">
+          <div style="display: flex; flex-direction: row; cursor: pointer" @click="() => loginAt(loginGWs.eu)">
+            <div class="gw-selection gw-select-eu"/>
+            <div style="font-size: 40px; line-height: 60px; padding-left: 10px; padding-right: 10px"> / </div>
+            <div class="gw-selection gw-select-us"/>
+          </div>
+          <div class="gw-selection gw-select-cn" @click="() => loginAt(loginGWs.cn)"/>
         </div>
-        <div class="gw-selection gw-select-cn" @click="() => loginAt(loginGWs.cn)"/>
       </div>
-    </div>
-    <div class="content-modal-wrapper">
-      <div class="static-bg" />
-      <div class="content-modal">
-        <router-view />
+      <div class="content-modal-wrapper">
+        <div class="static-bg" />
+        <div class="content-modal">
+          <router-view />
+        </div>
       </div>
-    </div>
-    <div id='close-button' class="close-button" @click="closeApp" />
+      <div id='close-button' class="close-button" @click="closeApp" />
+    </template>
   </div>
 </template>
 
@@ -36,6 +39,7 @@ const keyboard = window.require("send-keys-native/build/Release/send-keys-native
 const { remote } = window.require("electron");
 const { ipcRenderer } = window.require('electron')
 
+
 @Component({
   components: {LoadingSpinner, HeadLine}
 })
@@ -43,6 +47,8 @@ export default class App extends Vue {
   private updateStrategy = store.getters.fileService.updateStrategy;
 
   async created() {
+    this.$store.direct.dispatch.loadIsTestMode();
+
     ipcRenderer.on('blizzard-code-received', (wht: any, args: string) => {
       store.dispatch.authorizeWithCode(args);
     })
@@ -51,30 +57,39 @@ export default class App extends Vue {
       store.dispatch.setLoginGateway(LoginGW.none);
     })
 
-    this.$store.direct.dispatch.loadIsTestMode();
-    this.$store.direct.dispatch.loadOsMode();
-    this.$store.direct.dispatch.loadAuthToken();
+    ipcRenderer.invoke('w3c-select-endpoint', store.state.isTest);
+    ipcRenderer.on('w3c-endpoint-selected', () => {
+      Vue.nextTick(async () => {
+        const state = this.$store.direct.state
+        if (state.selectedEndpoint) {
 
-    this.makeSureNumpadIsEnabled()
+          this.$store.direct.dispatch.loadOsMode();
+          this.$store.direct.dispatch.loadAuthToken();
 
-    await this.$store.direct.dispatch.loadNews();
+          this.makeSureNumpadIsEnabled()
 
-    logger.info(remote.app.getPath('userData'))
-    this.$store.direct.dispatch.hotKeys.loadHotkeyFabSettings();
-    this.$store.direct.dispatch.hotKeys.loadToggleKey();
-    this.$store.direct.dispatch.hotKeys.loadHotKeys();
-    this.$store.direct.dispatch.hotKeys.setToggleKey(this.$store.direct.state.hotKeys.toggleButton);
-    this.$store.direct.dispatch.hotKeys.loadManualMode();
-    this.$store.direct.dispatch.hotKeys.loadIsClassicIcons();
+          this.$store.direct.dispatch.loadNews();
 
-    this.$store.direct.dispatch.updateHandling.loadAllPaths();
-    await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
-    await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
-    await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
-    await this.$store.direct.dispatch.colorPicker.loadIsTeamColorsEnabled();
-    await this.$store.direct.dispatch.colorPicker.loadColors();
+          logger.info(remote.app.getPath('userData'))
+          this.$store.direct.dispatch.hotKeys.loadHotkeyFabSettings();
+          this.$store.direct.dispatch.hotKeys.loadToggleKey();
+          this.$store.direct.dispatch.hotKeys.loadHotKeys();
+          this.$store.direct.dispatch.hotKeys.setToggleKey(this.$store.direct.state.hotKeys.toggleButton);
+          this.$store.direct.dispatch.hotKeys.loadManualMode();
+          this.$store.direct.dispatch.hotKeys.loadIsClassicIcons();
 
-    await this.updateStrategy.updateIfNeeded();
+          this.$store.direct.dispatch.updateHandling.loadAllPaths();
+          await this.$store.direct.dispatch.updateHandling.loadIsCustomFontEnabled();
+          await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
+          await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
+          await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();
+          await this.$store.direct.dispatch.colorPicker.loadIsTeamColorsEnabled();
+          await this.$store.direct.dispatch.colorPicker.loadColors();
+
+          await this.updateStrategy.updateIfNeeded();
+        }
+      })
+    })
   }
 
   get regionChoosen() {
@@ -88,6 +103,10 @@ export default class App extends Vue {
   get isLoggedIn() {
     if (!OAUTH_ENABLED) return true;
     return this.$store.direct.state.w3cToken
+  }
+
+  get selectedEndpoint() {
+    return this.$store.direct.state.selectedEndpoint
   }
 
   public async loginAt(gateway: LoginGW) {

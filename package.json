@@ -1,6 +1,6 @@
 {
   "name": "w3champions",
-  "version": "0.19.24",
+  "version": "1.1.5",
   "private": true,
   "description": "Always stay up to date with this Launcher for the community Ladder Warcraft 3 Champions.",
   "author": "Deespul LLC",
@@ -25,12 +25,14 @@
     "bindings": "1.5.0",
     "core-js": "3.8.2",
     "direct-vuex": "0.12.0",
+    "electron-fetch": "^1.7.4",
     "electron-log": "4.3.1",
     "electron-store": "6.0.1",
     "electron-updater": "4.3.5",
     "fs-extra": "9.0.1",
     "jsonwebtoken": "8.5.1",
     "node-addon-api": "3.1.0",
+    "node-machine-id": "^1.1.12",
     "pbkdf2": "3.0.3",
     "send-keys-native": "file:src/hot-keys/ItemHotkeys/send-keys-native",
     "sudo-prompt": "9.2.1",
@@ -61,7 +63,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.1.0",
     "electron": "11.2.0",
-    "electron-builder": "22.14.13",
+    "electron-builder": "23.0.2",
     "electron-devtools-installer": "3.1.1",
     "electron-notarize": "1.0.0",
     "electron-rebuild": "2.3.4",
@@ -78,6 +80,11 @@
     "vue-jest": "3.0.7",
     "vue-template-compiler": "2.6.12",
     "webpack": "^4.0.0"
+  },
+  "overrides": {
+    "vue-cli-plugin-electron-builder": {
+      "electron-builder": "$electron-builder"
+    }
   },
   "eslintConfig": {
     "root": true,

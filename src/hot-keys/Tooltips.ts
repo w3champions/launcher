@@ -1,4 +1,4 @@
 export const tooltips = {
-    gridmode: "Custom Unit Hotkeys will be disabled. Inventory hotkeys can still be used."
+    hotkeyMode: "Unit hotkeys only work in 'Custom' mode. Inventory hotkeys can be used in any mode."
 
 }

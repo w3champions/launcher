@@ -10,21 +10,14 @@ import {UpdateService} from "@/update-handling/UpdateService";
 import {UpdateHandlingState} from "@/update-handling/updateTypes";
 import {VersionService} from "@/globalState/VersionService";
 import {
-  IDENTIFICATION_PUBLIC_KEY_PROD,
-  IDENTIFICATION_PUBLIC_KEY_TEST,
-  IDENTIFICATION_URL_PROD,
-  IDENTIFICATION_URL_TEST,
-  NEWS_URL_PROD,
-  NEWS_URL_TEST,
   OAUTH_ENABLED,
-  UPDATE_URL_PROD,
-  UPDATE_URL_TEST
 } from "@/constants";
 import {ItemHotkeyRegistrationService} from "@/hot-keys/ItemHotkeyRegistrationService";
 import {FileService} from "@/update-handling/FileService";
 import {AuthenticationService} from "@/globalState/AuthenticationService";
 import logger from "@/logger";
 import { ICurrentGameInfo, IFloWorkerEvent, IGameSlotClientStatusUpdate, IGameStatusUpdate, IPlayerSession, IPlayerSessionUpdate } from "@/flo-integration/flo-worker-messages";
+import type { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 
 const { ipcRenderer } = window.require("electron");
 
@@ -45,22 +38,31 @@ const mod = {
   },
   state: {
     isTest: false,
-    updateUrl: UPDATE_URL_PROD,
-    newsUrl: NEWS_URL_PROD,
-    identificationUrl: IDENTIFICATION_URL_PROD,
-    identificationPublicKey: IDENTIFICATION_PUBLIC_KEY_PROD,
+    selectedEndpoint: null,
     news: [] as News[],
+    newsLoading: false,
     w3cToken: null,
     selectedLoginGateway: LoginGW.none,
     floStatus: null,
   } as RootState,
   actions: {
+    async init(context: ActionContext<unknown, RootState>, selectedEndpoint: IEndpoint) {
+      const { commit } = moduleActionContext(context, mod);
+      try {
+        ipcRenderer.invoke('w3c-check-for-update', selectedEndpoint);
+        commit.SET_ENDPOINT(selectedEndpoint);
+      } catch (e) {
+        logger.error(e);
+      }
+    },
     async loadNews(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, state } = moduleActionContext(context, mod);
 
+      commit.SET_NEWS_LOADING(true)
+
       try {
         const news = await (
-            await fetch(`${state.newsUrl}api/admin/news`)
+            await fetch(`${state.selectedEndpoint?.newsUrl}api/admin/news`)
         ).json();
 
         commit.SET_NEWS(news);
@@ -68,13 +70,15 @@ const mod = {
         commit.SET_NEWS([]);
         logger.error(e);
       }
+
+      commit.SET_NEWS_LOADING(false)
     },
     async setTestMode(context: ActionContext<UpdateHandlingState, RootState>, mode: boolean) {
-      const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
+      const { commit, rootGetters, dispatch, state } = moduleActionContext(context, mod);
 
       rootGetters.versionService.switchToMode(mode);
       commit.SET_IS_TEST(mode);
-
+      ipcRenderer.invoke('w3c-select-endpoint', mode);
       dispatch.resetAuthentication();
     },
     loadIsTestMode(context: ActionContext<UpdateHandlingState, RootState>) {
@@ -139,18 +143,17 @@ const mod = {
     updateFloStatus(context: ActionContext<unknown, RootState>, msg: IFloWorkerEvent) {
       const { commit } = moduleActionContext(context, mod);
       commit.UPDATE_CURRENT_STATUS(msg);
-    }
+    },
   },
   mutations: {
     SET_IS_TEST(state: RootState, test: boolean) {
       state.isTest = test;
-      state.updateUrl = test ? UPDATE_URL_TEST : UPDATE_URL_PROD;
-      state.newsUrl = test ? NEWS_URL_TEST : NEWS_URL_PROD;
-      state.identificationUrl = test ? IDENTIFICATION_URL_TEST : IDENTIFICATION_URL_PROD;
-      state.identificationPublicKey = test ? IDENTIFICATION_PUBLIC_KEY_TEST : IDENTIFICATION_PUBLIC_KEY_PROD;
     },
     SET_NEWS(state: RootState, news: News[]) {
       state.news = news;
+    },
+    SET_NEWS_LOADING(state: RootState, value: boolean) {
+      state.newsLoading = value;
     },
     SET_OS(state: RootState, isWindows: boolean) {
       state.isWindows = isWindows;
@@ -222,7 +225,10 @@ const mod = {
           break
         }
       }
-    }
+    },
+    SET_ENDPOINT(state: RootState, selected: IEndpoint) {
+      state.selectedEndpoint = selected
+    },
   },
   getters: {
     updateService() {
@@ -240,6 +246,12 @@ const mod = {
     authService() {
       return services.authService;
     },
+    selectedEndpoint(state: RootState) {
+      if (!state.selectedEndpoint) {
+        throw new Error(`Endpoint not selected`)
+      }
+      return state.selectedEndpoint
+    }
   },
 } as const;
 

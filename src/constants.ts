@@ -1,15 +1,3 @@
-export const UPDATE_URL_PROD = "https://update-service.w3champions.com/";
-export const UPDATE_URL_TEST = "https://update-service.test.w3champions.com/";
-
-export const NEWS_URL_PROD = "https://statistic-service.w3champions.com/";
-export const NEWS_URL_TEST = "https://statistic-service.test.w3champions.com/";
-
-export const IDENTIFICATION_URL_PROD = "https://identification-service.w3champions.com/";
-export const IDENTIFICATION_URL_TEST = "https://identification-service.test.w3champions.com/";
-
-export const FLO_CONTROLLER_HOST_URL_PROD = 'service.w3flo.com';
-export const FLO_CONTROLLER_HOST_URL_TEST = '157.90.1.251';
-
 export const IDENTIFICATION_PUBLIC_KEY_PROD = `-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAtm4he5E9SkGn3hI2cSIH
 H+3+jxeP/J5oSrOecUik7rwOHI4nKLhvfk1mwIsyQkMXRgEGXkToPTk5CAgkTvq9
@@ -42,4 +30,4 @@ sYbv9oAYja2AuGxDba1MJHUCAwEAAQ==
 -----END PUBLIC KEY-----
 `
 
-export const OAUTH_ENABLED = false;
+export const OAUTH_ENABLED = true;

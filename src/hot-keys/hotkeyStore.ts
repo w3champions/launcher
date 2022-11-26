@@ -89,7 +89,8 @@ function mergeHotkeyDataAndSelectedHotkeys(
       })
     ))
   return hotkeys;
-}
+}    
+// hotkeyMode: HotkeyMode.classic,
 
 const mod = {
   namespaced: true,
@@ -98,7 +99,6 @@ const mod = {
     hotKeyStateMachine: new NotInGameState(),
     raceHotkeyData: defaultHotkeyData,
     raceHotkeys: [] as RaceHotKey[],
-    gridMode: false,
     isShowHotkeyIndicator: false,
     isClassicMode: false,
     toggleButton: { modifier: ModifierKey.Shift, hotKey: {key: "f4", uiDisplay: "f4"}}
@@ -141,22 +141,20 @@ const mod = {
       const {rootGetters, state, commit } = moduleActionContext(context, mod);
 
       const newHotkeys = await rootGetters.fileService.importHotkeys();
-
       const hotkeys = mergeHotkeyDataAndSelectedHotkeys(state.raceHotkeyData, newHotkeys);
+      const hotkeyMode = await rootGetters.fileService.loadHotkeyMode();
 
+      commit.SET_HOTKEY_MODE(hotkeyMode);
       commit.SET_RACE_HOTKEY_DATA(hotkeys);
       commit.SET_RACE_HOTKEYS(newHotkeys);
+        
     },
-    // Sets Grid or Custom based on store value
-    async updateHotkeyMode(context: ActionContext<HotKeyModifierState, RootState>) {
-      const {rootGetters, state } = moduleActionContext(context, mod);
-      if(state.gridMode)
-      {
-        await rootGetters.fileService.enableGridHotkeys();
-      }
-      else{
-        await rootGetters.fileService.enableCustomHotkeys();
-      }
+    async updateHotkeyMode(context: ActionContext<HotKeyModifierState, RootState>, hotkeyMode: Number) {
+      const {rootGetters, state, commit } = moduleActionContext(context, mod);
+
+      commit.SET_HOTKEY_MODE(hotkeyMode);
+      await rootGetters.fileService.setHotkeyMode(state.hotkeyMode);
+
     },
     addHotKey(context: ActionContext<HotKeyModifierState, RootState>, hotKey: HotKey) {
       const { commit, rootGetters, state } = moduleActionContext(context, mod);
@@ -249,19 +247,6 @@ const mod = {
       const hotKey = rootGetters.itemHotkeyService.loadToggleKey()
       commit.SET_TOGGLE_KEY(hotKey);
     },
-    saveGridMode(context: ActionContext<HotKeyModifierState, RootState>, gm: boolean) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
-
-      rootGetters.itemHotkeyService.saveGridMode(gm)
-      commit.SET_GRID_MODE(gm); //
-    },
-    loadGridMode(context: ActionContext<HotKeyModifierState, RootState>) {
-      const { commit, rootGetters } = moduleActionContext(context, mod);
-
-      logger.info("HotkeySetupScreen")
-      const gm = rootGetters.itemHotkeyService.loadGridMode()
-      commit.SET_GRID_MODE(gm); //
-    },
     exitGame(context: ActionContext<HotKeyModifierState, RootState>) {
       const { commit } = moduleActionContext(context, mod);
 
@@ -318,8 +303,8 @@ const mod = {
         state.toggleButton = combo;
       }
     },
-    SET_GRID_MODE(state: HotKeyModifierState, b: boolean) {
-      state.gridMode = b;
+    SET_HOTKEY_MODE(state: HotKeyModifierState, mode: Number) {
+      state.hotkeyMode = mode;
     }
   },
 } as const;

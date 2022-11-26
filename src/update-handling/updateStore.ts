@@ -19,6 +19,7 @@ const mod = {
     w3PathIsInvalid: false,
     bnetPathIsInvalid: false,
     isTeamColorsEnabled: false,
+    isCustomFontEnabled: false,
     ownColor: "01",
     enemyColor: "00",
     allyColor: "02",
@@ -34,7 +35,6 @@ const mod = {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
       rootGetters.updateService.saveLocalW3CVersion(version);
-
       commit.SET_LOCAL_W3C_VERSION(version);
     },
     saveW3Path(context: ActionContext<UpdateHandlingState, RootState>, version: string) {
@@ -57,10 +57,10 @@ const mod = {
       commit.SET_CURRENT_LAUNCHER_VERSION(remote.app.getVersion());
     },
     async loadOnlineW3CVersion(context: ActionContext<UpdateHandlingState, RootState>) {
-      const { commit, rootState } = moduleActionContext(context, mod);
+      const { commit, rootGetters } = moduleActionContext(context, mod);
 
-      try {
-        const result = await fetch(`${rootState.updateUrl}api/client-version`);
+      try { 
+        const result = await fetch(`${rootGetters.selectedEndpoint?.updateUrl}api/client-version`);
         const version = await result.json();
         commit.SET_ONLINE_W3C_VERSION(version.version);
       } catch (e) {
@@ -91,6 +91,18 @@ const mod = {
     sudoCopyFromTo: function (context: ActionContext<UpdateHandlingState, RootState>, obj: { from: string, to: string }) {
       const {rootGetters} = moduleActionContext(context, mod);
       rootGetters.fileService.sudoCopyFromTo(obj.from, obj.to);
+    },
+    loadIsCustomFontEnabled(context: ActionContext<UpdateHandlingState, RootState>) {
+      const { rootGetters, commit } = moduleActionContext(context, mod);
+
+      commit.SET_CUSTOM_FONT_ENABLED(rootGetters.updateService.loadCustomFontEnabled());
+    },
+    async saveIsCustomFontEnabled(context: ActionContext<UpdateHandlingState, RootState>, enabled: boolean) {
+      const { rootGetters, commit } = moduleActionContext(context, mod);
+      
+      rootGetters.updateService.saveCustomFontEnabled(enabled);
+
+      commit.SET_CUSTOM_FONT_ENABLED(enabled);
     }
   },
   mutations: {
@@ -108,6 +120,9 @@ const mod = {
     },
     SET_ONLINE_W3C_VERSION(state: UpdateHandlingState, version: string) {
       state.onlineW3cVersion = version;
+    },
+    SET_CUSTOM_FONT_ENABLED(state: UpdateHandlingState, value: boolean) {
+      state.isCustomFontEnabled = value;
     },
     FINISH_WEBUI_DL(state: UpdateHandlingState) {
       state.isUpdatingWebUI = false;

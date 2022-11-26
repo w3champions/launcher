@@ -9,7 +9,9 @@ export enum EFloWorkerEventTypes {
     Disconnect = 'Disconnect',
     GameStatusUpdate = 'GameStatusUpdate',
     CurrentGameInfo = 'CurrentGameInfo',
-    GameSlotClientStatusUpdate = 'GameSlotClientStatusUpdate'
+    GameSlotClientStatusUpdate = 'GameSlotClientStatusUpdate',
+    WatchGameError = 'WatchGameError',
+    WatchGame = 'WatchGame',
 }
 
 export interface IFloWorkerEvent {
@@ -122,4 +124,11 @@ export interface ISlotSettings {
 export enum ESlotStatus {
     Occupied = "Occupied",
     Open = "Open",
+}
+
+export interface IWatchGameResponse {
+    type: EFloWorkerEventTypes;
+    speed: number;
+    game_id: number;
+    delay_secs: number;
 }

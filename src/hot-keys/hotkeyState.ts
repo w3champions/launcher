@@ -9,7 +9,7 @@ export interface HotKeyModifierState {
   hotKeyStateMachine: HotKeyState,
   toggleButton: ClickCombination,
   lastW3cPort: string,
-  gridMode: boolean,
+  hotkeyMode: Number,
   isShowHotkeyIndicator: boolean,
   isClassicMode: boolean,
 }
