@@ -173,8 +173,8 @@ if (!gotTheLock) {
               message: `A new version (${version}) of the launcher is out, please download and install`,
               buttons: ['Download']
             })
-            const ext = process.platform === 'win32' ? 'exe' : 'dmg'
-            const url = `${endpoint.staticBaseUpdateFileUrl}w3champions-${version}.${ext}`
+            const filename = process.platform === 'win32' ? `w3champions Setup ${version}.exe` : `w3champions-${version}.dmg`
+            const url = `${endpoint.staticBaseReleaseUrl}${encodeURIComponent(filename)}`
             shell.openExternal(url)
             app.exit()
           }

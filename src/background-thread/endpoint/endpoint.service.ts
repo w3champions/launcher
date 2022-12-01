@@ -10,6 +10,7 @@ export interface IEndpoint {
   identificationPublicKey: string;
   floControllerHost: string;
   staticBaseUpdateFileUrl?: string;
+  staticBaseReleaseUrl?: string;
 }
 
 const ENDPOINTS_PROD: IEndpoint[] = [
@@ -28,7 +29,8 @@ const ENDPOINTS_PROD: IEndpoint[] = [
     identificationUrl: "http://45.194.17.149:8082/",
     identificationPublicKey: IDENTIFICATION_PUBLIC_KEY_PROD, //unused?
     floControllerHost: "bd5271.pathx.ucloudgda.com",
-    staticBaseUpdateFileUrl: 'https://w3champions.oss-cn-shanghai.aliyuncs.com/update-service-content/'
+    staticBaseUpdateFileUrl: 'https://w3champions.oss-cn-shanghai.aliyuncs.com/update-service-content/',
+    staticBaseReleaseUrl: 'https://w3champions.oss-cn-shanghai.aliyuncs.com/release/'
   },
 ];
 
