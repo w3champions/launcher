@@ -320,6 +320,7 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
   logger.info(`logging into ${authUrl}`)
 
   let authWindow: BrowserWindow | null = new BrowserWindow({
+    frame: false,
     width: 800,
     height: 600,
     show: false,
