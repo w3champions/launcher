@@ -242,8 +242,8 @@ export default class UpdateSettingsScreen extends Vue {
 
   position:fixed;
   bottom: 5vh;
-  width: 90%;
-  height: 86px;
+  width: 82%;
+  height: 70px;
 
   background: url("~@/assets/images/home/Header_Buttons_Frame_Slim.png") center no-repeat;
   background-size: 100% 100%;
@@ -251,11 +251,11 @@ export default class UpdateSettingsScreen extends Vue {
 
 .button-bar-button {
   font-size: 20px;
-  width: 22vw;
-  height: 60px;
+  width: 20vw;
+  height: 50px;
   text-align: center;
   cursor: pointer;
-  line-height: 60px;
+  line-height: 50px;
   background: url("~@/assets/images/home/Button_Blue.png") center no-repeat;
   background-size: 100% 100%;
 }
