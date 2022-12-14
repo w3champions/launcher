@@ -191,7 +191,7 @@ export abstract class LauncherStrategy {
         this.store.commit.updateHandling.START_DLS();
         await this.downloadWebui();
 
-        if(this.isTest){
+        if(this.isBlizzardPTR){
             await this.downloadWebuiToPTR();
         }
         
@@ -212,9 +212,13 @@ export abstract class LauncherStrategy {
     private updateDownloadProgress(progress: number) {
         this.store.commit.updateHandling.DOWNLOAD_PROGRESS(progress);
     }
-    
+
     get endpoint() {
         return this.store.getters.selectedEndpoint as IEndpoint
+    }
+
+    get isBlizzardPTR() {
+        return this.store.getters.updateService.loadBlizzardPTREnabled();
     }
 
     get isTest() {
@@ -243,7 +247,7 @@ export abstract class LauncherStrategy {
             try {
                 zip.extractAllTo(to, true);
 
-                if(fileName == "maps" && this.isTest){
+                if(fileName == "maps" && this.isBlizzardPTR){
                     zip.extractAllTo(to.replace("Warcraft III", "Warcraft III Public Test"), true);
                 }
 
@@ -354,12 +358,12 @@ export abstract class LauncherStrategy {
         if (!this.w3PathIsValid) return;
         if (value) {
             this.downloadAndWriteFile("fonts", this.w3Path);
-            if (this.isTest) {
+            if (this.isBlizzardPTR) {
                 this.downloadAndWriteFile("fonts", this.w3Path.replace('retail', 'ptr'))
             }
         } else {
             fs.rmdirSync(`${this.w3Path}/fonts`, {recursive: true});
-            if (this.isTest) {
+            if (this.isBlizzardPTR) {
                 fs.rmdirSync(`${this.w3Path.replace('retail', 'ptr')}/fonts`,
                 {recursive: true});
             }

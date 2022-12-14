@@ -8,6 +8,7 @@ export class UpdateService {
     private currentVersionKey = "currentVersionKey";
     private isClassicIconKey = "isClassicIconKey";
     private isCustomFontEnabled = "isCustomFontEnabled";
+    private isBlizzardPTRKey = "isBlizzardPTRKey";
 
     loadBnetPath(): string {
         return this.store.get(this.bnetKey)
@@ -39,6 +40,14 @@ export class UpdateService {
 
     saveCustomFontEnabled(value: boolean) {
         this.store.set(this.isCustomFontEnabled, value);
+    }
+    
+    loadBlizzardPTREnabled(): boolean {
+        return this.store.get(this.isBlizzardPTRKey);
+    }
+
+    saveBlizzardPTREnabled(value: boolean) {
+        this.store.set(this.isBlizzardPTRKey, value);
     }
 
     loadIsClassicIcons(): boolean {

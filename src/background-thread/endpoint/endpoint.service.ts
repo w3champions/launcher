@@ -53,10 +53,16 @@ export class EndpointService {
       try {
         const endpoint = await this.selectFastestEndpoint(isTest);
         this.window?.webContents.send('w3c-endpoint-selected', endpoint);
+        this.window?.webContents.send('reload-flo-workers');
       }
       catch(e) {
         console.log(e);
       }
+    });
+
+    
+    ipcMain.handle('reload-flo-workers', async () => {
+        this.window?.webContents.send('reload-flo-workers');
     });
   }
 
@@ -79,4 +85,4 @@ export class EndpointService {
   }
 }
 
-export const endpontService = new EndpointService();
+export const endpointService = new EndpointService();

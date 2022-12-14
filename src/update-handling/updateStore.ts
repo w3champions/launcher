@@ -20,6 +20,7 @@ const mod = {
     bnetPathIsInvalid: false,
     isTeamColorsEnabled: false,
     isCustomFontEnabled: false,
+    isBlizzardPTRKey: false,
     ownColor: "01",
     enemyColor: "00",
     allyColor: "02",
@@ -103,6 +104,18 @@ const mod = {
       rootGetters.updateService.saveCustomFontEnabled(enabled);
 
       commit.SET_CUSTOM_FONT_ENABLED(enabled);
+    },
+    loadIsBlizzardPTREnabled(context: ActionContext<UpdateHandlingState, RootState>) {
+      const { rootGetters, commit } = moduleActionContext(context, mod);
+
+      commit.SET_BLIZZARD_PTR_ENABLED(rootGetters.updateService.loadBlizzardPTREnabled());
+    },
+    async saveIsBlizzardPTREnabled(context: ActionContext<UpdateHandlingState, RootState>, enabled: boolean) {
+      const { rootGetters, commit } = moduleActionContext(context, mod);
+      
+      rootGetters.updateService.saveBlizzardPTREnabled(enabled);
+
+      commit.SET_BLIZZARD_PTR_ENABLED(enabled);
     }
   },
   mutations: {
@@ -123,6 +136,9 @@ const mod = {
     },
     SET_CUSTOM_FONT_ENABLED(state: UpdateHandlingState, value: boolean) {
       state.isCustomFontEnabled = value;
+    },
+    SET_BLIZZARD_PTR_ENABLED(state: UpdateHandlingState, value: boolean) {
+      state.isBlizzardPTRKey = value;
     },
     FINISH_WEBUI_DL(state: UpdateHandlingState) {
       state.isUpdatingWebUI = false;

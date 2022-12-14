@@ -11,6 +11,7 @@ export interface UpdateHandlingState {
   bnetPathIsInvalid: boolean,
   isTeamColorsEnabled: boolean,
   isCustomFontEnabled: boolean,
+  isBlizzardPTRKey: boolean,
   ownColor: string,
   allyColor: string,
   enemyColor: string,
