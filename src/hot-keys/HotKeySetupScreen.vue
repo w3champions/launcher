@@ -4,8 +4,8 @@
       <div v-for="race in racesValues" :key="race" class="hotkey-tab" :class="`hotkey-tab-${races[race]}`" @click="() => navigateTo(race)"/>
     </div>
     <div class="tab-container">
-      <div v-if="this.tab === races.items">
-        <ItemHotkeyTab />
+      <div v-if="tab === races.items" style="height:100%">
+        <ItemHotkeyTab style="height:90%"/>
         <div class="wc3hotkey-mode-container">
             <div class="tooltip"> {{hotkeyTooltip}} </div>
             <div :class="hotkeyMode == 0 ? 'rect-button rb-on' : 'rect-button rb-off'" @click="setHotkeyMode(0)"> Classic </div>
@@ -85,7 +85,7 @@ export default class HotKeySetupScreen extends Vue {
 .hotkey-tab {
   cursor: pointer;
   width: 80px;
-  height: 77px;
+  height: 80px;
 }
 
 .hotkey-tab-items {
@@ -120,24 +120,24 @@ export default class HotKeySetupScreen extends Vue {
 
 .hotkey-race-wrapper {
   display: flex;
-  height: 90%;
-  padding: 0% 16% 0% 8%;
+  height: 110%;
+  padding: 0% 5% 0% 5%;
 }
 
 .hotkey-tabs {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .wc3hotkey-mode-container{
   position:absolute;
-  width: 278px;
+  top: 55.6vh;
+  right: 9.2vw;
+  width: 280px;
   height: 34px;
   background: url("~@/assets/images/settings/SmallFrame.png") center no-repeat;
   background-size: cover;
-  top: 41%;
-  left: 35%;
   display:flex;
 }
 .rect-button{

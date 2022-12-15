@@ -169,17 +169,22 @@ export default class App extends Vue {
 body {
   margin: 0;
   font-family: "Inter";
+  background-color: rgba(0, 0, 0, 0.007);
   color: antiquewhite;
   user-select: none;
-  overflow:hidden;
+  overflow: hidden;
 }
+
 ::-webkit-scrollbar {
-width: 16px;
-height: 16px; }
+  width: 16px;
+  height: 16px;
+}
 
 ::-webkit-scrollbar-thumb {
-background-color: rgba(0, 0, 0, 0.2);
--webkit-box-shadow: inset 1px 1px 0 rgba(0,0.07,0,0.10),inset 0 -1px 0 rgba(0,0.07,0,0.07); }
+  background-color: rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 1px 1px 0 rgba(0,0.07,0,0.10), inset 0 -1px 0 rgba(0,0.07,0,0.07);
+}
+
 a {
   color: inherit;
 }
@@ -188,14 +193,13 @@ a {
   font-family: "Friz Quadrata Regular OS";
   color: #ffd528;
   text-transform: uppercase;
-  text-shadow:  3px 3px 1px #000000;
+  text-shadow: 3px 3px 1px #000000;
 }
 
 .app-container {
   background: url("~@/assets/images/home/Maon_Border.png") center no-repeat;
+  background-size: 100vw 100vh;
   height: 100vh;
-  background-size: cover;
-
 }
 
 .fullscreen-bg__video {
@@ -214,10 +218,9 @@ a {
   position: absolute;
   background: url("~@/assets/images/home/Static_Background.png") center no-repeat;
   background-size: cover;
-  z-index: -100;
-  top: 10px;
-  width: 100%;
-  height: 100%;
+  z-index: -101;
+  width: 95vw;
+  height: 95vh;
 }
 
 .content-modal-wrapper {
@@ -229,9 +232,9 @@ a {
 }
 
 .content-modal {
-  margin-top: 8vh;
-  height: 80%;
-  width: 100%;
+  margin-top: 20px;
+  height: 67vh;
+  width: 90vw;
 }
 
 .close-button {
@@ -240,8 +243,8 @@ a {
   z-index: 1;
   background: url("~@/assets/images/home/Exit_Button.png") center no-repeat;
   background-size: cover;
-  height: 60px;
-  width: 61px;
+  height: max(60px, 6vh);
+  width: max(60px, 6vh);
   cursor: pointer;
   top: 0%;
   right: 0%;
@@ -279,11 +282,13 @@ a {
 }
 
 .gw-selection-wrapper {
-  position: absolute;
+  position: relative;
   z-index: 400;
   display: flex;
   width: 50%;
-  top: 550px;
+  top: 55vh;
+  left: -2vw;
+  align-items: center;
   justify-content: space-around;
   padding-left: 25%;
   padding-right: 25%;

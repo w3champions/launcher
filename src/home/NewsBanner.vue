@@ -1,17 +1,17 @@
 <template>
-  <div>
-    <div class="news-buttons-box"         @wheel="onSelectorScroll">
+  <div class="news-container">
+    <div class="news-buttons-box" @wheel="onSelectorScroll">
       <div 
-
-      v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="isSelected(index) ? 'news-selector-selected' : ''"/>
+       v-for="(newsItem, index) in news" class="news-selector" :key="newsItem.date" @click="() => selectNews(index)" :class="isSelected(index) ? 'news-selector-selected' : ''"/>
+    </div>
+    <div class="news-bg">
+      <div class="w3font news-header">{{ selectedNewsDate }}</div>
+      <div class="news-banner">
+          <div class="news-message-box">
+            <div class="news-content" v-if="isNewsHtml" v-html="selectedNewsMessage"></div>
+            <vue-markdown v-else :source="selectedNewsMessage" />
+          </div>
       </div>
-    <div class="w3font news-header">{{ selectedNewsDate }}</div>
-    <div class="news-banner">
-        <div class="news-message-box">
-          <br />
-          <div class="news-content" v-if="isNewsHtml" v-html="selectedNewsMessage"></div>
-          <vue-markdown v-else :source="selectedNewsMessage" />
-        </div>
     </div>
   </div>
 </template>
@@ -68,20 +68,36 @@ export default class NewsBanner extends Vue {
 
 <style scoped type="text/css">
 
-.news-banner{
+.news-container {
+  position: relative;
+  font-size: 2vh;
+  width: 75vw;
+  height: 100%;
+  align-content: center;
+}
+
+.news-bg {
   background: url("~@/assets/images/home/W3Champion_Text_Frame.png") no-repeat center;
-  background-size: cover;
-  font-size: 14px;
-  width: 865px;
-  height: 440px;
+  background-size: 100% 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100% - 50px);
+}
+
+.news-banner {
+  display: flex;
+  margin-top: 0.7vh;
+  width: 93.4%;
+  height: 87.4%;
   justify-content: center;
 }
     
 .news-header {
-  font-size: 21px;
-  padding-bottom: 10px;
-  text-align:center;
+  font-size: 3vh;
+  margin-top: 2vh;
+  text-align: center;
+  width: 70%;
 }
 
 .news-selector-selected {
@@ -93,34 +109,34 @@ export default class NewsBanner extends Vue {
   margin-right: 8px;
   cursor: pointer;
   margin-left: 8px;
-  height: 24px;
-  width: 24px;
+  height: 25px;
+  width: 25px;
+  margin-top: 4px;
   /* background-color: #697; */
   border-color: rgba(78, 106, 176, 0.508);
   border-style: solid;
   border-radius: 50%;
   position:relative;
-  bottom:18px;
 }
 .news-selector:hover {
   border-color: rgba(69, 98, 173, 0.508);
 }
-.news-buttons-box{
+.news-buttons-box {
+  height: 40px;
   display: flex;
   justify-content: center;
+  margin-top: 1vh;
+  margin-bottom: 0.5vh;
 }
 
-.news-message-box{
-  position:relative;
-  top:30px;
-  left:10px;
-  width: 820px;
-  height: 380px;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
+.news-message-box {
+  position: relative;
+  width: 100%;
 }
 
 .news-content {
-  font-size: 18px;
+  height: 100%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 </style>

@@ -20,14 +20,14 @@
         <ItemSelectionContainer style="visibility: hidden" :single-row="true" :on-click="selectUnit" :selection-items="heroes"/>
       </div>
       <div class="hero-wrapper" />
-      <ButtonWarcraft style="position: absolute; bottom: 198px; right: 150px" :on-click="setClassicMode" :text="isClassic" />
-      <ButtonWarcraft style="position: absolute; bottom: 128px; right: 150px" :on-click="importHotkeys" text="Import" />
-      <ButtonWarcraft style="position: absolute; bottom: 58px; right: 150px" :on-click="saveHotkeys" text="Save" />
+      <ButtonWarcraft style="position: absolute; bottom: 21vh; right: 10vw" :on-click="setClassicMode" :text="isClassic" />
+      <ButtonWarcraft style="position: absolute; bottom: 14vh; right: 10vw" :on-click="importHotkeys" text="Import" />
+      <ButtonWarcraft style="position: absolute; bottom: 7vh; right: 10vw" :on-click="saveHotkeys" text="Save" />
     </div>
-    <div style="position:absolute; left: 852px; top: 172px; font-size: 18px;"  class="w3font">
+    <div style="position:absolute; right: 6vw; top: 150px; font-size: 18px;"  class="w3font">
       <span v-if="isResearchAbilitySelected">Train: </span>{{ editAbility.name }}
     </div>
-    <div style="position:absolute; right: 133px; top: 193px" :class="editAbility.icon ? 'visible' : 'hidden'" class="current-selection-container">
+    <div style="position:absolute; right: 6vw; top: 173px" :class="editAbility.icon ? 'visible' : 'hidden'" class="current-selection-container">
       <div style="display: flex; flex-direction: row">
         <div style="height: 64px; width: 64px; margin: 10px; display: flex; cursor: pointer" class="w3font" :class="editAbility.icon"  @click="() => listenToUnhotkeyFunction = false">
           <div style="padding-top: 45px; position: absolute; right: 222px">
@@ -468,7 +468,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
 <style type="text/css">
 
 .race-table-wrapper {
-  width: 100%;
+  width: 700px;
   height: 600px;
   display: flex;
   flex-direction: row;
@@ -478,11 +478,11 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
 .selection-header {
   font-size: 18px;
-  margin-top: 8px;
+  margin-top: 2vh;
 }
 
 .selection-wrapper {
-  margin-left: 50px;
+  margin-left: 4vw;
 }
 
 .visible {
