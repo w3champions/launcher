@@ -191,7 +191,8 @@ export abstract class LauncherStrategy {
         this.store.commit.updateHandling.START_DLS();
         await this.downloadWebui();
 
-        if(this.isBlizzardPTR){
+        // never download live webui to PTR
+        if(this.isBlizzardPTR && this.isTest){
             await this.downloadWebuiToPTR();
         }
         
