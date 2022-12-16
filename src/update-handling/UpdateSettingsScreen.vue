@@ -44,6 +44,10 @@
               <div :class="isCustomFontEnabled ? 'team-colors-on' : 'team-colors-off'" @click="toggleCustomFont"></div>
               <div style="line-height: 31px; margin-left: 5px">Custom Fonts</div>
             </div>
+            <div v-if="isTest" style="display: flex">
+              <div :class="isBlizzardPTREnabled ? 'team-colors-on' : 'team-colors-off'" @click="toggleBlizzardPTR"></div>
+              <div style="line-height: 31px; margin-left: 5px">Blizzard PTR</div>
+            </div>
           </div>
         </div>
         <div class="button-bar">
@@ -139,6 +143,16 @@ export default class UpdateSettingsScreen extends Vue {
 
     this.updateStrategy.setCustomFont(value);
   }
+
+  get isBlizzardPTREnabled() {
+    return this.$store.direct.state.updateHandling.isBlizzardPTRKey;
+  }
+
+  public async toggleBlizzardPTR() {
+    this.$store.direct.dispatch.updateHandling.saveIsBlizzardPTREnabled(!this.isBlizzardPTREnabled);
+    this.$store.direct.dispatch.reloadFloWorkers();
+  }
+
 
   get explanationW3Wrong() {
     if (this.isW3LocationWrong) {
@@ -335,7 +349,7 @@ export default class UpdateSettingsScreen extends Vue {
   background-size: 100% 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
 }
 

@@ -28,8 +28,8 @@ export class FloWorkerService {
         }
         this.inited = true;
 
-        ipcRenderer.on('w3c-endpoint-selected', () => {
-                this.reloadWorkers();
+        ipcRenderer.on('reload-flo-workers', () => {
+            this.reloadWorkers();
         });
 
         this.reloadWorkers();
@@ -204,11 +204,17 @@ export class FloWorkerService {
             wc3FolderPath = wc3FolderPath.replace('\\_retail_', '');
         }
 
+        const blizzardPTR = this.store.getters.updateService.loadBlizzardPTREnabled();
+        const test = this.store.getters.versionService.loadMode();
+
+        const ptr = blizzardPTR && test;
+
         const result: IFloWorkerInstanceSettings = {
             floWorkerFolderPath,
             floWorkerExePath,
             wc3FolderPath,
-            floControllerHostUrl
+            floControllerHostUrl,
+            ptr
         };
 
         return result;

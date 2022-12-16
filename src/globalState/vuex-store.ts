@@ -88,6 +88,9 @@ const mod = {
 
       commit.SET_IS_TEST(mode);
     },
+    async reloadFloWorkers() {
+      ipcRenderer.invoke('reload-flo-workers');
+    },    
     loadOsMode(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 

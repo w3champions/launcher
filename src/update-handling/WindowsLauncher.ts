@@ -34,9 +34,9 @@ export class WindowsLauncher extends LauncherStrategy {
     getDefaultPathMap(): string {
         const documentPath = remote.app.getPath("documents");
         try {
-            if (fs.existsSync(`${documentPath}\\Warcraft III\\_retail_`)
-                && !fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)) {
-                fs.mkdirSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`);
+            if (this.isTest && this.isBlizzardPTR && fs.existsSync(`${documentPath}\\Warcraft III Public Test`)
+                && !fs.existsSync(`${documentPath}\\Warcraft III Public Test\\Maps`)) {
+                fs.mkdirSync(`${documentPath}\\Warcraft III Public Test\\Maps`);
             } else if (fs.existsSync(`${documentPath}\\Warcraft III`)
                 && !fs.existsSync(`${documentPath}\\Warcraft III\\Maps`)) {
                 fs.mkdirSync(`${documentPath}\\Warcraft III\\Maps`);
@@ -45,8 +45,8 @@ export class WindowsLauncher extends LauncherStrategy {
             logger.error(e)
         }
 
-        return fs.existsSync(`${documentPath}\\Warcraft III\\_retail_\\Maps`)
-            ? `${documentPath}\\Warcraft III\\_retail_\\Maps`
+        return this.isTest && this.isBlizzardPTR
+            ? `${documentPath}\\Warcraft III Public Test\\Maps`
             : `${documentPath}\\Warcraft III\\Maps`;
     }
 

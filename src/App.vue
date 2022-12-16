@@ -80,6 +80,7 @@ export default class App extends Vue {
 
           this.$store.direct.dispatch.updateHandling.loadAllPaths();
           await this.$store.direct.dispatch.updateHandling.loadIsCustomFontEnabled();
+          await this.$store.direct.dispatch.updateHandling.loadIsBlizzardPTREnabled();
           await this.$store.direct.dispatch.updateHandling.loadOnlineW3CVersion();
           await this.$store.direct.dispatch.updateHandling.loadCurrentLauncherVersion();
           await this.$store.direct.dispatch.updateHandling.loadCurrentW3CVersion();

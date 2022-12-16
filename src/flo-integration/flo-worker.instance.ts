@@ -155,7 +155,8 @@ export class FloWorkerInstance {
         const promise = new Promise<void>((res) => {
             this.floWorkerProcess = spawn(this.settings.floWorkerExePath,
                 ['--installation-path', this.settings.wc3FolderPath,
-                    '--controller-host', this.settings.floControllerHostUrl
+                    '--controller-host', this.settings.floControllerHostUrl,
+                    '--ptr', this.settings.ptr,
                 ],
                 { cwd: this.settings.floWorkerFolderPath }
             );
