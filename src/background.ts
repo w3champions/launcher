@@ -11,6 +11,8 @@ import { LoginGW } from './globalState/rootTypings'
 import { endpointService, IEndpoint } from './background-thread/endpoint/endpoint.service'
 import { floUtilsService } from './background-thread/flo/flo-utils.service'
 import fetch from 'electron-fetch'
+const Store = require('electron-store');
+import _ from 'lodash';
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
@@ -64,12 +66,14 @@ app.on('will-quit', () => {
 });
 
 function createWindow() {
+  const bounds = getWindowBounds();
+
   // Create the browser window.
   win = new BrowserWindow({
-    // width: 1020,
-    // height: 664,
-    width: 1275,
-    height: 830,
+    width: _.isUndefined(bounds.width) ? 1275 : bounds.width,
+    height: _.isUndefined(bounds.height) ? 830 : bounds.height,
+    x: _.isUndefined(bounds.x) ? 322 : bounds.x,
+    y: _.isUndefined(bounds.y) ? 105 : bounds.y,
     resizable: true,
     frame: false,
     titleBarStyle: 'hidden',
@@ -80,6 +84,7 @@ function createWindow() {
       enableRemoteModule: true,
       webSecurity: false
     }
+
   });
 
   floNetworkTestService.setWindow(win);
@@ -100,6 +105,14 @@ function createWindow() {
     win = null;
     fab = null;
   });
+
+  win.on('moved', function () {
+    setWindowBounds();
+  })
+
+  win.on('resized', function () {
+    setWindowBounds();
+  })
 }
 
 function createTray() {
@@ -299,6 +312,26 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
   }
   fab = null;
 });
+
+function getWindowBounds() {
+  const store = new Store();
+  const x = store.get("bounds.x");
+  const y = store.get("bounds.y");
+  const width = store.get("bounds.width");
+  const height = store.get("bounds.height");
+  return { x, y, width, height }
+}
+
+function setWindowBounds() {
+  if (win) {
+    const store = new Store();
+    const { x, y, width, height } = win?.getBounds();
+    store.set("bounds.x", x);
+    store.set("bounds.y", y);
+    store.set("bounds.width", width);
+    store.set("bounds.height", height);
+  }
+}
 
 const authUrlChina = 'https://www.battlenet.com.cn/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
 const logoutUrlChina = 'https://www.battlenet.com.cn/login/logout';
