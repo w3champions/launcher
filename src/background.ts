@@ -72,8 +72,8 @@ function createWindow() {
   win = new BrowserWindow({
     width: _.isUndefined(bounds.width) ? 1275 : bounds.width,
     height: _.isUndefined(bounds.height) ? 830 : bounds.height,
-    x: _.isUndefined(bounds.x) ? 322 : bounds.x,
-    y: _.isUndefined(bounds.y) ? 105 : bounds.y,
+    x: bounds.x,
+    y: bounds.y,
     resizable: true,
     frame: false,
     titleBarStyle: 'hidden',
@@ -84,7 +84,6 @@ function createWindow() {
       enableRemoteModule: true,
       webSecurity: false
     }
-
   });
 
   floNetworkTestService.setWindow(win);
@@ -325,7 +324,7 @@ function getWindowBounds() {
 function setWindowBounds() {
   if (win) {
     const store = new Store();
-    const { x, y, width, height } = win?.getBounds();
+    const { x, y, width, height } = win.getBounds();
     store.set("bounds.x", x);
     store.set("bounds.y", y);
     store.set("bounds.width", width);
