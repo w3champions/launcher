@@ -70,8 +70,8 @@ function createWindow() {
 
   // Create the browser window.
   win = new BrowserWindow({
-    width: _.isUndefined(bounds.width) ? 1275 : bounds.width,
-    height: _.isUndefined(bounds.height) ? 830 : bounds.height,
+    width: 1275,
+    height: 830,
     x: bounds.x,
     y: bounds.y,
     resizable: true,
@@ -85,6 +85,11 @@ function createWindow() {
       webSecurity: false
     }
   });
+
+  // set size after the window is made because electron initially
+  // uses wrong screen bounds when the window is non on primary monitor
+  win.setSize(_.isUndefined(bounds.width) ? 1275 : bounds.width,
+              _.isUndefined(bounds.height) ? 830 : bounds.height, false)
 
   floNetworkTestService.setWindow(win);
   floUtilsService.registerHandlers();
