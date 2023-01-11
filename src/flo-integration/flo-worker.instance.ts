@@ -156,7 +156,7 @@ export class FloWorkerInstance {
             this.floWorkerProcess = spawn(this.settings.floWorkerExePath,
                 ['--installation-path', this.settings.wc3FolderPath,
                     '--controller-host', this.settings.floControllerHostUrl,
-                    '--ptr', this.settings.ptr,
+                    '--ptr', this.settings.ptr ? "true" : "false",
                 ],
                 { cwd: this.settings.floWorkerFolderPath }
             );
