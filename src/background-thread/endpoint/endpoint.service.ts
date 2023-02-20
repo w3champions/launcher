@@ -65,12 +65,16 @@ export class EndpointService {
   ): Promise<IEndpoint> {
     let selected
     const endpoints = isTest ? TEST_ENDPOINTS : ENDPOINTS_PROD;
-    selected = await Promise.any(
-      endpoints.map(async (i) => {
-        await fetch(`${i.updateUrl}api/client-version`);
-        return i;
-      })
-    );
+    if (endpoints.length === 1) {
+      selected = endpoints[0];
+    } else {
+      selected = await Promise.any(
+        endpoints.map(async (i) => {
+          await fetch(`${i.updateUrl}api/client-version`);
+          return i;
+        })
+      );
+    }
     return selected;
   }
 }
