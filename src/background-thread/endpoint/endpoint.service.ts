@@ -16,21 +16,11 @@ export interface IEndpoint {
 const ENDPOINTS_PROD: IEndpoint[] = [
   {
     id: "Europe",
-    updateUrl: "https://update-service.w3champions.com/",
-    newsUrl: "https://statistic-service.w3champions.com/",
-    identificationUrl: "https://identification-service.w3champions.com/",
+    updateUrl: "https://update-service.w3c.gg/",
+    newsUrl: "https://statistic-service.w3c.gg/",
+    identificationUrl: "https://identification-service.w3c.gg/",
     identificationPublicKey: IDENTIFICATION_PUBLIC_KEY_PROD,
-    floControllerHost: "service.w3flo.com",
-  },
-  {
-    id: "中国",
-    updateUrl: "http://45.194.17.149:8084/",
-    newsUrl: "http://45.194.17.149:8083/",
-    identificationUrl: "http://45.194.17.149:8082/",
-    identificationPublicKey: IDENTIFICATION_PUBLIC_KEY_PROD, //unused?
-    floControllerHost: "bd5271.pathx.ucloudgda.com",
-    staticBaseUpdateFileUrl: 'https://w3champions.oss-cn-shanghai.aliyuncs.com/update-service-content/',
-    staticBaseReleaseUrl: 'https://w3champions.oss-cn-shanghai.aliyuncs.com/release/'
+    floControllerHost: "flo-controller.w3c.gg",
   },
 ];
 
