@@ -16,7 +16,7 @@ export interface IEndpoint {
 const ENDPOINTS_PROD: IEndpoint[] = [
   {
     id: "Europe",
-    updateUrl: "https://update-service.w3c.gg/",
+    updateUrl: "https://update-service.w3champions.com/",
     newsUrl: "https://statistic-service.w3c.gg/",
     identificationUrl: "https://identification-service.w3c.gg/",
     identificationPublicKey: IDENTIFICATION_PUBLIC_KEY_PROD,
