@@ -1,7 +1,7 @@
 <template>
   <div class="launcher-background">
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
-    <div style="padding-top: 30px; position: relative">
+    <div class="panel">
       <div class="version-wrapper">
         <div>W3Champions Endpoint: {{selectedEndpoint.id}}</div>
         <div>W3Champions Version: {{w3cVersion}}</div>
@@ -50,20 +50,20 @@
             </div>
           </div>
         </div>
-        <div class="button-bar">
-          <div @click="repairW3c" :disabled="isLoading" class="button-bar-button w3font">
-            Reset W3C
-          </div>
-          <div @click="redownloadW3c" :disabled="isLoading" class="button-bar-button w3font" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
-            Redownload
-          </div>
-          <div @click="toggleVersion" class="button-bar-button w3font" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
-            Switch to {{ !isTest ? "PTR" : "LIVE" }}
-          </div>
-          <div @click="resetAuthentication" class="button-bar-button w3font">
-            Log out
-          </div>
-        </div>
+      </div>
+    </div>
+    <div class="button-bar">
+      <div @click="repairW3c" :disabled="isLoading" class="button-bar-button w3font">
+        Reset W3C
+      </div>
+      <div @click="redownloadW3c" :disabled="isLoading" class="button-bar-button w3font" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
+        Redownload
+      </div>
+      <div @click="toggleVersion" class="button-bar-button w3font" :class="isW3LocationWrong ? 'disabled-option' : ''" :title="explanationW3Wrong">
+        Switch to {{ !isTest ? "PTR" : "LIVE" }}
+      </div>
+      <div @click="resetAuthentication" class="button-bar-button w3font">
+        Log out
       </div>
     </div>
   </div>
@@ -384,8 +384,13 @@ export default class UpdateSettingsScreen extends Vue {
 }
 
 .settings-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.panel {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 </style>

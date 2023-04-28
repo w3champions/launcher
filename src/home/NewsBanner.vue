@@ -69,6 +69,7 @@ export default class NewsBanner extends Vue {
 <style scoped type="text/css">
 
 .news-container {
+  
   position: relative;
   font-size: 2vh;
   width: 75vw;
@@ -135,7 +136,7 @@ export default class NewsBanner extends Vue {
 }
 
 .news-content {
-  height: 100%;
+  height: 95%;
   overflow-y: scroll;
   scroll-behavior: smooth;
 }

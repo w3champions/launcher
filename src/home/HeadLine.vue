@@ -42,7 +42,6 @@ export default class HeadLine extends Vue {
 }
 
 .headline-wrapper {
-  position: inline;
   margin-left:1%;
   width: 100%;
   height: 15%;
