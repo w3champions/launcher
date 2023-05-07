@@ -295,4 +295,8 @@ a {
   padding-right: 25%;
 }
 
+.panel-scroll {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
 </style>

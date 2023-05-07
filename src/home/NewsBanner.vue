@@ -8,7 +8,7 @@
       <div class="w3font news-header">{{ selectedNewsDate }}</div>
       <div class="news-banner">
           <div class="news-message-box">
-            <div class="news-content" v-if="isNewsHtml" v-html="selectedNewsMessage"></div>
+            <div class="news-content panel-scroll" v-if="isNewsHtml" v-html="selectedNewsMessage"></div>
             <vue-markdown v-else :source="selectedNewsMessage" />
           </div>
       </div>
@@ -136,8 +136,6 @@ export default class NewsBanner extends Vue {
 }
 
 .news-content {
-  height: 95%;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
+  height: 98%;
 }
 </style>

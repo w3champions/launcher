@@ -1,7 +1,7 @@
 <template>
   <div class="launcher-background">
     <LoadingSpinner :style="`visibility: ${isLoading ? 'visible' : 'hidden'}`" />
-    <div class="panel">
+    <div class="panel-scroll">
       <div class="version-wrapper">
         <div>W3Champions Endpoint: {{selectedEndpoint.id}}</div>
         <div>W3Champions Version: {{w3cVersion}}</div>
@@ -389,8 +389,4 @@ export default class UpdateSettingsScreen extends Vue {
   align-items: center;
 }
 
-.panel {
-  overflow-y: scroll;
-  scroll-behavior: smooth;
-}
 </style>
