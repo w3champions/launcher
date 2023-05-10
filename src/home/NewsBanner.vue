@@ -69,7 +69,6 @@ export default class NewsBanner extends Vue {
 <style scoped type="text/css">
 
 .news-container {
-  
   position: relative;
   font-size: 2vh;
   width: 75vw;
