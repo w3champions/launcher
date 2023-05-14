@@ -36,13 +36,11 @@ export default class HeadLine extends Vue {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-
   width: 100vw;
   height: 13vh;
 }
 
 .headline-wrapper {
-  position: inline;
   margin-left:1%;
   width: 100%;
   height: 15%;
