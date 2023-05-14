@@ -135,6 +135,15 @@ export default class NewsBanner extends Vue {
 }
 
 .news-content {
-  height: 98%;
+  height: 99%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+.news-content::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border: 4px solid transparent;
+    background-clip: content-box;
 }
 </style>
