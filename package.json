@@ -38,6 +38,7 @@
     "pbkdf2": "3.0.3",
     "send-keys-native": "file:src/hot-keys/ItemHotkeys/send-keys-native",
     "sudo-prompt": "9.2.1",
+    "systeminformation": "^5.18.3",
     "vue": "2.6.12",
     "vue-class-component": "7.2.6",
     "vue-markdown": "2.2.4",

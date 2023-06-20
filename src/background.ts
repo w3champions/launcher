@@ -13,6 +13,7 @@ import { floUtilsService } from './background-thread/flo/flo-utils.service'
 import fetch from 'electron-fetch'
 const Store = require('electron-store');
 import _ from 'lodash';
+import si from 'systeminformation';
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 declare const __static: string;
@@ -293,8 +294,10 @@ ipcMain.on('manual-hotkey', (ev: IpcMainEvent, arg) => {
 });
 
 ipcMain.on('diagnostic-data', async (ev: IpcMainEvent, arg) => {
-  const diagnosticsId = machineIdSync();
-  win?.webContents.send('diagnostic-data-forward', diagnosticsId);
+  const machineId = machineIdSync();
+  const systemInformation = await getSystemInformation();
+
+  win?.webContents.send('diagnostic-data-forward', {machineId, ...systemInformation});
 });
 
 ipcMain.on('fab-options-loaded', async (ev: IpcMainEvent, args) => {
@@ -316,6 +319,34 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
   }
   fab = null;
 });
+
+async function getSystemInformation() {
+  const system = await si.system((data) => {
+    return data;
+  })
+
+  const osInfo = await si.osInfo((data) => {
+    return data;
+  })
+
+  const bios = await si.bios((data) => {
+    return data;
+  })
+
+  const cpu = await si.cpu((data) => {
+    return data?.brand;
+  })
+
+  const graphics = await si.graphics((data) => {
+    return data;
+  })
+
+  // const network = await si.networkInterfaces((data) => {
+  //   return data;
+  // })
+
+  return { system, osInfo, bios, cpu: {brand: cpu?.brand}, graphics: {model: graphics?.controllers[0]?.model} };
+}
 
 function getWindowBounds() {
   const store = new Store();
