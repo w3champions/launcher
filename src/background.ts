@@ -321,31 +321,11 @@ ipcMain.on('fab-disabled', async (ev: IpcMainEvent, args) => {
 });
 
 async function getSystemInformation() {
-  const system = await si.system((data) => {
+  const uuid = await si.uuid((data) => {
     return data;
   })
 
-  const osInfo = await si.osInfo((data) => {
-    return data;
-  })
-
-  const bios = await si.bios((data) => {
-    return data;
-  })
-
-  const cpu = await si.cpu((data) => {
-    return data?.brand;
-  })
-
-  const graphics = await si.graphics((data) => {
-    return data;
-  })
-
-  // const network = await si.networkInterfaces((data) => {
-  //   return data;
-  // })
-
-  return { system, osInfo, bios, cpu: {brand: cpu?.brand}, graphics: {model: graphics?.controllers[0]?.model} };
+  return { uuid };
 }
 
 function getWindowBounds() {
