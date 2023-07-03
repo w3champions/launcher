@@ -325,19 +325,11 @@ async function getSystemInformation() {
     return data;
   })
 
-  const system = await si.system((data) => {
-    return data
-  })
-
   const baseboard = await si.baseboard((data) => {
     return data
   })
 
-  const diskLayout = await si.diskLayout((data) => {
-    return data
-  })
-
-  return { uuid, system, baseboard, diskLayout };
+  return { uuid, baseboard };
 }
 
 function getWindowBounds() {
