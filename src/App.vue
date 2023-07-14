@@ -12,7 +12,7 @@
             <div style="font-size: 40px; line-height: 60px; padding-left: 10px; padding-right: 10px"> / </div>
             <div class="gw-selection gw-select-us"/>
           </div>
-          <div class="gw-selection gw-select-cn" @click="() => loginAt(loginGWs.cn)"/>
+          <!-- <div class="gw-selection gw-select-cn" @click="() => loginAt(loginGWs.cn)"/> -->
         </div>
       </div>
       <div class="content-modal-wrapper">
