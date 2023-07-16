@@ -35,7 +35,7 @@
     "lodash": "^4.17.21",
     "node-addon-api": "3.1.0",
     "node-machine-id": "^1.1.12",
-    "pbkdf2": "3.1.1",
+    "pbkdf2": "3.0.3",
     "send-keys-native": "file:src/hot-keys/ItemHotkeys/send-keys-native",
     "sudo-prompt": "9.2.1",
     "systeminformation": "^5.18.3",
@@ -84,9 +84,6 @@
     "vue-jest": "3.0.7",
     "vue-template-compiler": "2.6.12",
     "webpack": "^4.0.0"
-  },
-  "resolutions": {
-    "pbkdf2": "3.1.1"
   },
   "overrides": {
     "vue-cli-plugin-electron-builder": {
