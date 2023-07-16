@@ -35,4 +35,5 @@ npm run build
   - run local build
   - run local `signWindows.bat` with usb installed
   - upload exe, blockmap and latest.yml to GH after build 
-- release 
+- release
+
