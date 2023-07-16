@@ -223,8 +223,8 @@ export class FileService {
     }
 
     public switchColor(oldColor: string, newColor: string, textureLocation: string) {
-        this.copyFile(`${__static}/wc3-assets/replaceabletextures/teamcolor/teamcolor${newColor}.blp`, `${textureLocation}/replaceabletextures/teamcolor/teamcolor${oldColor}.blp`);
-        this.copyFile(`${__static}/wc3-assets/replaceabletextures/teamglow/teamglow${newColor}.blp`, `${textureLocation}/replaceabletextures/teamglow/teamglow${oldColor}.blp`);
+        this.copyFile(`${__static}/wc3-assets/replaceabletextures/teamcolor/teamcolor${newColor}.dds`, `${textureLocation}/replaceabletextures/teamcolor/teamcolor${oldColor}.dds`);
+        this.copyFile(`${__static}/wc3-assets/replaceabletextures/teamglow/teamglow${newColor}.dds`, `${textureLocation}/replaceabletextures/teamglow/teamglow${oldColor}.dds`);
 
         logger.info(`copy ${newColor} to ${oldColor}`);
     }
