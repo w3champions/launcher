@@ -20,8 +20,8 @@ declare const __static: string;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win: BrowserWindow | null
-let fab: BrowserWindow | null
+let win: BrowserWindow | null;
+let fab: BrowserWindow | null;
 let tray: Tray | null;
 
 const logger = require("electron-log")
@@ -113,11 +113,43 @@ function createWindow() {
 
   win.on('moved', function () {
     setWindowBounds();
-  })
+  });
 
   win.on('resized', function () {
     setWindowBounds();
-  })
+  });
+
+  // Resize happens when user maximizes the window
+  // Without storing the bounds on resize, will freeze
+  // when hiding maximized window.
+  win.on('resize', function () {
+    setWindowBounds();
+  });
+
+  // Show event is triggered when user re-opens launcher from tray
+  // If the user had their launcher maximized, maximize it again.
+  win.on('show', function () {
+    const store = new Store();
+    if (store.get("maximized")) {
+      win?.maximize();
+    }
+  });
+
+  // W3C-205 Workaround to properly ascertain whether transparent window is maximized
+  // in ElectronV11 to prevent a freeze when hiding maximized transparent window.
+  // See: https://github.com/electron/electron/issues/12854#issuecomment-602062349
+  win.isMaximized = () => {
+    const nativeIsMaximized = BrowserWindow.prototype.isMaximized.call(win);
+      if (!nativeIsMaximized) {
+        // determine whether the window is full of the screen work area
+        const bounds = getWindowBounds();
+        const workArea = screen.getDisplayMatching(bounds).workArea;
+        if (bounds.x <= workArea.x && bounds.y <= workArea.y && bounds.width >= workArea.width && bounds.height >= workArea.height) {
+          return true;
+        }
+      }
+    return nativeIsMaximized;
+  };
 }
 
 function createTray() {
@@ -284,6 +316,15 @@ async function createFab() {
 }
 
 ipcMain.on('close-window', () => {
+  // W3C-205 Using workaround to hide maximized transparent window in ElectronV11 without freeze
+  // Storing whether the user had their launcher maximized for when they re-open it
+  const store = new Store();
+  if (win?.isMaximized()) {
+    store.set("maximized", true);
+    win?.maximize();
+  } else {
+    store.set("maximized", false);
+  }
   win?.hide();
 });
 
