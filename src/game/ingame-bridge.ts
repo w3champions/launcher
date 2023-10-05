@@ -18,6 +18,7 @@ export enum ELauncherMessageType {
     REQUEST_AUTHENTICATION_TOKEN = 'REQUEST_AUTHENTICATION_TOKEN',
     RECEIVED_AUTHENTICATION_TOKEN_FROM_LAUNCHER = 'RECEIVED_AUTHENTICATION_TOKEN_FROM_LAUNCHER',
     INVALID_STATE = 'INVALID_STATE',
+    IS_LEGACY_WINDOWS = 'IS_LEGACY_WINDOWS',
 
     CONNECTED = 'CONNECTED',
     DISCONNECTED = 'DISCONNECTED',
@@ -141,6 +142,10 @@ export class IngameBridge extends EventEmitter {
             };
 
             this.sendLauncherVersion(pi);
+
+            if (store.state.isWindows) {
+                this.sendIsLegacyWindows(pi);
+            }
         });
 
         this.server.listen(38123);
@@ -150,6 +155,14 @@ export class IngameBridge extends EventEmitter {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.LAUNCHER_VERSION,
             data: { launcherVersion: this.launcherVersion }
+        };
+
+        playerInstance.sendMessage(message);
+    }
+
+    public sendIsLegacyWindows(playerInstance: IPlayerInstance) {
+        const message: ILauncherGameMessage = {
+            type: ELauncherMessageType.IS_LEGACY_WINDOWS
         };
 
         playerInstance.sendMessage(message);
