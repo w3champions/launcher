@@ -26,6 +26,11 @@ export interface IPingUpdate extends IFloWorkerEvent {
     ping_map: { [id: string]: IFloPing };
 }
 
+export interface IFloDisconnect extends IFloWorkerEvent {
+    message: string;
+    reason: string;
+}
+
 export enum EPlayerStatus {
     Idle = 'Idle',
     InGame = 'InGame'

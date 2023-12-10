@@ -2,7 +2,7 @@ import { IPlayerInstance } from '@/game/game.types';
 import { ingameBridge } from '@/game/ingame-bridge';
 import logger from '@/logger';
 import { IFloNodeProxy } from '@/types/flo-types';
-import { EFloWorkerEventTypes, EPlayerStatus, IFloWorkerEvent, IPingUpdate, IPlayerSession, IWatchGameResponse } from './flo-worker-messages';
+import { EFloWorkerEventTypes, EPlayerStatus, IFloDisconnect, IFloWorkerEvent, IPingUpdate, IPlayerSession, IWatchGameResponse } from './flo-worker-messages';
 import { IFloAuthData, IFloNode, IFloNodeOverride, IFloWorkerInstanceSettings, IFloWorkerStartupData } from './types';
 const { spawn } = window.require("child_process");
 const WebSocketClass = window.require("ws");
@@ -236,9 +236,10 @@ export class FloWorkerInstance {
         this.watchGameHotkeysRegistered = false;
     }
 
-    private onDisconnectRecieved() {
+    private onDisconnectRecieved(floDisconnectEvent: IFloDisconnect) {
         logger.info('Disconnect received');
         ingameBridge.sendFloDisconnected(this.playerInstance as any);
+        if (floDisconnectEvent.reason === "Multi") return; // Do not attempt reconnect if the user is connecting from another client.
         this.reconnect(this.playerInstance as any, this.lastAuthData as any);
     }
 
@@ -295,7 +296,7 @@ export class FloWorkerInstance {
                 }
             case EFloWorkerEventTypes.Disconnect:
                 {
-                    this.onDisconnectRecieved();
+                    this.onDisconnectRecieved(parsed as IFloDisconnect);
                     break;
                 }
             case EFloWorkerEventTypes.ListNodes: {

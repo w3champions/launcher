@@ -63,7 +63,7 @@ export class IngameBridge extends EventEmitter {
     private server = http.createServer();
     private wss = new WebSocket.Server({ server: this.server });
     private launcherVersion = '0.0.0';
-    private diagnosticsData?: any;
+    private diagnosticsData?: string;
     private inited = false;
 
     public initialize() {
@@ -71,10 +71,10 @@ export class IngameBridge extends EventEmitter {
             return
         }
         this.inited = true;
-        
+
         this.launcherVersion = remote.app.getVersion();
 
-        ipcRenderer.on('diagnostic-data-forward', (_event: any, diagnosticsData: any) => {
+        ipcRenderer.on('diagnostic-data-forward', (_event: any, diagnosticsData: string) => {
             this.diagnosticsData = diagnosticsData;
         });
 
