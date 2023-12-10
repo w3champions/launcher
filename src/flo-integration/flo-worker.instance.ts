@@ -236,9 +236,10 @@ export class FloWorkerInstance {
         this.watchGameHotkeysRegistered = false;
     }
 
-    private onDisconnectRecieved() {
+    private onDisconnectRecieved(reason: string | undefined) {
         logger.info('Disconnect received');
         ingameBridge.sendFloDisconnected(this.playerInstance as any);
+        if (reason === "Multi") return; // Do not attempt reconnect if the user is connecting from another client.
         this.reconnect(this.playerInstance as any, this.lastAuthData as any);
     }
 
@@ -295,7 +296,7 @@ export class FloWorkerInstance {
                 }
             case EFloWorkerEventTypes.Disconnect:
                 {
-                    this.onDisconnectRecieved();
+                    this.onDisconnectRecieved(parsed.reason);
                     break;
                 }
             case EFloWorkerEventTypes.ListNodes: {

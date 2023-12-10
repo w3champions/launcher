@@ -16,6 +16,8 @@ export enum EFloWorkerEventTypes {
 
 export interface IFloWorkerEvent {
     type: EFloWorkerEventTypes;
+    message?: string;
+    reason?: string;
 }
 
 export interface IListNodesEvent extends IFloWorkerEvent {
