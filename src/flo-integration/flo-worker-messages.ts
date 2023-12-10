@@ -16,8 +16,6 @@ export enum EFloWorkerEventTypes {
 
 export interface IFloWorkerEvent {
     type: EFloWorkerEventTypes;
-    message?: string;
-    reason?: string;
 }
 
 export interface IListNodesEvent extends IFloWorkerEvent {
@@ -26,6 +24,11 @@ export interface IListNodesEvent extends IFloWorkerEvent {
 
 export interface IPingUpdate extends IFloWorkerEvent {
     ping_map: { [id: string]: IFloPing };
+}
+
+export interface IFloDisconnect extends IFloWorkerEvent {
+    message: string;
+    reason: string;
 }
 
 export enum EPlayerStatus {
