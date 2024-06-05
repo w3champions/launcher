@@ -28,9 +28,6 @@ libs/flo-logs/*
 #Electron-builder output
 /dist_electron
 
-yarn.lock
-package-lock.json
-
 # Native module files
 Debug
 .vs
