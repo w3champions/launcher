@@ -8,7 +8,8 @@ import {
     buildingWithCancel,
     defaultAltar,
     defaultMainBuilding,
-    rally, shop, stop
+    rally, shop, stop,
+    tier2Items
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
 const buildings =
@@ -110,16 +111,20 @@ const buildings =
         ),
 
         new Building('Voodoo Lounge', 'btnvoodoolounge',
-            shop([
-                Ability.Create('Purchase Purchase Healing Salve', 'btnhealingsalve', 'hslv', 'H', []),
-                Ability.Create('Purchase Lesser Clarity Potion', 'btnlesserclaritypotion', 'plcl', 'C', []),
-                Ability.Create('Purchase Scroll of Speed', 'btnscrollofhaste', 'shas', 'S', []),
-                Ability.Default(),],
+            shop(
+                [
+                    Ability.Create('Purchase Purchase Healing Salve', 'btnhealingsalve', 'hslv', 'H', []),
+                    Ability.Create('Purchase Lesser Clarity Potion', 'btnlesserclaritypotion', 'plcl', 'C', []),
+                    Ability.Create('Purchase Scroll of Speed', 'btnscrollofhaste', 'shas', 'S', []),
+                    Ability.Default(),
+                ],
+                tier2Items,
                 [
                     ...Ability.Defaults(1),
                     Ability.Create('Purchase Orb of Lightning', 'btnorboflightning', 'oli2', 'L', []),
                     Ability.Create('Purchase Tiny Great Hall', 'btngreathall', 'tgrh', 'G', []),
-                    ...Ability.Defaults(1)],
+                    ...Ability.Defaults(1)
+                ],
             )
         )
     ] as Unit[]

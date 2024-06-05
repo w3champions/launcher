@@ -7,7 +7,8 @@ import {
     attack,
     cancelBuild, defaultAltar,
     defaultFighterAbilities,
-    defaultMainBuilding, rally, shop, stop
+    defaultMainBuilding, rally, shop, stop,
+    tier2Items
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 const uproot = Ability.UnhotkeyAbility('Uproot', 'btnuproot', 'aro1', 'R', 'R', false, ['aro2', 'aroo'])
 
@@ -125,17 +126,22 @@ const buildings =
         ]),
 
         new Building('Ancient of Wonders', 'btnancientofwonders', [
-            ...shop([
-                Ability.Create('Purchase Moonstone', 'btnmoonstone', 'moon', 'N', []),
-                Ability.Create('Purchase Lesser Clarity Potion', 'btnlesserclaritypotion', 'plcl', 'C', []),
-                Ability.Default(),
-                Ability.Create('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', []),
-            ],[
-                Ability.Create('Purchase Staff of Preservation', 'btnstaffofpreservation', 'spre', 'E', []),
-                Ability.Create('Purchase Orb of Venom', 'btnorbofvenom', 'oven', 'V', []),
-                Ability.Create('Purchase Anti-magic Potion', 'btnsnazzypotion', 'pams', 'A', []),
-                uproot
-            ])
+            ...shop(
+                [
+                    Ability.Create('Purchase Moonstone', 'btnmoonstone', 'moon', 'N', []),
+                    Ability.Create('Purchase Lesser Clarity Potion', 'btnlesserclaritypotion', 'plcl', 'C', []),
+                    Ability.Default(),
+                    Ability.Create('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', []),
+                ],
+                [
+                    ...tier2Items,
+                    Ability.Create('Purchase Staff of Preservation', 'btnstaffofpreservation', 'spre', 'E', []),
+                ],
+                [
+                    Ability.Create('Purchase Orb of Venom', 'btnorbofvenom', 'oven', 'V', []),
+                    Ability.Create('Purchase Anti-magic Potion', 'btnsnazzypotion', 'pams', 'A', []),
+                    uproot
+                ])
         ])
     ] as Unit[]
 

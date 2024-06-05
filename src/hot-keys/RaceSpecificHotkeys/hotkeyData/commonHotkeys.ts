@@ -52,14 +52,14 @@ export const buildingWithCancel = (buildItems: Ability[]) => [
 ]
 
 export const selectUser = Ability.Create('Select User', 'btnselectunit', 'anei', 'U', []);
-export const shop = (tier1ITems: Ability[], tier3ITems: Ability[]) => [
-    ...tier1ITems,
-    ...tier2ITems,
-    ...tier3ITems,
+export const shop = (tier1Items: Ability[], tier2Items: Ability[], tier3Items: Ability[]) => [
+    ...tier1Items,
+    ...tier2Items,
+    ...tier3Items,
     selectUser
 ]
 
-export const tier2ITems = [
+export const tier2Items = [
     Ability.Create('Purchase Potion of Healing', 'btnpotiongreensmall', 'phea', 'P', []),
     Ability.Create('Purchase Potion of Mana', 'btnpotionbluesmall', 'pman', 'M', []),
     Ability.Create('Purchase Scroll of Town Portal', 'btnscrolluber', 'stwp', 'T', [])
