@@ -7,7 +7,8 @@ import {
     buildingWithCancel,
     defaultAltar,
     defaultMainBuilding,
-    rally, shop
+    rally, shop,
+    tier2Items
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
 const buildings =
@@ -117,16 +118,22 @@ const buildings =
                 ...Ability.Defaults(1),
             ])),
         new Building('Arcane Vault', 'btnarcanevault',
-            shop([
-                Ability.Create('Purchase Scroll of Regeneration', 'btnscrollofregenerationgreen', 'sreg', 'R', []),
-                Ability.Create('Purchase Lesser Clarity Potion', 'btnlesserclaritypotion', 'plcl', 'C', []),
-                Ability.Create('Purchase Mechanical Critter', 'btnmechanicalcritter', 'mcri', 'E', []),
-                Ability.Default()],
+            shop(
                 [
+                    Ability.Create('Purchase Scroll of Regeneration', 'btnscrollofregenerationgreen', 'sreg', 'R', []),
+                    Ability.Create('Purchase Lesser Clarity Potion', 'btnlesserclaritypotion', 'plcl', 'C', []),
+                    Ability.Create('Purchase Mechanical Critter', 'btnmechanicalcritter', 'mcri', 'E', []),
+                    Ability.Default()
+                ],
+                [
+                    ...tier2Items,
                     Ability.Create('Purchase Ivory Tower', 'btnhumanwatchtower', 'tsct', 'V', []),
+                ],
+                [
                     Ability.Create('Purchase Orb of Fire', 'btnorboffire', 'ofr2', 'F', []),
                     Ability.Create('Purchase Staff of Sanctuary', 'btnstaffofsanctuary', 'ssan', 'N', []),
-                    Ability.Default()],
+                    Ability.Default()
+                ],
             )
         )
 

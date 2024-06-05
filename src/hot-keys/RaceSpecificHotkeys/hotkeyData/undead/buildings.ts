@@ -7,7 +7,8 @@ import {
     buildingWithCancel,
     defaultAltar,
     defaultMainBuilding,
-    rally, shop
+    rally, shop,
+    tier2Items
 } from "@/hot-keys/RaceSpecificHotkeys/hotkeyData/commonHotkeys";
 
 const buildings =
@@ -110,16 +111,22 @@ const buildings =
         ),
 
         new Building('Tomb of Relics', 'btntombofrelics',
-            shop([
-                Ability.Create('Purchase Rod of Necromancy', 'btnrodofnecromancy', 'rnec', 'R', []),
-                Ability.Create('Purchase Ritual Dagger', 'btnsacrificialdagger', 'ritd', 'A', []),
-                Ability.Create('Purchase Sacrificial Skull', 'btnsacrificialskull', 'skul', 'K', []),
-                Ability.Create('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', [])],
+            shop(
                 [
-                ...Ability.Defaults(1),
-                Ability.Create('Purchase Orb of Corruption', 'btnorbofcorruption', 'ocor', 'B', []),
-                Ability.Create('Purchase Scroll of Healing', 'btnscrolloftownportal', 'shea', 'H', []),
-                ...Ability.Defaults(1)],
+                    Ability.Create('Purchase Rod of Necromancy', 'btnrodofnecromancy', 'rnec', 'R', []),
+                    Ability.Create('Purchase Ritual Dagger', 'btnsacrificialdagger', 'ritd', 'A', []),
+                    Ability.Create('Purchase Sacrificial Skull', 'btnsacrificialskull', 'skul', 'K', []),
+                    Ability.Create('Purchase Dust of Appearance', 'btndustofappearance', 'dust', 'D', [])
+                ],
+                [
+                    ...tier2Items,
+                    Ability.Create("Purchase·Wand·of·Negation", "btnwandofneutralization", "wneg", "W", []),
+                ],
+                [
+                    Ability.Create('Purchase Orb of Corruption', 'btnorbofcorruption', 'ocor', 'B', []),
+                    Ability.Create('Purchase Scroll of Healing', 'btnscrolloftownportal', 'shea', 'H', []),
+                    ...Ability.Defaults(1)
+                ],
             )
         )
     ] as Unit[]
