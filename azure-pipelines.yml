@@ -33,6 +33,7 @@ jobs:
       CSC_KEY_PASSWORD: $(CSC_KEY_PASSWORD_MAC)
       CSC_LINK: w3c-certs-mac.p12
       APP_PW: $(APP_PW)
+      APPLE_TEAM_ID: $(APPLE_TEAM_ID)
       GH_TOKEN: $(GH_TOKEN)
 
 
