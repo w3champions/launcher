@@ -35,7 +35,6 @@
     "lodash": "^4.17.21",
     "node-addon-api": "3.1.0",
     "node-machine-id": "^1.1.12",
-    "pbkdf2": "3.0.3",
     "send-keys-native": "file:src/hot-keys/ItemHotkeys/send-keys-native",
     "sudo-prompt": "9.2.1",
     "vue": "2.6.12",
@@ -48,6 +47,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "7.12.7",
+    "@electron/notarize": "2.3.2",
     "@types/adm-zip": "0.4.33",
     "@types/electron-devtools-installer": "2.2.0",
     "@types/jest": "26.0.20",
@@ -68,8 +68,6 @@
     "electron": "11.2.0",
     "electron-builder": "23.0.2",
     "electron-devtools-installer": "3.1.1",
-    "@electron/notarize": "2.3.2",
-    "electron-rebuild": "2.3.4",
     "eslint": ">= 1.6.0 < 7.0.0",
     "eslint-plugin-vue": "7.4.1",
     "jest": "26.6.3",
@@ -87,6 +85,9 @@
   "overrides": {
     "vue-cli-plugin-electron-builder": {
       "electron-builder": "$electron-builder"
+    },
+    "parse-asn1": {
+      "pbkdf2": "3.0.3"
     }
   },
   "eslintConfig": {
