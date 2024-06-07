@@ -10,7 +10,7 @@ import { floStatsService } from "./flo-stats.service";
 import { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 
 const { remote } = window.require("electron");
-const path = require('path');
+import path from "path-browserify";
 const fs = window.require("fs");
 const { exec } = window.require("child_process");
 const { ipcRenderer } = window.require('electron')

@@ -55,7 +55,7 @@ export default class ColorPicker extends Vue {
 }
 </script>
 
-<style scoped type="text/css">
+<style scoped lang="scss">
 
 .color-picker {
   cursor: pointer;
@@ -95,126 +95,14 @@ export default class ColorPicker extends Vue {
   flex-direction: row;
 }
 
-/*from time to time i just hate this webpack fuck, if you read this, please make it nicer? =D*/
-.color-00 {
-  background: url('~@/assets/images/colorSelect/color-00.png') center no-repeat;
-  background-size: cover;
-}
+@function zerofill($i) { @return #{str-slice("00",0,2 - str-length(#{$i}))}#{$i}; }
 
-.color-01 {
-  background: url('~@/assets/images/colorSelect/color-01.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-02{
-  background: url('~@/assets/images/colorSelect/color-02.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-03{
-  background: url('~@/assets/images/colorSelect/color-03.png') center no-repeat;
-  background-size: cover;
-}
-
-
-.color-04{
-  background: url('~@/assets/images/colorSelect/color-04.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-05{
-  background: url('~@/assets/images/colorSelect/color-05.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-06{
-  background: url('~@/assets/images/colorSelect/color-06.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-07{
-  background: url('~@/assets/images/colorSelect/color-07.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-08{
-  background: url('~@/assets/images/colorSelect/color-08.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-09{
-  background: url('~@/assets/images/colorSelect/color-09.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-10{
-  background: url('~@/assets/images/colorSelect/color-10.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-11{
-  background: url('~@/assets/images/colorSelect/color-11.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-12{
-  background: url('~@/assets/images/colorSelect/color-12.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-13{
-  background: url('~@/assets/images/colorSelect/color-13.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-14{
-  background: url('~@/assets/images/colorSelect/color-14.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-15{
-  background: url('~@/assets/images/colorSelect/color-15.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-16{
-  background: url('~@/assets/images/colorSelect/color-16.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-17{
-  background: url('~@/assets/images/colorSelect/color-17.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-18{
-  background: url('~@/assets/images/colorSelect/color-18.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-19{
-  background: url('~@/assets/images/colorSelect/color-19.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-20{
-  background: url('~@/assets/images/colorSelect/color-20.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-21{
-  background: url('~@/assets/images/colorSelect/color-21.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-22{
-  background: url('~@/assets/images/colorSelect/color-22.png') center no-repeat;
-  background-size: cover;
-}
-
-.color-23{
-  background: url('~@/assets/images/colorSelect/color-23.png') center no-repeat;
-  background-size: cover;
+@for $i from 0 through 23 {
+  $i: zerofill($i);
+  .color-#{$i} {
+    background: url('~@/assets/images/colorSelect/color-#{$i}.png') center no-repeat;
+    background-size: cover;
+  }
 }
 
 .color-picker-border {

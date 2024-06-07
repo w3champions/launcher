@@ -74,7 +74,7 @@ const mod = {
       commit.SET_NEWS_LOADING(false)
     },
     async setTestMode(context: ActionContext<UpdateHandlingState, RootState>, mode: boolean) {
-      const { commit, rootGetters, dispatch, state } = moduleActionContext(context, mod);
+      const { commit, rootGetters, dispatch } = moduleActionContext(context, mod);
 
       rootGetters.versionService.switchToMode(mode);
       commit.SET_IS_TEST(mode);

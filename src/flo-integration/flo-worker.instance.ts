@@ -7,7 +7,7 @@ import { IFloAuthData, IFloNode, IFloNodeOverride, IFloWorkerInstanceSettings, I
 const { spawn } = window.require("child_process");
 const WebSocketClass = window.require("ws");
 const dns = window.require("dns");
-const { globalShortcut } = window.require("electron").remote;
+const { globalShortcut } = window.require("electron");
 
 type OnEventCallback = (event: IFloWorkerEvent) => void;
 
@@ -362,7 +362,7 @@ export class FloWorkerInstance {
     }
 
     private resolveIpFromDns(dnsAddress: string) {
-        const promise = new Promise<string>((res, rej) => {
+        const promise = new Promise<string>((res, ) => {
             dns.lookup(dnsAddress, (err: any, ipAddress: string) => {
                 res(ipAddress);
             });

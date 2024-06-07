@@ -1,3 +1,5 @@
+const { resolve } = require("path");
+
 module.exports = {
   pluginOptions: {
     electronBuilder: {
@@ -13,7 +15,6 @@ module.exports = {
         'fs-extra',
         'electron-log',
         'electron-updater',
-        'vue-markdown'
       ],
       builderOptions: {
         extraFiles: [
@@ -45,7 +46,7 @@ module.exports = {
           provider: "github",
           owner: "w3champions",
           repo: "w3champions-launcher"
-        }],
+        }]
       }
     }
   },
@@ -60,6 +61,20 @@ module.exports = {
 
       config.output.devtoolFallbackModuleFilenameTemplate =
           "webpack:///[resource-path]?[hash]";
+    }
+    config.resolve.fallback = {
+      "fs": require.resolve("fs-extra"),
+      "tls": require.resolve("tls"),
+      "net": require.resolve("net"),
+      "path": require.resolve("path-browserify"),
+      "zlib": require.resolve("browserify-zlib"),
+      "http": require.resolve("stream-http"),
+      "https": require.resolve("https-browserify"),
+      "stream": require.resolve("stream-browserify"),
+      "crypto": require.resolve("crypto-browserify"),
+      "crypto-browserify": require.resolve("crypto-browserify"),
+      "util": require.resolve("util/"),
+      "vm": require.resolve("vm-browserify"),
     }
   },
 }

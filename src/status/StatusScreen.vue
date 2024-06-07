@@ -67,10 +67,9 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
-import VueMarkdown from "vue-markdown";
 
 @Component({
-  components: {LoadingSpinner, VueMarkdown}
+  components: {LoadingSpinner}
 })
 export default class StatusScreen extends Vue {
   async mounted() {

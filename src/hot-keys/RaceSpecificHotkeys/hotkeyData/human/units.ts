@@ -1,6 +1,5 @@
 import {
     Ability,
-    Building,
     Unit,
 } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 import {

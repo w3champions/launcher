@@ -55,8 +55,6 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-app.allowRendererProcessReuse = false;
-
 app.on('will-quit', () => {
   try {
     globalShortcut.unregisterAll()
@@ -81,8 +79,9 @@ function createWindow() {
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
-      webSecurity: false
+      webSecurity: false,
+      contextIsolation: false,
+      enableRemoteModule: true
     }
   });
 
@@ -264,8 +263,9 @@ async function createFab() {
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
-      webSecurity: false
+      webSecurity: false,
+      contextIsolation: false,
+      enableRemoteModule: true
     }
   })
 
@@ -363,7 +363,9 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     show: false,
     webPreferences: {
       nodeIntegration: false,
-      webSecurity: false
+      webSecurity: false,
+      contextIsolation: false,
+      enableRemoteModule: true
     }
   });
 
@@ -373,7 +375,9 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     show: false,
     webPreferences: {
       nodeIntegration: false,
-      webSecurity: false
+      webSecurity: false,
+      contextIsolation: false,
+      enableRemoteModule: true
     }
   });
 
@@ -384,11 +388,18 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     logoutWindow = null;
     logger.info(`logged out`)
   } catch (e) {
-    logger.error(e)
+    if (e.errno === -3)
+      logger.info(`logged outyee`)
+    else
+      logger.error(e)
   }
 
+  try {
   await authWindow.loadURL(authUrl);
   authWindow.show();
+  } catch (e) {
+      logger.error(e)
+  }
 
   let token = '';
 

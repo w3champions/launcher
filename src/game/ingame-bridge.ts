@@ -2,7 +2,8 @@ import logger from "@/logger";
 import store from "@/globalState/vuex-store";
 
 const fs = window.require("fs");
-const { remote, ipcRenderer } = window.require("electron");
+const { ipcRenderer } = window.require("electron");
+const { remote } = window.require("electron");
 const http = window.require("http");
 const WebSocket = window.require("ws");
 import { EventEmitter } from 'events';

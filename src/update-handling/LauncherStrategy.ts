@@ -2,7 +2,8 @@ import type { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 import { AppStore } from "@/globalState/vuex-store";
 import logger from "@/logger";
 
-const { remote, ipcRenderer } = window.require("electron");
+const { ipcRenderer } = window.require("electron");
+const { remote } = window.require("electron");
 const fs = window.require("fs");
 const AdmZip = window.require('adm-zip');
 const arrayBufferToBuffer = window.require('arraybuffer-to-buffer');
@@ -148,7 +149,7 @@ export abstract class LauncherStrategy {
         title: string,
         message: string
     ) {
-        const folderResult = await remote.dialog.showMessageBox(null, {
+        const folderResult = await remote.dialog.showMessageBox({
             title: title,
             message: message,
             buttons: ["Locate Folder", "Cancel"],
@@ -310,7 +311,7 @@ export abstract class LauncherStrategy {
             "Battle.Net folder not found, please locate it manually"
         );
 
-        if (bnetPath === "defaultPath") {
+        if (!bnetPath || bnetPath === "defaultPath") {
             return "";
         }
 
@@ -397,7 +398,7 @@ export abstract class LauncherStrategy {
             w3path = `${w3path}/_retail_`;
         }
 
-        if (w3path === "defaultPath") {
+        if (!w3path || w3path === "defaultPath") {
             return "";
         }
 

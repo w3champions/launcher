@@ -9,7 +9,7 @@
       <div class="news-banner">
           <div class="news-message-box">
             <div class="news-content" v-if="isNewsHtml" v-html="selectedNewsMessage"></div>
-            <vue-markdown v-else :source="selectedNewsMessage" />
+            <div class="news-content" v-else v-html="compiledMarkdown()"></div>
           </div>
       </div>
     </div>
@@ -18,16 +18,20 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import VueMarkdown from "vue-markdown";
 import store from "@/globalState/vuex-store";
+import { Marked } from "marked";
 
 @Component({
-  components: {VueMarkdown}
+  
 })
 
 export default class NewsBanner extends Vue {
   public selectedNews = 0;
   private newsSlice = 6; // how many news to display
+  private marked = new Marked({ gfm: true });
+  compiledMarkdown() {
+    return this.marked.parse(this.selectedNewsMessage);
+  }
 
   get selectedNewsDate(){
     return this.news[this.selectedNews] ? this.news[this.selectedNews].date : ''
