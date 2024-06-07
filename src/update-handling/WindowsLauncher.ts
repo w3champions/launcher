@@ -21,10 +21,13 @@ export class WindowsLauncher extends LauncherStrategy {
     }
 
     getDefaultPathWc3(): string {
+        if (fs.existsSync("C:\\Program Files\\Warcraft III\\_retail_")) {
+            return "C:\\Program Files\\Warcraft III\\_retail_";
+        }
         if (fs.existsSync("C:\\Program Files (x86)\\Warcraft III\\_retail_")) {
             return "C:\\Program Files (x86)\\Warcraft III\\_retail_";
         }
-        return "C:\\Program Files (x86)\\Warcraft III";
+        return "C:\\Program Files\\Warcraft III";
     }
 
     getDefaultBnetPath(): string {
@@ -52,12 +55,17 @@ export class WindowsLauncher extends LauncherStrategy {
 
     getWar3PreferencesFile(): string {
         const documentPath = remote.app.getPath("documents");
-        return `${documentPath}\\Warcraft III\\War3Preferences.txt`;
+        
+        return this.isTest && this.isBlizzardPTR
+            ? `${documentPath}\\Warcraft III Public Test\\War3Preferences.txt`
+            : `${documentPath}\\Warcraft III\\War3Preferences.txt`;
     }
 
     getWar3HotkeyFile(): string {
         const documentPath = remote.app.getPath("documents");
-            return `${documentPath}\\Warcraft III\\CustomKeyBindings\\CustomKeys.txt`;
+        return this.isTest && this.isBlizzardPTR
+            ? `${documentPath}\\Warcraft III Public Test\\CustomKeyBindings\\CustomKeys.txt`
+            : `${documentPath}\\Warcraft III\\CustomKeyBindings\\CustomKeys.txt`;
     }
 
     startWc3Process(bnetPath: string): void {
@@ -71,7 +79,7 @@ export class WindowsLauncher extends LauncherStrategy {
     }
 
     getCopyCommand(from: string, to: string) {
-        return `Xcopy "${from}" "${to}" /E /I`
+        return `xcopy "${from}" "${to}" /E /I`
     }
 
     getDefaultBnetPathExecutable(): string {
@@ -115,7 +123,7 @@ export class WindowsLauncher extends LauncherStrategy {
         const appData = remote.app.getPath("appData") as string;
         if (appData) {
             const indexOfColon = appData.indexOf(':');
-            return appData.substr(0, indexOfColon);
+            return appData.substring(0, indexOfColon);
         }
 
         return "C";

@@ -8,7 +8,6 @@
     "serve": "vue-cli-service electron:serve --publish=never --dev",
     "buildAndPublish": "vue-cli-service electron:build --publish always",
     "build": "vue-cli-service electron:build --publish never",
-    "serve2": "electron .",
     "lint": "vue-cli-service lint",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
@@ -103,9 +102,7 @@
     "parse-asn1": {
       "pbkdf2": "3.0.3"
     },
-    "cache-loader": {
-      "webpack": "$webpack"
-    }
+    "webpack": "$webpack"
   },
   "eslintConfig": {
     "root": true,
