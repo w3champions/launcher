@@ -1,5 +1,5 @@
 import store from '../globalState/vuex-store'
-import {combiAsString} from "@/hot-keys/ItemHotkeys/utilsFunctions";
+import { comboAsString } from "@/hot-keys/ItemHotkeys/utilsFunctions";
 import {
     F1,
     F2,
@@ -12,7 +12,7 @@ import {
     ITEM_TOP_RIGHT
 } from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
 import logger from "@/logger";
-import {ClickCombination, HotKey, HotkeyButtonPosition, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
+import { ClickCombination, HotKey, HotkeyButtonPosition, ModifierKey } from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 const { globalShortcut } = window.require("electron").remote;
 const keyboard = window.require("send-keys-native/build/Release/send-keys-native")
@@ -100,9 +100,9 @@ export class ItemHotkeyRegistrationService {
 
     public removeToggleOnOff(combo: ClickCombination) {
         try {
-            globalShortcut.unregister(combiAsString(combo));
+            globalShortcut.unregister(comboAsString(combo));
         } catch (e) {
-            logger.error(`Failed to un-register combo: ${combiAsString(combo)}`);
+            logger.error(`Failed to un-register combo: ${comboAsString(combo)}`);
         }
     }
 
@@ -167,7 +167,7 @@ export class ItemHotkeyRegistrationService {
     }
 
     public unregister(combo: ClickCombination) {
-        const keyCode = combiAsString(combo);
+        const keyCode = comboAsString(combo);
         globalShortcut.unregister(keyCode)
     }
 
@@ -181,14 +181,14 @@ export class ItemHotkeyRegistrationService {
 
     private register(combo: ClickCombination, fkt: () => void) {
         try {
-            const keyCode = combiAsString(combo);
+            const keyCode = comboAsString(combo);
             if (globalShortcut.isRegistered(keyCode)) {
                 globalShortcut.unregister(keyCode)
             }
 
             globalShortcut.register(keyCode, fkt)
         } catch (e) {
-            logger.error(`Failed to register combo: ${combiAsString(combo)}`);
+            logger.error(`Failed to register combo: ${comboAsString(combo)}`);
         }
     }
 
@@ -197,7 +197,7 @@ export class ItemHotkeyRegistrationService {
         globalShortcut.unregister("escape");
         globalShortcut.unregister("f10");
         globalShortcut.unregister("f12");
-        hotKeys.forEach(h => globalShortcut.unregister(combiAsString(h.combo)));
+        hotKeys.forEach(h => globalShortcut.unregister(comboAsString(h.combo)));
     }
 
     public enableHotKeys(hotKeys: HotKey[]) {

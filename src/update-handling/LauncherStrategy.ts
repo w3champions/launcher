@@ -321,9 +321,9 @@ export abstract class LauncherStrategy {
     }
 
     public async hardSetBnetPath() {
-        const selectedPpath = await this.openSelectFolderDialog(this.bnetPath);
-        if (!selectedPpath) return;
-        this.store.commit.updateHandling.SET_BNET_PATH(selectedPpath);
+        const selectedPath = await this.openSelectFolderDialog(this.bnetPath);
+        if (!selectedPath) return;
+        this.store.commit.updateHandling.SET_BNET_PATH(selectedPath);
         const path = `${this.store.state.updateHandling.bnetPath}/${this.getDefaultBnetPathExecutable()}`;
         logger.info(`bnet path selected: ${path}`)
         if (!fs.existsSync(path)) {

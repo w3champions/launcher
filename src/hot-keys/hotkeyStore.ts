@@ -212,7 +212,7 @@ const mod = {
 
       rootGetters.itemHotkeyService.enableHotKeys(state.itemHotKeys);
     },
-    disbleHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
+    disableHotKeys(context: ActionContext<HotKeyModifierState, RootState>) {
       const { rootGetters, state  } = moduleActionContext(context, mod);
       ipcRenderer.send('manual-hotkey', false);
 

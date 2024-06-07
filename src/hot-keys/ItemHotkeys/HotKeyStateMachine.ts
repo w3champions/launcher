@@ -43,7 +43,7 @@ export abstract class HotKeyState {
 export class ChatState extends HotKeyState {
     constructor() {
         super();
-        store.dispatch.hotKeys.disbleHotKeys();
+        store.dispatch.hotKeys.disableHotKeys();
     }
 
     enterGame(): HotKeyState {
@@ -90,7 +90,7 @@ export class ChatState extends HotKeyState {
 export class ManualHotkeyMode extends HotKeyState {
     constructor() {
         super();
-        store.dispatch.hotKeys.disbleHotKeys();
+        store.dispatch.hotKeys.disableHotKeys();
     }
 
     public keysActivatedInManualMode = false;
@@ -150,7 +150,7 @@ class MenuState extends HotKeyState {
     }
     constructor() {
         super();
-        store.dispatch.hotKeys.disbleHotKeys();
+        store.dispatch.hotKeys.disableHotKeys();
     }
 
     enterGame(): HotKeyState {
@@ -193,7 +193,7 @@ class MenuState extends HotKeyState {
 class InChatLogState extends HotKeyState {
     constructor() {
         super();
-        store.dispatch.hotKeys.disbleHotKeys();
+        store.dispatch.hotKeys.disableHotKeys();
     }
 
     enterGame(): HotKeyState {
@@ -288,7 +288,7 @@ export class NotInGameState extends HotKeyState {
     constructor() {
         super();
         if (store) {
-            store.dispatch.hotKeys.disbleHotKeys();
+            store.dispatch.hotKeys.disableHotKeys();
         }
     }
 

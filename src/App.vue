@@ -4,9 +4,9 @@
       <HeadLine />
       <LoadingSpinner v-if="!selectedEndpoint" text="Selecting server..."/>
       <div v-if="selectedEndpoint && !isLoggedIn" >
-        <LoadingSpinner v-if="regionChoosen" text="Logging in..."/>
+        <LoadingSpinner v-if="regionChosen" text="Logging in..."/>
         <LoadingSpinner v-else text="Choose the region of your battle net account (this does not affect where you are actually playing)"/>
-        <div class="gw-selection-wrapper" v-if="!regionChoosen">
+        <div class="gw-selection-wrapper" v-if="!regionChosen">
           <div style="display: flex; flex-direction: row; cursor: pointer" @click="() => loginAt(loginGWs.eu)">
             <div class="gw-selection gw-select-eu"/>
             <div style="font-size: 40px; line-height: 60px; padding-left: 10px; padding-right: 10px"> / </div>
@@ -93,7 +93,7 @@ export default class App extends Vue {
     })
   }
 
-  get regionChoosen() {
+  get regionChosen() {
     return this.$store.direct.state.selectedLoginGateway !== LoginGW.none;
   }
 

@@ -65,13 +65,13 @@ export class IngameBridge extends EventEmitter {
     private wss = new WebSocket.Server({ server: this.server });
     private launcherVersion = '0.0.0';
     private diagnosticsData?: string;
-    private inited = false;
+    private initialized = false;
 
     public initialize() {
-        if (this.inited) {
+        if (this.initialized) {
             return
         }
-        this.inited = true;
+        this.initialized = true;
 
         this.launcherVersion = remote.app.getVersion();
 
@@ -245,10 +245,10 @@ export class IngameBridge extends EventEmitter {
         playerInstance.sendMessage(message);
     }
 
-    public sendNetworkTestProgress(playerInstance: IPlayerInstance, progressPerc: number) {
+    public sendNetworkTestProgress(playerInstance: IPlayerInstance, progressPercent: number) {
         const message: ILauncherGameMessage = {
             type: ELauncherMessageType.FLO_NETWORK_TEST_PROGRESS,
-            data: progressPerc
+            data: progressPercent
         };
 
         playerInstance.sendMessage(message);

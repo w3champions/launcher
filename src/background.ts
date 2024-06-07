@@ -214,7 +214,7 @@ if (!gotTheLock) {
       // Install Vue Devtools
       try {
         await installExtension(VUEJS_DEVTOOLS)
-      } catch (e) {
+      } catch (e: any) {
         logger.error('Vue Devtools failed to install:', e.toString())
       }
     }
@@ -388,9 +388,6 @@ ipcMain.on('oauth-requested', async (ev: IpcMainEvent, args) => {
     logoutWindow = null;
     logger.info(`logged out`)
   } catch (e) {
-    if (e.errno === -3)
-      logger.info(`logged outyee`)
-    else
       logger.error(e)
   }
 

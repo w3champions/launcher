@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import {
   F1,
   F2,
@@ -91,8 +91,8 @@ import {
   ITEM_TOP_LEFT,
   ITEM_TOP_RIGHT
 } from "@/hot-keys/ItemHotkeys/keyValuesHotKeys";
-import {combiAsStringForDisplay} from "@/hot-keys/ItemHotkeys/utilsFunctions";
-import {KeyDto, ModifierKey} from "@/hot-keys/ItemHotkeys/hotkeyState";
+import { comboAsStringForDisplay } from "@/hot-keys/ItemHotkeys/utilsFunctions";
+import { KeyDto, ModifierKey } from "@/hot-keys/ItemHotkeys/hotkeyState";
 
 @Component
 export default class ItemHotkeyTab extends Vue {
@@ -145,7 +145,7 @@ export default class ItemHotkeyTab extends Vue {
   }
 
   get hotKeyCombo() {
-    const forDisplay = combiAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit});
+    const forDisplay = comboAsStringForDisplay({hotKey: this.hotkeyToEdit, modifier: this.hotkeyModifierToEdit});
     return forDisplay === "" ? "none" : forDisplay;
   }
 
@@ -277,15 +277,15 @@ export default class ItemHotkeyTab extends Vue {
   }
 
   get hotkeyToggle() {
-    return combiAsStringForDisplay(this.$store.direct.state.hotKeys.toggleButton).replace("CommandOrControl", "Ctrl");
+    return comboAsStringForDisplay(this.$store.direct.state.hotKeys.toggleButton).replace("CommandOrControl", "Ctrl");
   }
 
-  private getKeyComboOf(itemKey: string) {
+  getKeyComboOf(itemKey: string) {
     const hotKeys = this.$store.direct.state.hotKeys.itemHotKeys;
     if (!hotKeys) return "none"
     const combo = hotKeys?.filter(h => h.key === itemKey)[0];
     if (!combo) return "none"
-    return combiAsStringForDisplay(combo?.combo).replace("CommandOrControl", "Ctrl").replace("Space", "Spc");
+    return comboAsStringForDisplay(combo?.combo).replace("CommandOrControl", "Ctrl").replace("Space", "Spc");
   }
 }
 
