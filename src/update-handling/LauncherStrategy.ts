@@ -344,10 +344,10 @@ export abstract class LauncherStrategy {
         } else {
             this.store.commit.updateHandling.W3_PATH_IS_INVALID(false);
 
-            if (fs.existsSync(`${this.w3Path}/_retail_`)) {
-                this.store.dispatch.updateHandling.saveW3Path(`${path}/_retail_`)
-            } else {
+            if (!fs.existsSync(`${this.w3Path}/_retail_`) && fs.existsSync(`${this.w3Path}/x86_64`)) {
                 this.store.dispatch.updateHandling.saveW3Path(path)
+            } else {
+                this.store.dispatch.updateHandling.saveW3Path(`${path}/_retail_`)
             }
         }
 

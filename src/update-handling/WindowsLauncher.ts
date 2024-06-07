@@ -105,7 +105,7 @@ export class WindowsLauncher extends LauncherStrategy {
 
         const wc3NoRetail = this.getPathFromAgentLogs(/"([^'"]*:[^"']*Warcraft III.exe)"/);
         if (wc3NoRetail) {
-            return wc3NoRetail.replace('\\Warcraft III.exe', '');
+            return wc3NoRetail.replace('\\x86_64\\Warcraft III.exe', '');
         }
 
         return '';
