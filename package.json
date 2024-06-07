@@ -22,7 +22,6 @@
     "@types/node": "18.11.9",
     "adm-zip": "0.5.1",
     "arraybuffer-to-buffer": "0.0.7",
-    "axios": "^0.21.4",
     "bindings": "1.5.0",
     "core-js": "^3.37.1",
     "crypto-browserify": ">=0.0.0",
@@ -101,7 +100,8 @@
     "parse-asn1": {
       "pbkdf2": "3.0.3"
     },
-    "webpack": "$webpack"
+    "webpack": "$webpack",
+    "@achrinza/node-ipc": ">=10.1.11"
   },
   "eslintConfig": {
     "root": true,

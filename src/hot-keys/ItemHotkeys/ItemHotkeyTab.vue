@@ -64,12 +64,12 @@
           <div class="text-spacer">turn on hotkeys manually</div>
         </div>
         <div class="just-a-row">
-          <div :class="isShowHotkeyIndicator ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleShowHotkeyIndicator" />
+          <div :class="isShowHotkeyIndicator ? 'manual-mode-on' : 'manual-mode-off'" @click="toggleShowHotkeyIndicator"></div>
           <div class="text-spacer">show hotkey indicator</div>
         </div>
 
         <div class="just-a-row">
-          <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'" />
+          <div class="hotkey-toggle" @click="toggleHotKeys" :class="hotkeyState ? 'hotkeys-active' : 'hotkeys-inactive'"></div>
           <div class="text-spacer">Inventory hotkeys are {{hotkeyState ? 'ON' : 'OFF'}}</div>
         </div>
       </div>
