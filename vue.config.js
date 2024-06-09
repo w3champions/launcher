@@ -1,6 +1,6 @@
-const { resolve } = require("path");
+const { defineConfig } = require('@vue/cli-service')
 
-module.exports = {
+module.exports = defineConfig({
   pluginOptions: {
     electronBuilder: {
       externals: [
@@ -63,7 +63,6 @@ module.exports = {
     }
     config.resolve.fallback = {
       "fs": require.resolve("fs-extra"),
-      "tls": require.resolve("tls"),
       "net": require.resolve("net"),
       "path": require.resolve("path-browserify"),
       "zlib": require.resolve("browserify-zlib"),
@@ -76,4 +75,4 @@ module.exports = {
       "vm": require.resolve("vm-browserify"),
     }
   },
-}
+});
