@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app-container">
-    <template>
+    <!-- <template> // not ok in Vue3! -->
       <HeadLine />
       <LoadingSpinner v-if="!selectedEndpoint" text="Selecting server..."/>
       <div v-if="selectedEndpoint && !isLoggedIn" >
@@ -22,7 +22,7 @@
         </div>
       </div>
       <div id='close-button' class="close-button" @click="closeApp" />
-    </template>
+    <!-- </template> -->
   </div>
 </template>
 

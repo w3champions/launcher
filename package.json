@@ -20,7 +20,6 @@
   "main": "background.js",
   "dependencies": {
     "@types/node": "18.11.9",
-    "@vue/compat": "^3.2.13",
     "adm-zip": "0.5.1",
     "arraybuffer-to-buffer": "0.0.7",
     "bindings": "1.5.0",
