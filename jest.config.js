@@ -1,5 +1,5 @@
 module.exports = {
-  preset: 'ts-jest',
+  preset: '@vue/cli-plugin-unit-jest/presets/typescript',
   testEnvironment: 'jsdom',
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
@@ -11,8 +11,10 @@ module.exports = {
     "vue"
   ],
   transform: {
-    ".*\\.(vue)$": "vue-jest"
+    ".*\\.(vue)$": "@vue/vue3-jest",
+    "^.+\\.(ts)$": "ts-jest",
+
   },
   collectCoverage: true,
-  collectCoverageFrom: ["**/*.{js,vue}", "!**/node_modules/**"]
+  collectCoverageFrom: ["**/*.{ts,vue}", "!**/node_modules/**"]
 };

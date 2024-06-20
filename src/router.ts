@@ -6,7 +6,7 @@ import StatusScreen from "@/status/StatusScreen.vue";
 import { createRouter } from "vue-router";
 import { createMemoryHistory } from "vue-router";
 
-const routes = [
+const routes: any[] = [ // any[] for jest... I don't like this
     {
         path: "/",
         name: "Home",

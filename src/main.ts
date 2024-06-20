@@ -9,7 +9,7 @@ import { createApp } from 'vue';
 
 const { ipcRenderer } = window.require('electron');
 
-const app = createApp(App);
+const app = createApp(App as any); // for jest... I don't like this
 app.use(router);
 app.use(store.original);
 app.mount('#app')
