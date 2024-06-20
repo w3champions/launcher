@@ -1,5 +1,5 @@
-import Vue from "vue";
-import Vuex, {ActionContext} from "vuex";
+
+import {ActionContext} from "vuex";
 import {createDirectStore} from "direct-vuex";
 import {LoginGW, News, RootState, W3cToken} from "@/globalState/rootTypings";
 
@@ -21,7 +21,7 @@ import type { IEndpoint } from "@/background-thread/endpoint/endpoint.service";
 
 const { ipcRenderer } = window.require("electron");
 
-Vue.use(Vuex);
+// Vue.use(Vuex);
 const services = {
   updateService: new UpdateService(),
   versionService: new VersionService(),
@@ -271,6 +271,7 @@ export { rootActionContext, moduleActionContext };
 export type AppStore = typeof store;
 
 declare module "vuex" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Store<S> {
     direct: AppStore;
   }

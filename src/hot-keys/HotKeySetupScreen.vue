@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-facing-decorator";
 
 import logger from "@/logger";
 import RaceSpecificHotkeyTab from "@/hot-keys/RaceSpecificHotkeys/RaceSpecificHotkeyTab.vue";
@@ -68,7 +68,7 @@ export default class HotKeySetupScreen extends Vue {
     const path = `/HotKeys/${tab}`;
     this.$router.push({
       path: path
-    }).catch(err => {
+    }).catch((err: any) => {
       if (
           err.name !== 'NavigationDuplicated' &&
           !err.message.includes('Avoided redundant navigation to current location')

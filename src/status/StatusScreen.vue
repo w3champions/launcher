@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Vue} from "vue-facing-decorator";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 
 @Component({
@@ -80,7 +80,7 @@ export default class StatusScreen extends Vue {
   }
 
   get usedSlots() {
-    const slots = (this.floStatus?.game?.slots ?? []).filter(v => v.settings.status === 'Occupied')
+    const slots = (this.floStatus?.game?.slots ?? []).filter((v: any) => v.settings.status === 'Occupied')
     return slots
   }
 }

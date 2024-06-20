@@ -104,6 +104,7 @@ export abstract class LauncherStrategy {
         return this.onlineW3cVersion !== '' && this.localW3cVersion !== this.onlineW3cVersion;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     private rewriteStaticUpdateFileUrl(base: string, fileName: string, _isTest: boolean) {
         let url
         if (fileName === 'maps') {

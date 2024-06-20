@@ -70,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Vue} from "vue-facing-decorator";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
 import ColorPicker from "@/color-picker/ColorPicker.vue";
 import store from "@/globalState/vuex-store";

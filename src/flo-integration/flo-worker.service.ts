@@ -50,7 +50,7 @@ export class FloWorkerService {
             workerInstance?.reconnect(pi, data);
         });
 
-        ingameBridge.on(ELauncherMessageType.DISCONNECTED, (playerInstnace: IPlayerInstance) => {
+        ingameBridge.on(ELauncherMessageType.DISCONNECTED, () => {
         });
 
         ingameBridge.on(ELauncherMessageType.FLO_CHECK_BONJOUR, async (event: IIngameBridgeEvent) => {
@@ -79,7 +79,7 @@ export class FloWorkerService {
         });
 
         ingameBridge.on(ELauncherMessageType.FLO_NETWORK_TEST_REQUEST, (event: IIngameBridgeEvent) => {
-            ipcRenderer.once('flo-network-test-start', (wht: any) => {
+            ipcRenderer.once('flo-network-test-start', () => {
                 ingameBridge.sendNetworkTestStart(event.playerInstance);
             });
 
@@ -159,7 +159,7 @@ export class FloWorkerService {
             if (cmd === '' || proc === '') {
                 resolve(false)
             }
-            exec(cmd, function (err: any, stdout: any, stderr: any) {
+            exec(cmd, function (err: any, stdout: any) {
                 if (err) {
                     reject(err);
                     return;

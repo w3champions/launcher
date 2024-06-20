@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-facing-decorator";
 import {
   F1,
   F2,
@@ -169,7 +169,7 @@ export default class ItemHotkeyTab extends Vue {
     this.closeModal();
     this.selectedHotKey = hotKey;
     this.modal = true;
-    const currentSelection = this.hotKeys.find(h => h.key === hotKey);
+    const currentSelection = this.hotKeys.find((h: any) => h.key === hotKey);
     if (currentSelection) {
       this.hotkeyToEdit = { key: currentSelection.combo.hotKey.key, uiDisplay: currentSelection.combo.hotKey.uiDisplay };
       this.hotkeyModifierToEdit = currentSelection.combo.modifier;
@@ -283,7 +283,7 @@ export default class ItemHotkeyTab extends Vue {
   getKeyComboOf(itemKey: string) {
     const hotKeys = this.$store.direct.state.hotKeys.itemHotKeys;
     if (!hotKeys) return "none"
-    const combo = hotKeys?.filter(h => h.key === itemKey)[0];
+    const combo = hotKeys?.filter((h: any) => h.key === itemKey)[0];
     if (!combo) return "none"
     return comboAsStringForDisplay(combo?.combo).replace("CommandOrControl", "Ctrl").replace("Space", "Spc");
   }

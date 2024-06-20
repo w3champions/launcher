@@ -1,11 +1,10 @@
-import Vue from "vue";
-import VueRouter, {Route} from "vue-router";
+
 import UpdateSettingsScreen from "@/update-handling/UpdateSettingsScreen.vue";
 import HotKeySetupScreen from "@/hot-keys/HotKeySetupScreen.vue";
 import HomeScreen from "@/home/HomeScreen.vue";
 import StatusScreen from "@/status/StatusScreen.vue";
-
-Vue.use(VueRouter);
+import { createRouter } from "vue-router";
+import { createMemoryHistory } from "vue-router";
 
 const routes = [
     {
@@ -17,7 +16,7 @@ const routes = [
         path: "/HotKeys/:tab",
         name: "HotKeys",
         component: HotKeySetupScreen,
-        props: (route: Route) => {
+        props: (route: any) => {
             return {
                 tab: parseInt(route.params.tab)
             }
@@ -35,8 +34,8 @@ const routes = [
     }
 ];
 
-const router = new VueRouter({
-    mode: "history",
+const router = createRouter({
+    history: createMemoryHistory(),
     routes,
 });
 

@@ -1,4 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
+const webpack = require('webpack')
 
 module.exports = defineConfig({
   pluginOptions: {
@@ -61,6 +62,12 @@ module.exports = defineConfig({
       config.output.devtoolFallbackModuleFilenameTemplate =
           "webpack:///[resource-path]?[hash]";
     }
+    config.plugins = [
+      ...config.plugins,
+      new webpack.DefinePlugin({
+        '__VUE_PROD_HYDRATION_MISMATCH_DETAILS__': JSON.stringify(false),  
+      }),
+    ],
     config.resolve.fallback = {
       "fs": require.resolve("fs-extra"),
       "net": require.resolve("net"),
@@ -75,4 +82,21 @@ module.exports = defineConfig({
       "vm": require.resolve("vm-browserify"),
     }
   },
+  chainWebpack: (config) => {
+    config.resolve.alias.set('vue', '@vue/compat')
+
+    config.module
+      .rule('vue')
+      .use('vue-loader')
+      .tap((options) => {
+        return {
+          ...options,
+          compilerOptions: {
+            compatConfig: {
+              MODE: 2
+            }
+          }
+        }
+      })
+  }
 });

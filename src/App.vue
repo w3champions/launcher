@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Vue} from "vue-facing-decorator";
 import HeadLine from "@/home/HeadLine.vue";
 import logger from "@/logger";
 import LoadingSpinner from "@/home/LoadingSpinner.vue";
@@ -59,7 +59,7 @@ export default class App extends Vue {
 
     ipcRenderer.invoke('w3c-select-endpoint', store.state.isTest);
     ipcRenderer.on('w3c-endpoint-selected', () => {
-      Vue.nextTick(async () => {
+      this.$nextTick(async () => {
         const state = this.$store.direct.state
         if (state.selectedEndpoint) {
 

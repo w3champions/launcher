@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-facing-decorator";
 import logger from "@/logger";
 import ButtonWarcraft from "@/home/ButtonWarcraft.vue";
 
@@ -17,7 +17,7 @@ export default class HeadItem extends Vue {
   public goToTarget() {
     this.$router.push({
       path: this.target
-    }).catch(err => {
+    }).catch((err: any) => {
       if (
           err.name !== 'NavigationDuplicated' &&
           !err.message.includes('Avoided redundant navigation to current location')

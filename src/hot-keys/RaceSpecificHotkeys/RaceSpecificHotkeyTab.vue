@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue, Watch} from "vue-property-decorator";
+import {Component, Prop, Vue, Watch} from "vue-facing-decorator";
 // eslint-disable-next-line no-unused-vars
 import {Ability, Building, Grid, Hero, Unit, W3cIcon} from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 // eslint-disable-next-line no-unused-vars
@@ -158,16 +158,16 @@ export default class RaceSpecificHotkeyTab extends Vue {
 
   get heroes() {
     const compareValue = this.isNeutralUnitTab ? Building.name : Hero.name;
-    return this.fillUp(this.hotKeys.units.filter(u => u.type === compareValue), 4, Unit.Default);
+    return this.fillUp(this.hotKeys.units.filter((u: any) => u.type === compareValue), 4, Unit.Default);
   }
 
   get buildings() {
     const compareValue = this.isNeutralUnitTab ? Hero.name : Building.name;
-    return this.splitInArrayOf4Units(this.hotKeys.units.filter(u => u.type === compareValue) ?? []);
+    return this.splitInArrayOf4Units(this.hotKeys.units.filter((u: any) => u.type === compareValue) ?? []);
   }
 
   get units() {
-    return this.splitInArrayOf4Units(this.hotKeys.units.filter(u => u.type === Unit.name) ?? []);
+    return this.splitInArrayOf4Units(this.hotKeys.units.filter((u: any) => u.type === Unit.name) ?? []);
   }
 
   get selectedUnitName() {
@@ -246,7 +246,7 @@ export default class RaceSpecificHotkeyTab extends Vue {
   }
 
   get hotKeys() {
-    return this.$store.direct.state.hotKeys.raceHotkeyData.filter(h => h.hotkeyType === this.race)[0];
+    return this.$store.direct.state.hotKeys.raceHotkeyData.filter((h: any) => h.hotkeyType === this.race)[0];
   }
 
   public setRaceHotkeyInState() {
