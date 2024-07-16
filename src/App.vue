@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="content-modal-wrapper">
-        <div class="static-bg" />
+        <div class="static-bg" ></div>
         <div class="content-modal">
           <router-view />
         </div>

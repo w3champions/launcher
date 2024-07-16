@@ -2,6 +2,7 @@ const { defineConfig } = require('@vue/cli-service')
 const webpack = require('webpack')
 
 module.exports = defineConfig({
+  publicPath: "/",
   pluginOptions: {
     electronBuilder: {
       externals: [
@@ -51,6 +52,14 @@ module.exports = defineConfig({
     }
   },
   configureWebpack: (config) => {
+    config.module.rules = [...config.module.rules, {
+      test: /\.(png|jpg|gif|svg|xcf|otf)$/i,
+      loader: 'url-loader',
+      options: {
+        esModule: false,
+      },
+      type: 'javascript/auto'
+    }]
     if (process.env.NODE_ENV === "development") {
       config.devtool = "eval-source-map";
       config.output.devtoolModuleFilenameTemplate = (info) =>

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import dgram from 'dgram';
-import { IFloNetworkTest, IFloNetworkTestRequest, IFloNodeNetworkInfo } from '@/types/flo-types';
+import { IFloNetworkTest, IFloNetworkTestRequest } from '@/types/flo-types';
 import { FloNodeNetworkInfoWrapper } from './flo-node-network-wrapper';
 import { ENodeNetworkTesterEvents } from './node-network-tester';
 import { BrowserWindow, ipcMain, IpcMainEvent } from 'electron';
