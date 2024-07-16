@@ -83,7 +83,7 @@
     "eslint": "^8.47.0",
     "isbinaryfile": "4.0.10",
     "jest": "^27.0.0",
-    "node-gyp": "^10.0.1",
+    "node-gyp": "9.4.1",
     "parse-asn1": "^5.1.7",
     "sass": "1.32.4",
     "sass-loader": "10.1.1",
