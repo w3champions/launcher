@@ -104,7 +104,8 @@
       "pbkdf2": "3.0.3"
     },
     "webpack": "$webpack",
-    "@achrinza/node-ipc": ">=10.1.11"
+    "@achrinza/node-ipc": ">=10.1.11",
+    "node-gyp": "$node-gyp"
   },
   "eslintConfig": {
     "root": true,
