@@ -27,21 +27,37 @@ const mod = {
     switchOwnColor(context: ActionContext<UpdateHandlingState, ColorPickState>, newColor: string) {
       const { commit, rootGetters, rootState } = moduleActionContext(context, mod);
 
-      rootGetters.fileService.switchColor("01", newColor, rootState.updateHandling.w3Path);
+      if (rootState.updateHandling.isBlizzardPTRKey) {
+        rootGetters.fileService.switchColor("01", newColor, rootState.updateHandling.w3Path.replace("_retail_", "_ptr_"));
+      }
+      else {
+        rootGetters.fileService.switchColor("01", newColor, rootState.updateHandling.w3Path);
+      }
+
       rootGetters.fileService.saveColor("01", newColor);
       commit.SET_OWN_COLOR(newColor);
     },
     switchAlliesColor(context: ActionContext<UpdateHandlingState, ColorPickState>, newColor: string) {
       const { commit, rootGetters, rootState } = moduleActionContext(context, mod);
 
-      rootGetters.fileService.switchColor("02", newColor, rootState.updateHandling.w3Path);
+      if (rootState.updateHandling.isBlizzardPTRKey) {
+        rootGetters.fileService.switchColor("02", newColor, rootState.updateHandling.w3Path.replace("_retail_", "_ptr_"));
+      }
+      else {
+        rootGetters.fileService.switchColor("02", newColor, rootState.updateHandling.w3Path);
+      }
       rootGetters.fileService.saveColor("02", newColor);
       commit.SET_ALLIES_COLOR(newColor);
     },
     switchEnemyColor(context: ActionContext<UpdateHandlingState, ColorPickState>, newColor: string) {
       const { commit, rootGetters, rootState } = moduleActionContext(context, mod);
 
-      rootGetters.fileService.switchColor("00", newColor, rootState.updateHandling.w3Path);
+      if (rootState.updateHandling.isBlizzardPTRKey) {
+        rootGetters.fileService.switchColor("00", newColor, rootState.updateHandling.w3Path.replace("_retail_", "_ptr_"));
+      }
+      else {
+        rootGetters.fileService.switchColor("00", newColor, rootState.updateHandling.w3Path);
+      }
       rootGetters.fileService.saveColor("00", newColor);
       commit.SET_ENEMY_COLOR(newColor);
     },

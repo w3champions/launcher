@@ -28,7 +28,8 @@ module.exports = defineConfig({
             to: './resources/app.asar.unpacked/flo-worker',
           }
         ],
-        afterSign: "notarize.js",
+        // TODO: Revert this when we can sign again
+        // afterSign: "notarize.js",
         mac: {
           hardenedRuntime : true,
           gatekeeperAssess: false,

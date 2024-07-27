@@ -221,7 +221,7 @@ export abstract class LauncherStrategy {
     }
 
     get isBlizzardPTR() {
-        return this.store.getters.updateService.loadBlizzardPTREnabled();
+        return this.store.state.updateHandling.isBlizzardPTRKey;
     }
 
     get isTest() {
