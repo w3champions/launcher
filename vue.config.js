@@ -54,7 +54,7 @@ module.exports = defineConfig({
   },
   configureWebpack: (config) => {
     config.module.rules = [...config.module.rules, {
-      test: /\.(png|jpg|gif|svg|xcf|otf)$/i,
+      test: /\.(png|jpg|gif|svg|xcf|otf|webm)$/i,
       loader: 'url-loader',
       options: {
         esModule: false,

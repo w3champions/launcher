@@ -16,6 +16,9 @@
         </div>
       </div>
       <div class="content-modal-wrapper">
+        <video autoplay muted loop class="fullscreen-bg__video">
+          <source src="~@/assets/images/home/Animated_Background-webm.webm" type="video/webm">
+        </video>
         <div class="static-bg" ></div>
         <div class="content-modal">
           <router-view />
@@ -207,12 +210,11 @@ a {
   position: fixed;
   top: 50%;
   left: 50%;
-  min-width: 100%;
-  min-height: 100%;
   z-index: -100;
   transform: translateX(-50%) translateY(-50%);
-  width: 100%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
+  object-fit: fill;
 }
 
 .static-bg {
