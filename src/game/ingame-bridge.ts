@@ -85,11 +85,8 @@ export class IngameBridge extends EventEmitter {
             const authenticationService = new AuthenticationService();
             const token = authenticationService.loadAuthToken();
 
-            if (this.checkForInvalidState())
-            {
-                this.reportAndFixInvalidState(ws);
-                return;
-            }
+            this.checkForAndFixInvalidState(ws);
+
             let userInfo: W3cToken | null = null;
             if (OAUTH_ENABLED) {
                 userInfo = authenticationService.getUserInfo(token?.jwt ?? '');
@@ -302,22 +299,63 @@ export class IngameBridge extends EventEmitter {
 
         return pi;
     }
-    
-    private checkForInvalidState() {
-        return fs.existsSync(`${store.getters.fileService.updateStrategy.w3Path}/Units/UnitData.slk`);
-    }
 
-    private reportAndFixInvalidState(ws: WebSocket) {
-        const w3path = store.getters.fileService.updateStrategy.w3Path;
-        const file = "Units/UnitData.slk";
-        ws.send(JSON.stringify({
-            type: ELauncherMessageType.INVALID_STATE,
-            data: file
-        }));
-        logger.info(`detected modified slk: ${w3path}/${file}`);
-        fs.unlinkSync(`${w3path}/${file}`);
-        ws.send(JSON.stringify({ type: ELauncherMessageType.DISCONNECTED }));
-        ws.close();
+    private invalidRootFiles = [
+        "war3mapSkin.w3a",
+        "war3mapSkin.w3b",
+        "war3mapSkin.w3d",
+        "war3mapSkin.w3h",
+        "war3mapSkin.w3q",
+        "war3mapSkin.w3t",
+        "war3mapSkin.w3u",
+    ];
+
+    private invalidUnitsFiles = [
+        "UnitData.slk",
+    ];
+
+    private checkForAndFixInvalidState(ws: WebSocket) {
+
+        let w3path = store.getters.fileService.updateStrategy.w3Path;
+        if (store.state.updateHandling.isBlizzardPTRKey) {
+            w3path = w3path.replace("_retail_", "_ptr_");
+        }
+        
+        const rootFiles: string[] = fs.readdirSync(w3path);
+        const invalidRootFiles = this.invalidRootFiles.filter(file => rootFiles.find(f => f.toLowerCase() === file.toLowerCase()));
+        
+        for (const file of invalidRootFiles) {
+            fs.unlinkSync(`${w3path}/${file}`);
+        }
+
+        const unitsFolder = rootFiles.find(f => f.toLowerCase() === "units");
+        if (!unitsFolder) {
+            if (invalidRootFiles.length > 0) {
+                ws.send(JSON.stringify({
+                    type: ELauncherMessageType.INVALID_STATE,
+                    data: invalidRootFiles
+                }));
+            }
+            return invalidRootFiles.length > 0;
+        }
+
+        const unitsFiles: string[] = fs.readdirSync(`${w3path}/${unitsFolder}`);
+        const invalidUnitsFiles = this.invalidUnitsFiles.filter(file => unitsFiles.find(f => f.toLowerCase() === file.toLowerCase()));
+
+        for (const file of invalidUnitsFiles) {
+            fs.unlinkSync(`${w3path}/${unitsFolder}/${file}`);
+        }
+
+        const invalidFiles = invalidRootFiles.concat(invalidUnitsFiles);
+
+        if (invalidRootFiles.length > 0 || invalidUnitsFiles.length > 0) {
+            ws.send(JSON.stringify({
+                type: ELauncherMessageType.INVALID_STATE,
+                data: invalidFiles
+            }));
+        }
+
+        return invalidFiles.length > 0;
     }
 }
 

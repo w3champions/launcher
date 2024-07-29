@@ -444,12 +444,6 @@ export abstract class LauncherStrategy {
 
     private makeSureJoinBugFilesAreGone() {
         try {
-
-            if (fs.existsSync(`${this.w3Path}/Units/UnitData.slk`)) {
-                logger.info(`deleted modified slk: ${this.w3Path}/Units/UnitData.slk`)
-                fs.unlinkSync(`${this.w3Path}/Units/UnitData.slk`, (e: Error) => { logger.error(e) })
-            }
-
             if (fs.existsSync(`${this.w3Path}/Maps/W3Champions`)) {
                 logger.info(`delete maps in ${this.w3Path}/Maps/W3Champions`)
                 fs.rmdirSync(`${this.w3Path}/Maps/W3Champions`, { recursive: true }, (e: Error) => { logger.error(e) })
