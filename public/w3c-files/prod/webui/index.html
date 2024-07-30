@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Warcraft 3 UI</title>
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, minimal-ui" />
+        <script>
+            window.__DEBUG = new Boolean('').valueOf();
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <div id="portal"></div>
+		
+		<script>
+			var logCalls = [];
+			var w3cClientVersion = 1;
+			console.origLog = console.log;
+			console.log = (...args) => {
+				logCalls.push(...args);
+				console.origLog("log");
+				console.origLog(...args);
+			}
+
+		</script>
+        <script src="GlueManager.js"></script>
+		<script src="https://w3champions.wc3.tools/prod/integration/w3champions.js"></script>
+    </body>
+</html>

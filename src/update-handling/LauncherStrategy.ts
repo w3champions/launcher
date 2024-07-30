@@ -193,11 +193,6 @@ export abstract class LauncherStrategy {
         this.store.commit.updateHandling.START_DLS();
         await this.downloadWebui();
 
-        // never download live webui to PTR
-        if(this.isBlizzardPTR && this.isTest){
-            await this.downloadWebuiToPTR();
-        }
-        
         await this.store.dispatch.updateHandling.loadOnlineW3CVersion();
         this.store.dispatch.updateHandling.saveLocalW3CVersion(this.onlineW3cVersion);
         logger.info(`switched to test/live with w3c version: ${this.localW3cVersion}`)
@@ -205,11 +200,10 @@ export abstract class LauncherStrategy {
     }
 
     private async downloadWebui() {
-        await this.downloadAndWriteFile("webui", this.w3Path);
-    }
-
-    private async downloadWebuiToPTR() {
-        await this.downloadAndWriteFile("webui", this.w3Path.replace('retail', 'ptr'));
+        //await this.downloadAndWriteFile("webui", (this.isTest && this.isBlizzardPTR) ? this.w3Path.replace('_retail_', '_ptr_') : this.w3Path);
+        this.store.getters.fileService.copyW3ChampionsFiles(
+            this.isBlizzardPTR ? this.w3Path.replace('_retail_', '_ptr_') : this.w3Path,
+            this.isTest);
     }
 
     private updateDownloadProgress(progress: number) {

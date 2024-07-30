@@ -234,6 +234,10 @@ export class FileService {
         logger.info('reset textures!');
     }
 
+    public copyW3ChampionsFiles(w3Folder: string, isTest: boolean) {
+        this.copyFile(`${__static}/w3c-files/${isTest ? "test" : "prod"}`, w3Folder);
+    }
+
     private copyFile(from: string, to:string) {
         try {
             logger.info(`Copy from: ${from} to: ${to}`);
