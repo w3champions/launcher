@@ -30,7 +30,7 @@
     "electron-fetch": "^1.7.4",
     "electron-log": "4.3.1",
     "electron-store": "8.2.0",
-    "electron-updater": "4.3.5",
+    "electron-updater": "6.3.0",
     "fs-extra": "9.0.1",
     "https-browserify": ">=0.0.0",
     "jsonwebtoken": "^8.5.1",
