@@ -242,6 +242,23 @@ export class FileService {
         try {
             logger.info(`Copy from: ${from} to: ${to}`);
             fse.copySync(from, to);
+            if (process.platform == "win32")
+            {
+                const exec = window.require('child_process').exec;
+                exec(`attrib -r "${to}\\*" /s`, (error: any, stdout: any, stderr: any) => {
+                    if (error) {
+                        logger.error(`attrib error: ${error.message}`);
+                        return;
+                    }
+                    if (stderr) {
+                        logger.error(`attrib stderr: ${stderr}`);
+                        return;
+                    }
+                    if (stdout) {
+                        logger.info(`attrib stdout: ${stdout}`);
+                    }
+                });
+            }
         } catch (e) {
             logger.info("Copy with sudo now")
             this.sudoCopyFromTo(from, to);
