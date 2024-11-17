@@ -94,7 +94,7 @@ const mod = {
     loadOsMode(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
 
-      commit.SET_OS(rootGetters.fileService.isWindows());
+      commit.SET_OS({isWindows: rootGetters.fileService.isWindows(), isWine: rootGetters.fileService.isWine()});
     },
     loadAuthToken(context: ActionContext<UpdateHandlingState, RootState>) {
       const { commit, rootGetters } = moduleActionContext(context, mod);
@@ -158,8 +158,9 @@ const mod = {
     SET_NEWS_LOADING(state: RootState, value: boolean) {
       state.newsLoading = value;
     },
-    SET_OS(state: RootState, isWindows: boolean) {
-      state.isWindows = isWindows;
+    SET_OS(state: RootState, modes: {isWindows: boolean, isWine: boolean}) {
+      state.isWindows = modes.isWindows;
+      state.isWine = modes.isWine;
     },
     SET_W3CAUTH_TOKEN(state: RootState, w3cToken: W3cToken | null) {
       state.w3cToken = w3cToken;

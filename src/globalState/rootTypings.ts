@@ -5,6 +5,7 @@ export interface RootState {
     isTest: boolean,
     selectedEndpoint: IEndpoint | null,
     isWindows: boolean,
+    isWine: boolean,
     selectedLoginGateway: LoginGW,
     news: News[],
     newsLoading: boolean,

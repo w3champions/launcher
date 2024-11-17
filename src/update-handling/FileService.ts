@@ -4,6 +4,7 @@ import logger from "@/logger";
 import { Grid, RaceHotKey } from "@/hot-keys/RaceSpecificHotkeys/raceSpecificHotkeyTypes";
 import { AppStore } from "@/globalState/vuex-store";
 import { LauncherStrategy } from "./LauncherStrategy";
+const { exec, execSync } = window.require("child_process");
 const os = window.require("os");
 const fse = window.require("fs-extra");
 const sudo = window.require("sudo-prompt");
@@ -23,6 +24,25 @@ export class FileService {
 
     public isWindows() {
         return os.platform() === "win32";
+    }
+
+    public isWine() {
+        // Check for Wine-specific environment variables
+        const wineEnvVars = ['WINEPREFIX', 'WINEARCH', 'SHELL'];
+
+        // Ensure all Wine-specific environment variables are set
+        const envCheck = wineEnvVars.every(varName => process.env[varName] !== undefined);
+
+        // Check if the "wine" command is available in the system
+        let wineCommandPresent = false;
+        try {
+            execSync('winecfg /?', { stdio: 'ignore' });
+            wineCommandPresent = true;
+        } catch (e) {
+            wineCommandPresent = false;
+        }
+        
+        return envCheck && wineCommandPresent;
     }
 
     public downloadMap(fileName: string, mapsPath: string,  onProgress?: (percentage: number) => void) {
@@ -244,7 +264,6 @@ export class FileService {
             fse.copySync(from, to);
             if (process.platform == "win32")
             {
-                const exec = window.require('child_process').exec;
                 exec(`attrib -r "${to}\\*" /s`, (error: any, stdout: any, stderr: any) => {
                     if (error) {
                         logger.error(`attrib error: ${error.message}`);

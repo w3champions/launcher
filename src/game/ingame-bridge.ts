@@ -141,7 +141,7 @@ export class IngameBridge extends EventEmitter {
 
             this.sendLauncherVersion(pi);
 
-            if (store.state.isWindows) {
+            if (store.state.isWindows && !store.state.isWine) {
                 this.sendIsLegacyWindows(pi);
             }
         });
