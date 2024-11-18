@@ -27,13 +27,9 @@ export class FileService {
     }
 
     public isWine() {
-        // Check for Wine-specific environment variables
-        const wineEnvVars = ['WINEPREFIX', 'WINEARCH', 'SHELL'];
 
-        // Ensure all Wine-specific environment variables are set
-        const envCheck = wineEnvVars.every(varName => process.env[varName] !== undefined);
-
-        // Check if the "wine" command is available in the system
+        // Check if the "winecfg" command is available in the system
+        // A more rigorous way should be added in the future
         let wineCommandPresent = false;
         try {
             execSync('winecfg /?', { stdio: 'ignore' });
@@ -42,7 +38,7 @@ export class FileService {
             wineCommandPresent = false;
         }
         
-        return envCheck && wineCommandPresent;
+        return wineCommandPresent;
     }
 
     public downloadMap(fileName: string, mapsPath: string,  onProgress?: (percentage: number) => void) {
