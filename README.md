@@ -1,3 +1,5 @@
+# PLEASE NOTE: This launcher is deprecated and no longer in active development!
+
 # w3c-launcher
 There is a private submodule that is needed for color switch and skins, you need to be in the w3c org to see that. All other stuff can be built normally.
 
