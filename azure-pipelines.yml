@@ -105,8 +105,9 @@ jobs:
     condition:
       ne(variables['Build.Reason'], 'PullRequest')
     env:
-      CSC_KEY_PASSWORD: $(OV_CERT_PASSWORD)
-      CSC_LINK: $(OVCertificate.secureFilePath)
+      #CSC_KEY_PASSWORD: $(OV_CERT_PASSWORD)
+      #CSC_LINK: $(OVCertificate.secureFilePath)
+      CSC_IDENTITY_AUTO_DISCOVERY: false
       GH_TOKEN: $(GH_TOKEN)
 
   - task: CopyFiles@2
