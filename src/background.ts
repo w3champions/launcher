@@ -337,9 +337,9 @@ function setWindowBounds() {
   }
 }
 
-const authUrlChina = 'https://www.battlenet.com.cn/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
+const authUrlChina = 'https://www.battlenet.com.cn/oauth/authorize?scope=openid%20streaming.titles&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login'
 const logoutUrlChina = 'https://www.battlenet.com.cn/login/logout';
-const authUrlEu = 'https://oauth.battle.net/oauth/authorize?response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login';
+const authUrlEu = 'https://oauth.battle.net/oauth/authorize?scope=openid%20streaming.titles&response_type=code&client_id=d7bd6dd46e2842c8a680866759ad34c2&redirect_uri=http://localhost:8080/login';
 const logoutUrlEu = 'https://battle.net/login/logout';
 
 let authUrl = authUrlEu;
