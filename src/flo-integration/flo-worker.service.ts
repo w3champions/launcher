@@ -39,7 +39,9 @@ export class FloWorkerService {
             const pi = event.playerInstance;
 
             const workerInstance = this.getWorkerInstance(pi);
-            workerInstance?.connect(pi, data);
+            workerInstance?.connect(pi, data).catch((err: any) => {
+                logger.error(`Unable to connect flo worker: ${err?.message || err}`);
+            });
         });
 
         ingameBridge.on(ELauncherMessageType.FLO_RECONNECT, (event: IIngameBridgeEvent) => {
@@ -127,7 +129,9 @@ export class FloWorkerService {
         this.primaryWorker = new FloWorkerInstance(settings, (event) => {
             this.store.dispatch.updateFloStatus(event)
         });
-        this.primaryWorker.startWorker();
+        this.primaryWorker.startWorker().catch((err: any) => {
+            logger.error(`Unable to start primary flo worker: ${err?.message || err}`);
+        });
 
         // Create second worker used to connect second Warcraft 3 to the launcher
         this.secondaryWorker = new FloWorkerInstance(settings);
