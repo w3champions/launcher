@@ -32,10 +32,27 @@ export class NodeNetworkTester extends EventEmitter{
     private readonly port: number;
   
     private resolvedIpAddress?: string;
-    private timeoutTimer?: NodeJS.Timeout;
+    private readonly timeoutTimers = new Map<number, NodeJS.Timeout>();
+    private readonly completedSeqs = new Set<number>();
     private timeoutsCount = 0;
   
     public isDone: boolean = false;
+
+    private readonly onSocketMessage = (message: Buffer, remote: dgram.RemoteInfo) => {
+      const addressKey = `${remote.address}:${remote.port}`;
+
+      if (this.id != addressKey || this.isDone) {
+        return;
+      }
+
+      try {
+        const { seq, timestamp } = this.parsePong(message);
+        const ping = Date.now() - this.baseTime - timestamp;
+        this.pingReceived(seq, ping);
+      } catch (e) {
+        console.log(`Error parsing pong.`);
+      }
+    };
   
     get id() : string {
       let address = this.address;
@@ -58,11 +75,11 @@ export class NodeNetworkTester extends EventEmitter{
     }
 
     get hasDoneEnoughPings() {
-      return (this.pings.length + this.timeoutsCount) == this.nPings;
+      return this.completedSeqs.size == this.nPings;
     }
 
     get progressPercent() {
-      return (this.pings.length + this.timeoutsCount) / this.nPings * 100;
+      return this.completedSeqs.size / this.nPings * 100;
     }
   
     constructor(public nodeInfo: INodeConfig,
@@ -83,26 +100,27 @@ export class NodeNetworkTester extends EventEmitter{
     public async ping() {
       const TIMEOUT = 1.5 * 1000;
   
-      const buf = Buffer.alloc(4);
-
-      let ipAddress = this.address;
-      if (this.nodeInfo.isDns) {
-        ipAddress = await this.resolveIpFromDns(this.address);
-        this.resolvedIpAddress = ipAddress;
-      }
-    
       setImmediate(async () => {
         try {
+          const buf = Buffer.alloc(4);
+
+          let ipAddress = this.address;
+          if (this.nodeInfo.isDns) {
+            ipAddress = await this.resolveIpFromDns(this.address);
+            this.resolvedIpAddress = ipAddress;
+          }
+
           for (let i = 0; i < this.nPings; i++) {
-            this.timeoutTimer = setTimeout(() => {
-              this.timeout();
-            }, TIMEOUT);
+            const seq = this.seq + i;
+            this.timeoutTimers.set(seq, setTimeout(() => {
+              this.timeout(seq);
+            }, TIMEOUT));
             await this.sendPing(
               this.socket,
               buf,
               this.port,
               ipAddress,
-              this.seq + i,
+              seq,
               Date.now() - this.baseTime
             );
             await this.sleep(1000);
@@ -153,32 +171,21 @@ export class NodeNetworkTester extends EventEmitter{
     }
   
     private subscribeToSocketEvents() {
-      this.socket.on("message", (message, remote) => {
-        const addressKey = `${remote.address}:${remote.port}`;
-  
-        if (this.id != addressKey || this.isDone) {
-          return;
-        }
-  
-        try {
-          const { seq, timestamp } = this.parsePong(message);
-          const ping = Date.now() - this.baseTime - timestamp;
-          this.pingReceived(seq, ping);
-        } catch (e) {
-          console.log(`Error parsing pong.`);
-        }
-      });
+      this.socket.on("message", this.onSocketMessage);
     }
   
     private pingReceived(seq: number, ping: number) {
-      if (this.isDone) {
+      if (this.isDone || !this.isExpectedSeq(seq) || this.completedSeqs.has(seq)) {
         return;
       }
   
-      if (this.timeoutTimer) {
-        clearTimeout(this.timeoutTimer);
+      const timeoutTimer = this.timeoutTimers.get(seq);
+      if (timeoutTimer) {
+        clearTimeout(timeoutTimer);
+        this.timeoutTimers.delete(seq);
       }
   
+      this.completedSeqs.add(seq);
       this.pings.push({ seq, ping });
       this.emitProgress();
   
@@ -188,15 +195,21 @@ export class NodeNetworkTester extends EventEmitter{
     }
   
     private errorSendingPing() {
-      if (this.timeoutTimer) {
-        clearTimeout(this.timeoutTimer);
-      }
-
+      this.timeoutsCount += this.nPings - this.completedSeqs.size;
       this.complete();
     }
 
     private complete(){
+      if (this.isDone) {
+        return;
+      }
+
       this.isDone = true;
+      for (const timeoutTimer of this.timeoutTimers.values()) {
+        clearTimeout(timeoutTimer);
+      }
+      this.timeoutTimers.clear();
+      this.socket.off("message", this.onSocketMessage);
       this.emit(ENodeNetworkTesterEvents.Complete);
     }
 
@@ -204,7 +217,13 @@ export class NodeNetworkTester extends EventEmitter{
       this.emit(ENodeNetworkTesterEvents.Progress, this.progressPercent);
     }
   
-    private timeout() {
+    private timeout(seq: number) {
+      if (this.isDone || this.completedSeqs.has(seq)) {
+        return;
+      }
+
+      this.timeoutTimers.delete(seq);
+      this.completedSeqs.add(seq);
       this.timeoutsCount++;
       this.emitProgress();
       if (this.hasDoneEnoughPings) {
@@ -218,11 +237,19 @@ export class NodeNetworkTester extends EventEmitter{
 
     private resolveIpFromDns(dnsAddress: string) {
       const promise = new Promise<string>((res, rej) => {
-        dns.lookup(dnsAddress, (err, ipAddress, family) => {
+        dns.lookup(dnsAddress, (err, ipAddress) => {
+          if (err) {
+            rej(err);
+            return;
+          }
           res(ipAddress);
         });
       });
 
       return promise;
+    }
+
+    private isExpectedSeq(seq: number) {
+      return seq >= this.seq && seq < this.seq + this.nPings;
     }
   }
