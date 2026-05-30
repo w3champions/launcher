@@ -202,6 +202,7 @@ export class FloWorkerInstance {
         }
 
         logger.info('Stopping worker');
+        this.stopReconnect();
         this.floWorkerWs?.close();
         this.floWorkerProcess?.kill();
         this.isWorkerStarted = false;
@@ -210,9 +211,7 @@ export class FloWorkerInstance {
     private onPlayerSessionReceived(playerSession: IPlayerSession) {
         this.playerSession = playerSession;
 
-        if (this.reconnectInterValHandle) {
-            clearInterval(this.reconnectInterValHandle);
-        }
+        this.stopReconnect();
         ingameBridge.sendFloConnected(this.playerInstance as any, this.workerInfo?.version as string);
 
         if (!this.isTestGameCheckDone) {
@@ -227,6 +226,14 @@ export class FloWorkerInstance {
     }
 
     public gameExited() {
+        if (this.playerSession?.status === EPlayerStatus.InGame) {
+            this.playerSession = {
+                ...this.playerSession,
+                status: EPlayerStatus.Idle
+            };
+        }
+        this.stopReconnect();
+
         this.isWatching = false;
         this.lastWatchGameSpeed = 1;
 
@@ -398,5 +405,13 @@ export class FloWorkerInstance {
         if (newSpeed != this.lastWatchGameSpeed) {
             this.setWatchGameSpeed(newSpeed);
         }
+    }
+
+    private stopReconnect() {
+        if (this.reconnectInterValHandle) {
+            clearInterval(this.reconnectInterValHandle);
+            this.reconnectInterValHandle = undefined;
+        }
+        this.isReconnecting = false;
     }
 }
