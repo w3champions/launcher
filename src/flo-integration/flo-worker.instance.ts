@@ -11,10 +11,16 @@ const { globalShortcut } = window.require("electron");
 
 type OnEventCallback = (event: IFloWorkerEvent) => void;
 
+const FLO_WORKER_STARTUP_TIMEOUT_MS = 10 * 1000;
+const FLO_WORKER_WS_CONNECT_TIMEOUT_MS = 5 * 1000;
+const WEB_SOCKET_OPEN = 1;
+
 export class FloWorkerInstance {
     private settings: IFloWorkerInstanceSettings
     private floWorkerProcess?: any;
     private workerInfo?: IFloWorkerStartupData;
+    private startupPromise?: Promise<void>;
+    private workerStdoutBuffer = '';
     private isWorkerStarted: boolean = false;
     private floWorkerWs?: WebSocket;
     private lastAuthData?: IFloAuthData;
@@ -49,15 +55,17 @@ export class FloWorkerInstance {
             await this.startWorker();
         }
 
+        if (!this.floWorkerWs || this.floWorkerWs.readyState !== WEB_SOCKET_OPEN) {
+            await this.attachToFloWorkerWebsocket();
+        }
+
         this.lastAuthData = authData;
         this.playerInstance = playerInstance;
 
-        this.floWorkerWs?.send(
-            JSON.stringify({
-                type: 'Connect',
-                token: authData.token,
-            })
-        );
+        this.sendToFloWorker({
+            type: 'Connect',
+            token: authData.token,
+        }, 'Connect');
     }
 
     public reconnect(playerInstance: IPlayerInstance, authData: IFloAuthData) {
@@ -73,41 +81,38 @@ export class FloWorkerInstance {
             logger.info('Reconnecting to flo server');
 
             setTimeout(async () => {
-                if (!this.floWorkerWs) {
-                    logger.info('Reconnecting to flo worker websocket');
-                    await this.attachToFloWorkerWebsocket();
+                try {
+                    await this.connect(playerInstance, authData);
                 }
-                await this.connect(playerInstance, authData);
-                this.isReconnecting = false;
+                catch(e: any) {
+                    logger.error(`Unable to reconnect to flo server: ${e?.message || e}`);
+                }
+                finally {
+                    this.isReconnecting = false;
+                }
             }, 1000);
         }, 2000);
     }
 
     public startTestGame() {
-        this.floWorkerWs?.send(
-            JSON.stringify({
-                type: 'StartTestGame',
-                name: 'w3c-test'
-            })
-        );
+        this.sendToFloWorker({
+            type: 'StartTestGame',
+            name: 'w3c-test'
+        }, 'StartTestGame');
     }
 
     public killTestGame() {
-        this.floWorkerWs?.send(
-            JSON.stringify({
-                type: 'KillTestGame',
-                name: 'w3c-test'
-            })
-        );
+        this.sendToFloWorker({
+            type: 'KillTestGame',
+            name: 'w3c-test'
+        }, 'KillTestGame');
     }
 
     public watchGame(token: string) {
-        this.floWorkerWs?.send(
-            JSON.stringify({
-                type: 'WatchGame',
-                token: token
-            })
-        );
+        this.sendToFloWorker({
+            type: 'WatchGame',
+            token: token
+        }, 'WatchGame');
     }
 
     public async setNodeAddrsOverrides(nodeOverrides: IFloNodeProxy[]) {
@@ -115,18 +120,24 @@ export class FloWorkerInstance {
             nodeOverrides = [];
         }
 
-        const dnsOverrides = nodeOverrides.filter(x => x.isDns);
-
-        for (const dnsOverride of dnsOverrides) {
-            dnsOverride.address = await this.resolveIpFromDns(dnsOverride.address);
-        }
-
-        const overrides: IFloNodeOverride[] = nodeOverrides.map(x => {
-            return {
-                node_id: x.nodeId,
-                address: `${x.address}:${x.port}`
+        const overrides: IFloNodeOverride[] = [];
+        for (const nodeOverride of nodeOverrides) {
+            let address = nodeOverride.address;
+            if (nodeOverride.isDns) {
+                try {
+                    address = await this.resolveIpFromDns(nodeOverride.address);
+                }
+                catch(e: any) {
+                    logger.error(`Unable to resolve flo node override ${nodeOverride.address}: ${e?.message || e}`);
+                    continue;
+                }
             }
-        });
+
+            overrides.push({
+                node_id: nodeOverride.nodeId,
+                address: `${address}:${nodeOverride.port}`
+            });
+        }
 
         const nodeOverridesMessage = JSON.stringify({
             type: 'SetNodeAddrOverrides',
@@ -135,7 +146,7 @@ export class FloWorkerInstance {
 
         logger.info(`Setting node overrides: ${nodeOverridesMessage}`)
 
-        this.floWorkerWs?.send(nodeOverridesMessage);
+        this.sendToFloWorkerMessage(nodeOverridesMessage, 'SetNodeAddrOverrides');
     }
 
     public isConnectedToGame() {
@@ -152,7 +163,56 @@ export class FloWorkerInstance {
             return;
         }
 
-        const promise = new Promise<void>((res) => {
+        if (this.startupPromise) {
+            return this.startupPromise;
+        }
+
+        this.startupPromise = new Promise<void>((res, rej) => {
+            let settled = false;
+            const startupTimeout = setTimeout(() => {
+                failStartup(new Error('Timed out waiting for flo worker startup data.'));
+            }, FLO_WORKER_STARTUP_TIMEOUT_MS);
+
+            const cleanupStartup = () => {
+                clearTimeout(startupTimeout);
+                this.workerStdoutBuffer = '';
+                this.startupPromise = undefined;
+            };
+
+            const failStartup = (error: Error) => {
+                if (settled) {
+                    return;
+                }
+
+                settled = true;
+                cleanupStartup();
+                this.workerInfo = undefined;
+                this.isWorkerStarted = false;
+                this.floWorkerProcess?.kill();
+                logger.error(`Unable to start flo worker: ${error.message}`);
+                rej(error);
+            };
+
+            const finishStartup = async (startupData: IFloWorkerStartupData) => {
+                if (settled) {
+                    return;
+                }
+
+                try {
+                    logger.info(`Flo worker started against: ${this.settings.floControllerHostUrl}`);
+
+                    this.workerInfo = startupData;
+                    await this.attachToFloWorkerWebsocket();
+                    this.isWorkerStarted = true;
+                    settled = true;
+                    cleanupStartup();
+                    res();
+                }
+                catch(e: any) {
+                    failStartup(e instanceof Error ? e : new Error(e?.message || e));
+                }
+            };
+
             this.floWorkerProcess = spawn(this.settings.floWorkerExePath,
                 ['--installation-path', this.settings.wc3FolderPath,
                     '--controller-host', this.settings.floControllerHostUrl,
@@ -162,22 +222,12 @@ export class FloWorkerInstance {
             );
             this.floWorkerProcess.stdout.on('data', async (data: Buffer) => {
                 if (!this.workerInfo && data) {
-                    const dataString = data.toString();
-                    const parsed = JSON.parse(dataString);
-
-                    if (parsed.version && parsed.port) {
-                        logger.info(`Flo worker started against: ${this.settings.floControllerHostUrl}`);
-
-                        this.workerInfo = parsed;
-                        await this.attachToFloWorkerWebsocket();
-                        this.isWorkerStarted = true;
-                        res();
-                    }
+                    this.handleWorkerStdout(data, finishStartup);
                 }
             });
 
-            this.floWorkerProcess.on('error', function (startErr: any) {
-                logger.error('start error' + startErr);
+            this.floWorkerProcess.on('error', (startErr: any) => {
+                failStartup(startErr instanceof Error ? startErr : new Error(`start error ${startErr}`));
             });
 
             this.floWorkerProcess.stderr.on('data', (data: any) => {
@@ -189,10 +239,14 @@ export class FloWorkerInstance {
                 this.workerInfo = undefined;
                 this.isWorkerStarted = false;
                 logger.info(`child process exited with code ${code}`);
+
+                if (!settled) {
+                    failStartup(new Error(`flo worker exited before startup completed with code ${code}`));
+                }
             });
         });
 
-        return promise;
+        return this.startupPromise;
     }
 
     public stopWorker() {
@@ -202,6 +256,12 @@ export class FloWorkerInstance {
         }
 
         logger.info('Stopping worker');
+        if (this.reconnectInterValHandle) {
+            clearInterval(this.reconnectInterValHandle);
+            this.reconnectInterValHandle = undefined;
+        }
+        this.isReconnecting = false;
+        this.startupPromise = undefined;
         this.floWorkerWs?.close();
         this.floWorkerProcess?.kill();
         this.isWorkerStarted = false;
@@ -212,6 +272,7 @@ export class FloWorkerInstance {
 
         if (this.reconnectInterValHandle) {
             clearInterval(this.reconnectInterValHandle);
+            this.reconnectInterValHandle = undefined;
         }
         ingameBridge.sendFloConnected(this.playerInstance as any, this.workerInfo?.version as string);
 
@@ -247,31 +308,85 @@ export class FloWorkerInstance {
         const promise = new Promise<void>((res, rej) => {
             if (!this.workerInfo) {
                 logger.error('flo worker info is missing');
-                rej('flo worker info is missing');
+                rej(new Error('flo worker info is missing'));
                 return;
             }
 
+            let settled = false;
             const ws = new WebSocketClass(`ws://127.0.0.1:${this.workerInfo?.port}`, {
                 // request must from this origin or w3flo.com
                 origin: "http://localhost:3000",
             });
 
+            const timeout = setTimeout(() => {
+                rejectOnce(new Error(`Timed out connecting to flo worker websocket on ${this.workerInfo?.port}.`));
+            }, FLO_WORKER_WS_CONNECT_TIMEOUT_MS);
+
+            const cleanup = () => {
+                clearTimeout(timeout);
+            };
+
+            const resolveOnce = () => {
+                if (settled) {
+                    return;
+                }
+
+                settled = true;
+                cleanup();
+                res();
+            };
+
+            const rejectOnce = (error: Error) => {
+                if (settled) {
+                    return;
+                }
+
+                settled = true;
+                cleanup();
+                if (this.floWorkerWs === ws) {
+                    this.floWorkerWs = undefined;
+                }
+                try {
+                    ws?.close();
+                }
+                catch(e: any) {
+                    logger.error(`Unable to close flo worker websocket after connection failure: ${e?.message || e}`);
+                }
+                rej(error);
+            };
+
             this.floWorkerWs = ws;
 
             ws.on("open", () => {
                 logger.info(`Connected to flo worker websocket on ${this.workerInfo?.port}`);
-                res();
+                resolveOnce();
+            });
+
+            ws.on("error", (err: Error) => {
+                logger.error(`flo worker websocket error: ${err?.message || err}`);
+                rejectOnce(err instanceof Error ? err : new Error(String(err)));
             });
 
             ws.on("close", () => {
                 logger.info("ws disconnected");
-                this.floWorkerWs = undefined;
+                if (!settled) {
+                    rejectOnce(new Error('flo worker websocket closed before connection opened.'));
+                    return;
+                }
+                if (this.floWorkerWs === ws) {
+                    this.floWorkerWs = undefined;
+                }
             });
 
             ws.on("message", (data: any) => {
-                const parsed = JSON.parse(data) as IFloWorkerEvent;
-                this.processFloWorkerMessage(parsed);
-                logger.info(data);
+                try {
+                    const parsed = JSON.parse(data) as IFloWorkerEvent;
+                    this.processFloWorkerMessage(parsed);
+                    logger.info(data);
+                }
+                catch(e: any) {
+                    logger.error(`Unable to parse flo worker websocket message: ${e?.message || e}`);
+                }
             });
         });
 
@@ -362,8 +477,12 @@ export class FloWorkerInstance {
     }
 
     private resolveIpFromDns(dnsAddress: string) {
-        const promise = new Promise<string>((res, ) => {
+        const promise = new Promise<string>((res, rej) => {
             dns.lookup(dnsAddress, (err: any, ipAddress: string) => {
+                if (err) {
+                    rej(err);
+                    return;
+                }
                 res(ipAddress);
             });
         });
@@ -372,12 +491,10 @@ export class FloWorkerInstance {
     }
 
     private setWatchGameSpeed(speed: number) {
-        const setSpeedMessage = JSON.stringify({
+        this.sendToFloWorker({
             type: 'WatchGameSetSpeed',
             speed: speed
-        });
-
-        this.floWorkerWs?.send(setSpeedMessage);
+        }, 'WatchGameSetSpeed');
     }
 
     private watchGameChangeSpeed(increment: number) {
@@ -398,5 +515,64 @@ export class FloWorkerInstance {
         if (newSpeed != this.lastWatchGameSpeed) {
             this.setWatchGameSpeed(newSpeed);
         }
+    }
+
+    private handleWorkerStdout(data: Buffer, onStartupData: (startupData: IFloWorkerStartupData) => void) {
+        this.workerStdoutBuffer += data.toString();
+
+        const lines = this.workerStdoutBuffer.split(/\r?\n/);
+        this.workerStdoutBuffer = lines.pop() || '';
+
+        for (const line of lines) {
+            this.tryHandleWorkerStartupLine(line, onStartupData);
+        }
+
+        this.tryHandleWorkerStartupLine(this.workerStdoutBuffer, onStartupData, false);
+    }
+
+    private tryHandleWorkerStartupLine(
+        line: string,
+        onStartupData: (startupData: IFloWorkerStartupData) => void,
+        discardInvalid = true
+    ) {
+        const trimmedLine = line.trim();
+        if (!trimmedLine) {
+            return;
+        }
+
+        try {
+            const parsed = JSON.parse(trimmedLine);
+            const port = Number(parsed?.port);
+            if (parsed?.version && Number.isInteger(port)) {
+                this.workerStdoutBuffer = '';
+                onStartupData({
+                    version: String(parsed.version),
+                    port
+                });
+                return;
+            }
+        }
+        catch(e) {
+            if (!discardInvalid) {
+                return;
+            }
+        }
+
+        if (discardInvalid) {
+            logger.info(trimmedLine);
+        }
+    }
+
+    private sendToFloWorker(message: Record<string, unknown>, description: string) {
+        this.sendToFloWorkerMessage(JSON.stringify(message), description);
+    }
+
+    private sendToFloWorkerMessage(message: string, description: string) {
+        if (!this.floWorkerWs || this.floWorkerWs.readyState !== WEB_SOCKET_OPEN) {
+            logger.error(`Cannot send ${description}: flo worker websocket is not open.`);
+            return;
+        }
+
+        this.floWorkerWs.send(message);
     }
 }
